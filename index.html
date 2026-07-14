@@ -306,6 +306,60 @@
   }
   .lab-banner b{color:var(--amber)}
   .lab-err{font-family:var(--mono);font-size:var(--step--1);color:var(--noise);margin:auto 0}
+  /* signal seal */
+  .seal{display:flex;align-items:center;gap:1.1rem;margin-bottom:.4rem}
+  .seal-grade{
+    font-family:var(--mono);font-weight:800;font-size:clamp(2.6rem,2rem+3vw,3.6rem);line-height:1;
+    width:1.7em;height:1.7em;display:flex;align-items:center;justify-content:center;
+    border:2px solid var(--signal);border-radius:8px;flex-shrink:0;letter-spacing:-.03em;
+    box-shadow:inset 0 0 22px -12px currentColor;
+  }
+  .seal-meta{font-family:var(--mono);min-width:0}
+  .seal-domain{font-size:var(--step-1);font-weight:700;color:var(--ink);word-break:break-all;line-height:1.1}
+  .seal-tier{font-size:var(--step--1);letter-spacing:.14em;margin-top:.35rem}
+  .seal-std{font-size:.7rem;letter-spacing:.06em;color:var(--mute);margin-top:.45rem}
+  .lab-actions{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.4rem}
+  .btn.small{padding:.55em 1em;font-size:.72rem}
+  .ledger{margin-top:1.6rem}
+  .ledger[hidden]{display:none}
+  .ledger-h{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-dim)}
+  .ledger-h span{text-transform:none;letter-spacing:0;color:var(--mute)}
+  .ledger-row{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.8rem}
+  .ledger-item{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:var(--step--1);
+    background:transparent;border:1px solid var(--line);border-radius:99px;padding:.35em .9em;cursor:pointer;color:var(--ink-dim);transition:.2s}
+  .ledger-item:hover{border-color:var(--signal);color:var(--ink)}
+  .ledger-item .lg{font-weight:800}
+
+  /* the standard */
+  #standard{border-top:1px solid var(--line);background:var(--ground)}
+  .std-cols{display:grid;gap:1.5rem;grid-template-columns:1fr;margin-top:3rem}
+  @media(min-width:840px){.std-cols{grid-template-columns:1.35fr 1fr}}
+  .std-rubric,.std-scale{border:1px solid var(--line);border-radius:6px;padding:clamp(1.2rem,3vw,2rem);background:var(--ground-2)}
+  .std-label{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.16em;text-transform:uppercase;color:var(--signal);margin-bottom:1.2rem}
+  .std-table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:var(--step--1)}
+  .std-table th{text-align:left;color:var(--mute);font-weight:400;letter-spacing:.08em;text-transform:uppercase;font-size:.7rem;padding-bottom:.7rem;border-bottom:1px solid var(--line)}
+  .std-table td{padding:.75rem 0;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink-dim)}
+  .std-table tr:last-child td{border-bottom:none}
+  .std-table .pk{color:var(--ink);font-weight:700;letter-spacing:.06em}
+  .std-table .wt{color:var(--signal);text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+  .grade-row{display:flex;align-items:center;gap:.9rem;padding:.55rem 0;border-bottom:1px solid var(--line);font-family:var(--mono)}
+  .grade-row:last-child{border-bottom:none}
+  .grade-row .gg{font-weight:800;font-size:1.15rem;width:2.2ch;text-align:center}
+  .grade-row .gr{font-size:var(--step--1);color:var(--mute);font-variant-numeric:tabular-nums;width:6ch}
+  .grade-row .gt{font-size:var(--step--1);letter-spacing:.12em;text-transform:uppercase;color:var(--ink)}
+  .std-trust{margin-top:2.4rem;font-family:var(--mono);font-size:var(--step--1);color:var(--ink-dim);max-width:70ch;line-height:1.7;border-left:2px solid var(--signal);padding-left:1.2rem}
+  .std-trust b{color:var(--signal)}
+
+  /* the registry */
+  #registry{border-top:1px solid var(--line);background:linear-gradient(180deg,var(--ground-2),var(--ground))}
+  .reg-grid{display:grid;gap:1px;grid-template-columns:repeat(2,1fr);margin-top:3rem;background:var(--line);border:1px solid var(--line)}
+  @media(min-width:720px){.reg-grid{grid-template-columns:repeat(3,1fr)}}
+  .reg-card{background:var(--ground);padding:1.4rem 1.5rem;display:flex;flex-direction:column;gap:.5rem;min-height:120px;opacity:.55;transition:opacity .5s,background .3s}
+  .reg-card.in{opacity:1}
+  .reg-card:hover{background:var(--ground-2)}
+  .reg-dom{font-family:var(--mono);font-size:var(--step-0);color:var(--ink);word-break:break-all}
+  .reg-grade{font-weight:800;font-size:2.2rem;line-height:1;color:var(--mute)}
+  .reg-note{font-size:var(--step--1);color:var(--mute);letter-spacing:.06em;text-transform:uppercase}
 
   /* ---------- waitlist ---------- */
   .join{border-top:1px solid var(--line);text-align:center;background:linear-gradient(180deg,var(--ground-2),var(--ground))}
@@ -333,9 +387,9 @@
 <header class="bar">
   <a class="brand-min" href="#top"><span class="dot" aria-hidden="true"></span>SPAMCRACKERS<span style="color:var(--mute)">.com</span></a>
   <nav>
-    <a class="navlink" href="#thesis">Thesis</a>
-    <a class="navlink" href="#pipeline">The Crack</a>
-    <a class="navlink" href="#lab">Analyzer</a>
+    <a class="navlink" href="#lab">Check a domain</a>
+    <a class="navlink" href="#standard">The Standard</a>
+    <a class="navlink" href="#registry">Registry</a>
     <button class="themebtn" id="themebtn" type="button" aria-label="Toggle theme">◐ THEME</button>
   </nav>
 </header>
@@ -475,13 +529,62 @@
         </div>
       </div>
     </div>
+    <div class="ledger" id="ledger" hidden></div>
+  </div>
+</section>
+
+<!-- ============ THE STANDARD ============ -->
+<section id="standard">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">04 · The standard</span>
+      <h2>One standard. Four pillars. A single grade.</h2>
+      <p style="color:var(--ink-dim);margin-top:1rem;max-width:58ch">Trust comes from showing your work. Every domain is graded the same transparent way — no black box, no opinion. Here is exactly how a domain earns its grade under <b style="color:var(--signal)">the SpamCrackers Standard v1.0</b>.</p>
+    </div>
+    <div class="std-cols">
+      <div class="std-rubric reveal">
+        <div class="std-label">The four pillars · 25 pts each</div>
+        <table class="std-table">
+          <thead><tr><th>Pillar</th><th>What it proves</th><th class="wt">Full marks</th></tr></thead>
+          <tbody>
+            <tr><td class="pk">SPF</td><td>Only authorized servers may send as you</td><td class="wt">ends in -all</td></tr>
+            <tr><td class="pk">DKIM</td><td>Messages carry a verifiable signature</td><td class="wt">key published</td></tr>
+            <tr><td class="pk">DMARC</td><td>Receivers are told to reject impostors</td><td class="wt">p=reject</td></tr>
+            <tr><td class="pk">MX</td><td>Mail is actually received and routed</td><td class="wt">resolves</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="std-scale reveal">
+        <div class="std-label">The grade scale</div>
+        <div class="grade-row"><span class="gg" style="color:var(--signal)">A+</span><span class="gr">95–100</span><span class="gt">Sovereign</span></div>
+        <div class="grade-row"><span class="gg" style="color:var(--signal)">A</span><span class="gr">85–94</span><span class="gt">Armored</span></div>
+        <div class="grade-row"><span class="gg" style="color:var(--signal)">B</span><span class="gr">70–84</span><span class="gt">Guarded</span></div>
+        <div class="grade-row"><span class="gg" style="color:var(--amber)">C</span><span class="gr">50–69</span><span class="gt">Partial</span></div>
+        <div class="grade-row"><span class="gg" style="color:var(--noise)">D</span><span class="gr">30–49</span><span class="gt">Exposed</span></div>
+        <div class="grade-row"><span class="gg" style="color:var(--noise)">F</span><span class="gr">0–29</span><span class="gt">Open</span></div>
+      </div>
+    </div>
+    <p class="std-trust reveal"><b>Sovereign by design.</b> Every check runs entirely inside your browser, straight against public DNS. No domain you test, no result, and no email you paste ever reaches our servers — because there are none in the loop. Nothing is logged, stored, or sold. Your signal stays yours.</p>
+  </div>
+</section>
+
+<!-- ============ THE REGISTRY ============ -->
+<section id="registry">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">05 · The registry</span>
+      <h2>The signal, read at scale.</h2>
+      <p style="color:var(--ink-dim);margin-top:1rem;max-width:58ch">A live index of how recognizable domains score against the Standard — graded on their public policy records (SPF · DMARC · MX) the moment you scroll here.</p>
+    </div>
+    <div class="lab-banner" id="regbanner" hidden></div>
+    <div class="reg-grid reveal" id="reggrid"></div>
   </div>
 </section>
 
 <!-- ============ JOIN ============ -->
 <section class="join" id="join">
   <div class="wrap">
-    <span class="eyebrow" style="justify-content:center">04 · Get on the list</span>
+    <span class="eyebrow" style="justify-content:center">06 · Get on the list</span>
     <h2>Be first to crack the noise.</h2>
     <p>SpamCrackers is being built in the open. Drop your address and we'll save your place in the first wave.</p>
     <form class="wl" id="wl" novalidate>
@@ -494,11 +597,11 @@
 
 <footer>
   <div class="wrap foot-row">
-    <span><span class="sig">SPAMCRACKERS</span>.COM — signal, not noise.</span>
+    <span><span class="sig">SPAMCRACKERS</span>.COM — signal, not noise. · The SpamCrackers Standard v1.0</span>
     <div class="foot-links">
-      <a href="#thesis">Thesis</a>
-      <a href="#pipeline">The Crack</a>
-      <a href="#lab">Analyzer</a>
+      <a href="#lab">Check a domain</a>
+      <a href="#standard">The Standard</a>
+      <a href="#registry">Registry</a>
       <a href="#join">Join</a>
     </div>
   </div>
@@ -753,15 +856,12 @@
   /* ---------- lab tabs ---------- */
   var tabs = document.querySelectorAll(".lab-tabs .tab");
   var panels = {domain:document.getElementById("panel-domain"), message:document.getElementById("panel-message")};
-  tabs.forEach(function(tab){
-    tab.addEventListener("click", function(){
-      tabs.forEach(function(t){ t.classList.remove("active"); t.setAttribute("aria-selected","false"); });
-      tab.classList.add("active"); tab.setAttribute("aria-selected","true");
-      var mode = tab.dataset.mode;
-      panels.domain.hidden = mode!=="domain";
-      panels.message.hidden = mode!=="message";
-    });
-  });
+  function switchTab(mode){
+    tabs.forEach(function(t){ var on=t.dataset.mode===mode; t.classList.toggle("active",on); t.setAttribute("aria-selected",on?"true":"false"); });
+    panels.domain.hidden = mode!=="domain";
+    panels.message.hidden = mode!=="message";
+  }
+  tabs.forEach(function(tab){ tab.addEventListener("click", function(){ switchTab(tab.dataset.mode); }); });
 
   /* ---------- DOMAIN CHECKER (live DNS over DoH) ---------- */
   var domainInput = document.getElementById("domain");
@@ -815,25 +915,52 @@
     return {score:Math.min(100,score), checks:checks};
   }
 
-  function domainVerdict(score){
-    if(score>=80) return {label:"ARMORED", color:"var(--signal)", desc:"signal is protected"};
-    if(score>=45) return {label:"PARTIAL", color:"var(--amber)", desc:"gaps a spoofer can use"};
-    return {label:"EXPOSED", color:"var(--noise)", desc:"wide open to impersonation"};
+  function grade(score){
+    if(score>=95) return {g:"A+",tier:"SOVEREIGN",color:"var(--signal)",desc:"the reference standard — fully armored"};
+    if(score>=85) return {g:"A", tier:"ARMORED", color:"var(--signal)",desc:"protected against impersonation"};
+    if(score>=70) return {g:"B", tier:"GUARDED", color:"var(--signal)",desc:"solid, with room to harden"};
+    if(score>=50) return {g:"C", tier:"PARTIAL", color:"var(--amber)", desc:"gaps a spoofer can use"};
+    if(score>=30) return {g:"D", tier:"EXPOSED", color:"var(--noise)", desc:"weak controls — easily spoofed"};
+    return {g:"F", tier:"OPEN", color:"var(--noise)", desc:"wide open to impersonation"};
+  }
+  function today(){ return new Date().toISOString().slice(0,10); }
+  function fallbackCopy(t){ try{ var ta=document.createElement("textarea"); ta.value=t; ta.style.position="fixed"; ta.style.opacity="0"; document.body.appendChild(ta); ta.focus(); ta.select(); document.execCommand("copy"); document.body.removeChild(ta); }catch(_){} }
+  function copyWith(btn, text, okLabel){
+    var orig=btn.textContent;
+    var done=function(){ btn.textContent=okLabel; setTimeout(function(){ btn.textContent=orig; },1800); };
+    if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(text).then(done, function(){ fallbackCopy(text); done(); }); }
+    else { fallbackCopy(text); done(); }
+  }
+  function buildReport(d,res,m){
+    var lines=["SPAMCRACKERS — DOMAIN SIGNAL REPORT",
+      "domain : "+d,
+      "grade  : "+m.g+" ("+m.tier+") — "+res.score+"/100",
+      "date   : "+today(), ""];
+    res.checks.forEach(function(c){
+      var st=c.st==="pass"?"PASS":(c.st==="warn"?"WEAK":"FAIL");
+      lines.push("["+st+"] "+c.k+" — "+c.detail);
+      if(c.fix) lines.push("         fix: "+c.fix);
+    });
+    lines.push("", "Graded against the SpamCrackers Standard v1.0 — spamcrackers.com");
+    return lines.join("\n");
   }
 
   function renderDomain(d, res, sampled){
-    var m = domainVerdict(res.score);
+    var m = grade(res.score);
     out.innerHTML="";
     if(sampled){
       var b=document.createElement("div"); b.className="lab-banner";
       b.innerHTML='<b>Preview sandbox:</b> live DNS is blocked here, so this is a <b>sample</b> readout. Deployed on spamcrackers.com it queries your real records.';
       out.appendChild(b);
     }
-    var v=document.createElement("div"); v.className="verdict";
-    v.innerHTML='<span class="score" style="color:'+m.color+'">'+res.score+'<span style="font-size:.4em;color:var(--mute)">/100</span></span><span class="label" style="color:'+m.color+'">'+m.label+'</span>';
-    out.appendChild(v);
-    var sub=document.createElement("div"); sub.className="mono"; sub.style.cssText="font-size:var(--step--1);color:var(--ink-dim);margin-top:.5rem;letter-spacing:.06em;word-break:break-all";
-    sub.textContent="→ "+d+" — "+m.desc;
+    var seal=document.createElement("div"); seal.className="seal";
+    seal.innerHTML='<div class="seal-grade" style="color:'+m.color+';border-color:'+m.color+'">'+m.g+'</div>'
+      +'<div class="seal-meta"><div class="seal-domain">'+escapeHtml(d)+'</div>'
+      +'<div class="seal-tier" style="color:'+m.color+'">'+m.tier+' · '+res.score+'/100</div>'
+      +'<div class="seal-std">SpamCrackers Standard v1.0 · '+today()+'</div></div>';
+    out.appendChild(seal);
+    var sub=document.createElement("div"); sub.className="mono"; sub.style.cssText="font-size:var(--step--1);color:var(--ink-dim);margin-top:.8rem;letter-spacing:.04em";
+    sub.textContent="→ "+m.desc;
     out.appendChild(sub);
     var meter=document.createElement("div"); meter.className="meter"; var fill=document.createElement("i"); fill.style.background=m.color; meter.appendChild(fill); out.appendChild(meter);
     var wrap=document.createElement("div"); wrap.className="checks";
@@ -849,7 +976,16 @@
       wrap.appendChild(el);
     });
     out.appendChild(wrap);
+    var actions=document.createElement("div"); actions.className="lab-actions";
+    var copyBtn=document.createElement("button"); copyBtn.className="btn btn-ghost small"; copyBtn.type="button"; copyBtn.textContent="⧉ Copy report";
+    copyBtn.addEventListener("click", function(){ copyWith(copyBtn, buildReport(d,res,m), "✓ Copied"); });
+    var linkBtn=document.createElement("button"); linkBtn.className="btn btn-ghost small"; linkBtn.type="button"; linkBtn.textContent="⧉ Copy share link";
+    linkBtn.addEventListener("click", function(){ copyWith(linkBtn, location.origin+location.pathname+"#scan="+encodeURIComponent(d), "✓ Link copied"); });
+    actions.appendChild(copyBtn); actions.appendChild(linkBtn);
+    out.appendChild(actions);
     requestAnimationFrame(function(){ fill.style.width=res.score+"%"; });
+    if(!sampled){ addToLedger(d, m, res.score); }
+    try{ history.replaceState(null,"","#scan="+encodeURIComponent(d)); }catch(_){}
   }
 
   function doDomainChecks(d){
@@ -889,6 +1025,98 @@
   document.querySelectorAll(".chip[data-domain]").forEach(function(ch){
     ch.addEventListener("click", function(){ domainInput.value = ch.dataset.domain; runDomain(); });
   });
+
+  /* ---------- session ledger ---------- */
+  var ledgerEl = document.getElementById("ledger");
+  function loadLedger(){ try{ return JSON.parse(localStorage.getItem("sc_ledger")||"[]"); }catch(_){ return []; } }
+  function addToLedger(d,m,score){
+    var l = loadLedger().filter(function(x){ return x.d!==d; });
+    l.unshift({d:d, g:m.g, score:score, color:m.color});
+    try{ localStorage.setItem("sc_ledger", JSON.stringify(l.slice(0,8))); }catch(_){}
+    renderLedger();
+  }
+  function renderLedger(){
+    if(!ledgerEl) return;
+    var l = loadLedger();
+    if(!l.length){ ledgerEl.hidden=true; return; }
+    ledgerEl.hidden=false; ledgerEl.innerHTML="";
+    var h=document.createElement("div"); h.className="ledger-h";
+    h.innerHTML='Session ledger — <span>your recent scans, stored only in this browser</span>';
+    ledgerEl.appendChild(h);
+    var row=document.createElement("div"); row.className="ledger-row";
+    l.forEach(function(x){
+      var it=document.createElement("button"); it.className="ledger-item"; it.type="button";
+      it.innerHTML='<span class="lg" style="color:'+(x.color||"var(--ink)")+'">'+x.g+'</span><span>'+escapeHtml(x.d)+'</span>';
+      it.addEventListener("click", function(){
+        switchTab("domain"); domainInput.value=x.d;
+        document.getElementById("lab").scrollIntoView({behavior:reduce?"auto":"smooth"});
+        runDomain();
+      });
+      row.appendChild(it);
+    });
+    ledgerEl.appendChild(row);
+  }
+  renderLedger();
+
+  /* ---------- the registry (live index) ---------- */
+  var REG_DOMAINS = ["google.com","github.com","stripe.com","cloudflare.com","microsoft.com","paypal.com"];
+  var regGrid=document.getElementById("reggrid"), regBanner=document.getElementById("regbanner"), regRan=false;
+  function regId(d){ return "reg-"+d.replace(/[^a-z0-9]/g,""); }
+  function liteGrade(d){
+    return Promise.all([dohQuery(d,"TXT"), dohQuery("_dmarc."+d,"TXT").catch(function(){return {};}), dohQuery(d,"MX").catch(function(){return {};})]).then(function(r){
+      var spf=txtRecords(r[0]).find(function(t){return /^v=spf1/i.test(t);});
+      var dmarcRec=txtRecords(r[1]).find(function(t){return /v=DMARC1/i.test(t);});
+      var mx=(r[2]&&r[2].Answer)?r[2].Answer.filter(function(a){return a.type===15;}).length:0;
+      var s=0, p="none";
+      if(spf){ s += /-all\b/.test(spf)?25:(/~all\b/.test(spf)?18:10); }
+      if(dmarcRec){ p=((dmarcRec.match(/p=([a-z]+)/i)||[])[1]||"none").toLowerCase(); s += p==="reject"?25:(p==="quarantine"?20:10); }
+      if(mx) s+=25;
+      return {score:Math.round(s/75*100), dmarc:dmarcRec?p:"none"};
+    });
+  }
+  function paintReg(d,res){
+    var c=document.getElementById(regId(d)); if(!c) return;
+    var ge=c.querySelector(".reg-grade"), ne=c.querySelector(".reg-note");
+    if(!res){ ge.textContent="—"; ne.textContent="no signal"; c.classList.add("in"); return; }
+    var m=grade(res.score); ge.textContent=m.g; ge.style.color=m.color; ne.textContent="DMARC "+res.dmarc; c.classList.add("in");
+  }
+  function runRegistry(){
+    if(regRan||!regGrid) return; regRan=true;
+    REG_DOMAINS.forEach(function(d){
+      var c=document.createElement("div"); c.className="reg-card"; c.id=regId(d);
+      c.innerHTML='<div class="reg-dom">'+d+'</div><div class="reg-grade mono">···</div><div class="reg-note mono"></div>';
+      regGrid.appendChild(c);
+    });
+    (function next(i){
+      if(i>=REG_DOMAINS.length) return;
+      var d=REG_DOMAINS[i];
+      liteGrade(d).then(function(res){ paintReg(d,res); next(i+1); })
+        .catch(function(){
+          if(i===0){
+            regBanner.hidden=false;
+            regBanner.innerHTML='<b>Preview sandbox:</b> live DNS is blocked here. On spamcrackers.com this index grades each domain in real time.';
+            REG_DOMAINS.forEach(function(dd){ var c=document.getElementById(regId(dd)); if(c){ c.querySelector(".reg-grade").textContent="live"; c.querySelector(".reg-note").textContent="deploy to run"; c.classList.add("in"); } });
+          } else { paintReg(d,null); next(i+1); }
+        });
+    })(0);
+  }
+  var regSec=document.getElementById("registry");
+  if(regSec){
+    var regObs=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ runRegistry(); regObs.disconnect(); } }); },{threshold:.15});
+    regObs.observe(regSec);
+  }
+
+  /* ---------- deep link (#scan=domain) ---------- */
+  (function initFromHash(){
+    var m=(location.hash||"").match(/scan=([^&]+)/);
+    if(!m) return;
+    var d=cleanDomain(decodeURIComponent(m[1]));
+    if(d && d.indexOf(".")>-1){
+      switchTab("domain"); domainInput.value=d;
+      var lab=document.getElementById("lab");
+      setTimeout(function(){ if(lab) lab.scrollIntoView({behavior:reduce?"auto":"smooth"}); runDomain(); }, 500);
+    }
+  })();
 
   /* ---------- waitlist ---------- */
   var wl = document.getElementById("wl"), email=document.getElementById("email"), note=document.getElementById("wlnote");
