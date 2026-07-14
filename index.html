@@ -757,9 +757,9 @@
 (function(){
   "use strict";
   var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  // Set to a form endpoint (e.g. a Formspree URL: https://formspree.io/f/xxxxxxx) to collect
-  // real signups. Left empty, the waitlist saves only in the visitor's own browser — no server.
-  var WAITLIST_ENDPOINT = "";
+  // Form endpoint (Formspree) collecting real signups. Left empty, the waitlist would
+  // instead save only in the visitor's own browser.
+  var WAITLIST_ENDPOINT = "https://formspree.io/f/mykrzwal";
 
   /* ---------- theme toggle ---------- */
   var root = document.documentElement;
