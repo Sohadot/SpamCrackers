@@ -3,8 +3,89 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>SpamCrackers — Signal vs. Noise</title>
-<meta name="description" content="Every inbox is a signal. Spam is the noise pretending to be signal. SpamCrackers cracks the noise open." />
+<title>SpamCrackers — Free SPF, DKIM &amp; DMARC Checker &amp; Email Signal Standard</title>
+<meta name="description" content="Check any domain's email protection in seconds. SpamCrackers grades SPF, DKIM, DMARC and MX against a transparent A+ to F standard — free, private, and running entirely in your browser." />
+<link rel="canonical" href="https://spamcrackers.com/" />
+<meta name="robots" content="index, follow, max-image-preview:large" />
+<meta name="author" content="SpamCrackers" />
+<meta name="theme-color" content="#08090D" media="(prefers-color-scheme: dark)" />
+<meta name="theme-color" content="#ECEDE8" media="(prefers-color-scheme: light)" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2308090D'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%232FE39B'/%3E%3C/svg%3E" />
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="SpamCrackers" />
+<meta property="og:url" content="https://spamcrackers.com/" />
+<meta property="og:title" content="SpamCrackers — The reference standard for email's true signal" />
+<meta property="og:description" content="Grade any domain's SPF, DKIM, DMARC and MX against a transparent A+ to F standard. Free, private, in-browser." />
+<meta property="og:image" content="https://spamcrackers.com/og-image.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="SpamCrackers — the reference standard for email's true signal" />
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="SpamCrackers — Check your domain's email signal" />
+<meta name="twitter:description" content="Grade SPF, DKIM, DMARC and MX against a transparent A+ to F standard. Free, private, in-browser." />
+<meta name="twitter:image" content="https://spamcrackers.com/og-image.png" />
+<meta name="twitter:image:alt" content="SpamCrackers — the reference standard for email's true signal" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://spamcrackers.com/#website",
+      "url": "https://spamcrackers.com/",
+      "name": "SpamCrackers",
+      "description": "The reference standard for email's true signal — grade SPF, DKIM, DMARC and MX for any domain.",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": { "@type": "EntryPoint", "urlTemplate": "https://spamcrackers.com/?scan={search_term_string}" },
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "SpamCrackers Domain Checker",
+      "applicationCategory": "SecurityApplication",
+      "operatingSystem": "Any (web browser)",
+      "url": "https://spamcrackers.com/",
+      "description": "Free, in-browser tool that grades a domain's SPF, DKIM, DMARC and MX records against the transparent SpamCrackers Standard (A+ to F).",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What do SPF, DKIM and DMARC actually do?",
+          "acceptedAnswer": { "@type": "Answer", "text": "SPF lists which servers may send mail as your domain, DKIM adds a cryptographic signature receivers can verify, and DMARC tells receivers what to do when a message fails those checks. Together they stop spammers from impersonating your domain." }
+        },
+        {
+          "@type": "Question",
+          "name": "What is a good email security score?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Under the SpamCrackers Standard, an A (85 or above) means your domain is armored: a valid SPF hard-fail policy, a published DKIM key, and an enforced DMARC policy. Anything graded C or below leaves gaps a spoofer can exploit." }
+        },
+        {
+          "@type": "Question",
+          "name": "Does SpamCrackers store my domain or email?",
+          "acceptedAnswer": { "@type": "Answer", "text": "No. Every check runs entirely in your browser against public DNS. Nothing you enter is sent to a server, logged, or stored — there is no server in the loop." }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I fix a low grade?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Publish an SPF record ending in -all, enable DKIM signing in your mail provider, and add a DMARC record — starting at p=none to monitor, then raising it to quarantine and reject. Each result lists the exact fix for every gap." }
+        },
+        {
+          "@type": "Question",
+          "name": "Is SpamCrackers free?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. The domain and message checkers are completely free and require no signup." }
+        }
+      ]
+    }
+  ]
+}
+</script>
 <style>
   :root{
     --ground:#08090D;
@@ -361,6 +442,36 @@
   .reg-grade{font-weight:800;font-size:2.2rem;line-height:1;color:var(--mute)}
   .reg-note{font-size:var(--step--1);color:var(--mute);letter-spacing:.06em;text-transform:uppercase}
 
+  /* inline internal links */
+  .ilink{color:var(--signal);border-bottom:1px solid color-mix(in srgb,var(--signal) 45%,transparent);transition:border-color .2s,color .2s}
+  .ilink:hover{border-color:var(--signal)}
+
+  /* embed snippet box */
+  .embed-box{
+    width:100%;margin-top:.8rem;min-height:66px;resize:vertical;
+    background:var(--ground);color:var(--ink-dim);border:1px solid var(--line);border-radius:4px;
+    padding:.7rem .85rem;font-family:var(--mono);font-size:.78rem;line-height:1.5;
+  }
+  .embed-box:focus{outline:none;border-color:var(--signal)}
+
+  /* FAQ */
+  #faq{border-top:1px solid var(--line);background:var(--ground)}
+  .faq-list{margin-top:2.6rem;border-top:1px solid var(--line)}
+  .faq-item{border-bottom:1px solid var(--line)}
+  .faq-item summary{
+    list-style:none;cursor:pointer;padding:1.35rem 0;display:flex;align-items:center;gap:1rem;
+    font-size:var(--step-1);font-weight:700;letter-spacing:-.01em;color:var(--ink);
+  }
+  .faq-item summary::-webkit-details-marker{display:none}
+  .faq-item summary::before{
+    content:"+";font-family:var(--mono);font-weight:400;color:var(--signal);font-size:1.4em;line-height:1;
+    width:1em;flex-shrink:0;transition:transform .2s;
+  }
+  .faq-item[open] summary::before{content:"–"}
+  .faq-item summary:hover{color:var(--signal)}
+  .faq-a{padding:0 0 1.5rem 2rem;max-width:70ch;color:var(--ink-dim);line-height:1.65}
+  .faq-a code{font-family:var(--mono);font-size:.88em;color:var(--signal);background:color-mix(in srgb,var(--signal) 12%,transparent);padding:.1em .4em;border-radius:3px}
+
   /* ---------- waitlist ---------- */
   .join{border-top:1px solid var(--line);text-align:center;background:linear-gradient(180deg,var(--ground-2),var(--ground))}
   .join h2{font-weight:800;font-size:var(--step-3);letter-spacing:-.03em;line-height:1.02;margin:1rem auto 0;max-width:16ch;text-wrap:balance}
@@ -389,7 +500,7 @@
   <nav>
     <a class="navlink" href="#lab">Check a domain</a>
     <a class="navlink" href="#standard">The Standard</a>
-    <a class="navlink" href="#registry">Registry</a>
+    <a class="navlink" href="#faq">FAQ</a>
     <button class="themebtn" id="themebtn" type="button" aria-label="Toggle theme">◐ THEME</button>
   </nav>
 </header>
@@ -428,6 +539,7 @@
       <div class="reveal">
         <p class="big">A filter asks <em>“is this junk?”</em> and guesses.<br>
         A cracker asks <strong>“what is this really?”</strong> — then proves it.</p>
+        <p style="margin-top:1.6rem;color:var(--ink-dim)">Put it to the test: <a class="ilink" href="#lab">crack your own domain</a>, or read exactly how we grade in <a class="ilink" href="#standard">the Standard</a>.</p>
       </div>
       <dl class="reveal">
         <div class="def sig">
@@ -574,17 +686,50 @@
     <div class="sec-head reveal">
       <span class="eyebrow">05 · The registry</span>
       <h2>The signal, read at scale.</h2>
-      <p style="color:var(--ink-dim);margin-top:1rem;max-width:58ch">A live index of how recognizable domains score against the Standard — graded on their public policy records (SPF · DMARC · MX) the moment you scroll here.</p>
+      <p style="color:var(--ink-dim);margin-top:1rem;max-width:58ch">A live index of how recognizable domains score against <a class="ilink" href="#standard">the Standard</a> — graded on their public policy records (SPF · DMARC · MX) the moment you scroll here. Want your own grade? <a class="ilink" href="#lab">Run a check.</a></p>
     </div>
     <div class="lab-banner" id="regbanner" hidden></div>
     <div class="reg-grid reveal" id="reggrid"></div>
   </div>
 </section>
 
+<!-- ============ FAQ ============ -->
+<section id="faq">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">06 · Field guide</span>
+      <h2>The questions behind the signal.</h2>
+      <p style="color:var(--ink-dim);margin-top:1rem;max-width:56ch">Plain answers to what SPF, DKIM and DMARC really do — and what your grade means.</p>
+    </div>
+    <div class="faq-list reveal">
+      <details class="faq-item">
+        <summary>What do SPF, DKIM and DMARC actually do?</summary>
+        <div class="faq-a"><b>SPF</b> lists which servers may send mail as your domain, <b>DKIM</b> adds a cryptographic signature receivers can verify, and <b>DMARC</b> tells receivers what to do when a message fails those checks. Together they stop spammers from impersonating your domain. <a class="ilink" href="#lab">Check yours →</a></div>
+      </details>
+      <details class="faq-item">
+        <summary>What is a good email security score?</summary>
+        <div class="faq-a">Under <a class="ilink" href="#standard">the SpamCrackers Standard</a>, an <b>A</b> (85 or above) means your domain is armored: a valid SPF hard-fail policy, a published DKIM key, and an enforced DMARC policy. Anything graded C or below leaves gaps a spoofer can exploit.</div>
+      </details>
+      <details class="faq-item">
+        <summary>Does SpamCrackers store my domain or email?</summary>
+        <div class="faq-a">No. Every check runs entirely in your browser against public DNS. Nothing you enter is sent to a server, logged, or stored — there is no server in the loop. See <a class="ilink" href="#standard">the Standard</a> for how this works.</div>
+      </details>
+      <details class="faq-item">
+        <summary>How do I fix a low grade?</summary>
+        <div class="faq-a">Publish an SPF record ending in <code>-all</code>, enable DKIM signing in your mail provider, and add a DMARC record — starting at <code>p=none</code> to monitor, then raising it to <code>quarantine</code> and <code>reject</code>. Each <a class="ilink" href="#lab">result</a> lists the exact fix for every gap.</div>
+      </details>
+      <details class="faq-item">
+        <summary>Is SpamCrackers free?</summary>
+        <div class="faq-a">Yes. The <a class="ilink" href="#lab">domain and message checkers</a> are completely free and require no signup.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
 <!-- ============ JOIN ============ -->
 <section class="join" id="join">
   <div class="wrap">
-    <span class="eyebrow" style="justify-content:center">06 · Get on the list</span>
+    <span class="eyebrow" style="justify-content:center">07 · Get on the list</span>
     <h2>Be first to crack the noise.</h2>
     <p>SpamCrackers is being built in the open. Drop your address and we'll save your place in the first wave.</p>
     <form class="wl" id="wl" novalidate>
@@ -602,6 +747,7 @@
       <a href="#lab">Check a domain</a>
       <a href="#standard">The Standard</a>
       <a href="#registry">Registry</a>
+      <a href="#faq">FAQ</a>
       <a href="#join">Join</a>
     </div>
   </div>
@@ -611,6 +757,9 @@
 (function(){
   "use strict";
   var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // Set to a form endpoint (e.g. a Formspree URL: https://formspree.io/f/xxxxxxx) to collect
+  // real signups. Left empty, the waitlist saves only in the visitor's own browser — no server.
+  var WAITLIST_ENDPOINT = "";
 
   /* ---------- theme toggle ---------- */
   var root = document.documentElement;
@@ -944,6 +1093,18 @@
     lines.push("", "Graded against the SpamCrackers Standard v1.0 — spamcrackers.com");
     return lines.join("\n");
   }
+  function hexOf(token){ return token==="var(--signal)"?"#2FE39B":(token==="var(--amber)"?"#F6C560":"#FF3B6B"); }
+  function buildEmbed(d,m){
+    var color=hexOf(m.color), safe=escapeHtml(d), href="https://spamcrackers.com/?scan="+encodeURIComponent(d), W=176;
+    var svg="<svg xmlns='http://www.w3.org/2000/svg' width='"+W+"' height='36' role='img' aria-label='SpamCrackers grade "+m.g+" for "+safe+"'>"
+      +"<rect width='"+W+"' height='36' rx='6' fill='#0D0F15'/>"
+      +"<rect x='.5' y='.5' width='"+(W-1)+"' height='35' rx='5.5' fill='none' stroke='"+color+"' stroke-opacity='.55'/>"
+      +"<circle cx='18' cy='18' r='5' fill='"+color+"'/>"
+      +"<text x='33' y='23' font-family='monospace' font-size='12' fill='#9AA3B0'>SpamCrackers</text>"
+      +"<text x='"+(W-14)+"' y='23.5' text-anchor='end' font-family='monospace' font-size='16' font-weight='700' fill='"+color+"'>"+m.g+"</text>"
+      +"</svg>";
+    return '<a href="'+href+'" target="_blank" rel="noopener" title="'+safe+' — graded '+m.g+' by SpamCrackers">'+svg+'</a>';
+  }
 
   function renderDomain(d, res, sampled){
     var m = grade(res.score);
@@ -981,7 +1142,20 @@
     copyBtn.addEventListener("click", function(){ copyWith(copyBtn, buildReport(d,res,m), "✓ Copied"); });
     var linkBtn=document.createElement("button"); linkBtn.className="btn btn-ghost small"; linkBtn.type="button"; linkBtn.textContent="⧉ Copy share link";
     linkBtn.addEventListener("click", function(){ copyWith(linkBtn, location.origin+location.pathname+"#scan="+encodeURIComponent(d), "✓ Link copied"); });
-    actions.appendChild(copyBtn); actions.appendChild(linkBtn);
+    var embedBtn=document.createElement("button"); embedBtn.className="btn btn-ghost small"; embedBtn.type="button"; embedBtn.textContent="⧉ Embed badge";
+    embedBtn.addEventListener("click", function(){
+      var snippet=buildEmbed(d,m);
+      copyWith(embedBtn, snippet, "✓ Snippet copied");
+      var box=out.querySelector(".embed-box");
+      if(!box){
+        var hint=document.createElement("div"); hint.className="mono"; hint.style.cssText="font-size:var(--step--1);color:var(--mute);margin-top:1rem";
+        hint.textContent="Paste this on your site — the badge links back for a live re-check:";
+        out.appendChild(hint);
+        box=document.createElement("textarea"); box.className="embed-box"; box.readOnly=true; box.setAttribute("aria-label","Badge embed snippet"); out.appendChild(box);
+      }
+      box.value=snippet; box.focus(); box.select();
+    });
+    actions.appendChild(copyBtn); actions.appendChild(linkBtn); actions.appendChild(embedBtn);
     out.appendChild(actions);
     requestAnimationFrame(function(){ fill.style.width=res.score+"%"; });
     if(!sampled){ addToLedger(d, m, res.score); }
@@ -1106,11 +1280,13 @@
     regObs.observe(regSec);
   }
 
-  /* ---------- deep link (#scan=domain) ---------- */
+  /* ---------- deep link (?scan=domain or #scan=domain) ---------- */
   (function initFromHash(){
-    var m=(location.hash||"").match(/scan=([^&]+)/);
-    if(!m) return;
-    var d=cleanDomain(decodeURIComponent(m[1]));
+    var q=(location.search||"").match(/[?&]scan=([^&]+)/);
+    var h=(location.hash||"").match(/scan=([^&]+)/);
+    var raw = q ? q[1] : (h ? h[1] : null);
+    if(!raw) return;
+    var d=cleanDomain(decodeURIComponent(raw));
     if(d && d.indexOf(".")>-1){
       switchTab("domain"); domainInput.value=d;
       var lab=document.getElementById("lab");
@@ -1129,9 +1305,19 @@
     try{ list = JSON.parse(localStorage.getItem("sc_waitlist")||"[]"); }catch(_){}
     if(list.indexOf(val)===-1){ list.push(val); }
     try{ localStorage.setItem("sc_waitlist", JSON.stringify(list)); }catch(_){}
-    note.className="wl-note mono ok";
-    note.textContent="✓ spot reserved — saved to this browser. You're #"+list.length+" in the queue.";
-    email.value="";
+    if(WAITLIST_ENDPOINT){
+      note.className="wl-note mono"; note.textContent="→ reserving your spot…";
+      var btn = wl.querySelector("button[type=submit]"); if(btn) btn.disabled = true;
+      fetch(WAITLIST_ENDPOINT, {method:"POST", headers:{"Content-Type":"application/json", "Accept":"application/json"}, body:JSON.stringify({email:val, source:"spamcrackers.com"})})
+        .then(function(r){ if(!r.ok) throw new Error("bad status"); return r; })
+        .then(function(){ note.className="wl-note mono ok"; note.textContent="✓ spot reserved — we'll be in touch. You're on the list."; email.value=""; })
+        .catch(function(){ note.className="wl-note mono"; note.textContent="✕ couldn't reach the list right now — please try again in a moment."; })
+        .then(function(){ if(btn) btn.disabled = false; });
+    } else {
+      note.className="wl-note mono ok";
+      note.textContent="✓ spot reserved — saved to this browser. You're #"+list.length+" in the queue.";
+      email.value="";
+    }
   });
 })();
 </script>
