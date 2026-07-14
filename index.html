@@ -236,6 +236,21 @@
   .lab-top .lights i:nth-child(2){background:var(--amber)}
   .lab-top .lights i:nth-child(3){background:var(--signal)}
   .lab-top .path{margin-left:auto;color:var(--ink-dim)}
+  .lab-tabs{display:flex;gap:.3rem;margin-left:1rem}
+  .lab-tabs .tab{
+    font-family:var(--mono);font-size:var(--step--1);letter-spacing:.05em;
+    background:transparent;border:1px solid transparent;color:var(--mute);
+    padding:.3em .75em;border-radius:99px;cursor:pointer;transition:.2s;
+  }
+  .lab-tabs .tab:hover{color:var(--ink)}
+  .lab-tabs .tab.active{color:var(--signal);border-color:var(--signal);background:color-mix(in srgb,var(--signal) 12%,transparent)}
+  #domain{
+    width:100%;margin-top:.8rem;
+    background:var(--ground);color:var(--ink);border:1px solid var(--line);border-radius:4px;
+    padding:.9rem 1rem;font-family:var(--mono);font-size:1.02rem;letter-spacing:.02em;
+  }
+  #domain:focus{outline:none;border-color:var(--signal)}
+  .lab-fine{font-family:var(--mono);font-size:var(--step--1);color:var(--mute);margin-top:.9rem;line-height:1.5}
   .lab-body{display:grid;grid-template-columns:1fr;gap:0}
   @media(min-width:840px){.lab-body{grid-template-columns:1fr 1fr}}
   .lab-in{padding:clamp(1.2rem,3vw,2rem);border-bottom:1px solid var(--line)}
@@ -271,6 +286,26 @@
   @keyframes blink{50%{opacity:0}}
   @media (prefers-reduced-motion: reduce){.lab-idle .blink{animation:none}}
   .cracking{font-family:var(--mono);font-size:.92rem;color:var(--signal);white-space:pre-wrap;word-break:break-all;margin:auto 0}
+  .checks{margin-top:1.5rem;display:flex;flex-direction:column;gap:.7rem}
+  .check{border:1px solid var(--line);border-radius:4px;padding:.75rem .9rem;font-family:var(--mono);font-size:var(--step--1)}
+  .check-head{display:flex;align-items:center;gap:.6rem}
+  .check-head .k{letter-spacing:.16em;text-transform:uppercase;color:var(--ink)}
+  .check-head .st{margin-left:auto;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;padding:.2em .6em;border-radius:99px;border:1px solid currentColor}
+  .check.pass{border-color:color-mix(in srgb,var(--signal) 40%,var(--line))}
+  .check.pass .st,.check.pass .dot{color:var(--signal)}
+  .check.warn{border-color:color-mix(in srgb,var(--amber) 45%,var(--line))}
+  .check.warn .st,.check.warn .dot{color:var(--amber)}
+  .check.fail{border-color:color-mix(in srgb,var(--noise) 45%,var(--line))}
+  .check.fail .st,.check.fail .dot{color:var(--noise)}
+  .check .dot{font-size:1.1em;line-height:1}
+  .check .detail{margin-top:.5rem;color:var(--ink-dim);word-break:break-word;line-height:1.5}
+  .check .fix{margin-top:.4rem;color:var(--amber)}
+  .lab-banner{
+    font-family:var(--mono);font-size:var(--step--1);line-height:1.5;
+    border:1px dashed var(--line-strong);border-radius:4px;padding:.7rem .85rem;margin-bottom:1.1rem;color:var(--ink-dim);
+  }
+  .lab-banner b{color:var(--amber)}
+  .lab-err{font-family:var(--mono);font-size:var(--step--1);color:var(--noise);margin:auto 0}
 
   /* ---------- waitlist ---------- */
   .join{border-top:1px solid var(--line);text-align:center;background:linear-gradient(180deg,var(--ground-2),var(--ground))}
@@ -317,7 +352,7 @@
       </h1>
       <p class="lede">Every inbox is a <b>signal</b>. Spam is <span class="n">noise</span> pretending to be signal. We crack the noise open — and leave the signal clean.</p>
       <div class="hero-cta">
-        <a class="btn btn-primary" href="#lab">Crack a message ↓</a>
+        <a class="btn btn-primary" href="#lab">Check your domain ↓</a>
         <a class="btn btn-ghost" href="#thesis">Read the thesis</a>
       </div>
     </div>
@@ -395,30 +430,48 @@
 <section class="lab" id="lab">
   <div class="wrap">
     <div class="sec-head reveal">
-      <span class="eyebrow">03 · Live demo</span>
-      <h2>Crack a message yourself.</h2>
-      <p style="color:var(--ink-dim);margin-top:1rem;max-width:52ch">Paste any message — or load a sample — and watch it come apart into a spam verdict. Runs entirely in your browser; nothing is sent anywhere.</p>
+      <span class="eyebrow">03 · Live tool</span>
+      <h2>Crack your domain's signal.</h2>
+      <p style="color:var(--ink-dim);margin-top:1rem;max-width:56ch">Enter your domain and we run a live DNS forensics pass — <b style="color:var(--signal)">SPF, DKIM, DMARC and MX</b> — to see whether your mail is armored against spoofing, or wide open. Or switch to message mode and crack a single email.</p>
     </div>
 
     <div class="lab-shell reveal">
       <div class="lab-top">
         <span class="lights" aria-hidden="true"><i></i><i></i><i></i></span>
-        <span>crack.session</span>
+        <span class="lab-tabs" role="tablist" aria-label="Crack mode">
+          <button class="tab active" type="button" role="tab" aria-selected="true" data-mode="domain">◎ Domain</button>
+          <button class="tab" type="button" role="tab" aria-selected="false" data-mode="message">✉ Message</button>
+        </span>
         <span class="path">~/signal-forensics</span>
       </div>
       <div class="lab-body">
         <div class="lab-in">
-          <label for="msg">Message under test</label>
-          <textarea id="msg" spellcheck="false" placeholder="Paste an email or message here…"></textarea>
-          <div class="samples" role="group" aria-label="Load a sample message">
-            <button class="chip" type="button" data-sample="spam">⚑ obvious spam</button>
-            <button class="chip" type="button" data-sample="phish">⚑ phishing</button>
-            <button class="chip" type="button" data-sample="ham">✓ real mail</button>
+          <!-- DOMAIN MODE -->
+          <div class="panel" id="panel-domain">
+            <label for="domain">Domain under test</label>
+            <input id="domain" type="text" spellcheck="false" autocapitalize="off" autocomplete="off" placeholder="yourcompany.com" />
+            <div class="samples" role="group" aria-label="Load a sample domain">
+              <button class="chip" type="button" data-domain="google.com">google.com</button>
+              <button class="chip" type="button" data-domain="github.com">github.com</button>
+              <button class="chip" type="button" data-domain="example.com">example.com</button>
+            </div>
+            <button class="btn btn-primary lab-run" id="rundomain" type="button">▶ Run the crack</button>
+            <p class="lab-fine">Live DNS lookups over DoH. Read-only — we never touch your mail.</p>
           </div>
-          <button class="btn btn-primary lab-run" id="run" type="button">▶ Run the crack</button>
+          <!-- MESSAGE MODE -->
+          <div class="panel" id="panel-message" hidden>
+            <label for="msg">Message under test</label>
+            <textarea id="msg" spellcheck="false" placeholder="Paste an email or message here…"></textarea>
+            <div class="samples" role="group" aria-label="Load a sample message">
+              <button class="chip" type="button" data-sample="spam">⚑ obvious spam</button>
+              <button class="chip" type="button" data-sample="phish">⚑ phishing</button>
+              <button class="chip" type="button" data-sample="ham">✓ real mail</button>
+            </div>
+            <button class="btn btn-primary lab-run" id="run" type="button">▶ Run the crack</button>
+          </div>
         </div>
         <div class="lab-out" id="out">
-          <div class="lab-idle" id="idle">awaiting input <span class="blink">▍</span><br><span style="color:var(--ink-dim)">load a sample or paste a message, then run the crack.</span></div>
+          <div class="lab-idle" id="idle">awaiting input <span class="blink">▍</span><br><span style="color:var(--ink-dim)">enter a domain or load a sample, then run the crack.</span></div>
         </div>
       </div>
     </div>
@@ -602,7 +655,7 @@
   };
   var msg = document.getElementById("msg");
   var out = document.getElementById("out");
-  document.querySelectorAll(".chip").forEach(function(ch){
+  document.querySelectorAll(".chip[data-sample]").forEach(function(ch){
     ch.addEventListener("click", function(){ msg.value = SAMPLES[ch.dataset.sample] || ""; msg.focus(); });
   });
 
@@ -695,6 +748,146 @@
       return;
     }
     crackAnimation(msg.value, function(){ renderResult(res); });
+  });
+
+  /* ---------- lab tabs ---------- */
+  var tabs = document.querySelectorAll(".lab-tabs .tab");
+  var panels = {domain:document.getElementById("panel-domain"), message:document.getElementById("panel-message")};
+  tabs.forEach(function(tab){
+    tab.addEventListener("click", function(){
+      tabs.forEach(function(t){ t.classList.remove("active"); t.setAttribute("aria-selected","false"); });
+      tab.classList.add("active"); tab.setAttribute("aria-selected","true");
+      var mode = tab.dataset.mode;
+      panels.domain.hidden = mode!=="domain";
+      panels.message.hidden = mode!=="message";
+    });
+  });
+
+  /* ---------- DOMAIN CHECKER (live DNS over DoH) ---------- */
+  var domainInput = document.getElementById("domain");
+  var DKIM_SELECTORS = ["google","selector1","selector2","default","s1","s2","k1","dkim","mail","mandrill","mxvault","pic","smtp","zoho","sig1","key1","fm1","fm2","fm3"];
+
+  function dohQuery(name, type){
+    return fetch("https://dns.google/resolve?name="+encodeURIComponent(name)+"&type="+type, {headers:{accept:"application/dns-json"}})
+      .then(function(r){ if(!r.ok) throw new Error("dns "+r.status); return r.json(); });
+  }
+  function txtRecords(json){
+    if(!json || !json.Answer) return [];
+    return json.Answer.filter(function(a){return a.type===16;})
+      .map(function(a){ return String(a.data).replace(/^"|"$/g,"").replace(/" +"/g,""); });
+  }
+  function cleanDomain(v){
+    return v.trim().toLowerCase().replace(/^https?:\/\//,"").replace(/\/.*$/,"").replace(/^www\./,"").replace(/[^a-z0-9.\-]/g,"");
+  }
+  function ck(k,st,pts,record,detail,fix){ return {k:k,st:st,pts:pts,record:record,detail:detail,fix:fix}; }
+  function escapeHtml(s){ return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];}); }
+
+  var SAMPLE_DOMAIN = { score:78, checks:[
+    ck("SPF","warn",18,"v=spf1 include:_spf.google.com ~all","Soft-fail policy (~all): spoofed mail is accepted but only flagged.","Tighten to -all once every legitimate sender is listed."),
+    ck("DKIM","pass",25,"v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEB…","Signing key found on selector “google”. Messages can be cryptographically verified.",null),
+    ck("DMARC","warn",10,"v=DMARC1; p=none; rua=mailto:dmarc@yourcompany.com","Monitoring only (p=none): you get reports, but spoofed mail still reaches inboxes.","When your reports look clean, raise the policy to quarantine, then reject."),
+    ck("MX","pass",25,"aspmx.l.google.com, alt1.aspmx.l.google.com","Mail servers are configured to receive.",null)
+  ]};
+
+  function buildDomainResult(spfTxt, dmarcTxt, mx, dkimHit){
+    var checks=[], score=0, spf, dmarc;
+    spf = spfTxt.find(function(t){return /^v=spf1/i.test(t);});
+    if(spf){
+      if(/-all\b/.test(spf)){ score+=25; checks.push(ck("SPF","pass",25,spf,"Hard-fail policy (-all): senders you didn't authorize are rejected.",null)); }
+      else if(/~all\b/.test(spf)){ score+=18; checks.push(ck("SPF","warn",18,spf,"Soft-fail (~all): spoofed mail is accepted but marked.","Tighten to -all once you're sure every sender is listed.")); }
+      else { score+=10; checks.push(ck("SPF","warn",10,spf,"SPF exists but ends with a neutral/permissive qualifier.","End your SPF record with -all to actually block spoofing.")); }
+    } else { checks.push(ck("SPF","fail",0,null,"No SPF record. Anyone can send mail as your domain.","Publish a TXT record like: v=spf1 include:_your_provider -all")); }
+
+    if(dkimHit){ score+=25; checks.push(ck("DKIM","pass",25,dkimHit.rec.slice(0,90)+(dkimHit.rec.length>90?"…":""),"Signing key found on selector “"+dkimHit.sel+"”. Messages can be cryptographically verified.",null)); }
+    else { checks.push(ck("DKIM","fail",0,null,"No DKIM key found on common selectors. Receivers can't verify your signature.","Turn on DKIM in your mail provider and publish the key it gives you.")); }
+
+    dmarc = dmarcTxt.find(function(t){return /v=DMARC1/i.test(t);});
+    if(dmarc){
+      var p=((dmarc.match(/p=([a-z]+)/i)||[])[1]||"none").toLowerCase();
+      if(p==="reject"){ score+=25; checks.push(ck("DMARC","pass",25,dmarc,"Enforced (p=reject): impersonation attempts are dropped.",null)); }
+      else if(p==="quarantine"){ score+=20; checks.push(ck("DMARC","pass",20,dmarc,"Enforced (p=quarantine): suspicious mail is sent to spam.","Move to p=reject once your reports are clean.")); }
+      else { score+=10; checks.push(ck("DMARC","warn",10,dmarc,"Monitoring only (p=none): you get reports but nothing is blocked.","Once SPF & DKIM align, raise the policy to quarantine, then reject.")); }
+    } else { checks.push(ck("DMARC","fail",0,null,"No DMARC record. Nothing tells receivers what to do with spoofed mail.","Add a TXT at _dmarc: v=DMARC1; p=none; rua=mailto:you@domain — then tighten.")); }
+
+    if(mx.length){ score+=25; var hosts=mx.map(function(a){return String(a.data).replace(/^\d+\s+/,"").replace(/\.$/,"");}).slice(0,3).join(", "); checks.push(ck("MX","pass",25,hosts,"Mail servers are configured to receive.",null)); }
+    else { checks.push(ck("MX","warn",0,null,"No MX records — this domain can't receive mail.","Add MX records if this domain is meant to handle email.")); }
+
+    return {score:Math.min(100,score), checks:checks};
+  }
+
+  function domainVerdict(score){
+    if(score>=80) return {label:"ARMORED", color:"var(--signal)", desc:"signal is protected"};
+    if(score>=45) return {label:"PARTIAL", color:"var(--amber)", desc:"gaps a spoofer can use"};
+    return {label:"EXPOSED", color:"var(--noise)", desc:"wide open to impersonation"};
+  }
+
+  function renderDomain(d, res, sampled){
+    var m = domainVerdict(res.score);
+    out.innerHTML="";
+    if(sampled){
+      var b=document.createElement("div"); b.className="lab-banner";
+      b.innerHTML='<b>Preview sandbox:</b> live DNS is blocked here, so this is a <b>sample</b> readout. Deployed on spamcrackers.com it queries your real records.';
+      out.appendChild(b);
+    }
+    var v=document.createElement("div"); v.className="verdict";
+    v.innerHTML='<span class="score" style="color:'+m.color+'">'+res.score+'<span style="font-size:.4em;color:var(--mute)">/100</span></span><span class="label" style="color:'+m.color+'">'+m.label+'</span>';
+    out.appendChild(v);
+    var sub=document.createElement("div"); sub.className="mono"; sub.style.cssText="font-size:var(--step--1);color:var(--ink-dim);margin-top:.5rem;letter-spacing:.06em;word-break:break-all";
+    sub.textContent="→ "+d+" — "+m.desc;
+    out.appendChild(sub);
+    var meter=document.createElement("div"); meter.className="meter"; var fill=document.createElement("i"); fill.style.background=m.color; meter.appendChild(fill); out.appendChild(meter);
+    var wrap=document.createElement("div"); wrap.className="checks";
+    res.checks.forEach(function(c){
+      var el=document.createElement("div"); el.className="check "+c.st;
+      var dot=c.st==="pass"?"●":(c.st==="warn"?"◐":"○");
+      var stt=c.st==="pass"?"pass":(c.st==="warn"?"weak":"fail");
+      var html='<div class="check-head"><span class="dot">'+dot+'</span><span class="k">'+c.k+'</span><span class="st">'+stt+'</span></div>';
+      html+='<div class="detail">'+c.detail+'</div>';
+      if(c.record) html+='<div class="detail" style="color:var(--mute)">'+escapeHtml(c.record)+'</div>';
+      if(c.fix) html+='<div class="fix">↳ '+c.fix+'</div>';
+      el.innerHTML=html;
+      wrap.appendChild(el);
+    });
+    out.appendChild(wrap);
+    requestAnimationFrame(function(){ fill.style.width=res.score+"%"; });
+  }
+
+  function doDomainChecks(d){
+    out.innerHTML='<div class="lab-idle">resolving DNS for <span style="color:var(--signal)">'+escapeHtml(d)+'</span> <span class="blink">▍</span></div>';
+    var dkimQueries = DKIM_SELECTORS.map(function(sel){
+      return dohQuery(sel+"._domainkey."+d, "TXT").then(function(j){
+        var recs=txtRecords(j);
+        var hit=recs.find(function(r){return /v=DKIM1/i.test(r);}) || recs.find(function(r){return /(^|;)\s*p=[A-Za-z0-9+/]{20,}/.test(r);});
+        return hit ? {sel:sel, rec:hit} : null;
+      }).catch(function(){ return null; });
+    });
+    Promise.all([
+      dohQuery(d,"TXT"),
+      dohQuery("_dmarc."+d,"TXT").catch(function(){return {};}),
+      dohQuery(d,"MX").catch(function(){return {};}),
+      Promise.all(dkimQueries)
+    ]).then(function(r){
+      var spfTxt=txtRecords(r[0]);
+      var dmarcTxt=txtRecords(r[1]);
+      var mx=(r[2] && r[2].Answer)?r[2].Answer.filter(function(a){return a.type===15;}):[];
+      var dkimHit=r[3].filter(Boolean)[0]||null;
+      renderDomain(d, buildDomainResult(spfTxt, dmarcTxt, mx, dkimHit), false);
+    }).catch(function(){
+      renderDomain(d, SAMPLE_DOMAIN, true);
+    });
+  }
+
+  function runDomain(){
+    var d = cleanDomain(domainInput.value);
+    if(!d || d.indexOf(".")===-1){ out.innerHTML='<div class="lab-err">✕ enter a valid domain, e.g. yourcompany.com</div>'; return; }
+    domainInput.value = d;
+    crackAnimation(d, function(){ doDomainChecks(d); });
+  }
+
+  document.getElementById("rundomain").addEventListener("click", runDomain);
+  domainInput.addEventListener("keydown", function(e){ if(e.key==="Enter"){ e.preventDefault(); runDomain(); } });
+  document.querySelectorAll(".chip[data-domain]").forEach(function(ch){
+    ch.addEventListener("click", function(){ domainInput.value = ch.dataset.domain; runDomain(); });
   });
 
   /* ---------- waitlist ---------- */
