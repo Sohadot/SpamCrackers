@@ -1,6 +1,12 @@
-# Security headers for Cloudflare Pages (applies at the edge to every path).
-# If the site is instead served through Cloudflare CDN in front of another
-# origin, replicate these as Response Header (Transform) Rules in the dashboard.
+# Edge security headers.
+# NOTE: the current deployment is GitHub Pages, which does NOT process this
+# file — so these headers are inert until either (a) the site moves to a host
+# that reads _headers (Cloudflare Pages, Netlify), or (b) the equivalents are
+# added as Cloudflare Response-Header (Transform) Rules with the domain proxied.
+# In the meantime, CSP and Referrer-Policy are ALSO enforced per-page via
+# <meta> tags, which DO take effect on GitHub Pages. The header-only controls
+# (HSTS, X-Frame-Options, Permissions-Policy) require option (a) or (b) — see
+# SECURITY.md for the exact values to paste into Cloudflare.
 /*
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
