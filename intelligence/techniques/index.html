@@ -1,0 +1,1208 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Technique Index (163) — Email Abuse Intelligence | SpamCrackers</title>
+<meta name="description" content="A searchable index of all 163 defensively-described email-abuse techniques across six pillars — spam, phishing, BEC, malware, scam and spoofing — each with a stable id and a link to its detail." />
+<link rel="canonical" href="https://spamcrackers.com/intelligence/techniques/" />
+<meta name="robots" content="index, follow, max-image-preview:large" />
+<meta name="theme-color" content="#08090D" media="(prefers-color-scheme: dark)" />
+<meta name="theme-color" content="#ECEDE8" media="(prefers-color-scheme: light)" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2308090D'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%232FE39B'/%3E%3C/svg%3E" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="SpamCrackers" />
+<meta property="og:url" content="https://spamcrackers.com/intelligence/techniques/" />
+<meta property="og:title" content="Technique Index — Email Abuse Intelligence" />
+<meta property="og:description" content="Search all 163 defensively-described email-abuse techniques across six pillars." />
+<meta property="og:image" content="https://spamcrackers.com/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Technique Index — Email Abuse Intelligence" />
+<meta name="twitter:description" content="Search all 163 email-abuse techniques across six pillars." />
+<meta name="twitter:image" content="https://spamcrackers.com/og-image.png" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      "@id": "https://spamcrackers.com/intelligence/techniques/#page",
+      "name": "Technique Index — Email Abuse Intelligence",
+      "description": "A searchable index of all 163 defensively-described techniques across the six pillars of the Email Abuse Intelligence reference model.",
+      "url": "https://spamcrackers.com/intelligence/techniques/",
+      "isPartOf": {
+        "@id": "https://spamcrackers.com/#website"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "SpamCrackers",
+          "item": "https://spamcrackers.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Email Abuse Intelligence",
+          "item": "https://spamcrackers.com/intelligence/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Technique Index",
+          "item": "https://spamcrackers.com/intelligence/techniques/"
+        }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+  :root{
+    --ground:#08090D; --ground-2:#0D0F15; --panel:#11141C;
+    --ink:#D9DEE6; --ink-dim:#9AA3B0; --mute:#5A6472;
+    --line:rgba(217,222,230,.10); --line-strong:rgba(217,222,230,.20);
+    --signal:#2FE39B; --noise:#FF3B6B; --amber:#F6C560; --focus:#7FE3FF;
+    --maxw:1180px; --narrow:760px;
+    --step--1:clamp(.78rem,.72rem + .3vw,.9rem);
+    --step-0:clamp(.98rem,.92rem + .3vw,1.06rem);
+    --step-1:clamp(1.2rem,1.05rem + .7vw,1.5rem);
+    --step-2:clamp(1.6rem,1.2rem + 1.8vw,2.4rem);
+    --step-3:clamp(2.2rem,1.5rem + 3.2vw,3.6rem);
+    --step-4:clamp(2.8rem,1.8rem + 5vw,5.2rem);
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,Roboto,Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,"SF Mono","SFMono-Regular",Menlo,Consolas,"Liberation Mono",monospace;
+  }
+  :root[data-theme="light"]{
+    --ground:#ECEDE8; --ground-2:#F4F5F1; --panel:#FFFFFF;
+    --ink:#0F1218; --ink-dim:#454E5B; --mute:#78828F;
+    --line:rgba(15,18,24,.12); --line-strong:rgba(15,18,24,.22);
+    --signal:#0F9E6A; --noise:#E01E52; --amber:#B77A11;
+  }
+  @media (prefers-color-scheme: light){
+    :root:not([data-theme="dark"]){
+      --ground:#ECEDE8; --ground-2:#F4F5F1; --panel:#FFFFFF;
+      --ink:#0F1218; --ink-dim:#454E5B; --mute:#78828F;
+      --line:rgba(15,18,24,.12); --line-strong:rgba(15,18,24,.22);
+      --signal:#0F9E6A; --noise:#E01E52; --amber:#B77A11;
+    }
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;scroll-padding-top:70px}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:var(--step-0);line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  ::selection{background:var(--signal);color:var(--ground)}
+  a{color:inherit;text-decoration:none}
+  :focus-visible{outline:2px solid var(--focus);outline-offset:3px;border-radius:2px}
+  .wrap{max-width:var(--maxw);margin-inline:auto;padding-inline:clamp(1.1rem,4vw,3rem)}
+  .wrap.narrow{max-width:calc(var(--narrow) + 6rem)}
+  .mono{font-family:var(--mono)}
+  code{font-family:var(--mono);font-size:.88em;color:var(--signal);background:color-mix(in srgb,var(--signal) 12%,transparent);padding:.1em .42em;border-radius:3px;word-break:break-word}
+  .ilink{color:var(--signal);border-bottom:1px solid color-mix(in srgb,var(--signal) 45%,transparent);transition:border-color .2s}
+  .ilink:hover{border-color:var(--signal)}
+  .eyebrow{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.26em;text-transform:uppercase;color:var(--signal);display:inline-flex;align-items:center;gap:.6em}
+  .eyebrow::before{content:"";width:24px;height:1px;background:var(--signal);opacity:.7}
+
+  /* id chips */
+  .idchip{font-family:var(--mono);font-size:.7rem;letter-spacing:.06em;color:var(--signal);border:1px solid color-mix(in srgb,var(--signal) 45%,var(--line));border-radius:4px;padding:.2em .5em;white-space:nowrap;background:color-mix(in srgb,var(--signal) 8%,transparent)}
+  .idchip-link{transition:background .2s}
+  .idchip-link:hover{background:color-mix(in srgb,var(--signal) 20%,transparent)}
+
+  /* top bar */
+  header.bar{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:.8rem clamp(1.1rem,4vw,3rem);font-family:var(--mono);font-size:var(--step--1);letter-spacing:.05em;backdrop-filter:blur(9px);background:color-mix(in srgb,var(--ground) 75%,transparent);border-bottom:1px solid var(--line)}
+  .brand-min{display:flex;align-items:center;gap:.55rem;font-weight:700}
+  .brand-min .dot{width:9px;height:9px;background:var(--signal);border-radius:50%;box-shadow:0 0 12px var(--signal)}
+  .brand-min .tld{color:var(--mute)}
+  .bar nav{display:flex;align-items:center;gap:clamp(.7rem,1.8vw,1.5rem);color:var(--ink-dim)}
+  .bar nav a{transition:color .2s}.bar nav a:hover{color:var(--signal)}
+  .bar .navlink{display:none}
+  @media(min-width:900px){.bar .navlink{display:inline}}
+  .themebtn{font-family:var(--mono);font-size:var(--step--1);background:transparent;border:1px solid var(--line-strong);color:var(--ink-dim);padding:.35em .7em;border-radius:2px;cursor:pointer;letter-spacing:.1em;transition:.2s}
+  .themebtn:hover{border-color:var(--signal);color:var(--signal)}
+
+  /* sections */
+  section{position:relative;padding:clamp(3.6rem,7vw,6rem) 0;border-top:1px solid var(--line)}
+  .hero{border-top:none;padding-top:clamp(7rem,13vw,10rem)}
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion: reduce){.reveal{opacity:1;transform:none;transition:none}}
+  .sec-head{max-width:64ch;margin-bottom:2.4rem}
+  .sec-head h2{font-weight:800;font-size:var(--step-2);line-height:1.05;letter-spacing:-.025em;margin-top:1rem;text-wrap:balance}
+  .sec-head .sub{margin-top:1rem;color:var(--ink-dim);max-width:60ch}
+
+  /* hero */
+  .hero h1{font-weight:800;font-size:var(--step-4);line-height:.98;letter-spacing:-.035em;margin-top:1.4rem;text-wrap:balance}
+  .hero .hl{color:var(--signal)}
+  .hero .lede{margin-top:1.8rem;font-size:var(--step-1);line-height:1.45;color:var(--ink);max-width:54ch;text-wrap:pretty}
+  .hero .lede strong{color:var(--signal);font-weight:700}
+  .meta-chips{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:2.2rem}
+  .meta-chips .chip{font-family:var(--mono);font-size:var(--step--1);border:1px solid var(--line);border-radius:99px;padding:.45em .95em;color:var(--ink-dim)}
+  .meta-chips .chip b{color:var(--mute);font-weight:400;letter-spacing:.08em;text-transform:uppercase;font-size:.82em;margin-right:.5em}
+  .meta-chips .chip.stance{border-color:color-mix(in srgb,var(--signal) 45%,var(--line));color:var(--signal)}
+  .meta-chips .chip.stance b{color:color-mix(in srgb,var(--signal) 70%,var(--ink-dim))}
+
+  /* prose */
+  .prose p{max-width:68ch;margin-bottom:1.2rem;color:var(--ink-dim)}
+  .prose p:last-child{margin-bottom:0}
+  .prose strong{color:var(--ink)}
+  .prose em{color:var(--signal);font-style:normal}
+
+  /* boundaries */
+  .bound-grid{display:grid;gap:1px;grid-template-columns:1fr;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  @media(min-width:720px){.bound-grid{grid-template-columns:1fr 1fr}}
+  .bound{background:var(--ground-2);padding:clamp(1.4rem,3vw,2.2rem)}
+  .bound-label{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.14em;text-transform:uppercase;margin-bottom:1.1rem;display:flex;align-items:center;gap:.6em}
+  .bound-label::before{content:"";width:10px;height:10px;border-radius:50%}
+  .bound-label.ok{color:var(--signal)}.bound-label.ok::before{background:var(--signal)}
+  .bound-label.no{color:var(--noise)}.bound-label.no::before{background:var(--noise)}
+  .bound ul{list-style:none;display:flex;flex-direction:column;gap:.75rem}
+  .bound li{position:relative;padding-left:1.5rem;color:var(--ink-dim);line-height:1.5}
+  .bound li b{color:var(--ink)}
+  .bound.is li::before{content:"✓";position:absolute;left:0;color:var(--signal);font-family:var(--mono)}
+  .bound.not li::before{content:"✕";position:absolute;left:0;color:var(--noise);font-family:var(--mono)}
+  .bound-note{margin-top:1.6rem;font-family:var(--mono);font-size:var(--step--1);color:var(--ink-dim);line-height:1.7;border-left:2px solid var(--signal);padding-left:1.2rem;max-width:74ch}
+  .bound-note b{color:var(--signal)}
+
+  /* pillars */
+  .pillar-grid{display:grid;gap:1px;grid-template-columns:1fr;background:var(--line);border:1px solid var(--line)}
+  @media(min-width:620px){.pillar-grid{grid-template-columns:repeat(2,1fr)}}
+  @media(min-width:960px){.pillar-grid{grid-template-columns:repeat(3,1fr)}}
+  .pillar{background:var(--ground);padding:clamp(1.4rem,2.6vw,2rem);display:flex;flex-direction:column;gap:.6rem;transition:background .3s}
+  .pillar:hover{background:var(--ground-2)}
+  .pillar-top{display:flex;align-items:center;justify-content:space-between;gap:.6rem}
+  .pill-status{font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+  .pillar.active{background:color-mix(in srgb,var(--signal) 6%,var(--ground))}
+  .pillar.active .pill-status{color:var(--signal)}
+  .pillar h3{font-size:var(--step-1);font-weight:800;letter-spacing:-.02em}
+  .pillar p{color:var(--ink-dim);font-size:var(--step--1);line-height:1.55}
+  .pillar.planned{opacity:.82}
+
+  /* cite */
+  .cite{border:1px solid var(--line);border-radius:8px;padding:clamp(1.2rem,3vw,1.8rem);background:var(--ground-2)}
+  .cite-label{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.14em;text-transform:uppercase;color:var(--signal);margin-bottom:.8rem}
+  .cite p{color:var(--ink-dim);max-width:70ch}
+
+  /* tables */
+  .ref-table{width:100%;border-collapse:collapse;font-size:var(--step--1)}
+  .ref-table th{text-align:left;font-family:var(--mono);color:var(--mute);font-weight:400;letter-spacing:.08em;text-transform:uppercase;font-size:.7rem;padding:0 1rem .7rem 0;border-bottom:1px solid var(--line-strong)}
+  .ref-table td{padding:.8rem 1rem .8rem 0;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink-dim);line-height:1.5}
+  .ref-table tr:last-child td{border-bottom:none}
+  .ref-table td.code{color:var(--signal);white-space:nowrap}
+  .ref-table td.pk{color:var(--ink);font-weight:600}
+
+  /* taxonomy */
+  .tax-grid{display:grid;gap:1.5rem;grid-template-columns:1fr}
+  @media(min-width:820px){.tax-grid{grid-template-columns:1fr 1fr}}
+  .tax-block{border:1px solid var(--line);border-radius:8px;padding:clamp(1.2rem,2.6vw,1.8rem);background:var(--ground-2)}
+  .tax-head{display:flex;align-items:center;gap:.8rem;margin-bottom:1.2rem}
+  .tax-head h3{font-size:var(--step-1);font-weight:800;letter-spacing:-.02em}
+
+  /* matrix */
+  .matrix-scroll{overflow-x:auto;padding-bottom:.6rem;-webkit-overflow-scrolling:touch}
+  .matrix{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(190px,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;min-width:960px}
+  .matrix-col{background:var(--ground);display:flex;flex-direction:column;gap:1px}
+  .matrix-head{background:var(--ground-2);padding:.9rem .8rem;display:flex;flex-direction:column;gap:.45rem;min-height:72px}
+  .matrix-head .mh-name{font-weight:700;font-size:.86rem;line-height:1.2;letter-spacing:-.01em}
+  .matrix-cell{background:var(--ground);padding:.7rem .8rem;font-size:.8rem;color:var(--ink-dim);display:flex;flex-direction:column;gap:.25rem;transition:background .2s,color .2s;border-top:1px solid var(--line)}
+  .matrix-cell:hover{background:color-mix(in srgb,var(--signal) 10%,var(--ground));color:var(--ink)}
+  .matrix-cell .cell-id{font-size:.66rem;color:var(--mute)}
+  .matrix-cell:hover .cell-id{color:var(--signal)}
+
+  /* technique detail */
+  .phase{margin-top:3rem;scroll-margin-top:76px}
+  .phase-head{display:flex;align-items:center;gap:.8rem}
+  .phase-head h3{font-size:var(--step-1);font-weight:800;letter-spacing:-.02em}
+  .phase-blurb{color:var(--ink-dim);margin:.7rem 0 1.4rem;max-width:64ch}
+  .tcards{display:grid;gap:1rem;grid-template-columns:1fr}
+  @media(min-width:720px){.tcards{grid-template-columns:1fr 1fr}}
+  .tcard{border:1px solid var(--line);border-radius:8px;padding:1.2rem 1.3rem;background:var(--ground-2);scroll-margin-top:80px;transition:border-color .3s,box-shadow .3s}
+  .tcard.flash{border-color:var(--signal);box-shadow:0 0 0 1px var(--signal),0 14px 40px -20px var(--signal)}
+  .tcard-top{display:flex;align-items:center;gap:.7rem;margin-bottom:1rem}
+  .tcard-top h4{font-size:var(--step-0);font-weight:700;letter-spacing:-.01em}
+  .tcard-body{display:grid;grid-template-columns:1fr;gap:.35rem}
+  .tcard-body dt{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin-top:.7rem}
+  .tcard-body dt:first-child{margin-top:0}
+  .tcard-body dt.def{color:var(--signal)}
+  .tcard-body dd{color:var(--ink-dim);font-size:var(--step--1);line-height:1.55}
+  .tcard-body dd.def{color:var(--ink)}
+
+  /* evidence + confidence */
+  .conf{margin-top:2.2rem;border:1px solid var(--line);border-radius:8px;padding:clamp(1.2rem,3vw,1.8rem);background:var(--ground-2)}
+  .conf-label{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.14em;text-transform:uppercase;color:var(--signal);margin-bottom:1.2rem}
+  .conf-row{display:flex;gap:1rem;align-items:baseline;padding:.6rem 0;border-bottom:1px solid var(--line)}
+  .conf-row:last-child{border-bottom:none}
+  .conf-tier{font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;padding:.25em .7em;border-radius:99px;border:1px solid currentColor;white-space:nowrap;flex-shrink:0;min-width:9ch;text-align:center}
+  .conf-tier.t0{color:var(--mute)}.conf-tier.t1{color:var(--amber)}.conf-tier.t2{color:var(--signal)}.conf-tier.t3{color:var(--signal)}
+  .conf-desc{color:var(--ink-dim);font-size:var(--step--1)}
+
+  /* library */
+  .lib-grid{display:grid;gap:1px;grid-template-columns:repeat(2,1fr);background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden;margin-bottom:2rem}
+  @media(min-width:720px){.lib-grid{grid-template-columns:repeat(4,1fr)}}
+  .lib-card{background:var(--ground-2);padding:1.6rem 1.3rem;display:flex;flex-direction:column;gap:.4rem}
+  .lib-n{font-size:var(--step-3);font-weight:800;color:var(--signal);line-height:1;font-variant-numeric:tabular-nums}
+  .lib-l{font-family:var(--mono);font-size:var(--step--1);color:var(--ink-dim);letter-spacing:.04em}
+  .lib-cta{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:2rem}
+  .btn{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.05em;padding:.9em 1.4em;border-radius:2px;cursor:pointer;border:1px solid transparent;display:inline-flex;align-items:center;gap:.6em;transition:transform .15s,box-shadow .2s,border-color .2s,color .2s;text-transform:uppercase}
+  .btn-primary{background:var(--signal);color:#04120C;font-weight:700}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 30px -10px var(--signal)}
+  .btn-ghost{background:transparent;color:var(--ink);border-color:var(--line-strong)}
+  .btn-ghost:hover{border-color:var(--signal);color:var(--signal)}
+
+  /* footer */
+  footer{border-top:1px solid var(--line);padding:2.6rem 0;font-family:var(--mono);font-size:var(--step--1);color:var(--mute)}
+  .foot-row{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;align-items:center}
+  .foot-row .sig{color:var(--signal)}
+  .foot-links{display:flex;gap:1.3rem;flex-wrap:wrap}
+  .foot-links a:hover{color:var(--signal)}
+
+  /* breadcrumbs */
+  .crumbs{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;font-family:var(--mono);font-size:var(--step--1);color:var(--mute);margin-bottom:1.4rem}
+  .crumbs a{color:var(--ink-dim);transition:color .2s}
+  .crumbs a:hover{color:var(--signal)}
+  .crumbs .sep{color:var(--mute);opacity:.6}
+  .crumbs .here{color:var(--signal)}
+  /* related pillars footer strip */
+  .related{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:2rem}
+  .related a{font-family:var(--mono);font-size:var(--step--1);border:1px solid var(--line);border-radius:99px;padding:.4em .95em;color:var(--ink-dim);transition:.2s}
+  .related a:hover{border-color:var(--signal);color:var(--signal)}
+  .related span{color:var(--mute);align-self:center}
+
+  .tindex-controls{position:sticky;top:53px;z-index:20;background:color-mix(in srgb,var(--ground) 94%,transparent);backdrop-filter:blur(8px);padding:1.2rem 0;border-bottom:1px solid var(--line);margin-bottom:1.4rem}
+  .tsearch{position:relative}
+  .tsearch input{width:100%;background:var(--ground-2);border:1px solid var(--line-strong);border-radius:6px;color:var(--ink);padding:.85rem 1rem .85rem 2.6rem;font-family:var(--mono);font-size:var(--step-0)}
+  .tsearch input:focus{outline:none;border-color:var(--signal)}
+  .tsearch .mag{position:absolute;left:1rem;top:50%;transform:translateY(-50%);color:var(--mute);font-family:var(--mono)}
+  .pchips{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.9rem}
+  .pchip{font-family:var(--mono);font-size:var(--step--1);background:transparent;border:1px solid var(--line);color:var(--ink-dim);border-radius:99px;padding:.4em .9em;cursor:pointer;transition:.2s;display:inline-flex;align-items:center;gap:.5em}
+  .pchip:hover{border-color:var(--signal);color:var(--ink)}
+  .pchip.active{border-color:var(--signal);color:var(--signal);background:color-mix(in srgb,var(--signal) 12%,transparent)}
+  .pchip .pc-n{color:var(--mute);font-size:.85em}
+  .pchip.active .pc-n{color:color-mix(in srgb,var(--signal) 70%,var(--mute))}
+  .tcount{font-family:var(--mono);font-size:var(--step--1);color:var(--mute);margin:.4rem 0 1rem}
+  .tlist{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  .trow{display:grid;grid-template-columns:auto 1fr auto;gap:1rem;align-items:center;padding:.9rem 1.1rem;border-top:1px solid var(--line);background:var(--ground);transition:background .15s}
+  .trow:first-child{border-top:none}
+  .trow:hover{background:var(--ground-2)}
+  .trow-id{font-size:.72rem;color:var(--signal);border:1px solid color-mix(in srgb,var(--signal) 40%,var(--line));border-radius:4px;padding:.2em .5em;white-space:nowrap;align-self:start;margin-top:.15rem}
+  .trow-main{min-width:0;display:flex;flex-direction:column;gap:.2rem}
+  .trow-name{font-weight:700;letter-spacing:-.01em}
+  .trow-what{color:var(--ink-dim);font-size:var(--step--1);line-height:1.45}
+  .trow-pill{font-family:var(--mono);font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);border:1px solid var(--line);border-radius:99px;padding:.25em .7em;white-space:nowrap;align-self:start;margin-top:.15rem}
+  .trow-pill[data-p="SPM"]{color:var(--signal)} .trow-pill[data-p="PHI"]{color:#7FD8FF} .trow-pill[data-p="BEC"]{color:var(--amber)}
+  .trow-pill[data-p="MAL"]{color:var(--noise)} .trow-pill[data-p="SCM"]{color:#C89BFF} .trow-pill[data-p="SPO"]{color:#8affc0}
+  .trow[hidden]{display:none}
+  .tempty{padding:2rem 1rem;text-align:center;color:var(--mute);font-family:var(--mono);font-size:var(--step--1)}
+  @media(max-width:560px){.trow{grid-template-columns:auto 1fr}.trow-pill{grid-column:2;justify-self:start}}
+
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <a class="brand-min" href="/"><span class="dot" aria-hidden="true"></span>SPAMCRACKERS<span class="tld">.com</span></a>
+  <nav>
+    <a class="navlink" href="/intelligence/">Intelligence</a>
+    <a class="navlink" href="/intelligence/governance/">Governance</a>
+    <a class="navlink" href="/#lab">Check a domain</a>
+    <button class="themebtn" id="themebtn" type="button" aria-label="Toggle theme">◐ THEME</button>
+  </nav>
+</header>
+
+<section class="hero" style="padding-bottom:0">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span class="sep">/</span><a href="/intelligence/">Email Abuse Intelligence</a><span class="sep">/</span><span class="here">Technique Index</span></nav>
+    <div class="eyebrow">Email Abuse Intelligence · Reference</div>
+    <h1>Technique Index.</h1>
+    <p class="lede">Every defensively-described technique in the model — <strong>163 across six pillars</strong> — in one searchable place. Filter by pillar, search by name or id, and jump straight to any technique's detail.</p>
+  </div>
+</section>
+
+<section style="border-top:none;padding-top:2rem">
+  <div class="wrap">
+    <div class="tindex-controls">
+      <div class="tsearch">
+        <span class="mag" aria-hidden="true">⌕</span>
+        <input id="tq" type="search" placeholder="Search 163 techniques — e.g. spoofing, DMARC, invoice, macro…" aria-label="Search techniques" autocomplete="off" spellcheck="false" />
+      </div>
+      <div class="pchips" role="group" aria-label="Filter by pillar">
+        <button class="pchip active" type="button" data-f="ALL">All <span class="pc-n">163</span></button>
+        <button class="pchip" type="button" data-f="SPM">Spam <span class="pc-n">28</span></button>
+        <button class="pchip" type="button" data-f="PHI">Phishing <span class="pc-n">30</span></button>
+        <button class="pchip" type="button" data-f="BEC">BEC <span class="pc-n">27</span></button>
+        <button class="pchip" type="button" data-f="MAL">Malware <span class="pc-n">29</span></button>
+        <button class="pchip" type="button" data-f="SCM">Scam <span class="pc-n">25</span></button>
+        <button class="pchip" type="button" data-f="SPO">Spoofing <span class="pc-n">24</span></button>
+      </div>
+    </div>
+    <div class="tcount" id="tcount">Showing all 163 techniques</div>
+    <div class="tlist" id="tlist">
+      <a class="trow" id="idx-SPM-CL-01" href="/intelligence/#SPM-CL-01" data-pillar="SPM" data-text="spm-cl-01 urgency &amp; scarcity framing language engineered to pressure fast, unconsidered action.">
+        <span class="trow-id mono">SPM-CL-01</span>
+        <span class="trow-main"><span class="trow-name">Urgency &amp; scarcity framing</span><span class="trow-what">Language engineered to pressure fast, unconsidered action.</span></span>
+        <span class="trow-pill" data-p="SPM">Spam</span>
+      </a>
+      <a class="trow" id="idx-SPM-CL-02" href="/intelligence/#SPM-CL-02" data-pillar="SPM" data-text="spm-cl-02 brand &amp; authority impersonation trusted logos, layouts and tone used to borrow credibility.">
+        <span class="trow-id mono">SPM-CL-02</span>
+        <span class="trow-main"><span class="trow-name">Brand &amp; authority impersonation</span><span class="trow-what">Trusted logos, layouts and tone used to borrow credibility.</span></span>
+        <span class="trow-pill" data-p="SPM">Spam</span>
+      </a>
+      <a class="trow" id="idx-SPM-CL-03" href="/intelligence/#SPM-CL-03" data-pillar="SPM" data-text="spm-cl-03 obfuscation intent is hidden from filters using encoding, invisible characters or image-only bodies.">
+        <span class="trow-id mono">SPM-CL-03</span>
+        <span class="trow-main"><span class="trow-name">Obfuscation</span><span class="trow-what">Intent is hidden from filters using encoding, invisible characters or image-only bodies.</span></span>
+        <span class="trow-pill" data-p="SPM">Spam</span>
+      </a>
+      <a class="trow" id="idx-SPM-CL-04" href="/intelligence/#SPM-CL-04" data-pillar="SPM" data-text="spm-cl-04 content polymorphism each recipient receives a slightly different message to defeat exact signatures.">
+        <span class="trow-id mono">SPM-CL-04</span>
+        <span class="trow-main"><span class="trow-name">Content polymorphism</span><span class="trow-what">Each recipient receives a slightly different message to defeat exact signatures.</span></span>
+        <span class="trow-pill" data-p="SPM">Spam</span>
+      </a>
+      <a class="trow" id="idx-SPM-DE-01" href="/intelligence/#SPM-DE-01" data-pillar="SPM" data-text="spm-de-01 redirect &amp; cloaking chains links pass through shorteners and multiple hops, sometimes serving different content to analysers than to victims.">
+        <span class="trow-id mono">SPM-DE-01</span>
+        <span class="trow-main"><span class="trow-name">Redirect &amp; cloaking chains</span><span class="trow-what">Links pass through shorteners and multiple hops, sometimes serving different content to analysers than to victims.</span></span>
+        <span class="trow-pill" data-p="SPM">Spam</span>
+      </a>
+      <a class="trow" id="idx-SPM-DE-02" href="/intelligence/#SPM-DE-02" data-pillar="SPM" data-text="spm-de-02 reputation warming a new ip or domain is ramped up gradually to build trust before abuse.">
+        <span class="trow-id mono">SPM-DE-02</span>
+        <span class="trow-main"><span class="trow-name">Reputation warming</span><span class="trow-what">A new IP or domain is ramped up gradually to build trust before abuse.</span></span>
+        <span class="trow-pill" data-p="SPM">Spam</span>
+      </a>
+      <a class="trow" id="idx-SPM-DE-03" href="/intelligence/#SPM-DE-03" data-pillar="SPM" data-text="spm-de-03 send-and-burn infrastructure is used intensively for a short window then abandoned.">
+        <span class="trow-id mono">SPM-DE-03</span>
+        <span class="trow-main"><span class="trow-name">Send-and-burn</span><span class="trow-what">Infrastructure is used intensively for a short window then abandoned.</span></span>
+        <span class="trow-pill" data-p="SPM">Spam</span>
+      </a>
+      <a class="trow" id="idx-SPM-DE-04" href="/intelligence/#SPM-DE-04" data-pillar="SPM" data-text="spm-de-04 list bombing &amp; subscription abuse signup and confirmation flows are abused to flood a target with mail.">
+        <span class="trow-id mono">SPM-DE-04</span>
+        <span class="trow-main"><span class="trow-name">List bombing &amp; subscription abuse</span><span class="trow-what">Signup and confirmation flows are abused to flood a target with mail.</span></span>
+        <span class="trow-pill" data-p="SPM">Spam</span>
+      </a>
+      <a class="trow" id="idx-SPM-DE-05" href="/intelligence/#SPM-DE-05" data-pillar="SPM" data-text="spm-de-05 locale &amp; timing targeting delivery is timed to a victim's business hours and locale to raise engagement.">
+        <span class="trow-id mono">SPM-DE-05</span>
+        <span class="trow-main"><span class="trow-name">Locale &amp; timing targeting</span><span class="trow-what">Delivery is timed to a victim's business hours and locale to raise engagement.</span></span>
+        <span class="trow-pill" data-p="SPM">Spam</span>
+      </a>
+      <a class="trow" id="idx-SPM-EP-01" href="/intelligence/#SPM-EP-01" data-pillar="SPM" data-text="spm-ep-01 credential-harvest destinations cloned login pages hosted to capture entered credentials.">
+        <span class="trow-id mono">SPM-EP-01</span>
+        <span class="trow-main"><span class="trow-name">Credential-harvest destinations</span><span class="trow-what">Cloned login pages hosted to capture entered credentials.</span></span>
+        <span class="trow-pill" data-p="SPM">Spam</span>
+      </a>
+      <a class="trow" id="idx-SPM-EP-02" href="/intelligence/#SPM-EP-02" data-pillar="SPM" data-text="spm-ep-02 weaponised attachments documents or archives carrying macros, scripts or executables.">
+        <span class="trow-id mono">SPM-EP-02</span>
+        <span class="trow-main"><span class="trow-name">Weaponised attachments</span><span class="trow-what">Documents or archives carrying macros, scripts or executables.</span></span>
+        <span class="trow-pill" data-p="SPM">Spam</span>
+      </a>
+      <a class="trow" id="idx-SPM-EP-03" href="/intelligence/#SPM-EP-03" data-pillar="SPM" data-text="spm-ep-03 reply funnels the message invites a reply that moves the victim into a fraud conversation.">
+        <span class="trow-id mono">SPM-EP-03</span>
+        <span class="trow-main"><span class="trow-name">Reply funnels</span><span class="trow-what">The message invites a reply that moves the victim into a fraud conversation.</span></span>
+        <span class="trow-pill" data-p="SPM">Spam</span>
+      </a>
+      <a class="trow" id="idx-SPM-EP-04" href="/intelligence/#SPM-EP-04" data-pillar="SPM" data-text="spm-ep-04 tracking beacons invisible images and unique links confirm live, engaged recipients.">
+        <span class="trow-id mono">SPM-EP-04</span>
+        <span class="trow-main"><span class="trow-name">Tracking beacons</span><span class="trow-what">Invisible images and unique links confirm live, engaged recipients.</span></span>
+        <span class="trow-pill" data-p="SPM">Spam</span>
+      </a>
+      <a class="trow" id="idx-SPM-IA-01" href="/intelligence/#SPM-IA-01" data-pillar="SPM" data-text="spm-ia-01 snowshoe distribution sending volume is spread thinly across a wide range of ip addresses and domains so no single source crosses a reputation or rate threshold.">
+        <span class="trow-id mono">SPM-IA-01</span>
+        <span class="trow-main"><span class="trow-name">Snowshoe distribution</span><span class="trow-what">Sending volume is spread thinly across a wide range of IP addresses and domains so no single source crosses a reputation or rate threshold.</span></span>
+        <span class="trow-pill" data-p="SPM">Spam</span>
+      </a>
+      <a class="trow" id="idx-SPM-IA-02" href="/intelligence/#SPM-IA-02" data-pillar="SPM" data-text="spm-ia-02 botnet / compromised hosts mail originates from large numbers of compromised end-user machines.">
+        <span class="trow-id mono">SPM-IA-02</span>
+        <span class="trow-main"><span class="trow-name">Botnet / compromised hosts</span><span class="trow-what">Mail originates from large numbers of compromised end-user machines.</span></span>
+        <span class="trow-pill" data-p="SPM">Spam</span>
+      </a>
+      <a class="trow" id="idx-SPM-IA-03" href="/intelligence/#SPM-IA-03" data-pillar="SPM" data-text="spm-ia-03 compromised account abuse a legitimate mailbox or tenant is taken over and used to send.">
+        <span class="trow-id mono">SPM-IA-03</span>
+        <span class="trow-main"><span class="trow-name">Compromised account abuse</span><span class="trow-what">A legitimate mailbox or tenant is taken over and used to send.</span></span>
+        <span class="trow-pill" data-p="SPM">Spam</span>
+      </a>
+      <a class="trow" id="idx-SPM-IA-04" href="/intelligence/#SPM-IA-04" data-pillar="SPM" data-text="spm-ia-04 esp / bulk-provider abuse legitimate email-service providers are used to distribute abusive lists.">
+        <span class="trow-id mono">SPM-IA-04</span>
+        <span class="trow-main"><span class="trow-name">ESP / bulk-provider abuse</span><span class="trow-what">Legitimate email-service providers are used to distribute abusive lists.</span></span>
+        <span class="trow-pill" data-p="SPM">Spam</span>
+      </a>
+      <a class="trow" id="idx-SPM-IA-05" href="/intelligence/#SPM-IA-05" data-pillar="SPM" data-text="spm-ia-05 hijacked infrastructure dormant subdomains, dangling dns records or routing weaknesses are abused to send authenticated-looking mail.">
+        <span class="trow-id mono">SPM-IA-05</span>
+        <span class="trow-main"><span class="trow-name">Hijacked infrastructure</span><span class="trow-what">Dormant subdomains, dangling DNS records or routing weaknesses are abused to send authenticated-looking mail.</span></span>
+        <span class="trow-pill" data-p="SPM">Spam</span>
+      </a>
+      <a class="trow" id="idx-SPM-ID-01" href="/intelligence/#SPM-ID-01" data-pillar="SPM" data-text="spm-id-01 exact-domain spoofing a real domain is forged in the from header where authentication is absent or unenforced.">
+        <span class="trow-id mono">SPM-ID-01</span>
+        <span class="trow-main"><span class="trow-name">Exact-domain spoofing</span><span class="trow-what">A real domain is forged in the From header where authentication is absent or unenforced.</span></span>
+        <span class="trow-pill" data-p="SPM">Spam</span>
+      </a>
+      <a class="trow" id="idx-SPM-ID-02" href="/intelligence/#SPM-ID-02" data-pillar="SPM" data-text="spm-id-02 lookalike / cousin domains domains that visually or typographically resemble a trusted brand.">
+        <span class="trow-id mono">SPM-ID-02</span>
+        <span class="trow-main"><span class="trow-name">Lookalike / cousin domains</span><span class="trow-what">Domains that visually or typographically resemble a trusted brand.</span></span>
+        <span class="trow-pill" data-p="SPM">Spam</span>
+      </a>
+      <a class="trow" id="idx-SPM-ID-03" href="/intelligence/#SPM-ID-03" data-pillar="SPM" data-text="spm-id-03 display-name impersonation the friendly display name claims a trusted identity while the real address does not match.">
+        <span class="trow-id mono">SPM-ID-03</span>
+        <span class="trow-main"><span class="trow-name">Display-name impersonation</span><span class="trow-what">The friendly display name claims a trusted identity while the real address does not match.</span></span>
+        <span class="trow-pill" data-p="SPM">Spam</span>
+      </a>
+      <a class="trow" id="idx-SPM-ID-04" href="/intelligence/#SPM-ID-04" data-pillar="SPM" data-text="spm-id-04 newly-registered-domain sending domains registered shortly before a campaign, with no reputation to lose.">
+        <span class="trow-id mono">SPM-ID-04</span>
+        <span class="trow-main"><span class="trow-name">Newly-registered-domain sending</span><span class="trow-what">Domains registered shortly before a campaign, with no reputation to lose.</span></span>
+        <span class="trow-pill" data-p="SPM">Spam</span>
+      </a>
+      <a class="trow" id="idx-SPM-ID-05" href="/intelligence/#SPM-ID-05" data-pillar="SPM" data-text="spm-id-05 authentication-passing abuse mail that legitimately passes spf/dkim/dmarc yet is still abusive.">
+        <span class="trow-id mono">SPM-ID-05</span>
+        <span class="trow-main"><span class="trow-name">Authentication-passing abuse</span><span class="trow-what">Mail that legitimately passes SPF/DKIM/DMARC yet is still abusive.</span></span>
+        <span class="trow-pill" data-p="SPM">Spam</span>
+      </a>
+      <a class="trow" id="idx-SPM-OBJ-01" href="/intelligence/#SPM-OBJ-01" data-pillar="SPM" data-text="spm-obj-01 affiliate &amp; lead resale clicks and leads are monetised through commission networks.">
+        <span class="trow-id mono">SPM-OBJ-01</span>
+        <span class="trow-main"><span class="trow-name">Affiliate &amp; lead resale</span><span class="trow-what">Clicks and leads are monetised through commission networks.</span></span>
+        <span class="trow-pill" data-p="SPM">Spam</span>
+      </a>
+      <a class="trow" id="idx-SPM-OBJ-02" href="/intelligence/#SPM-OBJ-02" data-pillar="SPM" data-text="spm-obj-02 advance-fee &amp; romance fraud long-form social engineering aimed at direct payment.">
+        <span class="trow-id mono">SPM-OBJ-02</span>
+        <span class="trow-main"><span class="trow-name">Advance-fee &amp; romance fraud</span><span class="trow-what">Long-form social engineering aimed at direct payment.</span></span>
+        <span class="trow-pill" data-p="SPM">Spam</span>
+      </a>
+      <a class="trow" id="idx-SPM-OBJ-03" href="/intelligence/#SPM-OBJ-03" data-pillar="SPM" data-text="spm-obj-03 invoice &amp; payment fraud fake or altered invoices and payment-redirection requests (bridges to the bec pillar).">
+        <span class="trow-id mono">SPM-OBJ-03</span>
+        <span class="trow-main"><span class="trow-name">Invoice &amp; payment fraud</span><span class="trow-what">Fake or altered invoices and payment-redirection requests (bridges to the BEC pillar).</span></span>
+        <span class="trow-pill" data-p="SPM">Spam</span>
+      </a>
+      <a class="trow" id="idx-SPM-OBJ-04" href="/intelligence/#SPM-OBJ-04" data-pillar="SPM" data-text="spm-obj-04 credential &amp; data resale harvested credentials and data are sold or reused downstream.">
+        <span class="trow-id mono">SPM-OBJ-04</span>
+        <span class="trow-main"><span class="trow-name">Credential &amp; data resale</span><span class="trow-what">Harvested credentials and data are sold or reused downstream.</span></span>
+        <span class="trow-pill" data-p="SPM">Spam</span>
+      </a>
+      <a class="trow" id="idx-SPM-OBJ-05" href="/intelligence/#SPM-OBJ-05" data-pillar="SPM" data-text="spm-obj-05 extortion threats and coercion, including mass sextortion, demanding payment.">
+        <span class="trow-id mono">SPM-OBJ-05</span>
+        <span class="trow-main"><span class="trow-name">Extortion</span><span class="trow-what">Threats and coercion, including mass sextortion, demanding payment.</span></span>
+        <span class="trow-pill" data-p="SPM">Spam</span>
+      </a>
+      <a class="trow" id="idx-PHI-CC-01" href="/intelligence/phishing/#PHI-CC-01" data-pillar="PHI" data-text="phi-cc-01 cloned login page a pixel-accurate fake sign-in page records whatever the victim enters.">
+        <span class="trow-id mono">PHI-CC-01</span>
+        <span class="trow-main"><span class="trow-name">Cloned login page</span><span class="trow-what">A pixel-accurate fake sign-in page records whatever the victim enters.</span></span>
+        <span class="trow-pill" data-p="PHI">Phishing</span>
+      </a>
+      <a class="trow" id="idx-PHI-CC-02" href="/intelligence/phishing/#PHI-CC-02" data-pillar="PHI" data-text="phi-cc-02 adversary-in-the-middle (aitm) a live reverse proxy relays to the real site, capturing the authenticated session and defeating many mfa methods.">
+        <span class="trow-id mono">PHI-CC-02</span>
+        <span class="trow-main"><span class="trow-name">Adversary-in-the-middle (AiTM)</span><span class="trow-what">A live reverse proxy relays to the real site, capturing the authenticated session and defeating many MFA methods.</span></span>
+        <span class="trow-pill" data-p="PHI">Phishing</span>
+      </a>
+      <a class="trow" id="idx-PHI-CC-03" href="/intelligence/phishing/#PHI-CC-03" data-pillar="PHI" data-text="phi-cc-03 oauth consent phishing the victim is tricked into granting an application permission — no password is ever needed.">
+        <span class="trow-id mono">PHI-CC-03</span>
+        <span class="trow-main"><span class="trow-name">OAuth consent phishing</span><span class="trow-what">The victim is tricked into granting an application permission — no password is ever needed.</span></span>
+        <span class="trow-pill" data-p="PHI">Phishing</span>
+      </a>
+      <a class="trow" id="idx-PHI-CC-04" href="/intelligence/phishing/#PHI-CC-04" data-pillar="PHI" data-text="phi-cc-04 otp interception the victim is prompted to relay a one-time code in real time so the attacker can complete sign-in.">
+        <span class="trow-id mono">PHI-CC-04</span>
+        <span class="trow-main"><span class="trow-name">OTP interception</span><span class="trow-what">The victim is prompted to relay a one-time code in real time so the attacker can complete sign-in.</span></span>
+        <span class="trow-pill" data-p="PHI">Phishing</span>
+      </a>
+      <a class="trow" id="idx-PHI-CC-05" href="/intelligence/phishing/#PHI-CC-05" data-pillar="PHI" data-text="phi-cc-05 progressive data harvesting staged forms collect more than credentials — personal, financial or recovery data.">
+        <span class="trow-id mono">PHI-CC-05</span>
+        <span class="trow-main"><span class="trow-name">Progressive data harvesting</span><span class="trow-what">Staged forms collect more than credentials — personal, financial or recovery data.</span></span>
+        <span class="trow-pill" data-p="PHI">Phishing</span>
+      </a>
+      <a class="trow" id="idx-PHI-DE-01" href="/intelligence/phishing/#PHI-DE-01" data-pillar="PHI" data-text="phi-de-01 html smuggling the payload is assembled inside the browser from a benign-looking html file to bypass gateway scanning.">
+        <span class="trow-id mono">PHI-DE-01</span>
+        <span class="trow-main"><span class="trow-name">HTML smuggling</span><span class="trow-what">The payload is assembled inside the browser from a benign-looking HTML file to bypass gateway scanning.</span></span>
+        <span class="trow-pill" data-p="PHI">Phishing</span>
+      </a>
+      <a class="trow" id="idx-PHI-DE-02" href="/intelligence/phishing/#PHI-DE-02" data-pillar="PHI" data-text="phi-de-02 qr-code phishing (quishing) the link is delivered as a qr image, pushing the victim onto a less-protected personal device.">
+        <span class="trow-id mono">PHI-DE-02</span>
+        <span class="trow-main"><span class="trow-name">QR-code phishing (quishing)</span><span class="trow-what">The link is delivered as a QR image, pushing the victim onto a less-protected personal device.</span></span>
+        <span class="trow-pill" data-p="PHI">Phishing</span>
+      </a>
+      <a class="trow" id="idx-PHI-DE-03" href="/intelligence/phishing/#PHI-DE-03" data-pillar="PHI" data-text="phi-de-03 redirect &amp; cloaking chains multi-hop redirection serves different content to analysers than to victims (shared with spm-de-01).">
+        <span class="trow-id mono">PHI-DE-03</span>
+        <span class="trow-main"><span class="trow-name">Redirect &amp; cloaking chains</span><span class="trow-what">Multi-hop redirection serves different content to analysers than to victims (shared with SPM-DE-01).</span></span>
+        <span class="trow-pill" data-p="PHI">Phishing</span>
+      </a>
+      <a class="trow" id="idx-PHI-DE-04" href="/intelligence/phishing/#PHI-DE-04" data-pillar="PHI" data-text="phi-de-04 link obfuscation the true destination is hidden behind encoding or lookalike urls.">
+        <span class="trow-id mono">PHI-DE-04</span>
+        <span class="trow-main"><span class="trow-name">Link obfuscation</span><span class="trow-what">The true destination is hidden behind encoding or lookalike URLs.</span></span>
+        <span class="trow-pill" data-p="PHI">Phishing</span>
+      </a>
+      <a class="trow" id="idx-PHI-DE-05" href="/intelligence/phishing/#PHI-DE-05" data-pillar="PHI" data-text="phi-de-05 sandbox evasion captcha, geo or time gating makes analysers see benign content while victims see the lure.">
+        <span class="trow-id mono">PHI-DE-05</span>
+        <span class="trow-main"><span class="trow-name">Sandbox evasion</span><span class="trow-what">CAPTCHA, geo or time gating makes analysers see benign content while victims see the lure.</span></span>
+        <span class="trow-pill" data-p="PHI">Phishing</span>
+      </a>
+      <a class="trow" id="idx-PHI-IN-01" href="/intelligence/phishing/#PHI-IN-01" data-pillar="PHI" data-text="phi-in-01 lookalike / cousin domains domains that resemble a trusted brand by homoglyph or typo (bridges spm-id-02).">
+        <span class="trow-id mono">PHI-IN-01</span>
+        <span class="trow-main"><span class="trow-name">Lookalike / cousin domains</span><span class="trow-what">Domains that resemble a trusted brand by homoglyph or typo (bridges SPM-ID-02).</span></span>
+        <span class="trow-pill" data-p="PHI">Phishing</span>
+      </a>
+      <a class="trow" id="idx-PHI-IN-02" href="/intelligence/phishing/#PHI-IN-02" data-pillar="PHI" data-text="phi-in-02 compromised legitimate hosting landing pages are hosted on hacked but reputable websites to inherit their trust.">
+        <span class="trow-id mono">PHI-IN-02</span>
+        <span class="trow-main"><span class="trow-name">Compromised legitimate hosting</span><span class="trow-what">Landing pages are hosted on hacked but reputable websites to inherit their trust.</span></span>
+        <span class="trow-pill" data-p="PHI">Phishing</span>
+      </a>
+      <a class="trow" id="idx-PHI-IN-03" href="/intelligence/phishing/#PHI-IN-03" data-pillar="PHI" data-text="phi-in-03 newly-registered domains domains registered shortly before use, with no reputation to lose.">
+        <span class="trow-id mono">PHI-IN-03</span>
+        <span class="trow-main"><span class="trow-name">Newly-registered domains</span><span class="trow-what">Domains registered shortly before use, with no reputation to lose.</span></span>
+        <span class="trow-pill" data-p="PHI">Phishing</span>
+      </a>
+      <a class="trow" id="idx-PHI-IN-04" href="/intelligence/phishing/#PHI-IN-04" data-pillar="PHI" data-text="phi-in-04 free hosting &amp; redirectors legitimate free platforms and open redirectors are abused to host or forward to the payload.">
+        <span class="trow-id mono">PHI-IN-04</span>
+        <span class="trow-main"><span class="trow-name">Free hosting &amp; redirectors</span><span class="trow-what">Legitimate free platforms and open redirectors are abused to host or forward to the payload.</span></span>
+        <span class="trow-pill" data-p="PHI">Phishing</span>
+      </a>
+      <a class="trow" id="idx-PHI-IN-05" href="/intelligence/phishing/#PHI-IN-05" data-pillar="PHI" data-text="phi-in-05 tls-for-trust a valid certificate is obtained so the destination shows a padlock and looks legitimate.">
+        <span class="trow-id mono">PHI-IN-05</span>
+        <span class="trow-main"><span class="trow-name">TLS-for-trust</span><span class="trow-what">A valid certificate is obtained so the destination shows a padlock and looks legitimate.</span></span>
+        <span class="trow-pill" data-p="PHI">Phishing</span>
+      </a>
+      <a class="trow" id="idx-PHI-IN-06" href="/intelligence/phishing/#PHI-IN-06" data-pillar="PHI" data-text="phi-in-06 compromised sender account messages are sent from a real, trusted mailbox that has been taken over (bridges spm-ia-03).">
+        <span class="trow-id mono">PHI-IN-06</span>
+        <span class="trow-main"><span class="trow-name">Compromised sender account</span><span class="trow-what">Messages are sent from a real, trusted mailbox that has been taken over (bridges SPM-IA-03).</span></span>
+        <span class="trow-pill" data-p="PHI">Phishing</span>
+      </a>
+      <a class="trow" id="idx-PHI-LP-01" href="/intelligence/phishing/#PHI-LP-01" data-pillar="PHI" data-text="phi-lp-01 brand impersonation trusted brand identity, layout and tone are cloned to borrow credibility.">
+        <span class="trow-id mono">PHI-LP-01</span>
+        <span class="trow-main"><span class="trow-name">Brand impersonation</span><span class="trow-what">Trusted brand identity, layout and tone are cloned to borrow credibility.</span></span>
+        <span class="trow-pill" data-p="PHI">Phishing</span>
+      </a>
+      <a class="trow" id="idx-PHI-LP-02" href="/intelligence/phishing/#PHI-LP-02" data-pillar="PHI" data-text="phi-lp-02 authority &amp; urgency pressure from a claimed authority pushes fast, unconsidered action.">
+        <span class="trow-id mono">PHI-LP-02</span>
+        <span class="trow-main"><span class="trow-name">Authority &amp; urgency</span><span class="trow-what">Pressure from a claimed authority pushes fast, unconsidered action.</span></span>
+        <span class="trow-pill" data-p="PHI">Phishing</span>
+      </a>
+      <a class="trow" id="idx-PHI-LP-03" href="/intelligence/phishing/#PHI-LP-03" data-pillar="PHI" data-text="phi-lp-03 account-security pretext a message claims the account is at risk and must be “verified” now.">
+        <span class="trow-id mono">PHI-LP-03</span>
+        <span class="trow-main"><span class="trow-name">Account-security pretext</span><span class="trow-what">A message claims the account is at risk and must be “verified” now.</span></span>
+        <span class="trow-pill" data-p="PHI">Phishing</span>
+      </a>
+      <a class="trow" id="idx-PHI-LP-04" href="/intelligence/phishing/#PHI-LP-04" data-pillar="PHI" data-text="phi-lp-04 payment &amp; invoice pretext fake invoices, receipts or payment-detail changes (bridges the bec pillar).">
+        <span class="trow-id mono">PHI-LP-04</span>
+        <span class="trow-main"><span class="trow-name">Payment &amp; invoice pretext</span><span class="trow-what">Fake invoices, receipts or payment-detail changes (bridges the BEC pillar).</span></span>
+        <span class="trow-pill" data-p="PHI">Phishing</span>
+      </a>
+      <a class="trow" id="idx-PHI-LP-05" href="/intelligence/phishing/#PHI-LP-05" data-pillar="PHI" data-text="phi-lp-05 reply-chain hijacking the lure is inserted into a genuine, existing email thread to inherit its trust.">
+        <span class="trow-id mono">PHI-LP-05</span>
+        <span class="trow-main"><span class="trow-name">Reply-chain hijacking</span><span class="trow-what">The lure is inserted into a genuine, existing email thread to inherit its trust.</span></span>
+        <span class="trow-pill" data-p="PHI">Phishing</span>
+      </a>
+      <a class="trow" id="idx-PHI-OB-01" href="/intelligence/phishing/#PHI-OB-01" data-pillar="PHI" data-text="phi-ob-01 account takeover captured credentials or sessions are used to seize the account.">
+        <span class="trow-id mono">PHI-OB-01</span>
+        <span class="trow-main"><span class="trow-name">Account takeover</span><span class="trow-what">Captured credentials or sessions are used to seize the account.</span></span>
+        <span class="trow-pill" data-p="PHI">Phishing</span>
+      </a>
+      <a class="trow" id="idx-PHI-OB-02" href="/intelligence/phishing/#PHI-OB-02" data-pillar="PHI" data-text="phi-ob-02 bec pivot a trusted mailbox is used to run financial fraud from the inside (bridges the bec pillar).">
+        <span class="trow-id mono">PHI-OB-02</span>
+        <span class="trow-main"><span class="trow-name">BEC pivot</span><span class="trow-what">A trusted mailbox is used to run financial fraud from the inside (bridges the BEC pillar).</span></span>
+        <span class="trow-pill" data-p="PHI">Phishing</span>
+      </a>
+      <a class="trow" id="idx-PHI-OB-03" href="/intelligence/phishing/#PHI-OB-03" data-pillar="PHI" data-text="phi-ob-03 mailbox persistence forwarding rules and oauth tokens are planted for durable, quiet access.">
+        <span class="trow-id mono">PHI-OB-03</span>
+        <span class="trow-main"><span class="trow-name">Mailbox persistence</span><span class="trow-what">Forwarding rules and OAuth tokens are planted for durable, quiet access.</span></span>
+        <span class="trow-pill" data-p="PHI">Phishing</span>
+      </a>
+      <a class="trow" id="idx-PHI-OB-04" href="/intelligence/phishing/#PHI-OB-04" data-pillar="PHI" data-text="phi-ob-04 data exfiltration mail and files are harvested from the compromised account.">
+        <span class="trow-id mono">PHI-OB-04</span>
+        <span class="trow-main"><span class="trow-name">Data exfiltration</span><span class="trow-what">Mail and files are harvested from the compromised account.</span></span>
+        <span class="trow-pill" data-p="PHI">Phishing</span>
+      </a>
+      <a class="trow" id="idx-PHI-OB-05" href="/intelligence/phishing/#PHI-OB-05" data-pillar="PHI" data-text="phi-ob-05 onward propagation the victim's own contacts are phished from within the trusted account.">
+        <span class="trow-id mono">PHI-OB-05</span>
+        <span class="trow-main"><span class="trow-name">Onward propagation</span><span class="trow-what">The victim's own contacts are phished from within the trusted account.</span></span>
+        <span class="trow-pill" data-p="PHI">Phishing</span>
+      </a>
+      <a class="trow" id="idx-PHI-RT-01" href="/intelligence/phishing/#PHI-RT-01" data-pillar="PHI" data-text="phi-rt-01 osint profiling public information is gathered to select and tailor a convincing approach to a specific person or team.">
+        <span class="trow-id mono">PHI-RT-01</span>
+        <span class="trow-main"><span class="trow-name">OSINT profiling</span><span class="trow-what">Public information is gathered to select and tailor a convincing approach to a specific person or team.</span></span>
+        <span class="trow-pill" data-p="PHI">Phishing</span>
+      </a>
+      <a class="trow" id="idx-PHI-RT-02" href="/intelligence/phishing/#PHI-RT-02" data-pillar="PHI" data-text="phi-rt-02 address harvesting valid recipient addresses are collected from leaks, scraping or guessing patterns.">
+        <span class="trow-id mono">PHI-RT-02</span>
+        <span class="trow-main"><span class="trow-name">Address harvesting</span><span class="trow-what">Valid recipient addresses are collected from leaks, scraping or guessing patterns.</span></span>
+        <span class="trow-pill" data-p="PHI">Phishing</span>
+      </a>
+      <a class="trow" id="idx-PHI-RT-03" href="/intelligence/phishing/#PHI-RT-03" data-pillar="PHI" data-text="phi-rt-03 org-structure mapping reporting lines and relationships are mapped to make impersonation credible.">
+        <span class="trow-id mono">PHI-RT-03</span>
+        <span class="trow-main"><span class="trow-name">Org-structure mapping</span><span class="trow-what">Reporting lines and relationships are mapped to make impersonation credible.</span></span>
+        <span class="trow-pill" data-p="PHI">Phishing</span>
+      </a>
+      <a class="trow" id="idx-PHI-RT-04" href="/intelligence/phishing/#PHI-RT-04" data-pillar="PHI" data-text="phi-rt-04 event-timed targeting campaigns are timed to payroll runs, tax season, outages or corporate events.">
+        <span class="trow-id mono">PHI-RT-04</span>
+        <span class="trow-main"><span class="trow-name">Event-timed targeting</span><span class="trow-what">Campaigns are timed to payroll runs, tax season, outages or corporate events.</span></span>
+        <span class="trow-pill" data-p="PHI">Phishing</span>
+      </a>
+      <a class="trow" id="idx-BEC-AC-01" href="/intelligence/bec/#BEC-AC-01" data-pillar="BEC" data-text="bec-ac-01 internal account compromise an internal mailbox is taken over to send from a genuine identity (bridges phi-cc-02).">
+        <span class="trow-id mono">BEC-AC-01</span>
+        <span class="trow-main"><span class="trow-name">Internal account compromise</span><span class="trow-what">An internal mailbox is taken over to send from a genuine identity (bridges PHI-CC-02).</span></span>
+        <span class="trow-pill" data-p="BEC">BEC</span>
+      </a>
+      <a class="trow" id="idx-BEC-AC-02" href="/intelligence/bec/#BEC-AC-02" data-pillar="BEC" data-text="bec-ac-02 vendor email compromise (vec) a supplier's real mailbox is compromised and used against its customers.">
+        <span class="trow-id mono">BEC-AC-02</span>
+        <span class="trow-main"><span class="trow-name">Vendor email compromise (VEC)</span><span class="trow-what">A supplier's real mailbox is compromised and used against its customers.</span></span>
+        <span class="trow-pill" data-p="BEC">BEC</span>
+      </a>
+      <a class="trow" id="idx-BEC-AC-03" href="/intelligence/bec/#BEC-AC-03" data-pillar="BEC" data-text="bec-ac-03 lookalike domain a cousin domain of the company or vendor is registered (bridges spm-id-02).">
+        <span class="trow-id mono">BEC-AC-03</span>
+        <span class="trow-main"><span class="trow-name">Lookalike domain</span><span class="trow-what">A cousin domain of the company or vendor is registered (bridges SPM-ID-02).</span></span>
+        <span class="trow-pill" data-p="BEC">BEC</span>
+      </a>
+      <a class="trow" id="idx-BEC-AC-04" href="/intelligence/bec/#BEC-AC-04" data-pillar="BEC" data-text="bec-ac-04 display-name impersonation only the friendly name of an executive or vendor is forged (bridges spm-id-03).">
+        <span class="trow-id mono">BEC-AC-04</span>
+        <span class="trow-main"><span class="trow-name">Display-name impersonation</span><span class="trow-what">Only the friendly name of an executive or vendor is forged (bridges SPM-ID-03).</span></span>
+        <span class="trow-pill" data-p="BEC">BEC</span>
+      </a>
+      <a class="trow" id="idx-BEC-AC-05" href="/intelligence/bec/#BEC-AC-05" data-pillar="BEC" data-text="bec-ac-05 mailbox-rule persistence inbox rules hide replies and alerts on a compromised account (bridges phi-ob-03).">
+        <span class="trow-id mono">BEC-AC-05</span>
+        <span class="trow-main"><span class="trow-name">Mailbox-rule persistence</span><span class="trow-what">Inbox rules hide replies and alerts on a compromised account (bridges PHI-OB-03).</span></span>
+        <span class="trow-pill" data-p="BEC">BEC</span>
+      </a>
+      <a class="trow" id="idx-BEC-CO-01" href="/intelligence/bec/#BEC-CO-01" data-pillar="BEC" data-text="bec-co-01 money-mule routing funds pass through intermediary accounts to break the trail.">
+        <span class="trow-id mono">BEC-CO-01</span>
+        <span class="trow-main"><span class="trow-name">Money-mule routing</span><span class="trow-what">Funds pass through intermediary accounts to break the trail.</span></span>
+        <span class="trow-pill" data-p="BEC">BEC</span>
+      </a>
+      <a class="trow" id="idx-BEC-CO-02" href="/intelligence/bec/#BEC-CO-02" data-pillar="BEC" data-text="bec-co-02 rapid layering funds are moved quickly across accounts and borders.">
+        <span class="trow-id mono">BEC-CO-02</span>
+        <span class="trow-main"><span class="trow-name">Rapid layering</span><span class="trow-what">Funds are moved quickly across accounts and borders.</span></span>
+        <span class="trow-pill" data-p="BEC">BEC</span>
+      </a>
+      <a class="trow" id="idx-BEC-CO-03" href="/intelligence/bec/#BEC-CO-03" data-pillar="BEC" data-text="bec-co-03 evidence removal sent items, rules and traces are deleted on compromised accounts.">
+        <span class="trow-id mono">BEC-CO-03</span>
+        <span class="trow-main"><span class="trow-name">Evidence removal</span><span class="trow-what">Sent items, rules and traces are deleted on compromised accounts.</span></span>
+        <span class="trow-pill" data-p="BEC">BEC</span>
+      </a>
+      <a class="trow" id="idx-BEC-CO-04" href="/intelligence/bec/#BEC-CO-04" data-pillar="BEC" data-text="bec-co-04 continued impersonation reassurance is used to stall discovery while funds clear.">
+        <span class="trow-id mono">BEC-CO-04</span>
+        <span class="trow-main"><span class="trow-name">Continued impersonation</span><span class="trow-what">Reassurance is used to stall discovery while funds clear.</span></span>
+        <span class="trow-pill" data-p="BEC">BEC</span>
+      </a>
+      <a class="trow" id="idx-BEC-EN-01" href="/intelligence/bec/#BEC-EN-01" data-pillar="BEC" data-text="bec-en-01 executive request a supposed executive asks finance to act urgently and quietly.">
+        <span class="trow-id mono">BEC-EN-01</span>
+        <span class="trow-main"><span class="trow-name">Executive request</span><span class="trow-what">A supposed executive asks finance to act urgently and quietly.</span></span>
+        <span class="trow-pill" data-p="BEC">BEC</span>
+      </a>
+      <a class="trow" id="idx-BEC-EN-02" href="/intelligence/bec/#BEC-EN-02" data-pillar="BEC" data-text="bec-en-02 vendor bank-change request a supposed supplier updates their payment details.">
+        <span class="trow-id mono">BEC-EN-02</span>
+        <span class="trow-main"><span class="trow-name">Vendor bank-change request</span><span class="trow-what">A supposed supplier updates their payment details.</span></span>
+        <span class="trow-pill" data-p="BEC">BEC</span>
+      </a>
+      <a class="trow" id="idx-BEC-EN-03" href="/intelligence/bec/#BEC-EN-03" data-pillar="BEC" data-text="bec-en-03 fraudulent invoice submission a fake or altered invoice is introduced into the process.">
+        <span class="trow-id mono">BEC-EN-03</span>
+        <span class="trow-main"><span class="trow-name">Fraudulent invoice submission</span><span class="trow-what">A fake or altered invoice is introduced into the process.</span></span>
+        <span class="trow-pill" data-p="BEC">BEC</span>
+      </a>
+      <a class="trow" id="idx-BEC-EN-04" href="/intelligence/bec/#BEC-EN-04" data-pillar="BEC" data-text="bec-en-04 thread insertion the request is placed inside a genuine ongoing conversation.">
+        <span class="trow-id mono">BEC-EN-04</span>
+        <span class="trow-main"><span class="trow-name">Thread insertion</span><span class="trow-what">The request is placed inside a genuine ongoing conversation.</span></span>
+        <span class="trow-pill" data-p="BEC">BEC</span>
+      </a>
+      <a class="trow" id="idx-BEC-EN-05" href="/intelligence/bec/#BEC-EN-05" data-pillar="BEC" data-text="bec-en-05 confidentiality framing “keep this between us” is used to block a second opinion.">
+        <span class="trow-id mono">BEC-EN-05</span>
+        <span class="trow-main"><span class="trow-name">Confidentiality framing</span><span class="trow-what">“Keep this between us” is used to block a second opinion.</span></span>
+        <span class="trow-pill" data-p="BEC">BEC</span>
+      </a>
+      <a class="trow" id="idx-BEC-EX-01" href="/intelligence/bec/#BEC-EX-01" data-pillar="BEC" data-text="bec-ex-01 wire-transfer instruction a direct instruction to send funds to a specified account.">
+        <span class="trow-id mono">BEC-EX-01</span>
+        <span class="trow-main"><span class="trow-name">Wire-transfer instruction</span><span class="trow-what">A direct instruction to send funds to a specified account.</span></span>
+        <span class="trow-pill" data-p="BEC">BEC</span>
+      </a>
+      <a class="trow" id="idx-BEC-EX-02" href="/intelligence/bec/#BEC-EX-02" data-pillar="BEC" data-text="bec-ex-02 banking-detail alteration account numbers on a real payment are changed.">
+        <span class="trow-id mono">BEC-EX-02</span>
+        <span class="trow-main"><span class="trow-name">Banking-detail alteration</span><span class="trow-what">Account numbers on a real payment are changed.</span></span>
+        <span class="trow-pill" data-p="BEC">BEC</span>
+      </a>
+      <a class="trow" id="idx-BEC-EX-03" href="/intelligence/bec/#BEC-EX-03" data-pillar="BEC" data-text="bec-ex-03 payroll diversion an employee's direct-deposit destination is redirected.">
+        <span class="trow-id mono">BEC-EX-03</span>
+        <span class="trow-main"><span class="trow-name">Payroll diversion</span><span class="trow-what">An employee's direct-deposit destination is redirected.</span></span>
+        <span class="trow-pill" data-p="BEC">BEC</span>
+      </a>
+      <a class="trow" id="idx-BEC-EX-04" href="/intelligence/bec/#BEC-EX-04" data-pillar="BEC" data-text="bec-ex-04 gift-card request prepaid cards are requested as an untraceable payout.">
+        <span class="trow-id mono">BEC-EX-04</span>
+        <span class="trow-main"><span class="trow-name">Gift-card request</span><span class="trow-what">Prepaid cards are requested as an untraceable payout.</span></span>
+        <span class="trow-pill" data-p="BEC">BEC</span>
+      </a>
+      <a class="trow" id="idx-BEC-EX-05" href="/intelligence/bec/#BEC-EX-05" data-pillar="BEC" data-text="bec-ex-05 verification suppression any second channel is discouraged or blocked.">
+        <span class="trow-id mono">BEC-EX-05</span>
+        <span class="trow-main"><span class="trow-name">Verification suppression</span><span class="trow-what">Any second channel is discouraged or blocked.</span></span>
+        <span class="trow-pill" data-p="BEC">BEC</span>
+      </a>
+      <a class="trow" id="idx-BEC-RE-01" href="/intelligence/bec/#BEC-RE-01" data-pillar="BEC" data-text="bec-re-01 thread-context harvesting existing threads are read to mimic tone and reference real context.">
+        <span class="trow-id mono">BEC-RE-01</span>
+        <span class="trow-main"><span class="trow-name">Thread-context harvesting</span><span class="trow-what">Existing threads are read to mimic tone and reference real context.</span></span>
+        <span class="trow-pill" data-p="BEC">BEC</span>
+      </a>
+      <a class="trow" id="idx-BEC-RE-02" href="/intelligence/bec/#BEC-RE-02" data-pillar="BEC" data-text="bec-re-02 pending-payment discovery invoices and payments in flight are located so a real one can be hijacked.">
+        <span class="trow-id mono">BEC-RE-02</span>
+        <span class="trow-main"><span class="trow-name">Pending-payment discovery</span><span class="trow-what">Invoices and payments in flight are located so a real one can be hijacked.</span></span>
+        <span class="trow-pill" data-p="BEC">BEC</span>
+      </a>
+      <a class="trow" id="idx-BEC-RE-03" href="/intelligence/bec/#BEC-RE-03" data-pillar="BEC" data-text="bec-re-03 signature &amp; tone cloning style, signature and disclaimers are replicated for authenticity.">
+        <span class="trow-id mono">BEC-RE-03</span>
+        <span class="trow-main"><span class="trow-name">Signature &amp; tone cloning</span><span class="trow-what">Style, signature and disclaimers are replicated for authenticity.</span></span>
+        <span class="trow-pill" data-p="BEC">BEC</span>
+      </a>
+      <a class="trow" id="idx-BEC-RE-04" href="/intelligence/bec/#BEC-RE-04" data-pillar="BEC" data-text="bec-re-04 opportune-moment monitoring travel, out-of-office or absence is awaited so requests go unchallenged.">
+        <span class="trow-id mono">BEC-RE-04</span>
+        <span class="trow-main"><span class="trow-name">Opportune-moment monitoring</span><span class="trow-what">Travel, out-of-office or absence is awaited so requests go unchallenged.</span></span>
+        <span class="trow-pill" data-p="BEC">BEC</span>
+      </a>
+      <a class="trow" id="idx-BEC-RT-01" href="/intelligence/bec/#BEC-RT-01" data-pillar="BEC" data-text="bec-rt-01 finance-role identification staff able to move money — accounts payable, finance, executives — are pinpointed.">
+        <span class="trow-id mono">BEC-RT-01</span>
+        <span class="trow-main"><span class="trow-name">Finance-role identification</span><span class="trow-what">Staff able to move money — accounts payable, finance, executives — are pinpointed.</span></span>
+        <span class="trow-pill" data-p="BEC">BEC</span>
+      </a>
+      <a class="trow" id="idx-BEC-RT-02" href="/intelligence/bec/#BEC-RT-02" data-pillar="BEC" data-text="bec-rt-02 relationship mapping trust relationships (executive-to-assistant, company-to-vendor) are mapped to make requests credible.">
+        <span class="trow-id mono">BEC-RT-02</span>
+        <span class="trow-main"><span class="trow-name">Relationship mapping</span><span class="trow-what">Trust relationships (executive-to-assistant, company-to-vendor) are mapped to make requests credible.</span></span>
+        <span class="trow-pill" data-p="BEC">BEC</span>
+      </a>
+      <a class="trow" id="idx-BEC-RT-03" href="/intelligence/bec/#BEC-RT-03" data-pillar="BEC" data-text="bec-rt-03 transaction-timing research requests are aligned to genuinely expected payments or deals.">
+        <span class="trow-id mono">BEC-RT-03</span>
+        <span class="trow-main"><span class="trow-name">Transaction-timing research</span><span class="trow-what">Requests are aligned to genuinely expected payments or deals.</span></span>
+        <span class="trow-pill" data-p="BEC">BEC</span>
+      </a>
+      <a class="trow" id="idx-BEC-RT-04" href="/intelligence/bec/#BEC-RT-04" data-pillar="BEC" data-text="bec-rt-04 financial-calendar awareness month-end, quarter-end, payroll and tax windows are chosen for pressure.">
+        <span class="trow-id mono">BEC-RT-04</span>
+        <span class="trow-main"><span class="trow-name">Financial-calendar awareness</span><span class="trow-what">Month-end, quarter-end, payroll and tax windows are chosen for pressure.</span></span>
+        <span class="trow-pill" data-p="BEC">BEC</span>
+      </a>
+      <a class="trow" id="idx-MAL-DL-01" href="/intelligence/mal/#MAL-DL-01" data-pillar="MAL" data-text="mal-dl-01 attachment delivery the payload rides directly in the message as a file.">
+        <span class="trow-id mono">MAL-DL-01</span>
+        <span class="trow-main"><span class="trow-name">Attachment delivery</span><span class="trow-what">The payload rides directly in the message as a file.</span></span>
+        <span class="trow-pill" data-p="MAL">Malware</span>
+      </a>
+      <a class="trow" id="idx-MAL-DL-02" href="/intelligence/mal/#MAL-DL-02" data-pillar="MAL" data-text="mal-dl-02 link to hosted payload a link leads to a download rather than carrying the file.">
+        <span class="trow-id mono">MAL-DL-02</span>
+        <span class="trow-main"><span class="trow-name">Link to hosted payload</span><span class="trow-what">A link leads to a download rather than carrying the file.</span></span>
+        <span class="trow-pill" data-p="MAL">Malware</span>
+      </a>
+      <a class="trow" id="idx-MAL-DL-03" href="/intelligence/mal/#MAL-DL-03" data-pillar="MAL" data-text="mal-dl-03 cloud-service staging the file is hosted on a reputable cloud service to borrow its trust.">
+        <span class="trow-id mono">MAL-DL-03</span>
+        <span class="trow-main"><span class="trow-name">Cloud-service staging</span><span class="trow-what">The file is hosted on a reputable cloud service to borrow its trust.</span></span>
+        <span class="trow-pill" data-p="MAL">Malware</span>
+      </a>
+      <a class="trow" id="idx-MAL-DL-04" href="/intelligence/mal/#MAL-DL-04" data-pillar="MAL" data-text="mal-dl-04 reply-chain delivery the lure is inserted into a genuine thread to raise trust (bridges phi-lp-05).">
+        <span class="trow-id mono">MAL-DL-04</span>
+        <span class="trow-main"><span class="trow-name">Reply-chain delivery</span><span class="trow-what">The lure is inserted into a genuine thread to raise trust (bridges PHI-LP-05).</span></span>
+        <span class="trow-pill" data-p="MAL">Malware</span>
+      </a>
+      <a class="trow" id="idx-MAL-DL-05" href="/intelligence/mal/#MAL-DL-05" data-pillar="MAL" data-text="mal-dl-05 malvertising redirect delivery arrives via an advertising or redirect network to the payload.">
+        <span class="trow-id mono">MAL-DL-05</span>
+        <span class="trow-main"><span class="trow-name">Malvertising redirect</span><span class="trow-what">Delivery arrives via an advertising or redirect network to the payload.</span></span>
+        <span class="trow-pill" data-p="MAL">Malware</span>
+      </a>
+      <a class="trow" id="idx-MAL-EV-01" href="/intelligence/mal/#MAL-EV-01" data-pillar="MAL" data-text="mal-ev-01 sandbox evasion execution is withheld when analysis environments are detected.">
+        <span class="trow-id mono">MAL-EV-01</span>
+        <span class="trow-main"><span class="trow-name">Sandbox evasion</span><span class="trow-what">Execution is withheld when analysis environments are detected.</span></span>
+        <span class="trow-pill" data-p="MAL">Malware</span>
+      </a>
+      <a class="trow" id="idx-MAL-EV-02" href="/intelligence/mal/#MAL-EV-02" data-pillar="MAL" data-text="mal-ev-02 packing &amp; obfuscation code is compressed or scrambled to defeat static signatures.">
+        <span class="trow-id mono">MAL-EV-02</span>
+        <span class="trow-main"><span class="trow-name">Packing &amp; obfuscation</span><span class="trow-what">Code is compressed or scrambled to defeat static signatures.</span></span>
+        <span class="trow-pill" data-p="MAL">Malware</span>
+      </a>
+      <a class="trow" id="idx-MAL-EV-03" href="/intelligence/mal/#MAL-EV-03" data-pillar="MAL" data-text="mal-ev-03 password gating an archive password in the email keeps gateway scanners out of the payload.">
+        <span class="trow-id mono">MAL-EV-03</span>
+        <span class="trow-main"><span class="trow-name">Password gating</span><span class="trow-what">An archive password in the email keeps gateway scanners out of the payload.</span></span>
+        <span class="trow-pill" data-p="MAL">Malware</span>
+      </a>
+      <a class="trow" id="idx-MAL-EV-04" href="/intelligence/mal/#MAL-EV-04" data-pillar="MAL" data-text="mal-ev-04 geo &amp; time gating the payload serves only to certain regions or times to dodge analysis.">
+        <span class="trow-id mono">MAL-EV-04</span>
+        <span class="trow-main"><span class="trow-name">Geo &amp; time gating</span><span class="trow-what">The payload serves only to certain regions or times to dodge analysis.</span></span>
+        <span class="trow-pill" data-p="MAL">Malware</span>
+      </a>
+      <a class="trow" id="idx-MAL-EV-05" href="/intelligence/mal/#MAL-EV-05" data-pillar="MAL" data-text="mal-ev-05 benign-first staging early stages appear harmless; capability is fetched only later.">
+        <span class="trow-id mono">MAL-EV-05</span>
+        <span class="trow-main"><span class="trow-name">Benign-first staging</span><span class="trow-what">Early stages appear harmless; capability is fetched only later.</span></span>
+        <span class="trow-pill" data-p="MAL">Malware</span>
+      </a>
+      <a class="trow" id="idx-MAL-EX-01" href="/intelligence/mal/#MAL-EX-01" data-pillar="MAL" data-text="mal-ex-01 macro execution enabled macros run the fetch-and-execute logic.">
+        <span class="trow-id mono">MAL-EX-01</span>
+        <span class="trow-main"><span class="trow-name">Macro execution</span><span class="trow-what">Enabled macros run the fetch-and-execute logic.</span></span>
+        <span class="trow-pill" data-p="MAL">Malware</span>
+      </a>
+      <a class="trow" id="idx-MAL-EX-02" href="/intelligence/mal/#MAL-EX-02" data-pillar="MAL" data-text="mal-ex-02 script-host execution a shortcut or script triggers an interpreter to run the payload.">
+        <span class="trow-id mono">MAL-EX-02</span>
+        <span class="trow-main"><span class="trow-name">Script-host execution</span><span class="trow-what">A shortcut or script triggers an interpreter to run the payload.</span></span>
+        <span class="trow-pill" data-p="MAL">Malware</span>
+      </a>
+      <a class="trow" id="idx-MAL-EX-03" href="/intelligence/mal/#MAL-EX-03" data-pillar="MAL" data-text="mal-ex-03 document exploit a viewer vulnerability runs code without user action.">
+        <span class="trow-id mono">MAL-EX-03</span>
+        <span class="trow-main"><span class="trow-name">Document exploit</span><span class="trow-what">A viewer vulnerability runs code without user action.</span></span>
+        <span class="trow-pill" data-p="MAL">Malware</span>
+      </a>
+      <a class="trow" id="idx-MAL-EX-04" href="/intelligence/mal/#MAL-EX-04" data-pillar="MAL" data-text="mal-ex-04 user-run persuasion social engineering convinces the user to run the file themselves.">
+        <span class="trow-id mono">MAL-EX-04</span>
+        <span class="trow-main"><span class="trow-name">User-run persuasion</span><span class="trow-what">Social engineering convinces the user to run the file themselves.</span></span>
+        <span class="trow-pill" data-p="MAL">Malware</span>
+      </a>
+      <a class="trow" id="idx-MAL-EX-05" href="/intelligence/mal/#MAL-EX-05" data-pillar="MAL" data-text="mal-ex-05 living-off-the-land trusted system binaries are abused to execute or fetch the payload.">
+        <span class="trow-id mono">MAL-EX-05</span>
+        <span class="trow-main"><span class="trow-name">Living-off-the-land</span><span class="trow-what">Trusted system binaries are abused to execute or fetch the payload.</span></span>
+        <span class="trow-pill" data-p="MAL">Malware</span>
+      </a>
+      <a class="trow" id="idx-MAL-IN-01" href="/intelligence/mal/#MAL-IN-01" data-pillar="MAL" data-text="mal-in-01 dropper / loader stage a first stage installs and launches the main payload.">
+        <span class="trow-id mono">MAL-IN-01</span>
+        <span class="trow-main"><span class="trow-name">Dropper / loader stage</span><span class="trow-what">A first stage installs and launches the main payload.</span></span>
+        <span class="trow-pill" data-p="MAL">Malware</span>
+      </a>
+      <a class="trow" id="idx-MAL-IN-02" href="/intelligence/mal/#MAL-IN-02" data-pillar="MAL" data-text="mal-in-02 autostart persistence registry keys or scheduled tasks re-launch the payload after reboot.">
+        <span class="trow-id mono">MAL-IN-02</span>
+        <span class="trow-main"><span class="trow-name">Autostart persistence</span><span class="trow-what">Registry keys or scheduled tasks re-launch the payload after reboot.</span></span>
+        <span class="trow-pill" data-p="MAL">Malware</span>
+      </a>
+      <a class="trow" id="idx-MAL-IN-03" href="/intelligence/mal/#MAL-IN-03" data-pillar="MAL" data-text="mal-in-03 dll side-loading a trusted application is made to load a malicious library.">
+        <span class="trow-id mono">MAL-IN-03</span>
+        <span class="trow-main"><span class="trow-name">DLL side-loading</span><span class="trow-what">A trusted application is made to load a malicious library.</span></span>
+        <span class="trow-pill" data-p="MAL">Malware</span>
+      </a>
+      <a class="trow" id="idx-MAL-IN-04" href="/intelligence/mal/#MAL-IN-04" data-pillar="MAL" data-text="mal-in-04 defence tampering security tooling is disabled or blinded to protect the foothold.">
+        <span class="trow-id mono">MAL-IN-04</span>
+        <span class="trow-main"><span class="trow-name">Defence tampering</span><span class="trow-what">Security tooling is disabled or blinded to protect the foothold.</span></span>
+        <span class="trow-pill" data-p="MAL">Malware</span>
+      </a>
+      <a class="trow" id="idx-MAL-OB-01" href="/intelligence/mal/#MAL-OB-01" data-pillar="MAL" data-text="mal-ob-01 data theft credentials, cookies, files and secrets are exfiltrated.">
+        <span class="trow-id mono">MAL-OB-01</span>
+        <span class="trow-main"><span class="trow-name">Data theft</span><span class="trow-what">Credentials, cookies, files and secrets are exfiltrated.</span></span>
+        <span class="trow-pill" data-p="MAL">Malware</span>
+      </a>
+      <a class="trow" id="idx-MAL-OB-02" href="/intelligence/mal/#MAL-OB-02" data-pillar="MAL" data-text="mal-ob-02 ransomware impact data is encrypted or stolen for extortion.">
+        <span class="trow-id mono">MAL-OB-02</span>
+        <span class="trow-main"><span class="trow-name">Ransomware impact</span><span class="trow-what">Data is encrypted or stolen for extortion.</span></span>
+        <span class="trow-pill" data-p="MAL">Malware</span>
+      </a>
+      <a class="trow" id="idx-MAL-OB-03" href="/intelligence/mal/#MAL-OB-03" data-pillar="MAL" data-text="mal-ob-03 remote control an operator gains interactive command of the host.">
+        <span class="trow-id mono">MAL-OB-03</span>
+        <span class="trow-main"><span class="trow-name">Remote control</span><span class="trow-what">An operator gains interactive command of the host.</span></span>
+        <span class="trow-pill" data-p="MAL">Malware</span>
+      </a>
+      <a class="trow" id="idx-MAL-OB-04" href="/intelligence/mal/#MAL-OB-04" data-pillar="MAL" data-text="mal-ob-04 lateral movement the foothold is used to reach further systems.">
+        <span class="trow-id mono">MAL-OB-04</span>
+        <span class="trow-main"><span class="trow-name">Lateral movement</span><span class="trow-what">The foothold is used to reach further systems.</span></span>
+        <span class="trow-pill" data-p="MAL">Malware</span>
+      </a>
+      <a class="trow" id="idx-MAL-OB-05" href="/intelligence/mal/#MAL-OB-05" data-pillar="MAL" data-text="mal-ob-05 onward propagation the host is used to send further malicious mail (bridges spm-ia-02).">
+        <span class="trow-id mono">MAL-OB-05</span>
+        <span class="trow-main"><span class="trow-name">Onward propagation</span><span class="trow-what">The host is used to send further malicious mail (bridges SPM-IA-02).</span></span>
+        <span class="trow-pill" data-p="MAL">Malware</span>
+      </a>
+      <a class="trow" id="idx-MAL-PK-01" href="/intelligence/mal/#MAL-PK-01" data-pillar="MAL" data-text="mal-pk-01 direct executable attachment an executable is attached, often disguised by icon or double extension.">
+        <span class="trow-id mono">MAL-PK-01</span>
+        <span class="trow-main"><span class="trow-name">Direct executable attachment</span><span class="trow-what">An executable is attached, often disguised by icon or double extension.</span></span>
+        <span class="trow-pill" data-p="MAL">Malware</span>
+      </a>
+      <a class="trow" id="idx-MAL-PK-02" href="/intelligence/mal/#MAL-PK-02" data-pillar="MAL" data-text="mal-pk-02 macro-enabled document an office document carries macros that fetch or run the payload when enabled.">
+        <span class="trow-id mono">MAL-PK-02</span>
+        <span class="trow-main"><span class="trow-name">Macro-enabled document</span><span class="trow-what">An office document carries macros that fetch or run the payload when enabled.</span></span>
+        <span class="trow-pill" data-p="MAL">Malware</span>
+      </a>
+      <a class="trow" id="idx-MAL-PK-03" href="/intelligence/mal/#MAL-PK-03" data-pillar="MAL" data-text="mal-pk-03 shortcut &amp; script files lnk shortcuts or script files (js, hta, vbs) invoke an interpreter to run code.">
+        <span class="trow-id mono">MAL-PK-03</span>
+        <span class="trow-main"><span class="trow-name">Shortcut &amp; script files</span><span class="trow-what">LNK shortcuts or script files (JS, HTA, VBS) invoke an interpreter to run code.</span></span>
+        <span class="trow-pill" data-p="MAL">Malware</span>
+      </a>
+      <a class="trow" id="idx-MAL-PK-04" href="/intelligence/mal/#MAL-PK-04" data-pillar="MAL" data-text="mal-pk-04 html smuggling package a benign-looking html file assembles the payload in the browser to bypass gateways.">
+        <span class="trow-id mono">MAL-PK-04</span>
+        <span class="trow-main"><span class="trow-name">HTML smuggling package</span><span class="trow-what">A benign-looking HTML file assembles the payload in the browser to bypass gateways.</span></span>
+        <span class="trow-pill" data-p="MAL">Malware</span>
+      </a>
+      <a class="trow" id="idx-MAL-PK-05" href="/intelligence/mal/#MAL-PK-05" data-pillar="MAL" data-text="mal-pk-05 password-protected archive the payload is placed in an archive whose password is given in the email body, keeping scanners out.">
+        <span class="trow-id mono">MAL-PK-05</span>
+        <span class="trow-main"><span class="trow-name">Password-protected archive</span><span class="trow-what">The payload is placed in an archive whose password is given in the email body, keeping scanners out.</span></span>
+        <span class="trow-pill" data-p="MAL">Malware</span>
+      </a>
+      <a class="trow" id="idx-SCM-CO-01" href="/intelligence/scam/#SCM-CO-01" data-pillar="SCM" data-text="scm-co-01 mule networks funds pass through recruited intermediaries.">
+        <span class="trow-id mono">SCM-CO-01</span>
+        <span class="trow-main"><span class="trow-name">Mule networks</span><span class="trow-what">Funds pass through recruited intermediaries.</span></span>
+        <span class="trow-pill" data-p="SCM">Scam</span>
+      </a>
+      <a class="trow" id="idx-SCM-CO-02" href="/intelligence/scam/#SCM-CO-02" data-pillar="SCM" data-text="scm-co-02 crypto laundering cryptocurrency is layered to obscure the trail.">
+        <span class="trow-id mono">SCM-CO-02</span>
+        <span class="trow-main"><span class="trow-name">Crypto laundering</span><span class="trow-what">Cryptocurrency is layered to obscure the trail.</span></span>
+        <span class="trow-pill" data-p="SCM">Scam</span>
+      </a>
+      <a class="trow" id="idx-SCM-CO-03" href="/intelligence/scam/#SCM-CO-03" data-pillar="SCM" data-text="scm-co-03 identity churn personas, addresses and accounts are cycled to evade blocks.">
+        <span class="trow-id mono">SCM-CO-03</span>
+        <span class="trow-main"><span class="trow-name">Identity churn</span><span class="trow-what">Personas, addresses and accounts are cycled to evade blocks.</span></span>
+        <span class="trow-pill" data-p="SCM">Scam</span>
+      </a>
+      <a class="trow" id="idx-SCM-ES-01" href="/intelligence/scam/#SCM-ES-01" data-pillar="SCM" data-text="scm-es-01 rising fees new obstacles justify ever-larger payments.">
+        <span class="trow-id mono">SCM-ES-01</span>
+        <span class="trow-main"><span class="trow-name">Rising fees</span><span class="trow-what">New obstacles justify ever-larger payments.</span></span>
+        <span class="trow-pill" data-p="SCM">Scam</span>
+      </a>
+      <a class="trow" id="idx-SCM-ES-02" href="/intelligence/scam/#SCM-ES-02" data-pillar="SCM" data-text="scm-es-02 sunk-cost pressure prior losses are used to push further payment.">
+        <span class="trow-id mono">SCM-ES-02</span>
+        <span class="trow-main"><span class="trow-name">Sunk-cost pressure</span><span class="trow-what">Prior losses are used to push further payment.</span></span>
+        <span class="trow-pill" data-p="SCM">Scam</span>
+      </a>
+      <a class="trow" id="idx-SCM-ES-03" href="/intelligence/scam/#SCM-ES-03" data-pillar="SCM" data-text="scm-es-03 reload targeting a prior victim is re-approached, sometimes as a fake 'recovery' service.">
+        <span class="trow-id mono">SCM-ES-03</span>
+        <span class="trow-main"><span class="trow-name">Reload targeting</span><span class="trow-what">A prior victim is re-approached, sometimes as a fake 'recovery' service.</span></span>
+        <span class="trow-pill" data-p="SCM">Scam</span>
+      </a>
+      <a class="trow" id="idx-SCM-ES-04" href="/intelligence/scam/#SCM-ES-04" data-pillar="SCM" data-text="scm-es-04 mule recruitment the victim is enlisted to move others' stolen funds.">
+        <span class="trow-id mono">SCM-ES-04</span>
+        <span class="trow-main"><span class="trow-name">Mule recruitment</span><span class="trow-what">The victim is enlisted to move others' stolen funds.</span></span>
+        <span class="trow-pill" data-p="SCM">Scam</span>
+      </a>
+      <a class="trow" id="idx-SCM-EX-01" href="/intelligence/scam/#SCM-EX-01" data-pillar="SCM" data-text="scm-ex-01 advance-fee demand fees or taxes are required before the promised payout.">
+        <span class="trow-id mono">SCM-EX-01</span>
+        <span class="trow-main"><span class="trow-name">Advance-fee demand</span><span class="trow-what">Fees or taxes are required before the promised payout.</span></span>
+        <span class="trow-pill" data-p="SCM">Scam</span>
+      </a>
+      <a class="trow" id="idx-SCM-EX-02" href="/intelligence/scam/#SCM-EX-02" data-pillar="SCM" data-text="scm-ex-02 payment-detail capture bank or card details are solicited directly.">
+        <span class="trow-id mono">SCM-EX-02</span>
+        <span class="trow-main"><span class="trow-name">Payment-detail capture</span><span class="trow-what">Bank or card details are solicited directly.</span></span>
+        <span class="trow-pill" data-p="SCM">Scam</span>
+      </a>
+      <a class="trow" id="idx-SCM-EX-03" href="/intelligence/scam/#SCM-EX-03" data-pillar="SCM" data-text="scm-ex-03 crypto transfer irreversible cryptocurrency payment is requested.">
+        <span class="trow-id mono">SCM-EX-03</span>
+        <span class="trow-main"><span class="trow-name">Crypto transfer</span><span class="trow-what">Irreversible cryptocurrency payment is requested.</span></span>
+        <span class="trow-pill" data-p="SCM">Scam</span>
+      </a>
+      <a class="trow" id="idx-SCM-EX-04" href="/intelligence/scam/#SCM-EX-04" data-pillar="SCM" data-text="scm-ex-04 gift-card demand prepaid card codes are requested as payment.">
+        <span class="trow-id mono">SCM-EX-04</span>
+        <span class="trow-main"><span class="trow-name">Gift-card demand</span><span class="trow-what">Prepaid card codes are requested as payment.</span></span>
+        <span class="trow-pill" data-p="SCM">Scam</span>
+      </a>
+      <a class="trow" id="idx-SCM-EX-05" href="/intelligence/scam/#SCM-EX-05" data-pillar="SCM" data-text="scm-ex-05 data harvest identity or account data is collected for later fraud.">
+        <span class="trow-id mono">SCM-EX-05</span>
+        <span class="trow-main"><span class="trow-name">Data harvest</span><span class="trow-what">Identity or account data is collected for later fraud.</span></span>
+        <span class="trow-pill" data-p="SCM">Scam</span>
+      </a>
+      <a class="trow" id="idx-SCM-HK-01" href="/intelligence/scam/#SCM-HK-01" data-pillar="SCM" data-text="scm-hk-01 windfall claim an unexpected prize, inheritance or refund is dangled.">
+        <span class="trow-id mono">SCM-HK-01</span>
+        <span class="trow-main"><span class="trow-name">Windfall claim</span><span class="trow-what">An unexpected prize, inheritance or refund is dangled.</span></span>
+        <span class="trow-pill" data-p="SCM">Scam</span>
+      </a>
+      <a class="trow" id="idx-SCM-HK-02" href="/intelligence/scam/#SCM-HK-02" data-pillar="SCM" data-text="scm-hk-02 romance opener a friendly or affectionate first contact begins a relationship con.">
+        <span class="trow-id mono">SCM-HK-02</span>
+        <span class="trow-main"><span class="trow-name">Romance opener</span><span class="trow-what">A friendly or affectionate first contact begins a relationship con.</span></span>
+        <span class="trow-pill" data-p="SCM">Scam</span>
+      </a>
+      <a class="trow" id="idx-SCM-HK-03" href="/intelligence/scam/#SCM-HK-03" data-pillar="SCM" data-text="scm-hk-03 investment pitch a high-return scheme or platform is offered.">
+        <span class="trow-id mono">SCM-HK-03</span>
+        <span class="trow-main"><span class="trow-name">Investment pitch</span><span class="trow-what">A high-return scheme or platform is offered.</span></span>
+        <span class="trow-pill" data-p="SCM">Scam</span>
+      </a>
+      <a class="trow" id="idx-SCM-HK-04" href="/intelligence/scam/#SCM-HK-04" data-pillar="SCM" data-text="scm-hk-04 job / task offer an easy, well-paid role is offered, often as a mule funnel.">
+        <span class="trow-id mono">SCM-HK-04</span>
+        <span class="trow-main"><span class="trow-name">Job / task offer</span><span class="trow-what">An easy, well-paid role is offered, often as a mule funnel.</span></span>
+        <span class="trow-pill" data-p="SCM">Scam</span>
+      </a>
+      <a class="trow" id="idx-SCM-HK-05" href="/intelligence/scam/#SCM-HK-05" data-pillar="SCM" data-text="scm-hk-05 threat / extortion fear is used — claimed compromise, debt or legal action.">
+        <span class="trow-id mono">SCM-HK-05</span>
+        <span class="trow-main"><span class="trow-name">Threat / extortion</span><span class="trow-what">Fear is used — claimed compromise, debt or legal action.</span></span>
+        <span class="trow-pill" data-p="SCM">Scam</span>
+      </a>
+      <a class="trow" id="idx-SCM-LB-01" href="/intelligence/scam/#SCM-LB-01" data-pillar="SCM" data-text="scm-lb-01 mass blast a generic lure is sent at high volume to unfiltered recipients.">
+        <span class="trow-id mono">SCM-LB-01</span>
+        <span class="trow-main"><span class="trow-name">Mass blast</span><span class="trow-what">A generic lure is sent at high volume to unfiltered recipients.</span></span>
+        <span class="trow-pill" data-p="SCM">Scam</span>
+      </a>
+      <a class="trow" id="idx-SCM-LB-02" href="/intelligence/scam/#SCM-LB-02" data-pillar="SCM" data-text="scm-lb-02 targeted list a list tied to a theme (investors, jobseekers) is used for relevance.">
+        <span class="trow-id mono">SCM-LB-02</span>
+        <span class="trow-main"><span class="trow-name">Targeted list</span><span class="trow-what">A list tied to a theme (investors, jobseekers) is used for relevance.</span></span>
+        <span class="trow-pill" data-p="SCM">Scam</span>
+      </a>
+      <a class="trow" id="idx-SCM-LB-03" href="/intelligence/scam/#SCM-LB-03" data-pillar="SCM" data-text="scm-lb-03 topical &amp; seasonal current events, holidays or disasters are used to raise plausibility.">
+        <span class="trow-id mono">SCM-LB-03</span>
+        <span class="trow-main"><span class="trow-name">Topical &amp; seasonal</span><span class="trow-what">Current events, holidays or disasters are used to raise plausibility.</span></span>
+        <span class="trow-pill" data-p="SCM">Scam</span>
+      </a>
+      <a class="trow" id="idx-SCM-LB-04" href="/intelligence/scam/#SCM-LB-04" data-pillar="SCM" data-text="scm-lb-04 authority / brand veneer a trusted institution or brand is invoked to open the door.">
+        <span class="trow-id mono">SCM-LB-04</span>
+        <span class="trow-main"><span class="trow-name">Authority / brand veneer</span><span class="trow-what">A trusted institution or brand is invoked to open the door.</span></span>
+        <span class="trow-pill" data-p="SCM">Scam</span>
+      </a>
+      <a class="trow" id="idx-SCM-TR-01" href="/intelligence/scam/#SCM-TR-01" data-pillar="SCM" data-text="scm-tr-01 channel migration the victim is moved to a private channel away from oversight.">
+        <span class="trow-id mono">SCM-TR-01</span>
+        <span class="trow-main"><span class="trow-name">Channel migration</span><span class="trow-what">The victim is moved to a private channel away from oversight.</span></span>
+        <span class="trow-pill" data-p="SCM">Scam</span>
+      </a>
+      <a class="trow" id="idx-SCM-TR-02" href="/intelligence/scam/#SCM-TR-02" data-pillar="SCM" data-text="scm-tr-02 fabricated proof fake documents, screenshots or credentials are shown.">
+        <span class="trow-id mono">SCM-TR-02</span>
+        <span class="trow-main"><span class="trow-name">Fabricated proof</span><span class="trow-what">Fake documents, screenshots or credentials are shown.</span></span>
+        <span class="trow-pill" data-p="SCM">Scam</span>
+      </a>
+      <a class="trow" id="idx-SCM-TR-03" href="/intelligence/scam/#SCM-TR-03" data-pillar="SCM" data-text="scm-tr-03 small reciprocity a tiny gift or early 'return' builds false confidence.">
+        <span class="trow-id mono">SCM-TR-03</span>
+        <span class="trow-main"><span class="trow-name">Small reciprocity</span><span class="trow-what">A tiny gift or early 'return' builds false confidence.</span></span>
+        <span class="trow-pill" data-p="SCM">Scam</span>
+      </a>
+      <a class="trow" id="idx-SCM-TR-04" href="/intelligence/scam/#SCM-TR-04" data-pillar="SCM" data-text="scm-tr-04 urgency &amp; scarcity a closing window pressures fast, unconsidered action.">
+        <span class="trow-id mono">SCM-TR-04</span>
+        <span class="trow-main"><span class="trow-name">Urgency &amp; scarcity</span><span class="trow-what">A closing window pressures fast, unconsidered action.</span></span>
+        <span class="trow-pill" data-p="SCM">Scam</span>
+      </a>
+      <a class="trow" id="idx-SPO-AU-01" href="/intelligence/spoofing/#SPO-AU-01" data-pillar="SPO" data-text="spo-au-01 missing-spf exploitation a domain without spf offers no policy to fail against.">
+        <span class="trow-id mono">SPO-AU-01</span>
+        <span class="trow-main"><span class="trow-name">Missing-SPF exploitation</span><span class="trow-what">A domain without SPF offers no policy to fail against.</span></span>
+        <span class="trow-pill" data-p="SPO">Spoofing</span>
+      </a>
+      <a class="trow" id="idx-SPO-AU-02" href="/intelligence/spoofing/#SPO-AU-02" data-pillar="SPO" data-text="spo-au-02 missing-dkim exploitation without dkim, receivers cannot verify a signature.">
+        <span class="trow-id mono">SPO-AU-02</span>
+        <span class="trow-main"><span class="trow-name">Missing-DKIM exploitation</span><span class="trow-what">Without DKIM, receivers cannot verify a signature.</span></span>
+        <span class="trow-pill" data-p="SPO">Spoofing</span>
+      </a>
+      <a class="trow" id="idx-SPO-AU-03" href="/intelligence/spoofing/#SPO-AU-03" data-pillar="SPO" data-text="spo-au-03 dmarc-none exploitation a monitoring-only policy tells receivers to block nothing.">
+        <span class="trow-id mono">SPO-AU-03</span>
+        <span class="trow-main"><span class="trow-name">DMARC-none exploitation</span><span class="trow-what">A monitoring-only policy tells receivers to block nothing.</span></span>
+        <span class="trow-pill" data-p="SPO">Spoofing</span>
+      </a>
+      <a class="trow" id="idx-SPO-AU-04" href="/intelligence/spoofing/#SPO-AU-04" data-pillar="SPO" data-text="spo-au-04 alignment gaps authentication passes for a domain other than the visible from.">
+        <span class="trow-id mono">SPO-AU-04</span>
+        <span class="trow-main"><span class="trow-name">Alignment gaps</span><span class="trow-what">Authentication passes for a domain other than the visible From.</span></span>
+        <span class="trow-pill" data-p="SPO">Spoofing</span>
+      </a>
+      <a class="trow" id="idx-SPO-AU-05" href="/intelligence/spoofing/#SPO-AU-05" data-pillar="SPO" data-text="spo-au-05 forwarder-gap abuse legitimate forwarding that breaks spf is exploited to slip spoofed mail.">
+        <span class="trow-id mono">SPO-AU-05</span>
+        <span class="trow-main"><span class="trow-name">Forwarder-gap abuse</span><span class="trow-what">Legitimate forwarding that breaks SPF is exploited to slip spoofed mail.</span></span>
+        <span class="trow-pill" data-p="SPO">Spoofing</span>
+      </a>
+      <a class="trow" id="idx-SPO-BR-01" href="/intelligence/spoofing/#SPO-BR-01" data-pillar="SPO" data-text="spo-br-01 logo &amp; layout cloning brand assets and layout are reproduced to appear genuine.">
+        <span class="trow-id mono">SPO-BR-01</span>
+        <span class="trow-main"><span class="trow-name">Logo &amp; layout cloning</span><span class="trow-what">Brand assets and layout are reproduced to appear genuine.</span></span>
+        <span class="trow-pill" data-p="SPO">Spoofing</span>
+      </a>
+      <a class="trow" id="idx-SPO-BR-02" href="/intelligence/spoofing/#SPO-BR-02" data-pillar="SPO" data-text="spo-br-02 trust-seal misuse security badges or seals are shown to imply legitimacy.">
+        <span class="trow-id mono">SPO-BR-02</span>
+        <span class="trow-main"><span class="trow-name">Trust-seal misuse</span><span class="trow-what">Security badges or seals are shown to imply legitimacy.</span></span>
+        <span class="trow-pill" data-p="SPO">Spoofing</span>
+      </a>
+      <a class="trow" id="idx-SPO-BR-03" href="/intelligence/spoofing/#SPO-BR-03" data-pillar="SPO" data-text="spo-br-03 tls-for-trust a valid certificate on a fake domain lends a false sense of safety.">
+        <span class="trow-id mono">SPO-BR-03</span>
+        <span class="trow-main"><span class="trow-name">TLS-for-trust</span><span class="trow-what">A valid certificate on a fake domain lends a false sense of safety.</span></span>
+        <span class="trow-pill" data-p="SPO">Spoofing</span>
+      </a>
+      <a class="trow" id="idx-SPO-BR-04" href="/intelligence/spoofing/#SPO-BR-04" data-pillar="SPO" data-text="spo-br-04 trusted-service abuse a genuinely reputable platform is used to relay the impersonation.">
+        <span class="trow-id mono">SPO-BR-04</span>
+        <span class="trow-main"><span class="trow-name">Trusted-service abuse</span><span class="trow-what">A genuinely reputable platform is used to relay the impersonation.</span></span>
+        <span class="trow-pill" data-p="SPO">Spoofing</span>
+      </a>
+      <a class="trow" id="idx-SPO-DL-01" href="/intelligence/spoofing/#SPO-DL-01" data-pillar="SPO" data-text="spo-dl-01 reputation borrowing established infrastructure or services carry the forged mail.">
+        <span class="trow-id mono">SPO-DL-01</span>
+        <span class="trow-main"><span class="trow-name">Reputation borrowing</span><span class="trow-what">Established infrastructure or services carry the forged mail.</span></span>
+        <span class="trow-pill" data-p="SPO">Spoofing</span>
+      </a>
+      <a class="trow" id="idx-SPO-DL-02" href="/intelligence/spoofing/#SPO-DL-02" data-pillar="SPO" data-text="spo-dl-02 mixed-legitimacy content real links and text surround the forged intent to appear benign.">
+        <span class="trow-id mono">SPO-DL-02</span>
+        <span class="trow-main"><span class="trow-name">Mixed-legitimacy content</span><span class="trow-what">Real links and text surround the forged intent to appear benign.</span></span>
+        <span class="trow-pill" data-p="SPO">Spoofing</span>
+      </a>
+      <a class="trow" id="idx-SPO-DL-03" href="/intelligence/spoofing/#SPO-DL-03" data-pillar="SPO" data-text="spo-dl-03 selective targeting only chosen recipients receive the forged mail to limit exposure.">
+        <span class="trow-id mono">SPO-DL-03</span>
+        <span class="trow-main"><span class="trow-name">Selective targeting</span><span class="trow-what">Only chosen recipients receive the forged mail to limit exposure.</span></span>
+        <span class="trow-pill" data-p="SPO">Spoofing</span>
+      </a>
+      <a class="trow" id="idx-SPO-DP-01" href="/intelligence/spoofing/#SPO-DP-01" data-pillar="SPO" data-text="spo-dp-01 lookalike registration a cousin domain is registered to resemble a trusted one (bridges spm-id-02).">
+        <span class="trow-id mono">SPO-DP-01</span>
+        <span class="trow-main"><span class="trow-name">Lookalike registration</span><span class="trow-what">A cousin domain is registered to resemble a trusted one (bridges SPM-ID-02).</span></span>
+        <span class="trow-pill" data-p="SPO">Spoofing</span>
+      </a>
+      <a class="trow" id="idx-SPO-DP-02" href="/intelligence/spoofing/#SPO-DP-02" data-pillar="SPO" data-text="spo-dp-02 homoglyph / idn abuse internationalised or look-alike characters imitate familiar letters.">
+        <span class="trow-id mono">SPO-DP-02</span>
+        <span class="trow-main"><span class="trow-name">Homoglyph / IDN abuse</span><span class="trow-what">Internationalised or look-alike characters imitate familiar letters.</span></span>
+        <span class="trow-pill" data-p="SPO">Spoofing</span>
+      </a>
+      <a class="trow" id="idx-SPO-DP-03" href="/intelligence/spoofing/#SPO-DP-03" data-pillar="SPO" data-text="spo-dp-03 subdomain &amp; dangling abuse a dormant subdomain or dangling dns record is taken over to send.">
+        <span class="trow-id mono">SPO-DP-03</span>
+        <span class="trow-main"><span class="trow-name">Subdomain &amp; dangling abuse</span><span class="trow-what">A dormant subdomain or dangling DNS record is taken over to send.</span></span>
+        <span class="trow-pill" data-p="SPO">Spoofing</span>
+      </a>
+      <a class="trow" id="idx-SPO-DP-04" href="/intelligence/spoofing/#SPO-DP-04" data-pillar="SPO" data-text="spo-dp-04 new-domain impersonation a freshly registered domain poses as an established identity.">
+        <span class="trow-id mono">SPO-DP-04</span>
+        <span class="trow-main"><span class="trow-name">New-domain impersonation</span><span class="trow-what">A freshly registered domain poses as an established identity.</span></span>
+        <span class="trow-pill" data-p="SPO">Spoofing</span>
+      </a>
+      <a class="trow" id="idx-SPO-HD-01" href="/intelligence/spoofing/#SPO-HD-01" data-pillar="SPO" data-text="spo-hd-01 header-from spoofing the visible from header is forged to a trusted address.">
+        <span class="trow-id mono">SPO-HD-01</span>
+        <span class="trow-main"><span class="trow-name">Header-from spoofing</span><span class="trow-what">The visible From header is forged to a trusted address.</span></span>
+        <span class="trow-pill" data-p="SPO">Spoofing</span>
+      </a>
+      <a class="trow" id="idx-SPO-HD-02" href="/intelligence/spoofing/#SPO-HD-02" data-pillar="SPO" data-text="spo-hd-02 display-name impersonation the friendly name claims a trusted identity while the address does not match.">
+        <span class="trow-id mono">SPO-HD-02</span>
+        <span class="trow-main"><span class="trow-name">Display-name impersonation</span><span class="trow-what">The friendly name claims a trusted identity while the address does not match.</span></span>
+        <span class="trow-pill" data-p="SPO">Spoofing</span>
+      </a>
+      <a class="trow" id="idx-SPO-HD-03" href="/intelligence/spoofing/#SPO-HD-03" data-pillar="SPO" data-text="spo-hd-03 reply-to redirection a different reply-to quietly steers responses to the attacker.">
+        <span class="trow-id mono">SPO-HD-03</span>
+        <span class="trow-main"><span class="trow-name">Reply-to redirection</span><span class="trow-what">A different reply-to quietly steers responses to the attacker.</span></span>
+        <span class="trow-pill" data-p="SPO">Spoofing</span>
+      </a>
+      <a class="trow" id="idx-SPO-HD-04" href="/intelligence/spoofing/#SPO-HD-04" data-pillar="SPO" data-text="spo-hd-04 envelope-from spoofing the hidden return-path is forged independent of the visible from.">
+        <span class="trow-id mono">SPO-HD-04</span>
+        <span class="trow-main"><span class="trow-name">Envelope-from spoofing</span><span class="trow-what">The hidden return-path is forged independent of the visible From.</span></span>
+        <span class="trow-pill" data-p="SPO">Spoofing</span>
+      </a>
+      <a class="trow" id="idx-SPO-OB-01" href="/intelligence/spoofing/#SPO-OB-01" data-pillar="SPO" data-text="spo-ob-01 phishing enablement the forged identity makes a phishing lure credible (bridges phi).">
+        <span class="trow-id mono">SPO-OB-01</span>
+        <span class="trow-main"><span class="trow-name">Phishing enablement</span><span class="trow-what">The forged identity makes a phishing lure credible (bridges PHI).</span></span>
+        <span class="trow-pill" data-p="SPO">Spoofing</span>
+      </a>
+      <a class="trow" id="idx-SPO-OB-02" href="/intelligence/spoofing/#SPO-OB-02" data-pillar="SPO" data-text="spo-ob-02 bec enablement the forged identity underpins a payment-fraud request (bridges bec).">
+        <span class="trow-id mono">SPO-OB-02</span>
+        <span class="trow-main"><span class="trow-name">BEC enablement</span><span class="trow-what">The forged identity underpins a payment-fraud request (bridges BEC).</span></span>
+        <span class="trow-pill" data-p="SPO">Spoofing</span>
+      </a>
+      <a class="trow" id="idx-SPO-OB-03" href="/intelligence/spoofing/#SPO-OB-03" data-pillar="SPO" data-text="spo-ob-03 brand damage &amp; disinformation impersonation is used to mislead or harm a brand's audience.">
+        <span class="trow-id mono">SPO-OB-03</span>
+        <span class="trow-main"><span class="trow-name">Brand damage &amp; disinformation</span><span class="trow-what">Impersonation is used to mislead or harm a brand's audience.</span></span>
+        <span class="trow-pill" data-p="SPO">Spoofing</span>
+      </a>
+      <a class="trow" id="idx-SPO-OB-04" href="/intelligence/spoofing/#SPO-OB-04" data-pillar="SPO" data-text="spo-ob-04 deliverability sabotage spoofing a domain degrades its sending reputation.">
+        <span class="trow-id mono">SPO-OB-04</span>
+        <span class="trow-main"><span class="trow-name">Deliverability sabotage</span><span class="trow-what">Spoofing a domain degrades its sending reputation.</span></span>
+        <span class="trow-pill" data-p="SPO">Spoofing</span>
+      </a>
+      <div class="tempty" id="tempty" hidden>No techniques match — try another term.</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-row">
+    <span><span class="sig">SPAMCRACKERS</span>.COM — Email Abuse Intelligence · 163 techniques · Reference Model v1.0</span>
+    <div class="foot-links">
+      <a href="/">Home</a>
+      <a href="/intelligence/">Intelligence</a>
+      <a href="/intelligence/governance/">Governance</a>
+      <a href="/#faq">FAQ</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var root=document.documentElement, tbtn=document.getElementById("themebtn");
+  tbtn.addEventListener("click", function(){
+    var isDark = root.getAttribute("data-theme")==="dark" || (!root.getAttribute("data-theme") && window.matchMedia("(prefers-color-scheme: dark)").matches);
+    root.setAttribute("data-theme", isDark ? "light" : "dark");
+  });
+  var q=document.getElementById("tq"), list=document.getElementById("tlist"), count=document.getElementById("tcount"), empty=document.getElementById("tempty");
+  var rows=[].slice.call(list.querySelectorAll(".trow"));
+  var TOTAL=163, filter="ALL";
+  function apply(){
+    var term=(q.value||"").trim().toLowerCase(), shown=0;
+    rows.forEach(function(r){
+      var okP = filter==="ALL" || r.getAttribute("data-pillar")===filter;
+      var okT = !term || r.getAttribute("data-text").indexOf(term)>-1;
+      var vis = okP && okT;
+      r.hidden = !vis; if(vis) shown++;
+    });
+    empty.hidden = shown>0;
+    count.textContent = (term||filter!=="ALL") ? ("Showing "+shown+" of "+TOTAL+" techniques") : ("Showing all "+TOTAL+" techniques");
+  }
+  q.addEventListener("input", apply);
+  document.querySelectorAll(".pchip").forEach(function(c){
+    c.addEventListener("click", function(){
+      document.querySelectorAll(".pchip").forEach(function(x){ x.classList.remove("active"); });
+      c.classList.add("active"); filter=c.getAttribute("data-f"); apply();
+    });
+  });
+})();
+</script>
+</body>
+</html>
