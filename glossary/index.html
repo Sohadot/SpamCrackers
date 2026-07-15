@@ -1,0 +1,796 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; img-src 'self' data:; font-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self' https://dns.google https://formspree.io; form-action 'self' https://formspree.io; upgrade-insecure-requests" />
+<meta name="referrer" content="strict-origin-when-cross-origin" />
+<title>Glossary — Email Abuse &amp; Authentication Terms | SpamCrackers</title>
+<meta name="description" content="Plain-language definitions of 40 email-abuse and email-authentication terms — SPF, DKIM, DMARC, spoofing, phishing, BEC, AiTM and more — each linked to how it is exploited and how to defend against it." />
+<link rel="canonical" href="https://spamcrackers.com/glossary/" />
+<meta name="robots" content="index, follow, max-image-preview:large" />
+<meta name="theme-color" content="#08090D" media="(prefers-color-scheme: dark)" />
+<meta name="theme-color" content="#ECEDE8" media="(prefers-color-scheme: light)" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2308090D'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%232FE39B'/%3E%3C/svg%3E" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="SpamCrackers" />
+<meta property="og:url" content="https://spamcrackers.com/glossary/" />
+<meta property="og:title" content="Glossary — Email Abuse &amp; Authentication Terms" />
+<meta property="og:description" content="Plain-language definitions of 40 email-abuse and authentication terms, each linked to exploitation and defence." />
+<meta property="og:image" content="https://spamcrackers.com/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Glossary — Email Abuse &amp; Authentication Terms" />
+<meta name="twitter:description" content="Definitions of 40 email-abuse and authentication terms." />
+<meta name="twitter:image" content="https://spamcrackers.com/og-image.png" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "DefinedTermSet",
+      "@id": "https://spamcrackers.com/glossary/#set",
+      "name": "SpamCrackers Glossary — Email Abuse & Authentication",
+      "description": "Canonical, plain-language definitions of 40 email-abuse and email-authentication terms — SPF, DKIM, DMARC, spoofing, phishing, BEC and more.",
+      "url": "https://spamcrackers.com/glossary/",
+      "hasDefinedTerm": [
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/glossary/#term-advance-fee-fraud",
+          "name": "Advance-fee fraud",
+          "description": "A scam promising a large payout that is only released after the victim pays a series of upfront fees."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/glossary/#term-aitm",
+          "name": "AiTM",
+          "description": "A phishing technique using a live reverse proxy that relays to the real site, capturing the authenticated session and defeating many forms of MFA."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/glossary/#term-arc",
+          "name": "ARC",
+          "description": "A standard that preserves authentication results across intermediaries such as mailing lists and forwarders, so legitimate mail is not broken by forwarding."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/glossary/#term-bec",
+          "name": "BEC",
+          "description": "Targeted fraud in which an attacker impersonates a trusted party — an executive or vendor — to redirect a payment. It carries no malware, only a plausible request."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/glossary/#term-bimi",
+          "name": "BIMI",
+          "description": "A standard that lets a domain publish a logo shown next to authenticated mail. It requires an enforced DMARC policy, rewarding strong authentication with brand visibility."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/glossary/#term-botnet",
+          "name": "Botnet",
+          "description": "A network of compromised machines used to send abuse at scale from many residential addresses."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/glossary/#term-compromised-account",
+          "name": "Compromised account",
+          "description": "A legitimate mailbox taken over by an attacker and used to send trusted-looking abuse."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/glossary/#term-display-name-impersonation",
+          "name": "Display-name impersonation",
+          "description": "Forging only the friendly display name of a sender while the actual address does not match — effective because many clients hide the real address."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/glossary/#term-dkim",
+          "name": "DKIM",
+          "description": "An email authentication method that attaches a cryptographic signature to each message. Receivers verify it with a public key published in DNS, proving the message is genuine and unaltered."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/glossary/#term-dkim-selector",
+          "name": "DKIM selector",
+          "description": "A label that identifies which published key verifies a given DKIM signature, allowing multiple and rotating keys per domain."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/glossary/#term-dmarc",
+          "name": "DMARC",
+          "description": "A policy that ties SPF and DKIM to the visible From address and tells receivers what to do on failure — monitor, quarantine or reject. The only control that reliably stops exact-domain spoofing."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/glossary/#term-dmarc-alignment",
+          "name": "DMARC alignment",
+          "description": "The requirement that the domain which passes SPF or DKIM matches the visible From domain. Without alignment, a message can pass authentication for an unrelated domain yet still spoof yours."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/glossary/#term-dmarc-policy",
+          "name": "DMARC policy",
+          "description": "The enforcement level a domain requests. none only monitors, quarantine sends failures to spam, and reject blocks them outright."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/glossary/#term-dmarc-reporting",
+          "name": "DMARC reporting",
+          "description": "Addresses in a DMARC record where receivers send aggregate (rua) and forensic (ruf) reports, revealing who is sending as your domain."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/glossary/#term-doh",
+          "name": "DoH",
+          "description": "DNS queries carried over an encrypted HTTPS connection. SpamCrackers uses DoH to read a domain's public records directly in your browser."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/glossary/#term-envelope-from",
+          "name": "Envelope-from",
+          "description": "The hidden sender address used during mail transfer and checked by SPF — distinct from the visible From header."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/glossary/#term-feedback-loop",
+          "name": "Feedback loop",
+          "description": "An arrangement where a mailbox provider forwards spam complaints back to a sender, so abuse and list problems can be detected and stopped."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/glossary/#term-header-from",
+          "name": "Header-from",
+          "description": "The visible sender address a recipient sees. DMARC aligns authentication to this address; spoofing it is the core of impersonation."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/glossary/#term-homoglyph",
+          "name": "Homoglyph",
+          "description": "A character that visually resembles another — often from a different alphabet — used to build domains that look identical to a legitimate one."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/glossary/#term-html-smuggling",
+          "name": "HTML smuggling",
+          "description": "A delivery technique where a benign-looking HTML attachment assembles the payload inside the browser, bypassing gateway scanning."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/glossary/#term-loader",
+          "name": "Loader",
+          "description": "A small first-stage program that installs and launches further malware once it runs."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/glossary/#term-lookalike-domain",
+          "name": "Lookalike domain",
+          "description": "A domain registered to closely resemble a trusted one, using typos or swapped characters, to impersonate it convincingly."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/glossary/#term-malspam",
+          "name": "Malspam",
+          "description": "Unsolicited mail whose purpose is to deliver a malicious payload rather than to advertise."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/glossary/#term-money-mule",
+          "name": "Money mule",
+          "description": "A person recruited, often unknowingly, to receive and forward stolen funds, breaking the money trail for fraudsters."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/glossary/#term-mx-record",
+          "name": "MX record",
+          "description": "A DNS record that directs a domain's inbound mail to the servers that receive it. Without an MX record a domain cannot receive email."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/glossary/#term-newly-registered-domain",
+          "name": "Newly-registered domain",
+          "description": "A domain registered very recently, with no reputation history. A common signal of throwaway abuse infrastructure."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/glossary/#term-oauth-consent-phishing",
+          "name": "OAuth consent phishing",
+          "description": "Tricking a user into granting a malicious application permission to their account — no password is ever needed, and MFA does not help."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/glossary/#term-open-redirect",
+          "name": "Open redirect",
+          "description": "A legitimate site's URL that forwards to an arbitrary destination, abused to lend trust to a link that ends at a malicious page."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/glossary/#term-phishing",
+          "name": "Phishing",
+          "description": "Deceptive messages that trick recipients into revealing credentials or data, usually via a cloned destination."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/glossary/#term-quishing",
+          "name": "Quishing",
+          "description": "Phishing that delivers the malicious link as a QR code image, pushing the victim onto a less-protected personal device."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/glossary/#term-reply-to",
+          "name": "Reply-to",
+          "description": "A header that sets where replies are sent. A mismatch with the From address can quietly redirect a conversation to an attacker."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/glossary/#term-reputation-warming",
+          "name": "Reputation warming",
+          "description": "Gradually ramping volume on a new IP or domain with benign mail to build sender trust before abusing it."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/glossary/#term-snowshoe-spamming",
+          "name": "Snowshoe spamming",
+          "description": "Spreading spam thinly across many IP addresses and domains so no single source crosses a reputation or rate threshold."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/glossary/#term-spear-phishing",
+          "name": "Spear phishing",
+          "description": "Phishing tailored to a specific individual using researched detail, far harder to spot than mass phishing."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/glossary/#term-spf",
+          "name": "SPF",
+          "description": "A DNS TXT record listing which mail servers are authorised to send for a domain. Receivers check it against the connecting server; a record ending in -all asks them to reject everything else."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/glossary/#term-spf-flattening",
+          "name": "SPF flattening",
+          "description": "Replacing nested SPF include: mechanisms with their resolved IP addresses to stay within the 10-lookup limit."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/glossary/#term-spf-qualifier",
+          "name": "SPF qualifier",
+          "description": "The final mechanism of an SPF record. -all is a hard fail (reject), ~all a soft fail (accept but mark), and ?all neutral (no opinion)."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/glossary/#term-spoofing",
+          "name": "Spoofing",
+          "description": "Forging the sender identity of a message so it appears to come from a trusted domain or person. The root enabler beneath most other email abuse."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/glossary/#term-vec",
+          "name": "VEC",
+          "description": "A form of BEC where a supplier's real mailbox is compromised and used to defraud its customers, often via a banking-detail change."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/glossary/#term-whaling",
+          "name": "Whaling",
+          "description": "Phishing aimed at executives and other high-value decision-makers."
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "SpamCrackers",
+          "item": "https://spamcrackers.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Glossary",
+          "item": "https://spamcrackers.com/glossary/"
+        }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+  :root{
+    --ground:#08090D; --ground-2:#0D0F15; --panel:#11141C;
+    --ink:#D9DEE6; --ink-dim:#9AA3B0; --mute:#5A6472;
+    --line:rgba(217,222,230,.10); --line-strong:rgba(217,222,230,.20);
+    --signal:#2FE39B; --noise:#FF3B6B; --amber:#F6C560; --focus:#7FE3FF;
+    --maxw:1180px; --narrow:760px;
+    --step--1:clamp(.78rem,.72rem + .3vw,.9rem);
+    --step-0:clamp(.98rem,.92rem + .3vw,1.06rem);
+    --step-1:clamp(1.2rem,1.05rem + .7vw,1.5rem);
+    --step-2:clamp(1.6rem,1.2rem + 1.8vw,2.4rem);
+    --step-3:clamp(2.2rem,1.5rem + 3.2vw,3.6rem);
+    --step-4:clamp(2.8rem,1.8rem + 5vw,5.2rem);
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,Roboto,Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,"SF Mono","SFMono-Regular",Menlo,Consolas,"Liberation Mono",monospace;
+  }
+  :root[data-theme="light"]{
+    --ground:#ECEDE8; --ground-2:#F4F5F1; --panel:#FFFFFF;
+    --ink:#0F1218; --ink-dim:#454E5B; --mute:#78828F;
+    --line:rgba(15,18,24,.12); --line-strong:rgba(15,18,24,.22);
+    --signal:#0F9E6A; --noise:#E01E52; --amber:#B77A11;
+  }
+  @media (prefers-color-scheme: light){
+    :root:not([data-theme="dark"]){
+      --ground:#ECEDE8; --ground-2:#F4F5F1; --panel:#FFFFFF;
+      --ink:#0F1218; --ink-dim:#454E5B; --mute:#78828F;
+      --line:rgba(15,18,24,.12); --line-strong:rgba(15,18,24,.22);
+      --signal:#0F9E6A; --noise:#E01E52; --amber:#B77A11;
+    }
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;scroll-padding-top:70px}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:var(--step-0);line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  ::selection{background:var(--signal);color:var(--ground)}
+  a{color:inherit;text-decoration:none}
+  :focus-visible{outline:2px solid var(--focus);outline-offset:3px;border-radius:2px}
+  .wrap{max-width:var(--maxw);margin-inline:auto;padding-inline:clamp(1.1rem,4vw,3rem)}
+  .wrap.narrow{max-width:calc(var(--narrow) + 6rem)}
+  .mono{font-family:var(--mono)}
+  code{font-family:var(--mono);font-size:.88em;color:var(--signal);background:color-mix(in srgb,var(--signal) 12%,transparent);padding:.1em .42em;border-radius:3px;word-break:break-word}
+  .ilink{color:var(--signal);border-bottom:1px solid color-mix(in srgb,var(--signal) 45%,transparent);transition:border-color .2s}
+  .ilink:hover{border-color:var(--signal)}
+  .eyebrow{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.26em;text-transform:uppercase;color:var(--signal);display:inline-flex;align-items:center;gap:.6em}
+  .eyebrow::before{content:"";width:24px;height:1px;background:var(--signal);opacity:.7}
+
+  /* id chips */
+  .idchip{font-family:var(--mono);font-size:.7rem;letter-spacing:.06em;color:var(--signal);border:1px solid color-mix(in srgb,var(--signal) 45%,var(--line));border-radius:4px;padding:.2em .5em;white-space:nowrap;background:color-mix(in srgb,var(--signal) 8%,transparent)}
+  .idchip-link{transition:background .2s}
+  .idchip-link:hover{background:color-mix(in srgb,var(--signal) 20%,transparent)}
+
+  /* top bar */
+  header.bar{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:.8rem clamp(1.1rem,4vw,3rem);font-family:var(--mono);font-size:var(--step--1);letter-spacing:.05em;backdrop-filter:blur(9px);background:color-mix(in srgb,var(--ground) 75%,transparent);border-bottom:1px solid var(--line)}
+  .brand-min{display:flex;align-items:center;gap:.55rem;font-weight:700}
+  .brand-min .dot{width:9px;height:9px;background:var(--signal);border-radius:50%;box-shadow:0 0 12px var(--signal)}
+  .brand-min .tld{color:var(--mute)}
+  .bar nav{display:flex;align-items:center;gap:clamp(.7rem,1.8vw,1.5rem);color:var(--ink-dim)}
+  .bar nav a{transition:color .2s}.bar nav a:hover{color:var(--signal)}
+  .bar .navlink{display:none}
+  @media(min-width:900px){.bar .navlink{display:inline}}
+  .themebtn{font-family:var(--mono);font-size:var(--step--1);background:transparent;border:1px solid var(--line-strong);color:var(--ink-dim);padding:.35em .7em;border-radius:2px;cursor:pointer;letter-spacing:.1em;transition:.2s}
+  .themebtn:hover{border-color:var(--signal);color:var(--signal)}
+
+  /* sections */
+  section{position:relative;padding:clamp(3.6rem,7vw,6rem) 0;border-top:1px solid var(--line)}
+  .hero{border-top:none;padding-top:clamp(7rem,13vw,10rem)}
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion: reduce){.reveal{opacity:1;transform:none;transition:none}}
+  .sec-head{max-width:64ch;margin-bottom:2.4rem}
+  .sec-head h2{font-weight:800;font-size:var(--step-2);line-height:1.05;letter-spacing:-.025em;margin-top:1rem;text-wrap:balance}
+  .sec-head .sub{margin-top:1rem;color:var(--ink-dim);max-width:60ch}
+
+  /* hero */
+  .hero h1{font-weight:800;font-size:var(--step-4);line-height:.98;letter-spacing:-.035em;margin-top:1.4rem;text-wrap:balance}
+  .hero .hl{color:var(--signal)}
+  .hero .lede{margin-top:1.8rem;font-size:var(--step-1);line-height:1.45;color:var(--ink);max-width:54ch;text-wrap:pretty}
+  .hero .lede strong{color:var(--signal);font-weight:700}
+  .meta-chips{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:2.2rem}
+  .meta-chips .chip{font-family:var(--mono);font-size:var(--step--1);border:1px solid var(--line);border-radius:99px;padding:.45em .95em;color:var(--ink-dim)}
+  .meta-chips .chip b{color:var(--mute);font-weight:400;letter-spacing:.08em;text-transform:uppercase;font-size:.82em;margin-right:.5em}
+  .meta-chips .chip.stance{border-color:color-mix(in srgb,var(--signal) 45%,var(--line));color:var(--signal)}
+  .meta-chips .chip.stance b{color:color-mix(in srgb,var(--signal) 70%,var(--ink-dim))}
+
+  /* prose */
+  .prose p{max-width:68ch;margin-bottom:1.2rem;color:var(--ink-dim)}
+  .prose p:last-child{margin-bottom:0}
+  .prose strong{color:var(--ink)}
+  .prose em{color:var(--signal);font-style:normal}
+
+  /* boundaries */
+  .bound-grid{display:grid;gap:1px;grid-template-columns:1fr;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  @media(min-width:720px){.bound-grid{grid-template-columns:1fr 1fr}}
+  .bound{background:var(--ground-2);padding:clamp(1.4rem,3vw,2.2rem)}
+  .bound-label{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.14em;text-transform:uppercase;margin-bottom:1.1rem;display:flex;align-items:center;gap:.6em}
+  .bound-label::before{content:"";width:10px;height:10px;border-radius:50%}
+  .bound-label.ok{color:var(--signal)}.bound-label.ok::before{background:var(--signal)}
+  .bound-label.no{color:var(--noise)}.bound-label.no::before{background:var(--noise)}
+  .bound ul{list-style:none;display:flex;flex-direction:column;gap:.75rem}
+  .bound li{position:relative;padding-left:1.5rem;color:var(--ink-dim);line-height:1.5}
+  .bound li b{color:var(--ink)}
+  .bound.is li::before{content:"✓";position:absolute;left:0;color:var(--signal);font-family:var(--mono)}
+  .bound.not li::before{content:"✕";position:absolute;left:0;color:var(--noise);font-family:var(--mono)}
+  .bound-note{margin-top:1.6rem;font-family:var(--mono);font-size:var(--step--1);color:var(--ink-dim);line-height:1.7;border-left:2px solid var(--signal);padding-left:1.2rem;max-width:74ch}
+  .bound-note b{color:var(--signal)}
+
+  /* pillars */
+  .pillar-grid{display:grid;gap:1px;grid-template-columns:1fr;background:var(--line);border:1px solid var(--line)}
+  @media(min-width:620px){.pillar-grid{grid-template-columns:repeat(2,1fr)}}
+  @media(min-width:960px){.pillar-grid{grid-template-columns:repeat(3,1fr)}}
+  .pillar{background:var(--ground);padding:clamp(1.4rem,2.6vw,2rem);display:flex;flex-direction:column;gap:.6rem;transition:background .3s}
+  .pillar:hover{background:var(--ground-2)}
+  .pillar-top{display:flex;align-items:center;justify-content:space-between;gap:.6rem}
+  .pill-status{font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+  .pillar.active{background:color-mix(in srgb,var(--signal) 6%,var(--ground))}
+  .pillar.active .pill-status{color:var(--signal)}
+  .pillar h3{font-size:var(--step-1);font-weight:800;letter-spacing:-.02em}
+  .pillar p{color:var(--ink-dim);font-size:var(--step--1);line-height:1.55}
+  .pillar.planned{opacity:.82}
+
+  /* cite */
+  .cite{border:1px solid var(--line);border-radius:8px;padding:clamp(1.2rem,3vw,1.8rem);background:var(--ground-2)}
+  .cite-label{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.14em;text-transform:uppercase;color:var(--signal);margin-bottom:.8rem}
+  .cite p{color:var(--ink-dim);max-width:70ch}
+
+  /* tables */
+  .ref-table{width:100%;border-collapse:collapse;font-size:var(--step--1)}
+  .ref-table th{text-align:left;font-family:var(--mono);color:var(--mute);font-weight:400;letter-spacing:.08em;text-transform:uppercase;font-size:.7rem;padding:0 1rem .7rem 0;border-bottom:1px solid var(--line-strong)}
+  .ref-table td{padding:.8rem 1rem .8rem 0;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink-dim);line-height:1.5}
+  .ref-table tr:last-child td{border-bottom:none}
+  .ref-table td.code{color:var(--signal);white-space:nowrap}
+  .ref-table td.pk{color:var(--ink);font-weight:600}
+
+  /* taxonomy */
+  .tax-grid{display:grid;gap:1.5rem;grid-template-columns:1fr}
+  @media(min-width:820px){.tax-grid{grid-template-columns:1fr 1fr}}
+  .tax-block{border:1px solid var(--line);border-radius:8px;padding:clamp(1.2rem,2.6vw,1.8rem);background:var(--ground-2)}
+  .tax-head{display:flex;align-items:center;gap:.8rem;margin-bottom:1.2rem}
+  .tax-head h3{font-size:var(--step-1);font-weight:800;letter-spacing:-.02em}
+
+  /* matrix */
+  .matrix-scroll{overflow-x:auto;padding-bottom:.6rem;-webkit-overflow-scrolling:touch}
+  .matrix{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(190px,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;min-width:960px}
+  .matrix-col{background:var(--ground);display:flex;flex-direction:column;gap:1px}
+  .matrix-head{background:var(--ground-2);padding:.9rem .8rem;display:flex;flex-direction:column;gap:.45rem;min-height:72px}
+  .matrix-head .mh-name{font-weight:700;font-size:.86rem;line-height:1.2;letter-spacing:-.01em}
+  .matrix-cell{background:var(--ground);padding:.7rem .8rem;font-size:.8rem;color:var(--ink-dim);display:flex;flex-direction:column;gap:.25rem;transition:background .2s,color .2s;border-top:1px solid var(--line)}
+  .matrix-cell:hover{background:color-mix(in srgb,var(--signal) 10%,var(--ground));color:var(--ink)}
+  .matrix-cell .cell-id{font-size:.66rem;color:var(--mute)}
+  .matrix-cell:hover .cell-id{color:var(--signal)}
+
+  /* technique detail */
+  .phase{margin-top:3rem;scroll-margin-top:76px}
+  .phase-head{display:flex;align-items:center;gap:.8rem}
+  .phase-head h3{font-size:var(--step-1);font-weight:800;letter-spacing:-.02em}
+  .phase-blurb{color:var(--ink-dim);margin:.7rem 0 1.4rem;max-width:64ch}
+  .tcards{display:grid;gap:1rem;grid-template-columns:1fr}
+  @media(min-width:720px){.tcards{grid-template-columns:1fr 1fr}}
+  .tcard{border:1px solid var(--line);border-radius:8px;padding:1.2rem 1.3rem;background:var(--ground-2);scroll-margin-top:80px;transition:border-color .3s,box-shadow .3s}
+  .tcard.flash{border-color:var(--signal);box-shadow:0 0 0 1px var(--signal),0 14px 40px -20px var(--signal)}
+  .tcard-top{display:flex;align-items:center;gap:.7rem;margin-bottom:1rem}
+  .tcard-top h4{font-size:var(--step-0);font-weight:700;letter-spacing:-.01em}
+  .tcard-body{display:grid;grid-template-columns:1fr;gap:.35rem}
+  .tcard-body dt{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin-top:.7rem}
+  .tcard-body dt:first-child{margin-top:0}
+  .tcard-body dt.def{color:var(--signal)}
+  .tcard-body dd{color:var(--ink-dim);font-size:var(--step--1);line-height:1.55}
+  .tcard-body dd.def{color:var(--ink)}
+
+  /* evidence + confidence */
+  .conf{margin-top:2.2rem;border:1px solid var(--line);border-radius:8px;padding:clamp(1.2rem,3vw,1.8rem);background:var(--ground-2)}
+  .conf-label{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.14em;text-transform:uppercase;color:var(--signal);margin-bottom:1.2rem}
+  .conf-row{display:flex;gap:1rem;align-items:baseline;padding:.6rem 0;border-bottom:1px solid var(--line)}
+  .conf-row:last-child{border-bottom:none}
+  .conf-tier{font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;padding:.25em .7em;border-radius:99px;border:1px solid currentColor;white-space:nowrap;flex-shrink:0;min-width:9ch;text-align:center}
+  .conf-tier.t0{color:var(--mute)}.conf-tier.t1{color:var(--amber)}.conf-tier.t2{color:var(--signal)}.conf-tier.t3{color:var(--signal)}
+  .conf-desc{color:var(--ink-dim);font-size:var(--step--1)}
+
+  /* library */
+  .lib-grid{display:grid;gap:1px;grid-template-columns:repeat(2,1fr);background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden;margin-bottom:2rem}
+  @media(min-width:720px){.lib-grid{grid-template-columns:repeat(4,1fr)}}
+  .lib-card{background:var(--ground-2);padding:1.6rem 1.3rem;display:flex;flex-direction:column;gap:.4rem}
+  .lib-n{font-size:var(--step-3);font-weight:800;color:var(--signal);line-height:1;font-variant-numeric:tabular-nums}
+  .lib-l{font-family:var(--mono);font-size:var(--step--1);color:var(--ink-dim);letter-spacing:.04em}
+  .lib-cta{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:2rem}
+  .btn{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.05em;padding:.9em 1.4em;border-radius:2px;cursor:pointer;border:1px solid transparent;display:inline-flex;align-items:center;gap:.6em;transition:transform .15s,box-shadow .2s,border-color .2s,color .2s;text-transform:uppercase}
+  .btn-primary{background:var(--signal);color:#04120C;font-weight:700}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 30px -10px var(--signal)}
+  .btn-ghost{background:transparent;color:var(--ink);border-color:var(--line-strong)}
+  .btn-ghost:hover{border-color:var(--signal);color:var(--signal)}
+
+  /* footer */
+  footer{border-top:1px solid var(--line);padding:2.6rem 0;font-family:var(--mono);font-size:var(--step--1);color:var(--mute)}
+  .foot-row{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;align-items:center}
+  .foot-row .sig{color:var(--signal)}
+  .foot-links{display:flex;gap:1.3rem;flex-wrap:wrap}
+  .foot-links a:hover{color:var(--signal)}
+
+  /* breadcrumbs */
+  .crumbs{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;font-family:var(--mono);font-size:var(--step--1);color:var(--mute);margin-bottom:1.4rem}
+  .crumbs a{color:var(--ink-dim);transition:color .2s}
+  .crumbs a:hover{color:var(--signal)}
+  .crumbs .sep{color:var(--mute);opacity:.6}
+  .crumbs .here{color:var(--signal)}
+  /* related pillars footer strip */
+  .related{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:2rem}
+  .related a{font-family:var(--mono);font-size:var(--step--1);border:1px solid var(--line);border-radius:99px;padding:.4em .95em;color:var(--ink-dim);transition:.2s}
+  .related a:hover{border-color:var(--signal);color:var(--signal)}
+  .related span{color:var(--mute);align-self:center}
+
+  .g-controls{position:sticky;top:53px;z-index:20;background:color-mix(in srgb,var(--ground) 94%,transparent);backdrop-filter:blur(8px);padding:1.2rem 0;border-bottom:1px solid var(--line);margin-bottom:1rem}
+  .g-search{position:relative}
+  .g-search input{width:100%;background:var(--ground-2);border:1px solid var(--line-strong);border-radius:6px;color:var(--ink);padding:.85rem 1rem .85rem 2.6rem;font-family:var(--mono);font-size:var(--step-0)}
+  .g-search input:focus{outline:none;border-color:var(--signal)}
+  .g-search .mag{position:absolute;left:1rem;top:50%;transform:translateY(-50%);color:var(--mute);font-family:var(--mono)}
+  .g-count{font-family:var(--mono);font-size:var(--step--1);color:var(--mute);margin:.4rem 0 1.4rem}
+  .glist{display:grid;gap:1rem;grid-template-columns:1fr}
+  @media(min-width:760px){.glist{grid-template-columns:1fr 1fr}}
+  .gterm{border:1px solid var(--line);border-radius:8px;background:var(--ground-2);padding:1.2rem 1.3rem;scroll-margin-top:80px}
+  .gterm-head{display:flex;align-items:baseline;gap:.7rem;flex-wrap:wrap}
+  .gterm-head h2{font-size:var(--step-1);font-weight:800;letter-spacing:-.02em}
+  .gterm-alias{font-family:var(--mono);font-size:var(--step--1);color:var(--mute)}
+  .gdef{color:var(--ink-dim);margin-top:.7rem;line-height:1.6}
+  .gdef code{font-size:.86em}
+  .gsee{margin-top:.9rem;display:flex;flex-wrap:wrap;gap:.5rem}
+  .gsee a{font-family:var(--mono);font-size:.72rem;letter-spacing:.03em;color:var(--signal);border:1px solid color-mix(in srgb,var(--signal) 35%,var(--line));border-radius:99px;padding:.25em .7em;transition:.2s}
+  .gsee a:hover{background:color-mix(in srgb,var(--signal) 12%,transparent)}
+  .gterm[hidden]{display:none}
+  .gempty{padding:2rem 1rem;text-align:center;color:var(--mute);font-family:var(--mono);font-size:var(--step--1);grid-column:1/-1}
+
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <a class="brand-min" href="/"><span class="dot" aria-hidden="true"></span>SPAMCRACKERS<span class="tld">.com</span></a>
+  <nav>
+    <a class="navlink" href="/intelligence/">Intelligence</a>
+    <a class="navlink" href="/#standard">The Standard</a>
+    <a class="navlink" href="/#lab">Check a domain</a>
+    <button class="themebtn" id="themebtn" type="button" aria-label="Toggle theme">◐ THEME</button>
+  </nav>
+</header>
+
+<section class="hero" style="padding-bottom:0">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span class="sep">/</span><span class="here">Glossary</span></nav>
+    <div class="eyebrow">Reference · plain language</div>
+    <h1>Glossary.</h1>
+    <p class="lede">The vocabulary of email abuse and authentication — <strong>40 terms</strong>, defined plainly. Every entry links to how the concept is exploited and how to defend against it, so a definition is only ever one click from action.</p>
+  </div>
+</section>
+
+<section style="border-top:none;padding-top:2rem">
+  <div class="wrap">
+    <div class="g-controls">
+      <div class="g-search"><span class="mag" aria-hidden="true">⌕</span><input id="gq" type="search" placeholder="Search 40 terms — e.g. DMARC, spoofing, AiTM…" aria-label="Search glossary" autocomplete="off" spellcheck="false" /></div>
+    </div>
+    <div class="g-count" id="gcount">Showing all 40 terms</div>
+    <div class="glist" id="glist">
+      <article class="gterm" id="term-advance-fee-fraud" data-text="advance-fee fraud 419 scam a scam promising a large payout that is only released after the victim pays a series of upfront fees.">
+        <div class="gterm-head"><h2>Advance-fee fraud</h2><span class="gterm-alias">419 scam</span></div>
+        <p class="gdef">A scam promising a large payout that is only released after the victim pays a series of upfront fees.</p>
+        <div class="gsee"><a href="/intelligence/scam/#SCM-EX-01">Technique ↗</a></div>
+      </article>
+      <article class="gterm" id="term-aitm" data-text="aitm adversary-in-the-middle a phishing technique using a live reverse proxy that relays to the real site, capturing the authenticated session and defeating many forms of mfa.">
+        <div class="gterm-head"><h2>AiTM</h2><span class="gterm-alias">Adversary-in-the-Middle</span></div>
+        <p class="gdef">A phishing technique using a live reverse proxy that relays to the real site, capturing the authenticated session and defeating many forms of MFA.</p>
+        <div class="gsee"><a href="/intelligence/phishing/#PHI-CC-02">Technique ↗</a></div>
+      </article>
+      <article class="gterm" id="term-arc" data-text="arc authenticated received chain a standard that preserves authentication results across intermediaries such as mailing lists and forwarders, so legitimate mail is not broken by forwarding.">
+        <div class="gterm-head"><h2>ARC</h2><span class="gterm-alias">Authenticated Received Chain</span></div>
+        <p class="gdef">A standard that preserves authentication results across intermediaries such as mailing lists and forwarders, so legitimate mail is not broken by forwarding.</p>
+        <div class="gsee"><a href="/intelligence/spoofing/#SPO-AU-05">Forwarder abuse ↗</a></div>
+      </article>
+      <article class="gterm" id="term-bec" data-text="bec business email compromise targeted fraud in which an attacker impersonates a trusted party — an executive or vendor — to redirect a payment. it carries no malware, only a plausible request.">
+        <div class="gterm-head"><h2>BEC</h2><span class="gterm-alias">Business Email Compromise</span></div>
+        <p class="gdef">Targeted fraud in which an attacker impersonates a trusted party — an executive or vendor — to redirect a payment. It carries no malware, only a plausible request.</p>
+        <div class="gsee"><a href="/intelligence/bec/">Pillar ↗</a></div>
+      </article>
+      <article class="gterm" id="term-bimi" data-text="bimi brand indicators for message identification a standard that lets a domain publish a logo shown next to authenticated mail. it requires an enforced dmarc policy, rewarding strong authentication with brand visibility.">
+        <div class="gterm-head"><h2>BIMI</h2><span class="gterm-alias">Brand Indicators for Message Identification</span></div>
+        <p class="gdef">A standard that lets a domain publish a logo shown next to authenticated mail. It requires an enforced DMARC policy, rewarding strong authentication with brand visibility.</p>
+        <div class="gsee"><a href="/playbook/#fix-DMARC">DMARC ↗</a></div>
+      </article>
+      <article class="gterm" id="term-botnet" data-text="botnet  a network of compromised machines used to send abuse at scale from many residential addresses.">
+        <div class="gterm-head"><h2>Botnet</h2></div>
+        <p class="gdef">A network of compromised machines used to send abuse at scale from many residential addresses.</p>
+        <div class="gsee"><a href="/intelligence/#SPM-IA-02">Technique ↗</a></div>
+      </article>
+      <article class="gterm" id="term-compromised-account" data-text="compromised account account takeover a legitimate mailbox taken over by an attacker and used to send trusted-looking abuse.">
+        <div class="gterm-head"><h2>Compromised account</h2><span class="gterm-alias">Account takeover</span></div>
+        <p class="gdef">A legitimate mailbox taken over by an attacker and used to send trusted-looking abuse.</p>
+        <div class="gsee"><a href="/intelligence/#SPM-IA-03">Technique ↗</a></div>
+      </article>
+      <article class="gterm" id="term-display-name-impersonation" data-text="display-name impersonation friendly-from spoofing forging only the friendly display name of a sender while the actual address does not match — effective because many clients hide the real address.">
+        <div class="gterm-head"><h2>Display-name impersonation</h2><span class="gterm-alias">Friendly-from spoofing</span></div>
+        <p class="gdef">Forging only the friendly display name of a sender while the actual address does not match — effective because many clients hide the real address.</p>
+        <div class="gsee"><a href="/intelligence/spoofing/#SPO-HD-02">Technique ↗</a></div>
+      </article>
+      <article class="gterm" id="term-dkim" data-text="dkim domainkeys identified mail an email authentication method that attaches a cryptographic signature to each message. receivers verify it with a public key published in dns, proving the message is genuine and unaltered.">
+        <div class="gterm-head"><h2>DKIM</h2><span class="gterm-alias">DomainKeys Identified Mail</span></div>
+        <p class="gdef">An email authentication method that attaches a cryptographic signature to each message. Receivers verify it with a public key published in DNS, proving the message is genuine and unaltered.</p>
+        <div class="gsee"><a href="/playbook/#fix-DKIM">Fix it ↗</a><a href="/intelligence/spoofing/#SPO-AU-02">Abuse ↗</a></div>
+      </article>
+      <article class="gterm" id="term-dkim-selector" data-text="dkim selector  a label that identifies which published key verifies a given dkim signature, allowing multiple and rotating keys per domain.">
+        <div class="gterm-head"><h2>DKIM selector</h2></div>
+        <p class="gdef">A label that identifies which published key verifies a given DKIM signature, allowing multiple and rotating keys per domain.</p>
+        <div class="gsee"><a href="/playbook/#fix-DKIM">Fix it ↗</a></div>
+      </article>
+      <article class="gterm" id="term-dmarc" data-text="dmarc domain-based message authentication, reporting and conformance a policy that ties spf and dkim to the visible from address and tells receivers what to do on failure — monitor, quarantine or reject. the only control that reliably stops exact-domain spoofing.">
+        <div class="gterm-head"><h2>DMARC</h2><span class="gterm-alias">Domain-based Message Authentication, Reporting and Conformance</span></div>
+        <p class="gdef">A policy that ties SPF and DKIM to the visible From address and tells receivers what to do on failure — monitor, quarantine or reject. The only control that reliably stops exact-domain spoofing.</p>
+        <div class="gsee"><a href="/playbook/#fix-DMARC">Fix it ↗</a><a href="/intelligence/spoofing/#SPO-AU-03">Abuse ↗</a></div>
+      </article>
+      <article class="gterm" id="term-dmarc-alignment" data-text="dmarc alignment adkim, aspf the requirement that the domain which passes spf or dkim matches the visible from domain. without alignment, a message can pass authentication for an unrelated domain yet still spoof yours.">
+        <div class="gterm-head"><h2>DMARC alignment</h2><span class="gterm-alias">adkim, aspf</span></div>
+        <p class="gdef">The requirement that the domain which passes SPF or DKIM matches the visible From domain. Without alignment, a message can pass authentication for an unrelated domain yet still spoof yours.</p>
+        <div class="gsee"><a href="/intelligence/spoofing/#SPO-AU-04">Technique ↗</a></div>
+      </article>
+      <article class="gterm" id="term-dmarc-policy" data-text="dmarc policy p=none, p=quarantine, p=reject the enforcement level a domain requests. none only monitors, quarantine sends failures to spam, and reject blocks them outright.">
+        <div class="gterm-head"><h2>DMARC policy</h2><span class="gterm-alias">p=none, p=quarantine, p=reject</span></div>
+        <p class="gdef">The enforcement level a domain requests. <code>none</code> only monitors, <code>quarantine</code> sends failures to spam, and <code>reject</code> blocks them outright.</p>
+        <div class="gsee"><a href="/playbook/#sequence">Rollout ↗</a></div>
+      </article>
+      <article class="gterm" id="term-dmarc-reporting" data-text="dmarc reporting rua, ruf addresses in a dmarc record where receivers send aggregate (rua) and forensic (ruf) reports, revealing who is sending as your domain.">
+        <div class="gterm-head"><h2>DMARC reporting</h2><span class="gterm-alias">rua, ruf</span></div>
+        <p class="gdef">Addresses in a DMARC record where receivers send aggregate (<code>rua</code>) and forensic (<code>ruf</code>) reports, revealing who is sending as your domain.</p>
+        <div class="gsee"><a href="/playbook/#fix-DMARC">Fix it ↗</a></div>
+      </article>
+      <article class="gterm" id="term-doh" data-text="doh dns over https dns queries carried over an encrypted https connection. spamcrackers uses doh to read a domain's public records directly in your browser.">
+        <div class="gterm-head"><h2>DoH</h2><span class="gterm-alias">DNS over HTTPS</span></div>
+        <p class="gdef">DNS queries carried over an encrypted HTTPS connection. SpamCrackers uses DoH to read a domain's public records directly in your browser.</p>
+        <div class="gsee"><a href="/#lab">The tool ↗</a></div>
+      </article>
+      <article class="gterm" id="term-envelope-from" data-text="envelope-from return-path, mail from the hidden sender address used during mail transfer and checked by spf — distinct from the visible from header.">
+        <div class="gterm-head"><h2>Envelope-from</h2><span class="gterm-alias">Return-Path, MAIL FROM</span></div>
+        <p class="gdef">The hidden sender address used during mail transfer and checked by SPF — distinct from the visible From header.</p>
+        <div class="gsee"><a href="/intelligence/spoofing/#SPO-HD-04">Header forgery ↗</a></div>
+      </article>
+      <article class="gterm" id="term-feedback-loop" data-text="feedback loop fbl an arrangement where a mailbox provider forwards spam complaints back to a sender, so abuse and list problems can be detected and stopped.">
+        <div class="gterm-head"><h2>Feedback loop</h2><span class="gterm-alias">FBL</span></div>
+        <p class="gdef">An arrangement where a mailbox provider forwards spam complaints back to a sender, so abuse and list problems can be detected and stopped.</p>
+        <div class="gsee"><a href="/intelligence/#SPM-IA-04">ESP abuse ↗</a></div>
+      </article>
+      <article class="gterm" id="term-header-from" data-text="header-from from header the visible sender address a recipient sees. dmarc aligns authentication to this address; spoofing it is the core of impersonation.">
+        <div class="gterm-head"><h2>Header-from</h2><span class="gterm-alias">From header</span></div>
+        <p class="gdef">The visible sender address a recipient sees. DMARC aligns authentication to this address; spoofing it is the core of impersonation.</p>
+        <div class="gsee"><a href="/intelligence/spoofing/#SPO-HD-01">Technique ↗</a></div>
+      </article>
+      <article class="gterm" id="term-homoglyph" data-text="homoglyph idn homograph a character that visually resembles another — often from a different alphabet — used to build domains that look identical to a legitimate one.">
+        <div class="gterm-head"><h2>Homoglyph</h2><span class="gterm-alias">IDN homograph</span></div>
+        <p class="gdef">A character that visually resembles another — often from a different alphabet — used to build domains that look identical to a legitimate one.</p>
+        <div class="gsee"><a href="/intelligence/spoofing/#SPO-DP-02">Technique ↗</a></div>
+      </article>
+      <article class="gterm" id="term-html-smuggling" data-text="html smuggling  a delivery technique where a benign-looking html attachment assembles the payload inside the browser, bypassing gateway scanning.">
+        <div class="gterm-head"><h2>HTML smuggling</h2></div>
+        <p class="gdef">A delivery technique where a benign-looking HTML attachment assembles the payload inside the browser, bypassing gateway scanning.</p>
+        <div class="gsee"><a href="/intelligence/mal/#MAL-PK-04">Malware ↗</a><a href="/intelligence/phishing/#PHI-DE-01">Phishing ↗</a></div>
+      </article>
+      <article class="gterm" id="term-loader" data-text="loader dropper a small first-stage program that installs and launches further malware once it runs.">
+        <div class="gterm-head"><h2>Loader</h2><span class="gterm-alias">Dropper</span></div>
+        <p class="gdef">A small first-stage program that installs and launches further malware once it runs.</p>
+        <div class="gsee"><a href="/intelligence/mal/#MAL-IN-01">Technique ↗</a></div>
+      </article>
+      <article class="gterm" id="term-lookalike-domain" data-text="lookalike domain cousin domain a domain registered to closely resemble a trusted one, using typos or swapped characters, to impersonate it convincingly.">
+        <div class="gterm-head"><h2>Lookalike domain</h2><span class="gterm-alias">Cousin domain</span></div>
+        <p class="gdef">A domain registered to closely resemble a trusted one, using typos or swapped characters, to impersonate it convincingly.</p>
+        <div class="gsee"><a href="/intelligence/spoofing/#SPO-DP-01">Technique ↗</a></div>
+      </article>
+      <article class="gterm" id="term-malspam" data-text="malspam malware spam unsolicited mail whose purpose is to deliver a malicious payload rather than to advertise.">
+        <div class="gterm-head"><h2>Malspam</h2><span class="gterm-alias">Malware spam</span></div>
+        <p class="gdef">Unsolicited mail whose purpose is to deliver a malicious payload rather than to advertise.</p>
+        <div class="gsee"><a href="/intelligence/mal/">Pillar ↗</a></div>
+      </article>
+      <article class="gterm" id="term-money-mule" data-text="money mule  a person recruited, often unknowingly, to receive and forward stolen funds, breaking the money trail for fraudsters.">
+        <div class="gterm-head"><h2>Money mule</h2></div>
+        <p class="gdef">A person recruited, often unknowingly, to receive and forward stolen funds, breaking the money trail for fraudsters.</p>
+        <div class="gsee"><a href="/intelligence/scam/#SCM-CO-01">Technique ↗</a></div>
+      </article>
+      <article class="gterm" id="term-mx-record" data-text="mx record mail exchange a dns record that directs a domain's inbound mail to the servers that receive it. without an mx record a domain cannot receive email.">
+        <div class="gterm-head"><h2>MX record</h2><span class="gterm-alias">Mail Exchange</span></div>
+        <p class="gdef">A DNS record that directs a domain's inbound mail to the servers that receive it. Without an MX record a domain cannot receive email.</p>
+        <div class="gsee"><a href="/playbook/#fix-MX">Fix it ↗</a></div>
+      </article>
+      <article class="gterm" id="term-newly-registered-domain" data-text="newly-registered domain nrd a domain registered very recently, with no reputation history. a common signal of throwaway abuse infrastructure.">
+        <div class="gterm-head"><h2>Newly-registered domain</h2><span class="gterm-alias">NRD</span></div>
+        <p class="gdef">A domain registered very recently, with no reputation history. A common signal of throwaway abuse infrastructure.</p>
+        <div class="gsee"><a href="/intelligence/spoofing/#SPO-DP-04">Technique ↗</a></div>
+      </article>
+      <article class="gterm" id="term-oauth-consent-phishing" data-text="oauth consent phishing illicit consent grant tricking a user into granting a malicious application permission to their account — no password is ever needed, and mfa does not help.">
+        <div class="gterm-head"><h2>OAuth consent phishing</h2><span class="gterm-alias">Illicit consent grant</span></div>
+        <p class="gdef">Tricking a user into granting a malicious application permission to their account — no password is ever needed, and MFA does not help.</p>
+        <div class="gsee"><a href="/intelligence/phishing/#PHI-CC-03">Technique ↗</a></div>
+      </article>
+      <article class="gterm" id="term-open-redirect" data-text="open redirect  a legitimate site's url that forwards to an arbitrary destination, abused to lend trust to a link that ends at a malicious page.">
+        <div class="gterm-head"><h2>Open redirect</h2></div>
+        <p class="gdef">A legitimate site's URL that forwards to an arbitrary destination, abused to lend trust to a link that ends at a malicious page.</p>
+        <div class="gsee"><a href="/intelligence/phishing/#PHI-DE-03">Delivery ↗</a></div>
+      </article>
+      <article class="gterm" id="term-phishing" data-text="phishing  deceptive messages that trick recipients into revealing credentials or data, usually via a cloned destination.">
+        <div class="gterm-head"><h2>Phishing</h2></div>
+        <p class="gdef">Deceptive messages that trick recipients into revealing credentials or data, usually via a cloned destination.</p>
+        <div class="gsee"><a href="/intelligence/phishing/">Pillar ↗</a></div>
+      </article>
+      <article class="gterm" id="term-quishing" data-text="quishing qr phishing phishing that delivers the malicious link as a qr code image, pushing the victim onto a less-protected personal device.">
+        <div class="gterm-head"><h2>Quishing</h2><span class="gterm-alias">QR phishing</span></div>
+        <p class="gdef">Phishing that delivers the malicious link as a QR code image, pushing the victim onto a less-protected personal device.</p>
+        <div class="gsee"><a href="/intelligence/phishing/#PHI-DE-02">Technique ↗</a></div>
+      </article>
+      <article class="gterm" id="term-reply-to" data-text="reply-to  a header that sets where replies are sent. a mismatch with the from address can quietly redirect a conversation to an attacker.">
+        <div class="gterm-head"><h2>Reply-to</h2></div>
+        <p class="gdef">A header that sets where replies are sent. A mismatch with the From address can quietly redirect a conversation to an attacker.</p>
+        <div class="gsee"><a href="/intelligence/spoofing/#SPO-HD-03">Technique ↗</a></div>
+      </article>
+      <article class="gterm" id="term-reputation-warming" data-text="reputation warming  gradually ramping volume on a new ip or domain with benign mail to build sender trust before abusing it.">
+        <div class="gterm-head"><h2>Reputation warming</h2></div>
+        <p class="gdef">Gradually ramping volume on a new IP or domain with benign mail to build sender trust before abusing it.</p>
+        <div class="gsee"><a href="/intelligence/#SPM-DE-02">Technique ↗</a></div>
+      </article>
+      <article class="gterm" id="term-snowshoe-spamming" data-text="snowshoe spamming  spreading spam thinly across many ip addresses and domains so no single source crosses a reputation or rate threshold.">
+        <div class="gterm-head"><h2>Snowshoe spamming</h2></div>
+        <p class="gdef">Spreading spam thinly across many IP addresses and domains so no single source crosses a reputation or rate threshold.</p>
+        <div class="gsee"><a href="/intelligence/#SPM-IA-01">Technique ↗</a></div>
+      </article>
+      <article class="gterm" id="term-spear-phishing" data-text="spear phishing  phishing tailored to a specific individual using researched detail, far harder to spot than mass phishing.">
+        <div class="gterm-head"><h2>Spear phishing</h2></div>
+        <p class="gdef">Phishing tailored to a specific individual using researched detail, far harder to spot than mass phishing.</p>
+        <div class="gsee"><a href="/intelligence/phishing/#taxonomy">Taxonomy ↗</a></div>
+      </article>
+      <article class="gterm" id="term-spf" data-text="spf sender policy framework a dns txt record listing which mail servers are authorised to send for a domain. receivers check it against the connecting server; a record ending in -all asks them to reject everything else.">
+        <div class="gterm-head"><h2>SPF</h2><span class="gterm-alias">Sender Policy Framework</span></div>
+        <p class="gdef">A DNS TXT record listing which mail servers are authorised to send for a domain. Receivers check it against the connecting server; a record ending in <code>-all</code> asks them to reject everything else.</p>
+        <div class="gsee"><a href="/playbook/#fix-SPF">Fix it ↗</a><a href="/intelligence/spoofing/#SPO-AU-01">Abuse ↗</a></div>
+      </article>
+      <article class="gterm" id="term-spf-flattening" data-text="spf flattening  replacing nested spf include: mechanisms with their resolved ip addresses to stay within the 10-lookup limit.">
+        <div class="gterm-head"><h2>SPF flattening</h2></div>
+        <p class="gdef">Replacing nested SPF <code>include:</code> mechanisms with their resolved IP addresses to stay within the 10-lookup limit.</p>
+        <div class="gsee"><a href="/playbook/#fix-SPF">Fix it ↗</a></div>
+      </article>
+      <article class="gterm" id="term-spf-qualifier" data-text="spf qualifier -all, ~all, ?all the final mechanism of an spf record. -all is a hard fail (reject), ~all a soft fail (accept but mark), and ?all neutral (no opinion).">
+        <div class="gterm-head"><h2>SPF qualifier</h2><span class="gterm-alias">-all, ~all, ?all</span></div>
+        <p class="gdef">The final mechanism of an SPF record. <code>-all</code> is a hard fail (reject), <code>~all</code> a soft fail (accept but mark), and <code>?all</code> neutral (no opinion).</p>
+        <div class="gsee"><a href="/playbook/#fix-SPF">Fix it ↗</a></div>
+      </article>
+      <article class="gterm" id="term-spoofing" data-text="spoofing email spoofing forging the sender identity of a message so it appears to come from a trusted domain or person. the root enabler beneath most other email abuse.">
+        <div class="gterm-head"><h2>Spoofing</h2><span class="gterm-alias">Email spoofing</span></div>
+        <p class="gdef">Forging the sender identity of a message so it appears to come from a trusted domain or person. The root enabler beneath most other email abuse.</p>
+        <div class="gsee"><a href="/intelligence/spoofing/">Pillar ↗</a></div>
+      </article>
+      <article class="gterm" id="term-vec" data-text="vec vendor email compromise a form of bec where a supplier's real mailbox is compromised and used to defraud its customers, often via a banking-detail change.">
+        <div class="gterm-head"><h2>VEC</h2><span class="gterm-alias">Vendor Email Compromise</span></div>
+        <p class="gdef">A form of BEC where a supplier's real mailbox is compromised and used to defraud its customers, often via a banking-detail change.</p>
+        <div class="gsee"><a href="/intelligence/bec/#BEC-AC-02">Technique ↗</a></div>
+      </article>
+      <article class="gterm" id="term-whaling" data-text="whaling  phishing aimed at executives and other high-value decision-makers.">
+        <div class="gterm-head"><h2>Whaling</h2></div>
+        <p class="gdef">Phishing aimed at executives and other high-value decision-makers.</p>
+        <div class="gsee"><a href="/intelligence/phishing/#taxonomy">Taxonomy ↗</a></div>
+      </article>
+      <div class="gempty" id="gempty" hidden>No terms match — try another word.</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-row">
+    <span><span class="sig">SPAMCRACKERS</span>.COM — Glossary · 40 terms · Reference Model v1.0</span>
+    <div class="foot-links">
+      <a href="/">Home</a>
+      <a href="/intelligence/">Intelligence</a>
+      <a href="/playbook/">Playbook</a>
+      <a href="/#faq">FAQ</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var root=document.documentElement, tbtn=document.getElementById("themebtn");
+  tbtn.addEventListener("click", function(){
+    var isDark = root.getAttribute("data-theme")==="dark" || (!root.getAttribute("data-theme") && window.matchMedia("(prefers-color-scheme: dark)").matches);
+    root.setAttribute("data-theme", isDark ? "light" : "dark");
+  });
+  var q=document.getElementById("gq"), count=document.getElementById("gcount"), empty=document.getElementById("gempty");
+  var terms=[].slice.call(document.querySelectorAll(".gterm")), TOTAL=40;
+  q.addEventListener("input", function(){
+    var t=(q.value||"").trim().toLowerCase(), shown=0;
+    terms.forEach(function(el){ var vis=!t||el.getAttribute("data-text").indexOf(t)>-1; el.hidden=!vis; if(vis)shown++; });
+    empty.hidden=shown>0;
+    count.textContent = t ? ("Showing "+shown+" of "+TOTAL+" terms") : ("Showing all "+TOTAL+" terms");
+  });
+})();
+</script>
+</body>
+</html>
