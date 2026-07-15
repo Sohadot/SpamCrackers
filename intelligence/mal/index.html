@@ -1,0 +1,1095 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Malware Delivery — Reference Model v1.0 | SpamCrackers</title>
+<meta name="description" content="A defensive, analytical reference model for email malware delivery: taxonomy, tactics and techniques (macro documents, HTML smuggling, password-gated archives, loaders, persistence) and an evidence model. The fourth pillar of Email Abuse Intelligence." />
+<link rel="canonical" href="https://spamcrackers.com/intelligence/mal/" />
+<meta name="robots" content="index, follow, max-image-preview:large" />
+<meta name="theme-color" content="#08090D" media="(prefers-color-scheme: dark)" />
+<meta name="theme-color" content="#ECEDE8" media="(prefers-color-scheme: light)" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2308090D'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%232FE39B'/%3E%3C/svg%3E" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="SpamCrackers" />
+<meta property="og:url" content="https://spamcrackers.com/intelligence/mal/" />
+<meta property="og:title" content="Malware Delivery — Reference Model v1.0" />
+<meta property="og:description" content="A defensive, analytical reference model for email malware delivery. The fourth pillar of Email Abuse Intelligence." />
+<meta property="og:image" content="https://spamcrackers.com/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Malware Delivery — Reference Model v1.0" />
+<meta name="twitter:description" content="The malware-delivery pillar of the Email Abuse Intelligence reference. Defensive and analytical — never operational." />
+<meta name="twitter:image" content="https://spamcrackers.com/og-image.png" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "@id": "https://spamcrackers.com/intelligence/mal/#article",
+      "headline": "Malware Delivery — Reference Model v1.0",
+      "description": "A defensive, analytical reference model for email malware delivery: taxonomy, tactics and techniques (macro documents, HTML smuggling, password-gated archives, loaders and persistence), and the shared evidence model. The fourth pillar of Email Abuse Intelligence.",
+      "url": "https://spamcrackers.com/intelligence/mal/",
+      "isPartOf": {
+        "@id": "https://spamcrackers.com/#website"
+      },
+      "inLanguage": "en",
+      "version": "1.0",
+      "about": [
+        "malware delivery",
+        "malspam",
+        "loader",
+        "ransomware",
+        "HTML smuggling",
+        "email security"
+      ],
+      "publisher": {
+        "@type": "Organization",
+        "name": "SpamCrackers",
+        "url": "https://spamcrackers.com/"
+      }
+    },
+    {
+      "@type": "DefinedTermSet",
+      "@id": "https://spamcrackers.com/intelligence/mal/#model",
+      "name": "Email Abuse Intelligence Reference Model v1.0 — Malware pillar",
+      "url": "https://spamcrackers.com/intelligence/mal/",
+      "hasDefinedTerm": [
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/mal/#MAL-PK-01",
+          "termCode": "MAL-PK-01",
+          "name": "Direct executable attachment",
+          "description": "An executable is attached, often disguised by icon or double extension."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/mal/#MAL-PK-02",
+          "termCode": "MAL-PK-02",
+          "name": "Macro-enabled document",
+          "description": "An office document carries macros that fetch or run the payload when enabled."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/mal/#MAL-PK-03",
+          "termCode": "MAL-PK-03",
+          "name": "Shortcut & script files",
+          "description": "LNK shortcuts or script files (JS, HTA, VBS) invoke an interpreter to run code."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/mal/#MAL-PK-04",
+          "termCode": "MAL-PK-04",
+          "name": "HTML smuggling package",
+          "description": "A benign-looking HTML file assembles the payload in the browser to bypass gateways."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/mal/#MAL-PK-05",
+          "termCode": "MAL-PK-05",
+          "name": "Password-protected archive",
+          "description": "The payload is placed in an archive whose password is given in the email body, keeping scanners out."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/mal/#MAL-DL-01",
+          "termCode": "MAL-DL-01",
+          "name": "Attachment delivery",
+          "description": "The payload rides directly in the message as a file."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/mal/#MAL-DL-02",
+          "termCode": "MAL-DL-02",
+          "name": "Link to hosted payload",
+          "description": "A link leads to a download rather than carrying the file."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/mal/#MAL-DL-03",
+          "termCode": "MAL-DL-03",
+          "name": "Cloud-service staging",
+          "description": "The file is hosted on a reputable cloud service to borrow its trust."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/mal/#MAL-DL-04",
+          "termCode": "MAL-DL-04",
+          "name": "Reply-chain delivery",
+          "description": "The lure is inserted into a genuine thread to raise trust (bridges PHI-LP-05)."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/mal/#MAL-DL-05",
+          "termCode": "MAL-DL-05",
+          "name": "Malvertising redirect",
+          "description": "Delivery arrives via an advertising or redirect network to the payload."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/mal/#MAL-EV-01",
+          "termCode": "MAL-EV-01",
+          "name": "Sandbox evasion",
+          "description": "Execution is withheld when analysis environments are detected."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/mal/#MAL-EV-02",
+          "termCode": "MAL-EV-02",
+          "name": "Packing & obfuscation",
+          "description": "Code is compressed or scrambled to defeat static signatures."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/mal/#MAL-EV-03",
+          "termCode": "MAL-EV-03",
+          "name": "Password gating",
+          "description": "An archive password in the email keeps gateway scanners out of the payload."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/mal/#MAL-EV-04",
+          "termCode": "MAL-EV-04",
+          "name": "Geo & time gating",
+          "description": "The payload serves only to certain regions or times to dodge analysis."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/mal/#MAL-EV-05",
+          "termCode": "MAL-EV-05",
+          "name": "Benign-first staging",
+          "description": "Early stages appear harmless; capability is fetched only later."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/mal/#MAL-EX-01",
+          "termCode": "MAL-EX-01",
+          "name": "Macro execution",
+          "description": "Enabled macros run the fetch-and-execute logic."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/mal/#MAL-EX-02",
+          "termCode": "MAL-EX-02",
+          "name": "Script-host execution",
+          "description": "A shortcut or script triggers an interpreter to run the payload."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/mal/#MAL-EX-03",
+          "termCode": "MAL-EX-03",
+          "name": "Document exploit",
+          "description": "A viewer vulnerability runs code without user action."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/mal/#MAL-EX-04",
+          "termCode": "MAL-EX-04",
+          "name": "User-run persuasion",
+          "description": "Social engineering convinces the user to run the file themselves."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/mal/#MAL-EX-05",
+          "termCode": "MAL-EX-05",
+          "name": "Living-off-the-land",
+          "description": "Trusted system binaries are abused to execute or fetch the payload."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/mal/#MAL-IN-01",
+          "termCode": "MAL-IN-01",
+          "name": "Dropper / loader stage",
+          "description": "A first stage installs and launches the main payload."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/mal/#MAL-IN-02",
+          "termCode": "MAL-IN-02",
+          "name": "Autostart persistence",
+          "description": "Registry keys or scheduled tasks re-launch the payload after reboot."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/mal/#MAL-IN-03",
+          "termCode": "MAL-IN-03",
+          "name": "DLL side-loading",
+          "description": "A trusted application is made to load a malicious library."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/mal/#MAL-IN-04",
+          "termCode": "MAL-IN-04",
+          "name": "Defence tampering",
+          "description": "Security tooling is disabled or blinded to protect the foothold."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/mal/#MAL-OB-01",
+          "termCode": "MAL-OB-01",
+          "name": "Data theft",
+          "description": "Credentials, cookies, files and secrets are exfiltrated."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/mal/#MAL-OB-02",
+          "termCode": "MAL-OB-02",
+          "name": "Ransomware impact",
+          "description": "Data is encrypted or stolen for extortion."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/mal/#MAL-OB-03",
+          "termCode": "MAL-OB-03",
+          "name": "Remote control",
+          "description": "An operator gains interactive command of the host."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/mal/#MAL-OB-04",
+          "termCode": "MAL-OB-04",
+          "name": "Lateral movement",
+          "description": "The foothold is used to reach further systems."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/mal/#MAL-OB-05",
+          "termCode": "MAL-OB-05",
+          "name": "Onward propagation",
+          "description": "The host is used to send further malicious mail (bridges SPM-IA-02)."
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "SpamCrackers",
+          "item": "https://spamcrackers.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Email Abuse Intelligence",
+          "item": "https://spamcrackers.com/intelligence/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Malware Delivery",
+          "item": "https://spamcrackers.com/intelligence/mal/"
+        }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+  :root{
+    --ground:#08090D; --ground-2:#0D0F15; --panel:#11141C;
+    --ink:#D9DEE6; --ink-dim:#9AA3B0; --mute:#5A6472;
+    --line:rgba(217,222,230,.10); --line-strong:rgba(217,222,230,.20);
+    --signal:#2FE39B; --noise:#FF3B6B; --amber:#F6C560; --focus:#7FE3FF;
+    --maxw:1180px; --narrow:760px;
+    --step--1:clamp(.78rem,.72rem + .3vw,.9rem);
+    --step-0:clamp(.98rem,.92rem + .3vw,1.06rem);
+    --step-1:clamp(1.2rem,1.05rem + .7vw,1.5rem);
+    --step-2:clamp(1.6rem,1.2rem + 1.8vw,2.4rem);
+    --step-3:clamp(2.2rem,1.5rem + 3.2vw,3.6rem);
+    --step-4:clamp(2.8rem,1.8rem + 5vw,5.2rem);
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,Roboto,Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,"SF Mono","SFMono-Regular",Menlo,Consolas,"Liberation Mono",monospace;
+  }
+  :root[data-theme="light"]{
+    --ground:#ECEDE8; --ground-2:#F4F5F1; --panel:#FFFFFF;
+    --ink:#0F1218; --ink-dim:#454E5B; --mute:#78828F;
+    --line:rgba(15,18,24,.12); --line-strong:rgba(15,18,24,.22);
+    --signal:#0F9E6A; --noise:#E01E52; --amber:#B77A11;
+  }
+  @media (prefers-color-scheme: light){
+    :root:not([data-theme="dark"]){
+      --ground:#ECEDE8; --ground-2:#F4F5F1; --panel:#FFFFFF;
+      --ink:#0F1218; --ink-dim:#454E5B; --mute:#78828F;
+      --line:rgba(15,18,24,.12); --line-strong:rgba(15,18,24,.22);
+      --signal:#0F9E6A; --noise:#E01E52; --amber:#B77A11;
+    }
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;scroll-padding-top:70px}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:var(--step-0);line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  ::selection{background:var(--signal);color:var(--ground)}
+  a{color:inherit;text-decoration:none}
+  :focus-visible{outline:2px solid var(--focus);outline-offset:3px;border-radius:2px}
+  .wrap{max-width:var(--maxw);margin-inline:auto;padding-inline:clamp(1.1rem,4vw,3rem)}
+  .wrap.narrow{max-width:calc(var(--narrow) + 6rem)}
+  .mono{font-family:var(--mono)}
+  code{font-family:var(--mono);font-size:.88em;color:var(--signal);background:color-mix(in srgb,var(--signal) 12%,transparent);padding:.1em .42em;border-radius:3px;word-break:break-word}
+  .ilink{color:var(--signal);border-bottom:1px solid color-mix(in srgb,var(--signal) 45%,transparent);transition:border-color .2s}
+  .ilink:hover{border-color:var(--signal)}
+  .eyebrow{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.26em;text-transform:uppercase;color:var(--signal);display:inline-flex;align-items:center;gap:.6em}
+  .eyebrow::before{content:"";width:24px;height:1px;background:var(--signal);opacity:.7}
+
+  /* id chips */
+  .idchip{font-family:var(--mono);font-size:.7rem;letter-spacing:.06em;color:var(--signal);border:1px solid color-mix(in srgb,var(--signal) 45%,var(--line));border-radius:4px;padding:.2em .5em;white-space:nowrap;background:color-mix(in srgb,var(--signal) 8%,transparent)}
+  .idchip-link{transition:background .2s}
+  .idchip-link:hover{background:color-mix(in srgb,var(--signal) 20%,transparent)}
+
+  /* top bar */
+  header.bar{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:.8rem clamp(1.1rem,4vw,3rem);font-family:var(--mono);font-size:var(--step--1);letter-spacing:.05em;backdrop-filter:blur(9px);background:color-mix(in srgb,var(--ground) 75%,transparent);border-bottom:1px solid var(--line)}
+  .brand-min{display:flex;align-items:center;gap:.55rem;font-weight:700}
+  .brand-min .dot{width:9px;height:9px;background:var(--signal);border-radius:50%;box-shadow:0 0 12px var(--signal)}
+  .brand-min .tld{color:var(--mute)}
+  .bar nav{display:flex;align-items:center;gap:clamp(.7rem,1.8vw,1.5rem);color:var(--ink-dim)}
+  .bar nav a{transition:color .2s}.bar nav a:hover{color:var(--signal)}
+  .bar .navlink{display:none}
+  @media(min-width:900px){.bar .navlink{display:inline}}
+  .themebtn{font-family:var(--mono);font-size:var(--step--1);background:transparent;border:1px solid var(--line-strong);color:var(--ink-dim);padding:.35em .7em;border-radius:2px;cursor:pointer;letter-spacing:.1em;transition:.2s}
+  .themebtn:hover{border-color:var(--signal);color:var(--signal)}
+
+  /* sections */
+  section{position:relative;padding:clamp(3.6rem,7vw,6rem) 0;border-top:1px solid var(--line)}
+  .hero{border-top:none;padding-top:clamp(7rem,13vw,10rem)}
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion: reduce){.reveal{opacity:1;transform:none;transition:none}}
+  .sec-head{max-width:64ch;margin-bottom:2.4rem}
+  .sec-head h2{font-weight:800;font-size:var(--step-2);line-height:1.05;letter-spacing:-.025em;margin-top:1rem;text-wrap:balance}
+  .sec-head .sub{margin-top:1rem;color:var(--ink-dim);max-width:60ch}
+
+  /* hero */
+  .hero h1{font-weight:800;font-size:var(--step-4);line-height:.98;letter-spacing:-.035em;margin-top:1.4rem;text-wrap:balance}
+  .hero .hl{color:var(--signal)}
+  .hero .lede{margin-top:1.8rem;font-size:var(--step-1);line-height:1.45;color:var(--ink);max-width:54ch;text-wrap:pretty}
+  .hero .lede strong{color:var(--signal);font-weight:700}
+  .meta-chips{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:2.2rem}
+  .meta-chips .chip{font-family:var(--mono);font-size:var(--step--1);border:1px solid var(--line);border-radius:99px;padding:.45em .95em;color:var(--ink-dim)}
+  .meta-chips .chip b{color:var(--mute);font-weight:400;letter-spacing:.08em;text-transform:uppercase;font-size:.82em;margin-right:.5em}
+  .meta-chips .chip.stance{border-color:color-mix(in srgb,var(--signal) 45%,var(--line));color:var(--signal)}
+  .meta-chips .chip.stance b{color:color-mix(in srgb,var(--signal) 70%,var(--ink-dim))}
+
+  /* prose */
+  .prose p{max-width:68ch;margin-bottom:1.2rem;color:var(--ink-dim)}
+  .prose p:last-child{margin-bottom:0}
+  .prose strong{color:var(--ink)}
+  .prose em{color:var(--signal);font-style:normal}
+
+  /* boundaries */
+  .bound-grid{display:grid;gap:1px;grid-template-columns:1fr;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  @media(min-width:720px){.bound-grid{grid-template-columns:1fr 1fr}}
+  .bound{background:var(--ground-2);padding:clamp(1.4rem,3vw,2.2rem)}
+  .bound-label{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.14em;text-transform:uppercase;margin-bottom:1.1rem;display:flex;align-items:center;gap:.6em}
+  .bound-label::before{content:"";width:10px;height:10px;border-radius:50%}
+  .bound-label.ok{color:var(--signal)}.bound-label.ok::before{background:var(--signal)}
+  .bound-label.no{color:var(--noise)}.bound-label.no::before{background:var(--noise)}
+  .bound ul{list-style:none;display:flex;flex-direction:column;gap:.75rem}
+  .bound li{position:relative;padding-left:1.5rem;color:var(--ink-dim);line-height:1.5}
+  .bound li b{color:var(--ink)}
+  .bound.is li::before{content:"✓";position:absolute;left:0;color:var(--signal);font-family:var(--mono)}
+  .bound.not li::before{content:"✕";position:absolute;left:0;color:var(--noise);font-family:var(--mono)}
+  .bound-note{margin-top:1.6rem;font-family:var(--mono);font-size:var(--step--1);color:var(--ink-dim);line-height:1.7;border-left:2px solid var(--signal);padding-left:1.2rem;max-width:74ch}
+  .bound-note b{color:var(--signal)}
+
+  /* pillars */
+  .pillar-grid{display:grid;gap:1px;grid-template-columns:1fr;background:var(--line);border:1px solid var(--line)}
+  @media(min-width:620px){.pillar-grid{grid-template-columns:repeat(2,1fr)}}
+  @media(min-width:960px){.pillar-grid{grid-template-columns:repeat(3,1fr)}}
+  .pillar{background:var(--ground);padding:clamp(1.4rem,2.6vw,2rem);display:flex;flex-direction:column;gap:.6rem;transition:background .3s}
+  .pillar:hover{background:var(--ground-2)}
+  .pillar-top{display:flex;align-items:center;justify-content:space-between;gap:.6rem}
+  .pill-status{font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+  .pillar.active{background:color-mix(in srgb,var(--signal) 6%,var(--ground))}
+  .pillar.active .pill-status{color:var(--signal)}
+  .pillar h3{font-size:var(--step-1);font-weight:800;letter-spacing:-.02em}
+  .pillar p{color:var(--ink-dim);font-size:var(--step--1);line-height:1.55}
+  .pillar.planned{opacity:.82}
+
+  /* cite */
+  .cite{border:1px solid var(--line);border-radius:8px;padding:clamp(1.2rem,3vw,1.8rem);background:var(--ground-2)}
+  .cite-label{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.14em;text-transform:uppercase;color:var(--signal);margin-bottom:.8rem}
+  .cite p{color:var(--ink-dim);max-width:70ch}
+
+  /* tables */
+  .ref-table{width:100%;border-collapse:collapse;font-size:var(--step--1)}
+  .ref-table th{text-align:left;font-family:var(--mono);color:var(--mute);font-weight:400;letter-spacing:.08em;text-transform:uppercase;font-size:.7rem;padding:0 1rem .7rem 0;border-bottom:1px solid var(--line-strong)}
+  .ref-table td{padding:.8rem 1rem .8rem 0;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink-dim);line-height:1.5}
+  .ref-table tr:last-child td{border-bottom:none}
+  .ref-table td.code{color:var(--signal);white-space:nowrap}
+  .ref-table td.pk{color:var(--ink);font-weight:600}
+
+  /* taxonomy */
+  .tax-grid{display:grid;gap:1.5rem;grid-template-columns:1fr}
+  @media(min-width:820px){.tax-grid{grid-template-columns:1fr 1fr}}
+  .tax-block{border:1px solid var(--line);border-radius:8px;padding:clamp(1.2rem,2.6vw,1.8rem);background:var(--ground-2)}
+  .tax-head{display:flex;align-items:center;gap:.8rem;margin-bottom:1.2rem}
+  .tax-head h3{font-size:var(--step-1);font-weight:800;letter-spacing:-.02em}
+
+  /* matrix */
+  .matrix-scroll{overflow-x:auto;padding-bottom:.6rem;-webkit-overflow-scrolling:touch}
+  .matrix{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(190px,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;min-width:960px}
+  .matrix-col{background:var(--ground);display:flex;flex-direction:column;gap:1px}
+  .matrix-head{background:var(--ground-2);padding:.9rem .8rem;display:flex;flex-direction:column;gap:.45rem;min-height:72px}
+  .matrix-head .mh-name{font-weight:700;font-size:.86rem;line-height:1.2;letter-spacing:-.01em}
+  .matrix-cell{background:var(--ground);padding:.7rem .8rem;font-size:.8rem;color:var(--ink-dim);display:flex;flex-direction:column;gap:.25rem;transition:background .2s,color .2s;border-top:1px solid var(--line)}
+  .matrix-cell:hover{background:color-mix(in srgb,var(--signal) 10%,var(--ground));color:var(--ink)}
+  .matrix-cell .cell-id{font-size:.66rem;color:var(--mute)}
+  .matrix-cell:hover .cell-id{color:var(--signal)}
+
+  /* technique detail */
+  .phase{margin-top:3rem;scroll-margin-top:76px}
+  .phase-head{display:flex;align-items:center;gap:.8rem}
+  .phase-head h3{font-size:var(--step-1);font-weight:800;letter-spacing:-.02em}
+  .phase-blurb{color:var(--ink-dim);margin:.7rem 0 1.4rem;max-width:64ch}
+  .tcards{display:grid;gap:1rem;grid-template-columns:1fr}
+  @media(min-width:720px){.tcards{grid-template-columns:1fr 1fr}}
+  .tcard{border:1px solid var(--line);border-radius:8px;padding:1.2rem 1.3rem;background:var(--ground-2);scroll-margin-top:80px;transition:border-color .3s,box-shadow .3s}
+  .tcard.flash{border-color:var(--signal);box-shadow:0 0 0 1px var(--signal),0 14px 40px -20px var(--signal)}
+  .tcard-top{display:flex;align-items:center;gap:.7rem;margin-bottom:1rem}
+  .tcard-top h4{font-size:var(--step-0);font-weight:700;letter-spacing:-.01em}
+  .tcard-body{display:grid;grid-template-columns:1fr;gap:.35rem}
+  .tcard-body dt{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin-top:.7rem}
+  .tcard-body dt:first-child{margin-top:0}
+  .tcard-body dt.def{color:var(--signal)}
+  .tcard-body dd{color:var(--ink-dim);font-size:var(--step--1);line-height:1.55}
+  .tcard-body dd.def{color:var(--ink)}
+
+  /* evidence + confidence */
+  .conf{margin-top:2.2rem;border:1px solid var(--line);border-radius:8px;padding:clamp(1.2rem,3vw,1.8rem);background:var(--ground-2)}
+  .conf-label{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.14em;text-transform:uppercase;color:var(--signal);margin-bottom:1.2rem}
+  .conf-row{display:flex;gap:1rem;align-items:baseline;padding:.6rem 0;border-bottom:1px solid var(--line)}
+  .conf-row:last-child{border-bottom:none}
+  .conf-tier{font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;padding:.25em .7em;border-radius:99px;border:1px solid currentColor;white-space:nowrap;flex-shrink:0;min-width:9ch;text-align:center}
+  .conf-tier.t0{color:var(--mute)}.conf-tier.t1{color:var(--amber)}.conf-tier.t2{color:var(--signal)}.conf-tier.t3{color:var(--signal)}
+  .conf-desc{color:var(--ink-dim);font-size:var(--step--1)}
+
+  /* library */
+  .lib-grid{display:grid;gap:1px;grid-template-columns:repeat(2,1fr);background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden;margin-bottom:2rem}
+  @media(min-width:720px){.lib-grid{grid-template-columns:repeat(4,1fr)}}
+  .lib-card{background:var(--ground-2);padding:1.6rem 1.3rem;display:flex;flex-direction:column;gap:.4rem}
+  .lib-n{font-size:var(--step-3);font-weight:800;color:var(--signal);line-height:1;font-variant-numeric:tabular-nums}
+  .lib-l{font-family:var(--mono);font-size:var(--step--1);color:var(--ink-dim);letter-spacing:.04em}
+  .lib-cta{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:2rem}
+  .btn{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.05em;padding:.9em 1.4em;border-radius:2px;cursor:pointer;border:1px solid transparent;display:inline-flex;align-items:center;gap:.6em;transition:transform .15s,box-shadow .2s,border-color .2s,color .2s;text-transform:uppercase}
+  .btn-primary{background:var(--signal);color:#04120C;font-weight:700}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 30px -10px var(--signal)}
+  .btn-ghost{background:transparent;color:var(--ink);border-color:var(--line-strong)}
+  .btn-ghost:hover{border-color:var(--signal);color:var(--signal)}
+
+  /* footer */
+  footer{border-top:1px solid var(--line);padding:2.6rem 0;font-family:var(--mono);font-size:var(--step--1);color:var(--mute)}
+  .foot-row{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;align-items:center}
+  .foot-row .sig{color:var(--signal)}
+  .foot-links{display:flex;gap:1.3rem;flex-wrap:wrap}
+  .foot-links a:hover{color:var(--signal)}
+
+  /* breadcrumbs */
+  .crumbs{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;font-family:var(--mono);font-size:var(--step--1);color:var(--mute);margin-bottom:1.4rem}
+  .crumbs a{color:var(--ink-dim);transition:color .2s}
+  .crumbs a:hover{color:var(--signal)}
+  .crumbs .sep{color:var(--mute);opacity:.6}
+  .crumbs .here{color:var(--signal)}
+  /* related pillars footer strip */
+  .related{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:2rem}
+  .related a{font-family:var(--mono);font-size:var(--step--1);border:1px solid var(--line);border-radius:99px;padding:.4em .95em;color:var(--ink-dim);transition:.2s}
+  .related a:hover{border-color:var(--signal);color:var(--signal)}
+  .related span{color:var(--mute);align-self:center}
+
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <a class="brand-min" href="/"><span class="dot" aria-hidden="true"></span>SPAMCRACKERS<span class="tld">.com</span></a>
+  <nav>
+    <a class="navlink" href="/intelligence/">Intelligence</a>
+    <a class="navlink" href="#model">Reference Model</a>
+    <a class="navlink" href="#matrix">Techniques</a>
+    <a class="navlink" href="/#lab">Check a domain</a>
+    <button class="themebtn" id="themebtn" type="button" aria-label="Toggle theme">◐ THEME</button>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span class="sep">/</span><a href="/intelligence/">Email Abuse Intelligence</a><span class="sep">/</span><span class="here">Malware Delivery</span></nav>
+    <div class="eyebrow">Email Abuse Intelligence · Pillar MAL</div>
+    <h1>Malware Delivery.</h1>
+    <p class="lede">Mail is the oldest and busiest delivery route for malicious code — from macro documents to HTML smuggling and password-gated archives. This pillar models how a payload is packaged, delivered, evaded, executed and entrenched. The fourth pillar of <a class="ilink" href="/intelligence/">Email Abuse Intelligence</a>.</p>
+    <div class="meta-chips">
+      <span class="chip"><b>Namespace</b> EAI · MAL</span>
+      <span class="chip"><b>Release</b> v1.0</span>
+      <span class="chip stance"><b>Posture</b> Defensive &amp; analytical</span>
+      <span class="chip"><b>Techniques</b> 29</span>
+    </div>
+  </div>
+</section>
+
+<section id="thesis">
+  <div class="wrap narrow">
+    <div class="sec-head reveal"><span class="eyebrow">01 · Pillar thesis</span><h2>The envelope is the exploit.</h2></div>
+    <div class="prose reveal">
+      <p>For decades the fastest way onto a machine has been to ask a person to open something. Malware delivery is less about the code and more about the container and the coax — the macro prompt, the shortcut that looks like a document, the archive whose password sits helpfully in the email. The gateway that only inspects the obvious misses the rest.</p>
+      <p>This pillar treats delivery as a chain — <a class="ilink" href="#matrix">packaging, delivery, evasion, execution, persistence and impact</a> — so defenders can intervene before code runs, not only after. It bridges to the <a class="ilink" href="/intelligence/">spam pillar</a> for origin infrastructure and to the <a class="ilink" href="/intelligence/phishing/">phishing pillar</a> where the lure and the payload share a message.</p>
+    </div>
+  </div>
+</section>
+
+<section id="scope">
+  <div class="wrap narrow">
+    <div class="sec-head reveal"><span class="eyebrow">02 · Scope &amp; boundaries</span><h2>Defensive by definition.</h2></div>
+    <div class="bound-grid reveal">
+      <div class="bound is">
+        <div class="bound-label ok">What this is</div>
+        <ul>
+          <li>A <b>classification and reference model</b> for how malware is delivered by mail.</li>
+          <li><b>Analytical and defensive</b> — for defenders, responders and researchers.</li>
+          <li>Focused on <b>observable signals and controls</b>.</li>
+          <li><b>Open and citable</b>, with stable identifiers.</li>
+        </ul>
+      </div>
+      <div class="bound not">
+        <div class="bound-label no">What this is not</div>
+        <ul>
+          <li><b>Not</b> malware, a builder, or any payload of any kind.</li>
+          <li><b>Not</b> operational instructions for creating or delivering malware.</li>
+          <li><b>Not</b> code, samples, or steps to reproduce an attack.</li>
+          <li><b>Not</b> a substitute for lawful, authorised testing.</li>
+        </ul>
+      </div>
+    </div>
+    <p class="bound-note reveal">Every technique is described at the level of <b>classification and defence</b> — what it is, how it is observed, and how it is countered. No samples, code or build steps appear anywhere in this model.</p>
+  </div>
+</section>
+
+<section id="model">
+  <div class="wrap narrow">
+    <div class="sec-head reveal"><span class="eyebrow">03 · Reference Model v1.0 · MAL</span><h2>A shared vocabulary for the malware pillar.</h2>
+      <p class="sub">Three parts: a <a class="ilink" href="#taxonomy">taxonomy</a>, a <a class="ilink" href="#matrix">tactics &amp; techniques matrix</a>, and a shared <a class="ilink" href="#evidence">evidence model</a>.</p></div>
+    <div class="cite reveal">
+      <div class="cite-label">How to cite</div>
+      <p>Elements carry stable identifiers in the <code>EAI</code> namespace under the malware prefix <code>MAL</code>. Cite by code and URL — for example <code>MAL-PK-04</code> · <span class="mono">spamcrackers.com/intelligence/mal/#MAL-PK-04</span>.</p>
+    </div>
+  </div>
+</section>
+
+<section id="taxonomy">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="eyebrow">03.1 · Malware-delivery taxonomy</span><h2>Four axes of classification.</h2>
+      <p class="sub">A delivery is described by its payload class, delivery mechanism, execution trigger and evasion posture.</p></div>
+    <div class="tax-grid">
+
+      <div class="tax-block reveal">
+        <div class="tax-head"><span class="idchip">MAL-TAX-A</span><h3>By payload class</h3></div>
+        <table class="ref-table">
+          <thead><tr><th>Code</th><th>Class</th><th>Definition</th></tr></thead>
+          <tbody>
+            <tr><td class="mono code">AA1</td><td class="pk">Loader / downloader</td><td>A small first-stage that fetches and runs further malware.</td></tr>
+            <tr><td class="mono code">AA2</td><td class="pk">Info-stealer</td><td>Harvests credentials, cookies, wallets and files.</td></tr>
+            <tr><td class="mono code">AA3</td><td class="pk">Ransomware</td><td>Encrypts or exfiltrates data for extortion.</td></tr>
+            <tr><td class="mono code">AA4</td><td class="pk">Remote-access trojan</td><td>Grants an operator interactive control of the host.</td></tr>
+            <tr><td class="mono code">AA5</td><td class="pk">Banking trojan</td><td>Targets financial credentials and sessions.</td></tr>
+            <tr><td class="mono code">AA6</td><td class="pk">Botnet / worm</td><td>Enlists the host into a network for reuse or spread.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tax-block reveal">
+        <div class="tax-head"><span class="idchip">MAL-TAX-B</span><h3>By delivery mechanism</h3></div>
+        <table class="ref-table">
+          <thead><tr><th>Code</th><th>Class</th><th>Definition</th></tr></thead>
+          <tbody>
+            <tr><td class="mono code">BB1</td><td class="pk">Malicious attachment</td><td>An executable or script carried directly in the message.</td></tr>
+            <tr><td class="mono code">BB2</td><td class="pk">Macro document</td><td>An office document whose macros fetch or run a payload.</td></tr>
+            <tr><td class="mono code">BB3</td><td class="pk">Link to payload</td><td>A URL leading to a hosted download.</td></tr>
+            <tr><td class="mono code">BB4</td><td class="pk">HTML smuggling</td><td>A payload assembled in the browser from an HTML file.</td></tr>
+            <tr><td class="mono code">BB5</td><td class="pk">Archive container</td><td>A password-protected or nested archive hiding the payload.</td></tr>
+            <tr><td class="mono code">BB6</td><td class="pk">Cloud-hosted payload</td><td>The file staged on a reputable cloud or file service.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tax-block reveal">
+        <div class="tax-head"><span class="idchip">MAL-TAX-C</span><h3>By execution trigger</h3></div>
+        <table class="ref-table">
+          <thead><tr><th>Code</th><th>Class</th><th>Definition</th></tr></thead>
+          <tbody>
+            <tr><td class="mono code">CC1</td><td class="pk">Macro enable</td><td>The user is coaxed into enabling document macros.</td></tr>
+            <tr><td class="mono code">CC2</td><td class="pk">Script host</td><td>A shortcut or script (LNK, JS, HTA, VBS) invokes an interpreter.</td></tr>
+            <tr><td class="mono code">CC3</td><td class="pk">Document exploit</td><td>A vulnerability in the viewer runs code automatically.</td></tr>
+            <tr><td class="mono code">CC4</td><td class="pk">User run</td><td>The user is persuaded to double-click and run the file.</td></tr>
+            <tr><td class="mono code">CC5</td><td class="pk">Living-off-the-land</td><td>Trusted system binaries are abused to execute the payload.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tax-block reveal">
+        <div class="tax-head"><span class="idchip">MAL-TAX-D</span><h3>By evasion posture</h3></div>
+        <table class="ref-table">
+          <thead><tr><th>Code</th><th>Class</th><th>Definition</th></tr></thead>
+          <tbody>
+            <tr><td class="mono code">DD1</td><td class="pk">Password-gated archive</td><td>A password in the email keeps scanners out of the archive.</td></tr>
+            <tr><td class="mono code">DD2</td><td class="pk">Sandbox evasion</td><td>Execution is withheld from automated analysis environments.</td></tr>
+            <tr><td class="mono code">DD3</td><td class="pk">Packing / obfuscation</td><td>Code is compressed or scrambled to defeat signatures.</td></tr>
+            <tr><td class="mono code">DD4</td><td class="pk">Multi-stage</td><td>Capability is split across stages fetched only when needed.</td></tr>
+            <tr><td class="mono code">DD5</td><td class="pk">Abused trust / signing</td><td>Reputable services or code signatures lend false legitimacy.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="matrix">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="eyebrow">03.2 · Malware tactics &amp; techniques</span><h2>The delivery chain, phase by phase.</h2>
+      <p class="sub">Six phases from packaging a payload to its final impact. Each cell is a defensively-described technique; select one to jump to its detail.</p></div>
+    <div class="matrix-scroll reveal">
+
+      <div class="matrix" role="table" aria-label="Malware delivery tactics and techniques matrix">
+        
+        <div class="matrix-col" role="column">
+          <div class="matrix-head"><span class="idchip">MAL-PK</span><span class="mh-name">Packaging &amp; Weaponisation</span></div>
+          <a class="matrix-cell" href="#MAL-PK-01">Direct executable attachment<span class="cell-id mono">MAL-PK-01</span></a>
+          <a class="matrix-cell" href="#MAL-PK-02">Macro-enabled document<span class="cell-id mono">MAL-PK-02</span></a>
+          <a class="matrix-cell" href="#MAL-PK-03">Shortcut &amp; script files<span class="cell-id mono">MAL-PK-03</span></a>
+          <a class="matrix-cell" href="#MAL-PK-04">HTML smuggling package<span class="cell-id mono">MAL-PK-04</span></a>
+          <a class="matrix-cell" href="#MAL-PK-05">Password-protected archive<span class="cell-id mono">MAL-PK-05</span></a>
+        </div>
+
+        <div class="matrix-col" role="column">
+          <div class="matrix-head"><span class="idchip">MAL-DL</span><span class="mh-name">Delivery</span></div>
+          <a class="matrix-cell" href="#MAL-DL-01">Attachment delivery<span class="cell-id mono">MAL-DL-01</span></a>
+          <a class="matrix-cell" href="#MAL-DL-02">Link to hosted payload<span class="cell-id mono">MAL-DL-02</span></a>
+          <a class="matrix-cell" href="#MAL-DL-03">Cloud-service staging<span class="cell-id mono">MAL-DL-03</span></a>
+          <a class="matrix-cell" href="#MAL-DL-04">Reply-chain delivery<span class="cell-id mono">MAL-DL-04</span></a>
+          <a class="matrix-cell" href="#MAL-DL-05">Malvertising redirect<span class="cell-id mono">MAL-DL-05</span></a>
+        </div>
+
+        <div class="matrix-col" role="column">
+          <div class="matrix-head"><span class="idchip">MAL-EV</span><span class="mh-name">Evasion &amp; Anti-analysis</span></div>
+          <a class="matrix-cell" href="#MAL-EV-01">Sandbox evasion<span class="cell-id mono">MAL-EV-01</span></a>
+          <a class="matrix-cell" href="#MAL-EV-02">Packing &amp; obfuscation<span class="cell-id mono">MAL-EV-02</span></a>
+          <a class="matrix-cell" href="#MAL-EV-03">Password gating<span class="cell-id mono">MAL-EV-03</span></a>
+          <a class="matrix-cell" href="#MAL-EV-04">Geo &amp; time gating<span class="cell-id mono">MAL-EV-04</span></a>
+          <a class="matrix-cell" href="#MAL-EV-05">Benign-first staging<span class="cell-id mono">MAL-EV-05</span></a>
+        </div>
+
+        <div class="matrix-col" role="column">
+          <div class="matrix-head"><span class="idchip">MAL-EX</span><span class="mh-name">Execution &amp; Initial Access</span></div>
+          <a class="matrix-cell" href="#MAL-EX-01">Macro execution<span class="cell-id mono">MAL-EX-01</span></a>
+          <a class="matrix-cell" href="#MAL-EX-02">Script-host execution<span class="cell-id mono">MAL-EX-02</span></a>
+          <a class="matrix-cell" href="#MAL-EX-03">Document exploit<span class="cell-id mono">MAL-EX-03</span></a>
+          <a class="matrix-cell" href="#MAL-EX-04">User-run persuasion<span class="cell-id mono">MAL-EX-04</span></a>
+          <a class="matrix-cell" href="#MAL-EX-05">Living-off-the-land<span class="cell-id mono">MAL-EX-05</span></a>
+        </div>
+
+        <div class="matrix-col" role="column">
+          <div class="matrix-head"><span class="idchip">MAL-IN</span><span class="mh-name">Install &amp; Persistence</span></div>
+          <a class="matrix-cell" href="#MAL-IN-01">Dropper / loader stage<span class="cell-id mono">MAL-IN-01</span></a>
+          <a class="matrix-cell" href="#MAL-IN-02">Autostart persistence<span class="cell-id mono">MAL-IN-02</span></a>
+          <a class="matrix-cell" href="#MAL-IN-03">DLL side-loading<span class="cell-id mono">MAL-IN-03</span></a>
+          <a class="matrix-cell" href="#MAL-IN-04">Defence tampering<span class="cell-id mono">MAL-IN-04</span></a>
+        </div>
+
+        <div class="matrix-col" role="column">
+          <div class="matrix-head"><span class="idchip">MAL-OB</span><span class="mh-name">Objective &amp; Impact</span></div>
+          <a class="matrix-cell" href="#MAL-OB-01">Data theft<span class="cell-id mono">MAL-OB-01</span></a>
+          <a class="matrix-cell" href="#MAL-OB-02">Ransomware impact<span class="cell-id mono">MAL-OB-02</span></a>
+          <a class="matrix-cell" href="#MAL-OB-03">Remote control<span class="cell-id mono">MAL-OB-03</span></a>
+          <a class="matrix-cell" href="#MAL-OB-04">Lateral movement<span class="cell-id mono">MAL-OB-04</span></a>
+          <a class="matrix-cell" href="#MAL-OB-05">Onward propagation<span class="cell-id mono">MAL-OB-05</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="wrap">
+
+      <div class="phase reveal" id="MAL-PK">
+        <div class="phase-head"><span class="idchip">MAL-PK</span><h3>Packaging &amp; Weaponisation</h3></div>
+        <p class="phase-blurb">How a payload is wrapped to survive the journey to the inbox.</p>
+        <div class="tcards">
+          
+          <article class="tcard" id="MAL-PK-01">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#MAL-PK-01">MAL-PK-01</a><h4>Direct executable attachment</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>An executable is attached, often disguised by icon or double extension.</dd>
+              <dt>Observable signals</dt><dd>Executable or double-extension files attached to mail.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Block executable attachment types at the gateway by policy.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="MAL-PK-02">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#MAL-PK-02">MAL-PK-02</a><h4>Macro-enabled document</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>An office document carries macros that fetch or run the payload when enabled.</dd>
+              <dt>Observable signals</dt><dd>Macro-enabled formats prompting the user to enable content.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Disable macros from the internet by policy; sandbox documents.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="MAL-PK-03">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#MAL-PK-03">MAL-PK-03</a><h4>Shortcut &amp; script files</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>LNK shortcuts or script files (JS, HTA, VBS) invoke an interpreter to run code.</dd>
+              <dt>Observable signals</dt><dd>Shortcut or scripting file types delivered by mail.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Restrict script hosts and block risky file types.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="MAL-PK-04">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#MAL-PK-04">MAL-PK-04</a><h4>HTML smuggling package</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>A benign-looking HTML file assembles the payload in the browser to bypass gateways.</dd>
+              <dt>Observable signals</dt><dd>HTML attachments that build a download client-side.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Render attachments in a sandbox; restrict HTML attachments.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="MAL-PK-05">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#MAL-PK-05">MAL-PK-05</a><h4>Password-protected archive</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>The payload is placed in an archive whose password is given in the email body, keeping scanners out.</dd>
+              <dt>Observable signals</dt><dd>An archive with the password supplied in the message.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Inspect archive contents; treat mailed archive passwords as a red flag.</dd>
+            </dl>
+          </article>
+        </div>
+      </div>
+
+      <div class="phase reveal" id="MAL-DL">
+        <div class="phase-head"><span class="idchip">MAL-DL</span><h3>Delivery</h3></div>
+        <p class="phase-blurb">How the packaged payload actually reaches the recipient.</p>
+        <div class="tcards">
+          
+          <article class="tcard" id="MAL-DL-01">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#MAL-DL-01">MAL-DL-01</a><h4>Attachment delivery</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>The payload rides directly in the message as a file.</dd>
+              <dt>Observable signals</dt><dd>Risky file types arriving as attachments.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Attachment sandboxing and type policy at the gateway.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="MAL-DL-02">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#MAL-DL-02">MAL-DL-02</a><h4>Link to hosted payload</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>A link leads to a download rather than carrying the file.</dd>
+              <dt>Observable signals</dt><dd>Links to direct downloads, especially of risky types.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">URL detonation and download inspection before delivery.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="MAL-DL-03">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#MAL-DL-03">MAL-DL-03</a><h4>Cloud-service staging</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>The file is hosted on a reputable cloud service to borrow its trust.</dd>
+              <dt>Observable signals</dt><dd>Payloads staged on file-sharing or cloud platforms.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Detonate cloud-hosted links; reputation is not safety.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="MAL-DL-04">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#MAL-DL-04">MAL-DL-04</a><h4>Reply-chain delivery</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>The lure is inserted into a genuine thread to raise trust (bridges PHI-LP-05).</dd>
+              <dt>Observable signals</dt><dd>An unexpected attachment or link resuming a real thread.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Scan links and files even within known conversations.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="MAL-DL-05">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#MAL-DL-05">MAL-DL-05</a><h4>Malvertising redirect</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Delivery arrives via an advertising or redirect network to the payload.</dd>
+              <dt>Observable signals</dt><dd>Redirect chains terminating in a download.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Follow and detonate full redirect chains.</dd>
+            </dl>
+          </article>
+        </div>
+      </div>
+
+      <div class="phase reveal" id="MAL-EV">
+        <div class="phase-head"><span class="idchip">MAL-EV</span><h3>Evasion &amp; Anti-analysis</h3></div>
+        <p class="phase-blurb">How the payload avoids automated inspection.</p>
+        <div class="tcards">
+          
+          <article class="tcard" id="MAL-EV-01">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#MAL-EV-01">MAL-EV-01</a><h4>Sandbox evasion</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Execution is withheld when analysis environments are detected.</dd>
+              <dt>Observable signals</dt><dd>Content that behaves differently for an analyser than a user.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Realistic detonation environments and delayed re-analysis.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="MAL-EV-02">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#MAL-EV-02">MAL-EV-02</a><h4>Packing &amp; obfuscation</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Code is compressed or scrambled to defeat static signatures.</dd>
+              <dt>Observable signals</dt><dd>High-entropy or obfuscated files with little static detail.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Behavioural analysis and unpacking rather than signatures alone.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="MAL-EV-03">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#MAL-EV-03">MAL-EV-03</a><h4>Password gating</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>An archive password in the email keeps gateway scanners out of the payload.</dd>
+              <dt>Observable signals</dt><dd>Mailed passwords accompanying archives.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Extract with the supplied password and inspect; flag the pattern.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="MAL-EV-04">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#MAL-EV-04">MAL-EV-04</a><h4>Geo &amp; time gating</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>The payload serves only to certain regions or times to dodge analysis.</dd>
+              <dt>Observable signals</dt><dd>Content varying by geography or hour of request.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Analyse from multiple vantage points and over time.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="MAL-EV-05">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#MAL-EV-05">MAL-EV-05</a><h4>Benign-first staging</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Early stages appear harmless; capability is fetched only later.</dd>
+              <dt>Observable signals</dt><dd>Innocuous droppers with delayed network activity.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Egress monitoring and staged-behaviour detection.</dd>
+            </dl>
+          </article>
+        </div>
+      </div>
+
+      <div class="phase reveal" id="MAL-EX">
+        <div class="phase-head"><span class="idchip">MAL-EX</span><h3>Execution &amp; Initial Access</h3></div>
+        <p class="phase-blurb">How code first runs on the recipient's machine.</p>
+        <div class="tcards">
+          
+          <article class="tcard" id="MAL-EX-01">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#MAL-EX-01">MAL-EX-01</a><h4>Macro execution</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Enabled macros run the fetch-and-execute logic.</dd>
+              <dt>Observable signals</dt><dd>Documents spawning script interpreters or network calls.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Block internet-macro execution; monitor office-to-child processes.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="MAL-EX-02">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#MAL-EX-02">MAL-EX-02</a><h4>Script-host execution</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>A shortcut or script triggers an interpreter to run the payload.</dd>
+              <dt>Observable signals</dt><dd>Script hosts launched from mail-delivered files.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Constrain or disable script hosts; application control.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="MAL-EX-03">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#MAL-EX-03">MAL-EX-03</a><h4>Document exploit</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>A viewer vulnerability runs code without user action.</dd>
+              <dt>Observable signals</dt><dd>Crafted documents targeting known viewer flaws.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Timely patching and exploit-mitigation controls.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="MAL-EX-04">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#MAL-EX-04">MAL-EX-04</a><h4>User-run persuasion</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Social engineering convinces the user to run the file themselves.</dd>
+              <dt>Observable signals</dt><dd>Instructions coaching the user to open or enable.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">User awareness plus application allow-listing.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="MAL-EX-05">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#MAL-EX-05">MAL-EX-05</a><h4>Living-off-the-land</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Trusted system binaries are abused to execute or fetch the payload.</dd>
+              <dt>Observable signals</dt><dd>Unusual use of legitimate system tools.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Behavioural detection of anomalous native-tool use.</dd>
+            </dl>
+          </article>
+        </div>
+      </div>
+
+      <div class="phase reveal" id="MAL-IN">
+        <div class="phase-head"><span class="idchip">MAL-IN</span><h3>Install &amp; Persistence</h3></div>
+        <p class="phase-blurb">How the payload establishes itself once it runs.</p>
+        <div class="tcards">
+          
+          <article class="tcard" id="MAL-IN-01">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#MAL-IN-01">MAL-IN-01</a><h4>Dropper / loader stage</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>A first stage installs and launches the main payload.</dd>
+              <dt>Observable signals</dt><dd>Small executables fetching larger second stages.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Endpoint detection and egress controls on new processes.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="MAL-IN-02">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#MAL-IN-02">MAL-IN-02</a><h4>Autostart persistence</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Registry keys or scheduled tasks re-launch the payload after reboot.</dd>
+              <dt>Observable signals</dt><dd>New autostart entries or scheduled tasks.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Monitor persistence locations; baseline autostart state.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="MAL-IN-03">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#MAL-IN-03">MAL-IN-03</a><h4>DLL side-loading</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>A trusted application is made to load a malicious library.</dd>
+              <dt>Observable signals</dt><dd>Legitimate binaries loading unexpected libraries.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Application control and library-load monitoring.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="MAL-IN-04">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#MAL-IN-04">MAL-IN-04</a><h4>Defence tampering</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Security tooling is disabled or blinded to protect the foothold.</dd>
+              <dt>Observable signals</dt><dd>Attempts to stop or exclude security agents.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Tamper protection and independent, off-host alerting.</dd>
+            </dl>
+          </article>
+        </div>
+      </div>
+
+      <div class="phase reveal" id="MAL-OB">
+        <div class="phase-head"><span class="idchip">MAL-OB</span><h3>Objective &amp; Impact</h3></div>
+        <p class="phase-blurb">What the malware is ultimately there to do.</p>
+        <div class="tcards">
+          
+          <article class="tcard" id="MAL-OB-01">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#MAL-OB-01">MAL-OB-01</a><h4>Data theft</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Credentials, cookies, files and secrets are exfiltrated.</dd>
+              <dt>Observable signals</dt><dd>Bulk data access and unusual outbound transfer.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Data-loss prevention and egress anomaly detection.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="MAL-OB-02">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#MAL-OB-02">MAL-OB-02</a><h4>Ransomware impact</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Data is encrypted or stolen for extortion.</dd>
+              <dt>Observable signals</dt><dd>Mass file changes and shadow-copy deletion.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Tested backups, segmentation and rapid isolation.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="MAL-OB-03">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#MAL-OB-03">MAL-OB-03</a><h4>Remote control</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>An operator gains interactive command of the host.</dd>
+              <dt>Observable signals</dt><dd>Command-and-control beacons and remote sessions.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Network detection and command-and-control blocking.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="MAL-OB-04">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#MAL-OB-04">MAL-OB-04</a><h4>Lateral movement</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>The foothold is used to reach further systems.</dd>
+              <dt>Observable signals</dt><dd>Internal reconnaissance and credential reuse.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Segmentation, least privilege and identity monitoring.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="MAL-OB-05">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#MAL-OB-05">MAL-OB-05</a><h4>Onward propagation</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>The host is used to send further malicious mail (bridges SPM-IA-02).</dd>
+              <dt>Observable signals</dt><dd>Outbound malware or spam from the compromised host.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Outbound filtering and rapid containment.</dd>
+            </dl>
+          </article>
+        </div>
+      </div>
+  </div>
+</section>
+
+<section id="evidence">
+  <div class="wrap narrow">
+    <div class="sec-head reveal"><span class="eyebrow">03.3 · Indicators &amp; evidence model</span><h2>No claim without an observable.</h2>
+      <p class="sub">The malware pillar shares the Email Abuse Intelligence evidence model — with file and behavioural signals carrying particular weight.</p></div>
+    <div class="reveal">
+
+        <table class="ref-table">
+          <thead><tr><th>Code</th><th>Class</th><th>Evidence captured</th></tr></thead>
+          <tbody>
+          <tr><td class="mono code">EAI-EV-NET</td><td class="pk">Network</td><td>Sending IP, ASN, reverse DNS, download and command-and-control endpoints.</td></tr>
+          <tr><td class="mono code">EAI-EV-AUTH</td><td class="pk">Authentication</td><td>SPF, DKIM and DMARC results for the sending identity.</td></tr>
+          <tr><td class="mono code">EAI-EV-CONT</td><td class="pk">Content</td><td>Attachment and file hashes, file types, macro and script indicators, URL patterns.</td></tr>
+          <tr><td class="mono code">EAI-EV-BEHAV</td><td class="pk">Behavioural</td><td>Process lineage, script-host activity, persistence changes, egress patterns.</td></tr>
+          <tr><td class="mono code">EAI-EV-INFRA</td><td class="pk">Infrastructure</td><td>Payload-hosting domains and age, redirect chains, certificate and registrar detail.</td></tr>
+          </tbody>
+        </table>
+    </div>
+    <div class="conf reveal">
+      <div class="conf-label">Confidence model</div>
+
+          <div class="conf-row"><span class="conf-tier t0">Low</span><span class="conf-desc">A single weak or ambiguous indicator. Suitable for enrichment, not enforcement.</span></div>
+
+          <div class="conf-row"><span class="conf-tier t1">Moderate</span><span class="conf-desc">Multiple independent indicators from different classes agree.</span></div>
+
+          <div class="conf-row"><span class="conf-tier t2">High</span><span class="conf-desc">Corroborated indicators plus file or behavioural evidence.</span></div>
+
+          <div class="conf-row"><span class="conf-tier t3">Confirmed</span><span class="conf-desc">Direct, reproducible evidence — e.g. a detonated, observed payload.</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="library">
+  <div class="wrap narrow">
+    <div class="sec-head reveal"><span class="eyebrow">04 · Part of the reference library</span><h2>Four pillars, one model.</h2>
+      <p class="sub">Malware delivery joins the spam, phishing and BEC pillars under the same namespace and evidence model.</p></div>
+    <div class="lib-grid reveal">
+      <div class="lib-card"><div class="lib-n mono">29</div><div class="lib-l">malware techniques</div></div>
+      <div class="lib-card"><div class="lib-n mono">22</div><div class="lib-l">taxonomy classes</div></div>
+      <div class="lib-card"><div class="lib-n mono">6</div><div class="lib-l">lifecycle phases</div></div>
+      <div class="lib-card"><div class="lib-n mono">4</div><div class="lib-l">pillars active</div></div>
+    </div>
+    <div class="lib-cta reveal">
+      <a class="btn btn-primary" href="/#lab">Assess a domain against the Standard →</a>
+      <a class="btn btn-ghost" href="/intelligence/">Back to the umbrella</a>
+    </div>
+    <div class="related reveal"><span>Related pillars:</span><a href="/intelligence/">Spam</a><a href="/intelligence/phishing/">Phishing</a><a href="/intelligence/bec/">BEC</a></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-row">
+    <span><span class="sig">SPAMCRACKERS</span>.COM — the reference layer for Email Abuse Intelligence · Malware pillar v1.0</span>
+    <div class="foot-links">
+      <a href="/">Home</a>
+      <a href="/intelligence/">Intelligence</a>
+      <a href="/intelligence/phishing/">Phishing</a>
+      <a href="/#faq">FAQ</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var root = document.documentElement, tbtn = document.getElementById("themebtn");
+  tbtn.addEventListener("click", function(){
+    var isDark = root.getAttribute("data-theme")==="dark" || (!root.getAttribute("data-theme") && window.matchMedia("(prefers-color-scheme: dark)").matches);
+    root.setAttribute("data-theme", isDark ? "light" : "dark");
+  });
+  if(!reduce){
+    var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); } }); }, {threshold:.12});
+    document.querySelectorAll(".reveal").forEach(function(el){ io.observe(el); });
+  } else { document.querySelectorAll(".reveal").forEach(function(el){ el.classList.add("in"); }); }
+  function flash(){ var h=location.hash.replace("#",""); if(!h) return; var el=document.getElementById(h); if(el && el.classList.contains("tcard")){ el.classList.add("flash"); setTimeout(function(){ el.classList.remove("flash"); }, 1600); } }
+  window.addEventListener("hashchange", flash); flash();
+})();
+</script>
+</body>
+</html>

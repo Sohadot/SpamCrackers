@@ -492,6 +492,18 @@
   .foot-links{display:flex;gap:1.3rem;flex-wrap:wrap}
   .foot-links a:hover{color:var(--signal)}
 
+  /* breadcrumbs */
+  .crumbs{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;font-family:var(--mono);font-size:var(--step--1);color:var(--mute);margin-bottom:1.4rem}
+  .crumbs a{color:var(--ink-dim);transition:color .2s}
+  .crumbs a:hover{color:var(--signal)}
+  .crumbs .sep{color:var(--mute);opacity:.6}
+  .crumbs .here{color:var(--signal)}
+  /* related pillars footer strip */
+  .related{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:2rem}
+  .related a{font-family:var(--mono);font-size:var(--step--1);border:1px solid var(--line);border-radius:99px;padding:.4em .95em;color:var(--ink-dim);transition:.2s}
+  .related a:hover{border-color:var(--signal);color:var(--signal)}
+  .related span{color:var(--mute);align-self:center}
+
 </style>
 </head>
 <body>
@@ -509,6 +521,7 @@
 
 <section class="hero">
   <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span class="sep">/</span><a href="/intelligence/">Email Abuse Intelligence</a><span class="sep">/</span><span class="here">Phishing</span></nav>
     <div class="eyebrow">Email Abuse Intelligence · Pillar PHI</div>
     <h1>Phishing Intelligence.</h1>
     <p class="lede">How credential-theft campaigns are built — reconnaissance, identity, lure, delivery, capture and objective — described defensively so they can be recognised, evidenced and stopped. The second pillar of <a class="ilink" href="/intelligence/">Email Abuse Intelligence</a>.</p>
@@ -1060,6 +1073,7 @@
       <a class="btn btn-primary" href="/#lab">Assess a domain against the Standard →</a>
       <a class="btn btn-ghost" href="/intelligence/">Back to the umbrella</a>
     </div>
+    <div class="related reveal"><span>Related pillars:</span><a href="/intelligence/">Spam</a><a href="/intelligence/bec/">BEC</a><a href="/intelligence/mal/">Malware</a></div>
   </div>
 </section>
 
