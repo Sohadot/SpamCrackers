@@ -30,6 +30,29 @@
   "@context": "https://schema.org",
   "@graph": [
     {
+      "@type": "Organization",
+      "@id": "https://spamcrackers.com/#organization",
+      "name": "SpamCrackers",
+      "url": "https://spamcrackers.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://spamcrackers.com/logo.png",
+        "width": 512,
+        "height": 512
+      },
+      "description": "The reference layer for Email Abuse Intelligence and a transparent standard for email authentication.",
+      "knowsAbout": [
+        "Email authentication",
+        "SPF",
+        "DKIM",
+        "DMARC",
+        "Email spoofing",
+        "Phishing",
+        "Business Email Compromise",
+        "Email abuse intelligence"
+      ]
+    },
+    {
       "@type": "TechArticle",
       "@id": "https://spamcrackers.com/intelligence/scam/#article",
       "headline": "Scam & Fraud — Reference Model v1.0",
@@ -49,9 +72,7 @@
         "email security"
       ],
       "publisher": {
-        "@type": "Organization",
-        "name": "SpamCrackers",
-        "url": "https://spamcrackers.com/"
+        "@id": "https://spamcrackers.com/#organization"
       }
     },
     {
