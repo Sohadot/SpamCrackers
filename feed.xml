@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>SpamCrackers — Reference Updates</title>
+  <subtitle>New pillars, tools and standard releases for email-abuse intelligence.</subtitle>
+  <link href="https://spamcrackers.com/feed.xml" rel="self" type="application/atom+xml"/>
+  <link href="https://spamcrackers.com/" rel="alternate" type="text/html"/>
+  <id>https://spamcrackers.com/</id>
+  <updated>2026-07-15T21:00:00Z</updated>
+  <author><name>SpamCrackers</name><uri>https://spamcrackers.com/</uri></author>
+  <icon>https://spamcrackers.com/logo.png</icon>
+  <rights>CC BY 4.0</rights>
+
+  <entry>
+    <title>The Standard, published as a canonical reference</title>
+    <id>https://spamcrackers.com/standard/</id>
+    <link href="https://spamcrackers.com/standard/" rel="alternate" type="text/html"/>
+    <updated>2026-07-15T21:00:00Z</updated>
+    <summary>The SpamCrackers Standard for Email Authentication (v1.0) now has a dedicated, citable page: the four-control rubric, the A+ to F grade scale, methodology and versioning.</summary>
+  </entry>
+
+  <entry>
+    <title>Machine-readable model published (model.json + JSON Schema)</title>
+    <id>https://spamcrackers.com/intelligence/model.json</id>
+    <link href="https://spamcrackers.com/intelligence/model.json" rel="alternate" type="application/json"/>
+    <updated>2026-07-15T20:00:00Z</updated>
+    <summary>All 163 techniques, six pillars and the evidence model are now available as structured JSON under CC BY 4.0, with a JSON Schema for validation — a reference layer others can integrate and cite.</summary>
+  </entry>
+
+  <entry>
+    <title>Glossary — 40 cross-linked terms</title>
+    <id>https://spamcrackers.com/glossary/</id>
+    <link href="https://spamcrackers.com/glossary/" rel="alternate" type="text/html"/>
+    <updated>2026-07-15T18:00:00Z</updated>
+    <summary>Plain-language definitions of 40 email-abuse and authentication terms, each linked to how it is exploited and how to defend against it.</summary>
+  </entry>
+
+  <entry>
+    <title>The Remediation Playbook</title>
+    <id>https://spamcrackers.com/playbook/</id>
+    <link href="https://spamcrackers.com/playbook/" rel="alternate" type="text/html"/>
+    <updated>2026-07-15T16:00:00Z</updated>
+    <summary>Step-by-step fixes for SPF, DKIM, DMARC and MX, with example records, the safe DMARC rollout, and the abuse each control shuts down.</summary>
+  </entry>
+
+  <entry>
+    <title>The Observatory — live email-posture index</title>
+    <id>https://spamcrackers.com/observatory/</id>
+    <link href="https://spamcrackers.com/observatory/" rel="alternate" type="text/html"/>
+    <updated>2026-07-15T14:00:00Z</updated>
+    <summary>A live index grading well-known domains against the Standard in the browser, with an inline check for any domain.</summary>
+  </entry>
+
+  <entry>
+    <title>Email Abuse Intelligence — Reference Model v1.0 complete</title>
+    <id>https://spamcrackers.com/intelligence/</id>
+    <link href="https://spamcrackers.com/intelligence/" rel="alternate" type="text/html"/>
+    <updated>2026-07-15T12:00:00Z</updated>
+    <summary>The founding umbrella is complete: six active pillars — spam, phishing, BEC, malware, scam and spoofing — with 163 defensively-described techniques, a searchable index, and transparent governance.</summary>
+  </entry>
+</feed>
