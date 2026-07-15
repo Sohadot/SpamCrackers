@@ -1,0 +1,591 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The Observatory — Email Security Posture Index | SpamCrackers</title>
+<meta name="description" content="A live index of how well-known domains score against the SpamCrackers Standard for email authentication — SPF, DMARC and MX — checked in your browser against public DNS. Check any domain instantly." />
+<link rel="canonical" href="https://spamcrackers.com/observatory/" />
+<meta name="robots" content="index, follow, max-image-preview:large" />
+<meta name="theme-color" content="#08090D" media="(prefers-color-scheme: dark)" />
+<meta name="theme-color" content="#ECEDE8" media="(prefers-color-scheme: light)" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2308090D'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%232FE39B'/%3E%3C/svg%3E" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="SpamCrackers" />
+<meta property="og:url" content="https://spamcrackers.com/observatory/" />
+<meta property="og:title" content="The Observatory — Email Security Posture Index" />
+<meta property="og:description" content="How well-known domains score against the SpamCrackers Standard — checked live in your browser." />
+<meta property="og:image" content="https://spamcrackers.com/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="The Observatory — Email Security Posture Index" />
+<meta name="twitter:description" content="How well-known domains score against the SpamCrackers Standard, checked live." />
+<meta name="twitter:image" content="https://spamcrackers.com/og-image.png" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      "@id": "https://spamcrackers.com/observatory/#page",
+      "name": "The Observatory — Email Security Posture Index",
+      "description": "A live index of how well-known domains score against the SpamCrackers Standard for email authentication (SPF, DMARC, MX), checked in your browser against public DNS.",
+      "url": "https://spamcrackers.com/observatory/",
+      "isPartOf": {
+        "@id": "https://spamcrackers.com/#website"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "SpamCrackers",
+          "item": "https://spamcrackers.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "The Observatory",
+          "item": "https://spamcrackers.com/observatory/"
+        }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+  :root{
+    --ground:#08090D; --ground-2:#0D0F15; --panel:#11141C;
+    --ink:#D9DEE6; --ink-dim:#9AA3B0; --mute:#5A6472;
+    --line:rgba(217,222,230,.10); --line-strong:rgba(217,222,230,.20);
+    --signal:#2FE39B; --noise:#FF3B6B; --amber:#F6C560; --focus:#7FE3FF;
+    --maxw:1180px; --narrow:760px;
+    --step--1:clamp(.78rem,.72rem + .3vw,.9rem);
+    --step-0:clamp(.98rem,.92rem + .3vw,1.06rem);
+    --step-1:clamp(1.2rem,1.05rem + .7vw,1.5rem);
+    --step-2:clamp(1.6rem,1.2rem + 1.8vw,2.4rem);
+    --step-3:clamp(2.2rem,1.5rem + 3.2vw,3.6rem);
+    --step-4:clamp(2.8rem,1.8rem + 5vw,5.2rem);
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,Roboto,Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,"SF Mono","SFMono-Regular",Menlo,Consolas,"Liberation Mono",monospace;
+  }
+  :root[data-theme="light"]{
+    --ground:#ECEDE8; --ground-2:#F4F5F1; --panel:#FFFFFF;
+    --ink:#0F1218; --ink-dim:#454E5B; --mute:#78828F;
+    --line:rgba(15,18,24,.12); --line-strong:rgba(15,18,24,.22);
+    --signal:#0F9E6A; --noise:#E01E52; --amber:#B77A11;
+  }
+  @media (prefers-color-scheme: light){
+    :root:not([data-theme="dark"]){
+      --ground:#ECEDE8; --ground-2:#F4F5F1; --panel:#FFFFFF;
+      --ink:#0F1218; --ink-dim:#454E5B; --mute:#78828F;
+      --line:rgba(15,18,24,.12); --line-strong:rgba(15,18,24,.22);
+      --signal:#0F9E6A; --noise:#E01E52; --amber:#B77A11;
+    }
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;scroll-padding-top:70px}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:var(--step-0);line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  ::selection{background:var(--signal);color:var(--ground)}
+  a{color:inherit;text-decoration:none}
+  :focus-visible{outline:2px solid var(--focus);outline-offset:3px;border-radius:2px}
+  .wrap{max-width:var(--maxw);margin-inline:auto;padding-inline:clamp(1.1rem,4vw,3rem)}
+  .wrap.narrow{max-width:calc(var(--narrow) + 6rem)}
+  .mono{font-family:var(--mono)}
+  code{font-family:var(--mono);font-size:.88em;color:var(--signal);background:color-mix(in srgb,var(--signal) 12%,transparent);padding:.1em .42em;border-radius:3px;word-break:break-word}
+  .ilink{color:var(--signal);border-bottom:1px solid color-mix(in srgb,var(--signal) 45%,transparent);transition:border-color .2s}
+  .ilink:hover{border-color:var(--signal)}
+  .eyebrow{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.26em;text-transform:uppercase;color:var(--signal);display:inline-flex;align-items:center;gap:.6em}
+  .eyebrow::before{content:"";width:24px;height:1px;background:var(--signal);opacity:.7}
+
+  /* id chips */
+  .idchip{font-family:var(--mono);font-size:.7rem;letter-spacing:.06em;color:var(--signal);border:1px solid color-mix(in srgb,var(--signal) 45%,var(--line));border-radius:4px;padding:.2em .5em;white-space:nowrap;background:color-mix(in srgb,var(--signal) 8%,transparent)}
+  .idchip-link{transition:background .2s}
+  .idchip-link:hover{background:color-mix(in srgb,var(--signal) 20%,transparent)}
+
+  /* top bar */
+  header.bar{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:.8rem clamp(1.1rem,4vw,3rem);font-family:var(--mono);font-size:var(--step--1);letter-spacing:.05em;backdrop-filter:blur(9px);background:color-mix(in srgb,var(--ground) 75%,transparent);border-bottom:1px solid var(--line)}
+  .brand-min{display:flex;align-items:center;gap:.55rem;font-weight:700}
+  .brand-min .dot{width:9px;height:9px;background:var(--signal);border-radius:50%;box-shadow:0 0 12px var(--signal)}
+  .brand-min .tld{color:var(--mute)}
+  .bar nav{display:flex;align-items:center;gap:clamp(.7rem,1.8vw,1.5rem);color:var(--ink-dim)}
+  .bar nav a{transition:color .2s}.bar nav a:hover{color:var(--signal)}
+  .bar .navlink{display:none}
+  @media(min-width:900px){.bar .navlink{display:inline}}
+  .themebtn{font-family:var(--mono);font-size:var(--step--1);background:transparent;border:1px solid var(--line-strong);color:var(--ink-dim);padding:.35em .7em;border-radius:2px;cursor:pointer;letter-spacing:.1em;transition:.2s}
+  .themebtn:hover{border-color:var(--signal);color:var(--signal)}
+
+  /* sections */
+  section{position:relative;padding:clamp(3.6rem,7vw,6rem) 0;border-top:1px solid var(--line)}
+  .hero{border-top:none;padding-top:clamp(7rem,13vw,10rem)}
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion: reduce){.reveal{opacity:1;transform:none;transition:none}}
+  .sec-head{max-width:64ch;margin-bottom:2.4rem}
+  .sec-head h2{font-weight:800;font-size:var(--step-2);line-height:1.05;letter-spacing:-.025em;margin-top:1rem;text-wrap:balance}
+  .sec-head .sub{margin-top:1rem;color:var(--ink-dim);max-width:60ch}
+
+  /* hero */
+  .hero h1{font-weight:800;font-size:var(--step-4);line-height:.98;letter-spacing:-.035em;margin-top:1.4rem;text-wrap:balance}
+  .hero .hl{color:var(--signal)}
+  .hero .lede{margin-top:1.8rem;font-size:var(--step-1);line-height:1.45;color:var(--ink);max-width:54ch;text-wrap:pretty}
+  .hero .lede strong{color:var(--signal);font-weight:700}
+  .meta-chips{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:2.2rem}
+  .meta-chips .chip{font-family:var(--mono);font-size:var(--step--1);border:1px solid var(--line);border-radius:99px;padding:.45em .95em;color:var(--ink-dim)}
+  .meta-chips .chip b{color:var(--mute);font-weight:400;letter-spacing:.08em;text-transform:uppercase;font-size:.82em;margin-right:.5em}
+  .meta-chips .chip.stance{border-color:color-mix(in srgb,var(--signal) 45%,var(--line));color:var(--signal)}
+  .meta-chips .chip.stance b{color:color-mix(in srgb,var(--signal) 70%,var(--ink-dim))}
+
+  /* prose */
+  .prose p{max-width:68ch;margin-bottom:1.2rem;color:var(--ink-dim)}
+  .prose p:last-child{margin-bottom:0}
+  .prose strong{color:var(--ink)}
+  .prose em{color:var(--signal);font-style:normal}
+
+  /* boundaries */
+  .bound-grid{display:grid;gap:1px;grid-template-columns:1fr;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  @media(min-width:720px){.bound-grid{grid-template-columns:1fr 1fr}}
+  .bound{background:var(--ground-2);padding:clamp(1.4rem,3vw,2.2rem)}
+  .bound-label{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.14em;text-transform:uppercase;margin-bottom:1.1rem;display:flex;align-items:center;gap:.6em}
+  .bound-label::before{content:"";width:10px;height:10px;border-radius:50%}
+  .bound-label.ok{color:var(--signal)}.bound-label.ok::before{background:var(--signal)}
+  .bound-label.no{color:var(--noise)}.bound-label.no::before{background:var(--noise)}
+  .bound ul{list-style:none;display:flex;flex-direction:column;gap:.75rem}
+  .bound li{position:relative;padding-left:1.5rem;color:var(--ink-dim);line-height:1.5}
+  .bound li b{color:var(--ink)}
+  .bound.is li::before{content:"✓";position:absolute;left:0;color:var(--signal);font-family:var(--mono)}
+  .bound.not li::before{content:"✕";position:absolute;left:0;color:var(--noise);font-family:var(--mono)}
+  .bound-note{margin-top:1.6rem;font-family:var(--mono);font-size:var(--step--1);color:var(--ink-dim);line-height:1.7;border-left:2px solid var(--signal);padding-left:1.2rem;max-width:74ch}
+  .bound-note b{color:var(--signal)}
+
+  /* pillars */
+  .pillar-grid{display:grid;gap:1px;grid-template-columns:1fr;background:var(--line);border:1px solid var(--line)}
+  @media(min-width:620px){.pillar-grid{grid-template-columns:repeat(2,1fr)}}
+  @media(min-width:960px){.pillar-grid{grid-template-columns:repeat(3,1fr)}}
+  .pillar{background:var(--ground);padding:clamp(1.4rem,2.6vw,2rem);display:flex;flex-direction:column;gap:.6rem;transition:background .3s}
+  .pillar:hover{background:var(--ground-2)}
+  .pillar-top{display:flex;align-items:center;justify-content:space-between;gap:.6rem}
+  .pill-status{font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+  .pillar.active{background:color-mix(in srgb,var(--signal) 6%,var(--ground))}
+  .pillar.active .pill-status{color:var(--signal)}
+  .pillar h3{font-size:var(--step-1);font-weight:800;letter-spacing:-.02em}
+  .pillar p{color:var(--ink-dim);font-size:var(--step--1);line-height:1.55}
+  .pillar.planned{opacity:.82}
+
+  /* cite */
+  .cite{border:1px solid var(--line);border-radius:8px;padding:clamp(1.2rem,3vw,1.8rem);background:var(--ground-2)}
+  .cite-label{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.14em;text-transform:uppercase;color:var(--signal);margin-bottom:.8rem}
+  .cite p{color:var(--ink-dim);max-width:70ch}
+
+  /* tables */
+  .ref-table{width:100%;border-collapse:collapse;font-size:var(--step--1)}
+  .ref-table th{text-align:left;font-family:var(--mono);color:var(--mute);font-weight:400;letter-spacing:.08em;text-transform:uppercase;font-size:.7rem;padding:0 1rem .7rem 0;border-bottom:1px solid var(--line-strong)}
+  .ref-table td{padding:.8rem 1rem .8rem 0;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink-dim);line-height:1.5}
+  .ref-table tr:last-child td{border-bottom:none}
+  .ref-table td.code{color:var(--signal);white-space:nowrap}
+  .ref-table td.pk{color:var(--ink);font-weight:600}
+
+  /* taxonomy */
+  .tax-grid{display:grid;gap:1.5rem;grid-template-columns:1fr}
+  @media(min-width:820px){.tax-grid{grid-template-columns:1fr 1fr}}
+  .tax-block{border:1px solid var(--line);border-radius:8px;padding:clamp(1.2rem,2.6vw,1.8rem);background:var(--ground-2)}
+  .tax-head{display:flex;align-items:center;gap:.8rem;margin-bottom:1.2rem}
+  .tax-head h3{font-size:var(--step-1);font-weight:800;letter-spacing:-.02em}
+
+  /* matrix */
+  .matrix-scroll{overflow-x:auto;padding-bottom:.6rem;-webkit-overflow-scrolling:touch}
+  .matrix{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(190px,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;min-width:960px}
+  .matrix-col{background:var(--ground);display:flex;flex-direction:column;gap:1px}
+  .matrix-head{background:var(--ground-2);padding:.9rem .8rem;display:flex;flex-direction:column;gap:.45rem;min-height:72px}
+  .matrix-head .mh-name{font-weight:700;font-size:.86rem;line-height:1.2;letter-spacing:-.01em}
+  .matrix-cell{background:var(--ground);padding:.7rem .8rem;font-size:.8rem;color:var(--ink-dim);display:flex;flex-direction:column;gap:.25rem;transition:background .2s,color .2s;border-top:1px solid var(--line)}
+  .matrix-cell:hover{background:color-mix(in srgb,var(--signal) 10%,var(--ground));color:var(--ink)}
+  .matrix-cell .cell-id{font-size:.66rem;color:var(--mute)}
+  .matrix-cell:hover .cell-id{color:var(--signal)}
+
+  /* technique detail */
+  .phase{margin-top:3rem;scroll-margin-top:76px}
+  .phase-head{display:flex;align-items:center;gap:.8rem}
+  .phase-head h3{font-size:var(--step-1);font-weight:800;letter-spacing:-.02em}
+  .phase-blurb{color:var(--ink-dim);margin:.7rem 0 1.4rem;max-width:64ch}
+  .tcards{display:grid;gap:1rem;grid-template-columns:1fr}
+  @media(min-width:720px){.tcards{grid-template-columns:1fr 1fr}}
+  .tcard{border:1px solid var(--line);border-radius:8px;padding:1.2rem 1.3rem;background:var(--ground-2);scroll-margin-top:80px;transition:border-color .3s,box-shadow .3s}
+  .tcard.flash{border-color:var(--signal);box-shadow:0 0 0 1px var(--signal),0 14px 40px -20px var(--signal)}
+  .tcard-top{display:flex;align-items:center;gap:.7rem;margin-bottom:1rem}
+  .tcard-top h4{font-size:var(--step-0);font-weight:700;letter-spacing:-.01em}
+  .tcard-body{display:grid;grid-template-columns:1fr;gap:.35rem}
+  .tcard-body dt{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin-top:.7rem}
+  .tcard-body dt:first-child{margin-top:0}
+  .tcard-body dt.def{color:var(--signal)}
+  .tcard-body dd{color:var(--ink-dim);font-size:var(--step--1);line-height:1.55}
+  .tcard-body dd.def{color:var(--ink)}
+
+  /* evidence + confidence */
+  .conf{margin-top:2.2rem;border:1px solid var(--line);border-radius:8px;padding:clamp(1.2rem,3vw,1.8rem);background:var(--ground-2)}
+  .conf-label{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.14em;text-transform:uppercase;color:var(--signal);margin-bottom:1.2rem}
+  .conf-row{display:flex;gap:1rem;align-items:baseline;padding:.6rem 0;border-bottom:1px solid var(--line)}
+  .conf-row:last-child{border-bottom:none}
+  .conf-tier{font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;padding:.25em .7em;border-radius:99px;border:1px solid currentColor;white-space:nowrap;flex-shrink:0;min-width:9ch;text-align:center}
+  .conf-tier.t0{color:var(--mute)}.conf-tier.t1{color:var(--amber)}.conf-tier.t2{color:var(--signal)}.conf-tier.t3{color:var(--signal)}
+  .conf-desc{color:var(--ink-dim);font-size:var(--step--1)}
+
+  /* library */
+  .lib-grid{display:grid;gap:1px;grid-template-columns:repeat(2,1fr);background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden;margin-bottom:2rem}
+  @media(min-width:720px){.lib-grid{grid-template-columns:repeat(4,1fr)}}
+  .lib-card{background:var(--ground-2);padding:1.6rem 1.3rem;display:flex;flex-direction:column;gap:.4rem}
+  .lib-n{font-size:var(--step-3);font-weight:800;color:var(--signal);line-height:1;font-variant-numeric:tabular-nums}
+  .lib-l{font-family:var(--mono);font-size:var(--step--1);color:var(--ink-dim);letter-spacing:.04em}
+  .lib-cta{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:2rem}
+  .btn{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.05em;padding:.9em 1.4em;border-radius:2px;cursor:pointer;border:1px solid transparent;display:inline-flex;align-items:center;gap:.6em;transition:transform .15s,box-shadow .2s,border-color .2s,color .2s;text-transform:uppercase}
+  .btn-primary{background:var(--signal);color:#04120C;font-weight:700}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 30px -10px var(--signal)}
+  .btn-ghost{background:transparent;color:var(--ink);border-color:var(--line-strong)}
+  .btn-ghost:hover{border-color:var(--signal);color:var(--signal)}
+
+  /* footer */
+  footer{border-top:1px solid var(--line);padding:2.6rem 0;font-family:var(--mono);font-size:var(--step--1);color:var(--mute)}
+  .foot-row{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;align-items:center}
+  .foot-row .sig{color:var(--signal)}
+  .foot-links{display:flex;gap:1.3rem;flex-wrap:wrap}
+  .foot-links a:hover{color:var(--signal)}
+
+  /* breadcrumbs */
+  .crumbs{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;font-family:var(--mono);font-size:var(--step--1);color:var(--mute);margin-bottom:1.4rem}
+  .crumbs a{color:var(--ink-dim);transition:color .2s}
+  .crumbs a:hover{color:var(--signal)}
+  .crumbs .sep{color:var(--mute);opacity:.6}
+  .crumbs .here{color:var(--signal)}
+  /* related pillars footer strip */
+  .related{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:2rem}
+  .related a{font-family:var(--mono);font-size:var(--step--1);border:1px solid var(--line);border-radius:99px;padding:.4em .95em;color:var(--ink-dim);transition:.2s}
+  .related a:hover{border-color:var(--signal);color:var(--signal)}
+  .related span{color:var(--mute);align-self:center}
+
+  .obs-summary{display:grid;gap:1px;grid-template-columns:repeat(2,1fr);background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden;margin-top:2.4rem}
+  @media(min-width:720px){.obs-summary{grid-template-columns:repeat(4,1fr)}}
+  .obs-stat{background:var(--ground-2);padding:1.3rem 1.4rem}
+  .obs-stat .n{font-family:var(--mono);font-size:var(--step-3);font-weight:800;color:var(--signal);line-height:1;font-variant-numeric:tabular-nums}
+  .obs-stat .l{font-family:var(--mono);font-size:var(--step--1);color:var(--ink-dim);margin-top:.4rem;letter-spacing:.04em}
+  .obs-check{margin-top:2rem;display:flex;gap:.6rem;flex-wrap:wrap}
+  .obs-check input{flex:1;min-width:240px;background:var(--ground-2);border:1px solid var(--line-strong);border-radius:6px;color:var(--ink);padding:.85rem 1rem;font-family:var(--mono);font-size:var(--step-0)}
+  .obs-check input:focus{outline:none;border-color:var(--signal)}
+  .obs-check button{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.05em;text-transform:uppercase;background:var(--signal);color:#04120C;font-weight:700;border:none;border-radius:6px;padding:.85rem 1.4rem;cursor:pointer;transition:transform .15s}
+  .obs-check button:hover{transform:translateY(-2px)}
+  #obs-adhoc{margin-top:1.1rem}
+  .obs-banner{font-family:var(--mono);font-size:var(--step--1);line-height:1.5;border:1px dashed var(--line-strong);border-radius:6px;padding:.7rem .9rem;margin-top:1.4rem;color:var(--ink-dim)}
+  .obs-banner b{color:var(--amber)}
+  .obs-cat{margin-top:2.8rem}
+  .obs-cat h2{font-size:var(--step-1);font-weight:800;letter-spacing:-.02em;display:flex;align-items:center;gap:.7rem;margin-bottom:1.2rem}
+  .obs-cat-n{font-size:.7rem;color:var(--mute);border:1px solid var(--line);border-radius:99px;padding:.15em .6em}
+  .obs-grid{display:grid;gap:.7rem;grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
+  .obs-card{background:var(--ground-2);border:1px solid var(--line);border-radius:8px;padding:1.1rem 1.2rem;display:flex;flex-direction:column;gap:.5rem;transition:border-color .2s,transform .15s}
+  .obs-card:hover{border-color:var(--signal);transform:translateY(-2px)}
+  .obs-top{display:flex;align-items:center;justify-content:space-between;gap:.6rem}
+  .obs-dom{font-size:var(--step-0);color:var(--ink);word-break:break-all}
+  .obs-grade{font-weight:800;font-size:1.7rem;line-height:1;color:var(--mute)}
+  .obs-dmarc{font-size:.7rem;color:var(--mute);letter-spacing:.06em;text-transform:uppercase}
+  .obs-note{font-family:var(--mono);font-size:var(--step--1);color:var(--ink-dim);line-height:1.7;border-left:2px solid var(--signal);padding-left:1.2rem;max-width:74ch;margin-top:1.6rem}
+  .obs-note b{color:var(--signal)}
+
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <a class="brand-min" href="/"><span class="dot" aria-hidden="true"></span>SPAMCRACKERS<span class="tld">.com</span></a>
+  <nav>
+    <a class="navlink" href="/#standard">The Standard</a>
+    <a class="navlink" href="/intelligence/">Intelligence</a>
+    <a class="navlink" href="/#lab">Check a domain</a>
+    <button class="themebtn" id="themebtn" type="button" aria-label="Toggle theme">◐ THEME</button>
+  </nav>
+</header>
+
+<section class="hero" style="padding-bottom:0">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span class="sep">/</span><span class="here">The Observatory</span></nav>
+    <div class="eyebrow">Email security posture · at scale</div>
+    <h1>The Observatory.</h1>
+    <p class="lede">How does the web's email actually hold up? This is a live index of how well-known domains score against the <a class="ilink" href="/#standard">SpamCrackers Standard</a> — <strong>graded in your browser, against public DNS</strong>. Nothing is stored; every grade is computed the moment you arrive.</p>
+  </div>
+</section>
+
+<section style="border-top:none;padding-top:2rem">
+  <div class="wrap">
+    <div class="obs-summary reveal">
+      <div class="obs-stat"><div class="n" id="st-total">24</div><div class="l">domains watched</div></div>
+      <div class="obs-stat"><div class="n" id="st-armored">—</div><div class="l">grade A or better</div></div>
+      <div class="obs-stat"><div class="n" id="st-reject" >—</div><div class="l">DMARC enforced</div></div>
+      <div class="obs-stat"><div class="n" id="st-exposed">—</div><div class="l">exposed (D/F)</div></div>
+    </div>
+
+    <div class="obs-check">
+      <input id="obs-q" type="text" spellcheck="false" autocapitalize="off" autocomplete="off" placeholder="Check any domain — e.g. yourcompany.com" aria-label="Check any domain" />
+      <button id="obs-run" type="button">▶ Check</button>
+    </div>
+    <div id="obs-adhoc"></div>
+    <div class="obs-banner" id="obs-banner" hidden></div>
+
+    <p class="obs-note reveal"><b>Method:</b> the Observatory grades each domain on its public policy records — <b>SPF · DMARC · MX</b> — the same fast pass used across the site. A full grade including DKIM is available for any single domain in the <a class="ilink" href="/#lab">domain check</a>. Grades reflect public DNS at the moment of loading and are never stored.</p>
+
+
+      <div class="obs-cat reveal">
+        <h2>Email &amp; productivity <span class="obs-cat-n mono">5</span></h2>
+        <div class="obs-grid">
+          <a class="obs-card" id="obs-googlecom" href="/?scan=google.com" data-domain="google.com" title="Full report for google.com">
+            <div class="obs-top"><span class="obs-dom mono">google.com</span><span class="obs-grade mono">···</span></div>
+            <div class="obs-dmarc mono">checking…</div>
+          </a>
+          <a class="obs-card" id="obs-microsoftcom" href="/?scan=microsoft.com" data-domain="microsoft.com" title="Full report for microsoft.com">
+            <div class="obs-top"><span class="obs-dom mono">microsoft.com</span><span class="obs-grade mono">···</span></div>
+            <div class="obs-dmarc mono">checking…</div>
+          </a>
+          <a class="obs-card" id="obs-applecom" href="/?scan=apple.com" data-domain="apple.com" title="Full report for apple.com">
+            <div class="obs-top"><span class="obs-dom mono">apple.com</span><span class="obs-grade mono">···</span></div>
+            <div class="obs-dmarc mono">checking…</div>
+          </a>
+          <a class="obs-card" id="obs-protonme" href="/?scan=proton.me" data-domain="proton.me" title="Full report for proton.me">
+            <div class="obs-top"><span class="obs-dom mono">proton.me</span><span class="obs-grade mono">···</span></div>
+            <div class="obs-dmarc mono">checking…</div>
+          </a>
+          <a class="obs-card" id="obs-zohocom" href="/?scan=zoho.com" data-domain="zoho.com" title="Full report for zoho.com">
+            <div class="obs-top"><span class="obs-dom mono">zoho.com</span><span class="obs-grade mono">···</span></div>
+            <div class="obs-dmarc mono">checking…</div>
+          </a>
+        </div>
+      </div>
+
+      <div class="obs-cat reveal">
+        <h2>Banking &amp; finance <span class="obs-cat-n mono">5</span></h2>
+        <div class="obs-grid">
+          <a class="obs-card" id="obs-paypalcom" href="/?scan=paypal.com" data-domain="paypal.com" title="Full report for paypal.com">
+            <div class="obs-top"><span class="obs-dom mono">paypal.com</span><span class="obs-grade mono">···</span></div>
+            <div class="obs-dmarc mono">checking…</div>
+          </a>
+          <a class="obs-card" id="obs-stripecom" href="/?scan=stripe.com" data-domain="stripe.com" title="Full report for stripe.com">
+            <div class="obs-top"><span class="obs-dom mono">stripe.com</span><span class="obs-grade mono">···</span></div>
+            <div class="obs-dmarc mono">checking…</div>
+          </a>
+          <a class="obs-card" id="obs-chasecom" href="/?scan=chase.com" data-domain="chase.com" title="Full report for chase.com">
+            <div class="obs-top"><span class="obs-dom mono">chase.com</span><span class="obs-grade mono">···</span></div>
+            <div class="obs-dmarc mono">checking…</div>
+          </a>
+          <a class="obs-card" id="obs-wisecom" href="/?scan=wise.com" data-domain="wise.com" title="Full report for wise.com">
+            <div class="obs-top"><span class="obs-dom mono">wise.com</span><span class="obs-grade mono">···</span></div>
+            <div class="obs-dmarc mono">checking…</div>
+          </a>
+          <a class="obs-card" id="obs-revolutcom" href="/?scan=revolut.com" data-domain="revolut.com" title="Full report for revolut.com">
+            <div class="obs-top"><span class="obs-dom mono">revolut.com</span><span class="obs-grade mono">···</span></div>
+            <div class="obs-dmarc mono">checking…</div>
+          </a>
+        </div>
+      </div>
+
+      <div class="obs-cat reveal">
+        <h2>Government <span class="obs-cat-n mono">3</span></h2>
+        <div class="obs-grid">
+          <a class="obs-card" id="obs-irsgov" href="/?scan=irs.gov" data-domain="irs.gov" title="Full report for irs.gov">
+            <div class="obs-top"><span class="obs-dom mono">irs.gov</span><span class="obs-grade mono">···</span></div>
+            <div class="obs-dmarc mono">checking…</div>
+          </a>
+          <a class="obs-card" id="obs-govuk" href="/?scan=gov.uk" data-domain="gov.uk" title="Full report for gov.uk">
+            <div class="obs-top"><span class="obs-dom mono">gov.uk</span><span class="obs-grade mono">···</span></div>
+            <div class="obs-dmarc mono">checking…</div>
+          </a>
+          <a class="obs-card" id="obs-canadaca" href="/?scan=canada.ca" data-domain="canada.ca" title="Full report for canada.ca">
+            <div class="obs-top"><span class="obs-dom mono">canada.ca</span><span class="obs-grade mono">···</span></div>
+            <div class="obs-dmarc mono">checking…</div>
+          </a>
+        </div>
+      </div>
+
+      <div class="obs-cat reveal">
+        <h2>Cloud &amp; security <span class="obs-cat-n mono">4</span></h2>
+        <div class="obs-grid">
+          <a class="obs-card" id="obs-cloudflarecom" href="/?scan=cloudflare.com" data-domain="cloudflare.com" title="Full report for cloudflare.com">
+            <div class="obs-top"><span class="obs-dom mono">cloudflare.com</span><span class="obs-grade mono">···</span></div>
+            <div class="obs-dmarc mono">checking…</div>
+          </a>
+          <a class="obs-card" id="obs-githubcom" href="/?scan=github.com" data-domain="github.com" title="Full report for github.com">
+            <div class="obs-top"><span class="obs-dom mono">github.com</span><span class="obs-grade mono">···</span></div>
+            <div class="obs-dmarc mono">checking…</div>
+          </a>
+          <a class="obs-card" id="obs-oktacom" href="/?scan=okta.com" data-domain="okta.com" title="Full report for okta.com">
+            <div class="obs-top"><span class="obs-dom mono">okta.com</span><span class="obs-grade mono">···</span></div>
+            <div class="obs-dmarc mono">checking…</div>
+          </a>
+          <a class="obs-card" id="obs-digitaloceancom" href="/?scan=digitalocean.com" data-domain="digitalocean.com" title="Full report for digitalocean.com">
+            <div class="obs-top"><span class="obs-dom mono">digitalocean.com</span><span class="obs-grade mono">···</span></div>
+            <div class="obs-dmarc mono">checking…</div>
+          </a>
+        </div>
+      </div>
+
+      <div class="obs-cat reveal">
+        <h2>Commerce <span class="obs-cat-n mono">4</span></h2>
+        <div class="obs-grid">
+          <a class="obs-card" id="obs-amazoncom" href="/?scan=amazon.com" data-domain="amazon.com" title="Full report for amazon.com">
+            <div class="obs-top"><span class="obs-dom mono">amazon.com</span><span class="obs-grade mono">···</span></div>
+            <div class="obs-dmarc mono">checking…</div>
+          </a>
+          <a class="obs-card" id="obs-shopifycom" href="/?scan=shopify.com" data-domain="shopify.com" title="Full report for shopify.com">
+            <div class="obs-top"><span class="obs-dom mono">shopify.com</span><span class="obs-grade mono">···</span></div>
+            <div class="obs-dmarc mono">checking…</div>
+          </a>
+          <a class="obs-card" id="obs-ebaycom" href="/?scan=ebay.com" data-domain="ebay.com" title="Full report for ebay.com">
+            <div class="obs-top"><span class="obs-dom mono">ebay.com</span><span class="obs-grade mono">···</span></div>
+            <div class="obs-dmarc mono">checking…</div>
+          </a>
+          <a class="obs-card" id="obs-bookingcom" href="/?scan=booking.com" data-domain="booking.com" title="Full report for booking.com">
+            <div class="obs-top"><span class="obs-dom mono">booking.com</span><span class="obs-grade mono">···</span></div>
+            <div class="obs-dmarc mono">checking…</div>
+          </a>
+        </div>
+      </div>
+
+      <div class="obs-cat reveal">
+        <h2>Social &amp; comms <span class="obs-cat-n mono">3</span></h2>
+        <div class="obs-grid">
+          <a class="obs-card" id="obs-linkedincom" href="/?scan=linkedin.com" data-domain="linkedin.com" title="Full report for linkedin.com">
+            <div class="obs-top"><span class="obs-dom mono">linkedin.com</span><span class="obs-grade mono">···</span></div>
+            <div class="obs-dmarc mono">checking…</div>
+          </a>
+          <a class="obs-card" id="obs-slackcom" href="/?scan=slack.com" data-domain="slack.com" title="Full report for slack.com">
+            <div class="obs-top"><span class="obs-dom mono">slack.com</span><span class="obs-grade mono">···</span></div>
+            <div class="obs-dmarc mono">checking…</div>
+          </a>
+          <a class="obs-card" id="obs-xcom" href="/?scan=x.com" data-domain="x.com" title="Full report for x.com">
+            <div class="obs-top"><span class="obs-dom mono">x.com</span><span class="obs-grade mono">···</span></div>
+            <div class="obs-dmarc mono">checking…</div>
+          </a>
+        </div>
+      </div>
+
+    <div class="lib-cta reveal" style="display:flex;flex-wrap:wrap;gap:.8rem;margin-top:2.6rem">
+      <a class="btn btn-primary" href="/#lab" style="font-family:var(--mono);font-size:var(--step--1);letter-spacing:.05em;padding:.9em 1.4em;border-radius:2px;background:var(--signal);color:#04120C;font-weight:700;text-transform:uppercase;display:inline-flex;gap:.6em">Get your full grade →</a>
+      <a class="btn btn-ghost" href="/intelligence/spoofing/" style="font-family:var(--mono);font-size:var(--step--1);letter-spacing:.05em;padding:.9em 1.4em;border-radius:2px;border:1px solid var(--line-strong);color:var(--ink);text-transform:uppercase;display:inline-flex;gap:.6em">Why it matters →</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-row">
+    <span><span class="sig">SPAMCRACKERS</span>.COM — the Observatory · graded against the Standard v1.0</span>
+    <div class="foot-links">
+      <a href="/">Home</a>
+      <a href="/#standard">The Standard</a>
+      <a href="/intelligence/">Intelligence</a>
+      <a href="/#faq">FAQ</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var root=document.documentElement, tbtn=document.getElementById("themebtn");
+  tbtn.addEventListener("click", function(){
+    var isDark = root.getAttribute("data-theme")==="dark" || (!root.getAttribute("data-theme") && window.matchMedia("(prefers-color-scheme: dark)").matches);
+    root.setAttribute("data-theme", isDark ? "light" : "dark");
+  });
+  if(!reduce){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target);}});},{threshold:.1});
+    document.querySelectorAll(".reveal").forEach(function(el){io.observe(el);});
+  } else { document.querySelectorAll(".reveal").forEach(function(el){el.classList.add("in");}); }
+
+  function grade(score){
+    if(score>=95) return {g:"A+",c:"var(--signal)"};
+    if(score>=85) return {g:"A", c:"var(--signal)"};
+    if(score>=70) return {g:"B", c:"var(--signal)"};
+    if(score>=50) return {g:"C", c:"var(--amber)"};
+    if(score>=30) return {g:"D", c:"var(--noise)"};
+    return {g:"F", c:"var(--noise)"};
+  }
+  function dohQuery(name,type){
+    return fetch("https://dns.google/resolve?name="+encodeURIComponent(name)+"&type="+type,{headers:{accept:"application/dns-json"}})
+      .then(function(r){ if(!r.ok) throw new Error("dns "+r.status); return r.json(); });
+  }
+  function txt(j){ return (!j||!j.Answer)?[]:j.Answer.filter(function(a){return a.type===16;}).map(function(a){return String(a.data).replace(/^"|"$/g,"").replace(/" +"/g,"");}); }
+  function cleanDomain(v){ return v.trim().toLowerCase().replace(/^https?:[/][/]/,"").replace(/[/].*$/,"").replace(/^www[.]/,"").replace(/[^a-z0-9.-]/g,""); }
+
+  function lite(d){
+    return Promise.all([dohQuery(d,"TXT"),dohQuery("_dmarc."+d,"TXT").catch(function(){return {};}),dohQuery(d,"MX").catch(function(){return {};})]).then(function(r){
+      var spf=txt(r[0]).find(function(t){return /^v=spf1/i.test(t);});
+      var dmarcRec=txt(r[1]).find(function(t){return /v=DMARC1/i.test(t);});
+      var mx=(r[2]&&r[2].Answer)?r[2].Answer.filter(function(a){return a.type===15;}).length:0;
+      var s=0,p="none";
+      if(spf){ s+= spf.indexOf("-all")>-1?25:(spf.indexOf("~all")>-1?18:10); }
+      if(dmarcRec){ p=((dmarcRec.match(/p=([a-z]+)/i)||[])[1]||"none").toLowerCase(); s+=p==="reject"?25:(p==="quarantine"?20:10); }
+      if(mx) s+=25;
+      return {score:Math.round(s/75*100), dmarc:dmarcRec?p:"none"};
+    });
+  }
+
+  // concurrency pool
+  function pool(items, worker, n){
+    var i=0, active=0; return new Promise(function(resolve){
+      function next(){
+        if(i>=items.length && active===0){ resolve(); return; }
+        while(active<n && i<items.length){ var it=items[i++]; active++; worker(it).then(function(){ active--; next(); }); }
+      }
+      next();
+    });
+  }
+
+  var cards = [].slice.call(document.querySelectorAll(".obs-card[data-domain]"));
+  var results = {}, ran=false, previewBlocked=false;
+  function paint(d,res){
+    var c=document.getElementById("obs-"+d.replace(/[^a-z0-9]/g,"")); if(!c) return;
+    var ge=c.querySelector(".obs-grade"), de=c.querySelector(".obs-dmarc");
+    if(!res){ ge.textContent=previewBlocked?"live":"—"; de.textContent=previewBlocked?"runs on spamcrackers.com":"no signal"; return; }
+    var m=grade(res.score); ge.textContent=m.g; ge.style.color=m.c; de.textContent="DMARC "+res.dmarc; results[d]=res;
+  }
+  function updateSummary(){
+    var vals=Object.keys(results).map(function(k){return results[k];});
+    var armored=vals.filter(function(r){return r.score>=85;}).length;
+    var reject=vals.filter(function(r){return r.dmarc==="reject";}).length;
+    var exposed=vals.filter(function(r){return r.score<50;}).length;
+    document.getElementById("st-armored").textContent=armored;
+    document.getElementById("st-reject").textContent=reject;
+    document.getElementById("st-exposed").textContent=exposed;
+  }
+  function runAll(){
+    if(ran) return; ran=true;
+    var first=true;
+    pool(cards, function(card){
+      var d=card.getAttribute("data-domain");
+      return lite(d).then(function(res){ paint(d,res); first=false; updateSummary(); })
+        .catch(function(){
+          if(first){ previewBlocked=true; var b=document.getElementById("obs-banner"); b.hidden=false; b.innerHTML='<b>Preview sandbox:</b> live DNS is blocked here, so grades show as “live”. On spamcrackers.com the Observatory grades every domain in real time.'; }
+          paint(d,null);
+        });
+    }, 6).then(updateSummary);
+  }
+  var trigger=document.querySelector(".obs-summary");
+  if(trigger){ var ob=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){runAll();ob.disconnect();}});},{threshold:.05}); ob.observe(trigger); }
+  else runAll();
+
+  // ad-hoc check
+  var q=document.getElementById("obs-q"), adhoc=document.getElementById("obs-adhoc");
+  function runAdhoc(){
+    var d=cleanDomain(q.value); if(!d||d.indexOf(".")===-1){ adhoc.innerHTML='<div class="obs-banner" style="border-style:solid;color:var(--noise)">Enter a valid domain, e.g. yourcompany.com</div>'; return; }
+    adhoc.innerHTML='<div class="obs-card" style="border:1px solid var(--line-strong);border-radius:8px"><div class="obs-top"><span class="obs-dom mono">'+d+'</span><span class="obs-grade mono">···</span></div><div class="obs-dmarc mono">checking…</div></div>';
+    lite(d).then(function(res){
+      var m=grade(res.score);
+      adhoc.innerHTML='<a class="obs-card" href="/?scan='+encodeURIComponent(d)+'" style="border:1px solid '+m.c+';border-radius:8px"><div class="obs-top"><span class="obs-dom mono">'+d+'</span><span class="obs-grade mono" style="color:'+m.c+'">'+m.g+'</span></div><div class="obs-dmarc mono">DMARC '+res.dmarc+' · full report →</div></a>';
+    }).catch(function(){
+      adhoc.innerHTML='<div class="obs-banner" style="border-style:solid">Couldn\'t reach DNS right now — try again, or run the <a class="ilink" href="/?scan='+encodeURIComponent(d)+'">full check</a>.</div>';
+    });
+  }
+  document.getElementById("obs-run").addEventListener("click", runAdhoc);
+  q.addEventListener("keydown", function(e){ if(e.key==="Enter"){ e.preventDefault(); runAdhoc(); } });
+})();
+</script>
+</body>
+</html>
