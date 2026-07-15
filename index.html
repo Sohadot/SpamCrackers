@@ -401,6 +401,21 @@
   .seal-std{font-size:.7rem;letter-spacing:.06em;color:var(--mute);margin-top:.45rem}
   .lab-actions{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.4rem}
   .btn.small{padding:.55em 1em;font-size:.72rem}
+  /* exposure -> adversary linkage */
+  .adversary{margin-top:1.5rem;border:1px solid color-mix(in srgb,var(--noise) 30%,var(--line));border-radius:6px;padding:1rem 1.1rem;background:color-mix(in srgb,var(--noise) 5%,transparent)}
+  .adv-label{font-family:var(--mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--noise);margin-bottom:.85rem}
+  .adv-item{display:block;border-top:1px solid var(--line);padding:.7rem 0;transition:color .2s}
+  .adv-item:first-of-type{border-top:none;padding-top:0}
+  .adv-item:hover .adv-name{color:var(--signal)}
+  .adv-head{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap}
+  .adv-id{font-family:var(--mono);font-size:.68rem;letter-spacing:.05em;color:var(--noise);border:1px solid color-mix(in srgb,var(--noise) 45%,var(--line));border-radius:4px;padding:.15em .5em;white-space:nowrap}
+  .adv-name{font-weight:700;font-size:var(--step--1);color:var(--ink);letter-spacing:-.01em}
+  .adv-arrow{margin-left:auto;color:var(--mute);font-family:var(--mono);font-size:var(--step--1)}
+  .adv-item:hover .adv-arrow{color:var(--signal)}
+  .adv-why{margin-top:.3rem;font-size:var(--step--1);color:var(--ink-dim);line-height:1.5}
+  .result-ref{margin-top:1.1rem;font-family:var(--mono);font-size:var(--step--1);color:var(--mute)}
+  .result-ref a{color:var(--ink-dim);border-bottom:1px solid var(--line-strong);transition:color .2s,border-color .2s}
+  .result-ref a:hover{color:var(--signal);border-color:var(--signal)}
   .ledger{margin-top:1.6rem}
   .ledger[hidden]{display:none}
   .ledger-h{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-dim)}
@@ -1095,6 +1110,18 @@
     return lines.join("\n");
   }
   function hexOf(token){ return token==="var(--signal)"?"#2FE39B":(token==="var(--amber)"?"#F6C560":"#FF3B6B"); }
+  // Map configuration gaps to the abuse techniques they enable (Email Abuse Intelligence model).
+  // Only distinct, honest links — closes the loop Diagnosis -> Reference without cluttering the tool.
+  function adversaryFor(checks){
+    var st={}; checks.forEach(function(c){ st[c.k]=c.st; });
+    var out=[], seen={};
+    function add(id,name,why){ if(!seen[id]){ seen[id]=1; out.push({id:id,name:name,why:why}); } }
+    var authGap = st.SPF!=="pass" || st.DKIM!=="pass" || st.DMARC!=="pass";
+    if(authGap) add("SPM-ID-01","Exact-domain spoofing","Weak authentication lets an attacker forge your exact domain in the From line.");
+    if(st.DMARC==="fail" || st.DMARC==="warn") add("SPM-ID-03","Display-name impersonation","With DMARC unenforced, forged sender names reach the inbox unchallenged.");
+    return out;
+  }
+
   function buildEmbed(d,m){
     var color=hexOf(m.color), safe=escapeHtml(d), href="https://spamcrackers.com/?scan="+encodeURIComponent(d), W=176;
     var svg="<svg xmlns='http://www.w3.org/2000/svg' width='"+W+"' height='36' role='img' aria-label='SpamCrackers grade "+m.g+" for "+safe+"'>"
@@ -1138,6 +1165,19 @@
       wrap.appendChild(el);
     });
     out.appendChild(wrap);
+    // Exposure -> Adversary: what abuse the gaps enable, linked to the reference model
+    var adv=adversaryFor(res.checks);
+    if(adv.length){
+      var ab=document.createElement("div"); ab.className="adversary";
+      var al=document.createElement("div"); al.className="adv-label"; al.textContent="What this exposure enables"; ab.appendChild(al);
+      adv.forEach(function(a){
+        var it=document.createElement("a"); it.className="adv-item"; it.href="/intelligence/#"+a.id; it.title="Study "+a.id+" in Email Abuse Intelligence";
+        it.innerHTML='<span class="adv-head"><span class="adv-id">'+a.id+'</span><span class="adv-name">'+escapeHtml(a.name)+'</span><span class="adv-arrow">reference ↗</span></span>'
+          +'<span class="adv-why">'+escapeHtml(a.why)+'</span>';
+        ab.appendChild(it);
+      });
+      out.appendChild(ab);
+    }
     var actions=document.createElement("div"); actions.className="lab-actions";
     var copyBtn=document.createElement("button"); copyBtn.className="btn btn-ghost small"; copyBtn.type="button"; copyBtn.textContent="⧉ Copy report";
     copyBtn.addEventListener("click", function(){ copyWith(copyBtn, buildReport(d,res,m), "✓ Copied"); });
@@ -1158,6 +1198,9 @@
     });
     actions.appendChild(copyBtn); actions.appendChild(linkBtn); actions.appendChild(embedBtn);
     out.appendChild(actions);
+    var ref=document.createElement("div"); ref.className="result-ref";
+    ref.innerHTML='Graded and referenced against the <a href="/intelligence/">Email Abuse Intelligence</a> model.';
+    out.appendChild(ref);
     requestAnimationFrame(function(){ fill.style.width=res.score+"%"; });
     if(!sampled){ addToLedger(d, m, res.score); }
     try{ history.replaceState(null,"","#scan="+encodeURIComponent(d)); }catch(_){}
