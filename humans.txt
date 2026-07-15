@@ -1,0 +1,19 @@
+/* SPAMCRACKERS */
+  Site: https://spamcrackers.com/
+  Purpose: The reference layer for Email Abuse Intelligence, and a
+           transparent standard for email authentication — SPF, DKIM,
+           DMARC and MX.
+
+/* REFERENCE */
+  Model: Email Abuse Intelligence Reference Model v1.0
+  Scope: Defensive and analytical — classification, not operation.
+  License: CC BY 4.0
+  Machine-readable: https://spamcrackers.com/intelligence/model.json
+  Governance: https://spamcrackers.com/intelligence/governance/
+
+/* TECH */
+  Static site. No server-side code, no accounts, no tracking.
+  Domain checks run in your browser over DNS-over-HTTPS.
+  Standards: HTML5, JSON-LD, Atom, Content-Security-Policy, WCAG AA.
+
+  Last updated: 2026-07-15
