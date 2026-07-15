@@ -1,0 +1,1027 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Scam &amp; Fraud — Reference Model v1.0 | SpamCrackers</title>
+<meta name="description" content="A defensive, analytical reference model for email scams and fraud: taxonomy, tactics and techniques (advance-fee, romance, investment, prize, employment, extortion) and an evidence model. The fifth pillar of Email Abuse Intelligence." />
+<link rel="canonical" href="https://spamcrackers.com/intelligence/scam/" />
+<meta name="robots" content="index, follow, max-image-preview:large" />
+<meta name="theme-color" content="#08090D" media="(prefers-color-scheme: dark)" />
+<meta name="theme-color" content="#ECEDE8" media="(prefers-color-scheme: light)" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2308090D'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%232FE39B'/%3E%3C/svg%3E" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="SpamCrackers" />
+<meta property="og:url" content="https://spamcrackers.com/intelligence/scam/" />
+<meta property="og:title" content="Scam &amp; Fraud — Reference Model v1.0" />
+<meta property="og:description" content="A defensive, analytical reference model for email scams and fraud. The fifth pillar of Email Abuse Intelligence." />
+<meta property="og:image" content="https://spamcrackers.com/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Scam &amp; Fraud — Reference Model v1.0" />
+<meta name="twitter:description" content="The scam &amp; fraud pillar of the Email Abuse Intelligence reference. Defensive and analytical." />
+<meta name="twitter:image" content="https://spamcrackers.com/og-image.png" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "@id": "https://spamcrackers.com/intelligence/scam/#article",
+      "headline": "Scam & Fraud — Reference Model v1.0",
+      "description": "A defensive, analytical reference model for email scams and fraud: taxonomy, tactics and techniques (advance-fee, romance, investment, prize, employment, extortion), and the shared evidence model. The fifth pillar of Email Abuse Intelligence.",
+      "url": "https://spamcrackers.com/intelligence/scam/",
+      "isPartOf": {
+        "@id": "https://spamcrackers.com/#website"
+      },
+      "inLanguage": "en",
+      "version": "1.0",
+      "about": [
+        "scam",
+        "fraud",
+        "advance-fee fraud",
+        "romance scam",
+        "investment fraud",
+        "email security"
+      ],
+      "publisher": {
+        "@type": "Organization",
+        "name": "SpamCrackers",
+        "url": "https://spamcrackers.com/"
+      }
+    },
+    {
+      "@type": "DefinedTermSet",
+      "@id": "https://spamcrackers.com/intelligence/scam/#model",
+      "name": "Email Abuse Intelligence Reference Model v1.0 — Scam pillar",
+      "url": "https://spamcrackers.com/intelligence/scam/",
+      "hasDefinedTerm": [
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/scam/#SCM-LB-01",
+          "termCode": "SCM-LB-01",
+          "name": "Mass blast",
+          "description": "A generic lure is sent at high volume to unfiltered recipients."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/scam/#SCM-LB-02",
+          "termCode": "SCM-LB-02",
+          "name": "Targeted list",
+          "description": "A list tied to a theme (investors, jobseekers) is used for relevance."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/scam/#SCM-LB-03",
+          "termCode": "SCM-LB-03",
+          "name": "Topical & seasonal",
+          "description": "Current events, holidays or disasters are used to raise plausibility."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/scam/#SCM-LB-04",
+          "termCode": "SCM-LB-04",
+          "name": "Authority / brand veneer",
+          "description": "A trusted institution or brand is invoked to open the door."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/scam/#SCM-HK-01",
+          "termCode": "SCM-HK-01",
+          "name": "Windfall claim",
+          "description": "An unexpected prize, inheritance or refund is dangled."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/scam/#SCM-HK-02",
+          "termCode": "SCM-HK-02",
+          "name": "Romance opener",
+          "description": "A friendly or affectionate first contact begins a relationship con."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/scam/#SCM-HK-03",
+          "termCode": "SCM-HK-03",
+          "name": "Investment pitch",
+          "description": "A high-return scheme or platform is offered."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/scam/#SCM-HK-04",
+          "termCode": "SCM-HK-04",
+          "name": "Job / task offer",
+          "description": "An easy, well-paid role is offered, often as a mule funnel."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/scam/#SCM-HK-05",
+          "termCode": "SCM-HK-05",
+          "name": "Threat / extortion",
+          "description": "Fear is used — claimed compromise, debt or legal action."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/scam/#SCM-TR-01",
+          "termCode": "SCM-TR-01",
+          "name": "Channel migration",
+          "description": "The victim is moved to a private channel away from oversight."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/scam/#SCM-TR-02",
+          "termCode": "SCM-TR-02",
+          "name": "Fabricated proof",
+          "description": "Fake documents, screenshots or credentials are shown."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/scam/#SCM-TR-03",
+          "termCode": "SCM-TR-03",
+          "name": "Small reciprocity",
+          "description": "A tiny gift or early 'return' builds false confidence."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/scam/#SCM-TR-04",
+          "termCode": "SCM-TR-04",
+          "name": "Urgency & scarcity",
+          "description": "A closing window pressures fast, unconsidered action."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/scam/#SCM-EX-01",
+          "termCode": "SCM-EX-01",
+          "name": "Advance-fee demand",
+          "description": "Fees or taxes are required before the promised payout."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/scam/#SCM-EX-02",
+          "termCode": "SCM-EX-02",
+          "name": "Payment-detail capture",
+          "description": "Bank or card details are solicited directly."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/scam/#SCM-EX-03",
+          "termCode": "SCM-EX-03",
+          "name": "Crypto transfer",
+          "description": "Irreversible cryptocurrency payment is requested."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/scam/#SCM-EX-04",
+          "termCode": "SCM-EX-04",
+          "name": "Gift-card demand",
+          "description": "Prepaid card codes are requested as payment."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/scam/#SCM-EX-05",
+          "termCode": "SCM-EX-05",
+          "name": "Data harvest",
+          "description": "Identity or account data is collected for later fraud."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/scam/#SCM-ES-01",
+          "termCode": "SCM-ES-01",
+          "name": "Rising fees",
+          "description": "New obstacles justify ever-larger payments."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/scam/#SCM-ES-02",
+          "termCode": "SCM-ES-02",
+          "name": "Sunk-cost pressure",
+          "description": "Prior losses are used to push further payment."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/scam/#SCM-ES-03",
+          "termCode": "SCM-ES-03",
+          "name": "Reload targeting",
+          "description": "A prior victim is re-approached, sometimes as a fake 'recovery' service."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/scam/#SCM-ES-04",
+          "termCode": "SCM-ES-04",
+          "name": "Mule recruitment",
+          "description": "The victim is enlisted to move others' stolen funds."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/scam/#SCM-CO-01",
+          "termCode": "SCM-CO-01",
+          "name": "Mule networks",
+          "description": "Funds pass through recruited intermediaries."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/scam/#SCM-CO-02",
+          "termCode": "SCM-CO-02",
+          "name": "Crypto laundering",
+          "description": "Cryptocurrency is layered to obscure the trail."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/scam/#SCM-CO-03",
+          "termCode": "SCM-CO-03",
+          "name": "Identity churn",
+          "description": "Personas, addresses and accounts are cycled to evade blocks."
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "SpamCrackers",
+          "item": "https://spamcrackers.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Email Abuse Intelligence",
+          "item": "https://spamcrackers.com/intelligence/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Scam & Fraud",
+          "item": "https://spamcrackers.com/intelligence/scam/"
+        }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+  :root{
+    --ground:#08090D; --ground-2:#0D0F15; --panel:#11141C;
+    --ink:#D9DEE6; --ink-dim:#9AA3B0; --mute:#5A6472;
+    --line:rgba(217,222,230,.10); --line-strong:rgba(217,222,230,.20);
+    --signal:#2FE39B; --noise:#FF3B6B; --amber:#F6C560; --focus:#7FE3FF;
+    --maxw:1180px; --narrow:760px;
+    --step--1:clamp(.78rem,.72rem + .3vw,.9rem);
+    --step-0:clamp(.98rem,.92rem + .3vw,1.06rem);
+    --step-1:clamp(1.2rem,1.05rem + .7vw,1.5rem);
+    --step-2:clamp(1.6rem,1.2rem + 1.8vw,2.4rem);
+    --step-3:clamp(2.2rem,1.5rem + 3.2vw,3.6rem);
+    --step-4:clamp(2.8rem,1.8rem + 5vw,5.2rem);
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,Roboto,Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,"SF Mono","SFMono-Regular",Menlo,Consolas,"Liberation Mono",monospace;
+  }
+  :root[data-theme="light"]{
+    --ground:#ECEDE8; --ground-2:#F4F5F1; --panel:#FFFFFF;
+    --ink:#0F1218; --ink-dim:#454E5B; --mute:#78828F;
+    --line:rgba(15,18,24,.12); --line-strong:rgba(15,18,24,.22);
+    --signal:#0F9E6A; --noise:#E01E52; --amber:#B77A11;
+  }
+  @media (prefers-color-scheme: light){
+    :root:not([data-theme="dark"]){
+      --ground:#ECEDE8; --ground-2:#F4F5F1; --panel:#FFFFFF;
+      --ink:#0F1218; --ink-dim:#454E5B; --mute:#78828F;
+      --line:rgba(15,18,24,.12); --line-strong:rgba(15,18,24,.22);
+      --signal:#0F9E6A; --noise:#E01E52; --amber:#B77A11;
+    }
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;scroll-padding-top:70px}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:var(--step-0);line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  ::selection{background:var(--signal);color:var(--ground)}
+  a{color:inherit;text-decoration:none}
+  :focus-visible{outline:2px solid var(--focus);outline-offset:3px;border-radius:2px}
+  .wrap{max-width:var(--maxw);margin-inline:auto;padding-inline:clamp(1.1rem,4vw,3rem)}
+  .wrap.narrow{max-width:calc(var(--narrow) + 6rem)}
+  .mono{font-family:var(--mono)}
+  code{font-family:var(--mono);font-size:.88em;color:var(--signal);background:color-mix(in srgb,var(--signal) 12%,transparent);padding:.1em .42em;border-radius:3px;word-break:break-word}
+  .ilink{color:var(--signal);border-bottom:1px solid color-mix(in srgb,var(--signal) 45%,transparent);transition:border-color .2s}
+  .ilink:hover{border-color:var(--signal)}
+  .eyebrow{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.26em;text-transform:uppercase;color:var(--signal);display:inline-flex;align-items:center;gap:.6em}
+  .eyebrow::before{content:"";width:24px;height:1px;background:var(--signal);opacity:.7}
+
+  /* id chips */
+  .idchip{font-family:var(--mono);font-size:.7rem;letter-spacing:.06em;color:var(--signal);border:1px solid color-mix(in srgb,var(--signal) 45%,var(--line));border-radius:4px;padding:.2em .5em;white-space:nowrap;background:color-mix(in srgb,var(--signal) 8%,transparent)}
+  .idchip-link{transition:background .2s}
+  .idchip-link:hover{background:color-mix(in srgb,var(--signal) 20%,transparent)}
+
+  /* top bar */
+  header.bar{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:.8rem clamp(1.1rem,4vw,3rem);font-family:var(--mono);font-size:var(--step--1);letter-spacing:.05em;backdrop-filter:blur(9px);background:color-mix(in srgb,var(--ground) 75%,transparent);border-bottom:1px solid var(--line)}
+  .brand-min{display:flex;align-items:center;gap:.55rem;font-weight:700}
+  .brand-min .dot{width:9px;height:9px;background:var(--signal);border-radius:50%;box-shadow:0 0 12px var(--signal)}
+  .brand-min .tld{color:var(--mute)}
+  .bar nav{display:flex;align-items:center;gap:clamp(.7rem,1.8vw,1.5rem);color:var(--ink-dim)}
+  .bar nav a{transition:color .2s}.bar nav a:hover{color:var(--signal)}
+  .bar .navlink{display:none}
+  @media(min-width:900px){.bar .navlink{display:inline}}
+  .themebtn{font-family:var(--mono);font-size:var(--step--1);background:transparent;border:1px solid var(--line-strong);color:var(--ink-dim);padding:.35em .7em;border-radius:2px;cursor:pointer;letter-spacing:.1em;transition:.2s}
+  .themebtn:hover{border-color:var(--signal);color:var(--signal)}
+
+  /* sections */
+  section{position:relative;padding:clamp(3.6rem,7vw,6rem) 0;border-top:1px solid var(--line)}
+  .hero{border-top:none;padding-top:clamp(7rem,13vw,10rem)}
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion: reduce){.reveal{opacity:1;transform:none;transition:none}}
+  .sec-head{max-width:64ch;margin-bottom:2.4rem}
+  .sec-head h2{font-weight:800;font-size:var(--step-2);line-height:1.05;letter-spacing:-.025em;margin-top:1rem;text-wrap:balance}
+  .sec-head .sub{margin-top:1rem;color:var(--ink-dim);max-width:60ch}
+
+  /* hero */
+  .hero h1{font-weight:800;font-size:var(--step-4);line-height:.98;letter-spacing:-.035em;margin-top:1.4rem;text-wrap:balance}
+  .hero .hl{color:var(--signal)}
+  .hero .lede{margin-top:1.8rem;font-size:var(--step-1);line-height:1.45;color:var(--ink);max-width:54ch;text-wrap:pretty}
+  .hero .lede strong{color:var(--signal);font-weight:700}
+  .meta-chips{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:2.2rem}
+  .meta-chips .chip{font-family:var(--mono);font-size:var(--step--1);border:1px solid var(--line);border-radius:99px;padding:.45em .95em;color:var(--ink-dim)}
+  .meta-chips .chip b{color:var(--mute);font-weight:400;letter-spacing:.08em;text-transform:uppercase;font-size:.82em;margin-right:.5em}
+  .meta-chips .chip.stance{border-color:color-mix(in srgb,var(--signal) 45%,var(--line));color:var(--signal)}
+  .meta-chips .chip.stance b{color:color-mix(in srgb,var(--signal) 70%,var(--ink-dim))}
+
+  /* prose */
+  .prose p{max-width:68ch;margin-bottom:1.2rem;color:var(--ink-dim)}
+  .prose p:last-child{margin-bottom:0}
+  .prose strong{color:var(--ink)}
+  .prose em{color:var(--signal);font-style:normal}
+
+  /* boundaries */
+  .bound-grid{display:grid;gap:1px;grid-template-columns:1fr;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  @media(min-width:720px){.bound-grid{grid-template-columns:1fr 1fr}}
+  .bound{background:var(--ground-2);padding:clamp(1.4rem,3vw,2.2rem)}
+  .bound-label{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.14em;text-transform:uppercase;margin-bottom:1.1rem;display:flex;align-items:center;gap:.6em}
+  .bound-label::before{content:"";width:10px;height:10px;border-radius:50%}
+  .bound-label.ok{color:var(--signal)}.bound-label.ok::before{background:var(--signal)}
+  .bound-label.no{color:var(--noise)}.bound-label.no::before{background:var(--noise)}
+  .bound ul{list-style:none;display:flex;flex-direction:column;gap:.75rem}
+  .bound li{position:relative;padding-left:1.5rem;color:var(--ink-dim);line-height:1.5}
+  .bound li b{color:var(--ink)}
+  .bound.is li::before{content:"✓";position:absolute;left:0;color:var(--signal);font-family:var(--mono)}
+  .bound.not li::before{content:"✕";position:absolute;left:0;color:var(--noise);font-family:var(--mono)}
+  .bound-note{margin-top:1.6rem;font-family:var(--mono);font-size:var(--step--1);color:var(--ink-dim);line-height:1.7;border-left:2px solid var(--signal);padding-left:1.2rem;max-width:74ch}
+  .bound-note b{color:var(--signal)}
+
+  /* pillars */
+  .pillar-grid{display:grid;gap:1px;grid-template-columns:1fr;background:var(--line);border:1px solid var(--line)}
+  @media(min-width:620px){.pillar-grid{grid-template-columns:repeat(2,1fr)}}
+  @media(min-width:960px){.pillar-grid{grid-template-columns:repeat(3,1fr)}}
+  .pillar{background:var(--ground);padding:clamp(1.4rem,2.6vw,2rem);display:flex;flex-direction:column;gap:.6rem;transition:background .3s}
+  .pillar:hover{background:var(--ground-2)}
+  .pillar-top{display:flex;align-items:center;justify-content:space-between;gap:.6rem}
+  .pill-status{font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+  .pillar.active{background:color-mix(in srgb,var(--signal) 6%,var(--ground))}
+  .pillar.active .pill-status{color:var(--signal)}
+  .pillar h3{font-size:var(--step-1);font-weight:800;letter-spacing:-.02em}
+  .pillar p{color:var(--ink-dim);font-size:var(--step--1);line-height:1.55}
+  .pillar.planned{opacity:.82}
+
+  /* cite */
+  .cite{border:1px solid var(--line);border-radius:8px;padding:clamp(1.2rem,3vw,1.8rem);background:var(--ground-2)}
+  .cite-label{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.14em;text-transform:uppercase;color:var(--signal);margin-bottom:.8rem}
+  .cite p{color:var(--ink-dim);max-width:70ch}
+
+  /* tables */
+  .ref-table{width:100%;border-collapse:collapse;font-size:var(--step--1)}
+  .ref-table th{text-align:left;font-family:var(--mono);color:var(--mute);font-weight:400;letter-spacing:.08em;text-transform:uppercase;font-size:.7rem;padding:0 1rem .7rem 0;border-bottom:1px solid var(--line-strong)}
+  .ref-table td{padding:.8rem 1rem .8rem 0;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink-dim);line-height:1.5}
+  .ref-table tr:last-child td{border-bottom:none}
+  .ref-table td.code{color:var(--signal);white-space:nowrap}
+  .ref-table td.pk{color:var(--ink);font-weight:600}
+
+  /* taxonomy */
+  .tax-grid{display:grid;gap:1.5rem;grid-template-columns:1fr}
+  @media(min-width:820px){.tax-grid{grid-template-columns:1fr 1fr}}
+  .tax-block{border:1px solid var(--line);border-radius:8px;padding:clamp(1.2rem,2.6vw,1.8rem);background:var(--ground-2)}
+  .tax-head{display:flex;align-items:center;gap:.8rem;margin-bottom:1.2rem}
+  .tax-head h3{font-size:var(--step-1);font-weight:800;letter-spacing:-.02em}
+
+  /* matrix */
+  .matrix-scroll{overflow-x:auto;padding-bottom:.6rem;-webkit-overflow-scrolling:touch}
+  .matrix{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(190px,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;min-width:960px}
+  .matrix-col{background:var(--ground);display:flex;flex-direction:column;gap:1px}
+  .matrix-head{background:var(--ground-2);padding:.9rem .8rem;display:flex;flex-direction:column;gap:.45rem;min-height:72px}
+  .matrix-head .mh-name{font-weight:700;font-size:.86rem;line-height:1.2;letter-spacing:-.01em}
+  .matrix-cell{background:var(--ground);padding:.7rem .8rem;font-size:.8rem;color:var(--ink-dim);display:flex;flex-direction:column;gap:.25rem;transition:background .2s,color .2s;border-top:1px solid var(--line)}
+  .matrix-cell:hover{background:color-mix(in srgb,var(--signal) 10%,var(--ground));color:var(--ink)}
+  .matrix-cell .cell-id{font-size:.66rem;color:var(--mute)}
+  .matrix-cell:hover .cell-id{color:var(--signal)}
+
+  /* technique detail */
+  .phase{margin-top:3rem;scroll-margin-top:76px}
+  .phase-head{display:flex;align-items:center;gap:.8rem}
+  .phase-head h3{font-size:var(--step-1);font-weight:800;letter-spacing:-.02em}
+  .phase-blurb{color:var(--ink-dim);margin:.7rem 0 1.4rem;max-width:64ch}
+  .tcards{display:grid;gap:1rem;grid-template-columns:1fr}
+  @media(min-width:720px){.tcards{grid-template-columns:1fr 1fr}}
+  .tcard{border:1px solid var(--line);border-radius:8px;padding:1.2rem 1.3rem;background:var(--ground-2);scroll-margin-top:80px;transition:border-color .3s,box-shadow .3s}
+  .tcard.flash{border-color:var(--signal);box-shadow:0 0 0 1px var(--signal),0 14px 40px -20px var(--signal)}
+  .tcard-top{display:flex;align-items:center;gap:.7rem;margin-bottom:1rem}
+  .tcard-top h4{font-size:var(--step-0);font-weight:700;letter-spacing:-.01em}
+  .tcard-body{display:grid;grid-template-columns:1fr;gap:.35rem}
+  .tcard-body dt{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin-top:.7rem}
+  .tcard-body dt:first-child{margin-top:0}
+  .tcard-body dt.def{color:var(--signal)}
+  .tcard-body dd{color:var(--ink-dim);font-size:var(--step--1);line-height:1.55}
+  .tcard-body dd.def{color:var(--ink)}
+
+  /* evidence + confidence */
+  .conf{margin-top:2.2rem;border:1px solid var(--line);border-radius:8px;padding:clamp(1.2rem,3vw,1.8rem);background:var(--ground-2)}
+  .conf-label{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.14em;text-transform:uppercase;color:var(--signal);margin-bottom:1.2rem}
+  .conf-row{display:flex;gap:1rem;align-items:baseline;padding:.6rem 0;border-bottom:1px solid var(--line)}
+  .conf-row:last-child{border-bottom:none}
+  .conf-tier{font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;padding:.25em .7em;border-radius:99px;border:1px solid currentColor;white-space:nowrap;flex-shrink:0;min-width:9ch;text-align:center}
+  .conf-tier.t0{color:var(--mute)}.conf-tier.t1{color:var(--amber)}.conf-tier.t2{color:var(--signal)}.conf-tier.t3{color:var(--signal)}
+  .conf-desc{color:var(--ink-dim);font-size:var(--step--1)}
+
+  /* library */
+  .lib-grid{display:grid;gap:1px;grid-template-columns:repeat(2,1fr);background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden;margin-bottom:2rem}
+  @media(min-width:720px){.lib-grid{grid-template-columns:repeat(4,1fr)}}
+  .lib-card{background:var(--ground-2);padding:1.6rem 1.3rem;display:flex;flex-direction:column;gap:.4rem}
+  .lib-n{font-size:var(--step-3);font-weight:800;color:var(--signal);line-height:1;font-variant-numeric:tabular-nums}
+  .lib-l{font-family:var(--mono);font-size:var(--step--1);color:var(--ink-dim);letter-spacing:.04em}
+  .lib-cta{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:2rem}
+  .btn{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.05em;padding:.9em 1.4em;border-radius:2px;cursor:pointer;border:1px solid transparent;display:inline-flex;align-items:center;gap:.6em;transition:transform .15s,box-shadow .2s,border-color .2s,color .2s;text-transform:uppercase}
+  .btn-primary{background:var(--signal);color:#04120C;font-weight:700}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 30px -10px var(--signal)}
+  .btn-ghost{background:transparent;color:var(--ink);border-color:var(--line-strong)}
+  .btn-ghost:hover{border-color:var(--signal);color:var(--signal)}
+
+  /* footer */
+  footer{border-top:1px solid var(--line);padding:2.6rem 0;font-family:var(--mono);font-size:var(--step--1);color:var(--mute)}
+  .foot-row{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;align-items:center}
+  .foot-row .sig{color:var(--signal)}
+  .foot-links{display:flex;gap:1.3rem;flex-wrap:wrap}
+  .foot-links a:hover{color:var(--signal)}
+
+  /* breadcrumbs */
+  .crumbs{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;font-family:var(--mono);font-size:var(--step--1);color:var(--mute);margin-bottom:1.4rem}
+  .crumbs a{color:var(--ink-dim);transition:color .2s}
+  .crumbs a:hover{color:var(--signal)}
+  .crumbs .sep{color:var(--mute);opacity:.6}
+  .crumbs .here{color:var(--signal)}
+  /* related pillars footer strip */
+  .related{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:2rem}
+  .related a{font-family:var(--mono);font-size:var(--step--1);border:1px solid var(--line);border-radius:99px;padding:.4em .95em;color:var(--ink-dim);transition:.2s}
+  .related a:hover{border-color:var(--signal);color:var(--signal)}
+  .related span{color:var(--mute);align-self:center}
+
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <a class="brand-min" href="/"><span class="dot" aria-hidden="true"></span>SPAMCRACKERS<span class="tld">.com</span></a>
+  <nav>
+    <a class="navlink" href="/intelligence/">Intelligence</a>
+    <a class="navlink" href="#model">Reference Model</a>
+    <a class="navlink" href="#matrix">Techniques</a>
+    <a class="navlink" href="/#lab">Check a domain</a>
+    <button class="themebtn" id="themebtn" type="button" aria-label="Toggle theme">◐ THEME</button>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span class="sep">/</span><a href="/intelligence/">Email Abuse Intelligence</a><span class="sep">/</span><span class="here">Scam &amp; Fraud</span></nav>
+    <div class="eyebrow">Email Abuse Intelligence · Pillar SCM</div>
+    <h1>Scam &amp; Fraud.</h1>
+    <p class="lede">The con that needs no code — advance-fee, romance, investment, prize, employment and extortion fraud all run on persuasion alone. This pillar models the con as a chain, from the first lure to the final cash-out. The fifth pillar of <a class="ilink" href="/intelligence/">Email Abuse Intelligence</a>.</p>
+    <div class="meta-chips">
+      <span class="chip"><b>Namespace</b> EAI · SCM</span>
+      <span class="chip"><b>Release</b> v1.0</span>
+      <span class="chip stance"><b>Posture</b> Defensive &amp; analytical</span>
+      <span class="chip"><b>Techniques</b> 25</span>
+    </div>
+  </div>
+</section>
+
+<section id="thesis">
+  <div class="wrap narrow">
+    <div class="sec-head reveal"><span class="eyebrow">01 · Pillar thesis</span><h2>The exploit is the human, not the host.</h2></div>
+    <div class="prose reveal">
+      <p>Scams carry no payload a scanner can catch. There is nothing to detonate — only a story engineered to move a person from doubt to trust to payment. Because the vulnerability is psychological, the defence is pattern recognition: knowing the shapes these cons take, and the moment each one asks for money.</p>
+      <p>This pillar models the con as a repeatable chain — <a class="ilink" href="#matrix">broadcast, hook, trust, extraction, escalation and cash-out</a> — so the tactics can be named and taught. It bridges to the <a class="ilink" href="/intelligence/">spam pillar</a> for delivery at scale and to the <a class="ilink" href="/intelligence/bec/">BEC pillar</a> where fraud turns on a business relationship rather than an individual.</p>
+    </div>
+  </div>
+</section>
+
+<section id="scope">
+  <div class="wrap narrow">
+    <div class="sec-head reveal"><span class="eyebrow">02 · Scope &amp; boundaries</span><h2>Defensive by definition.</h2></div>
+    <div class="bound-grid reveal">
+      <div class="bound is">
+        <div class="bound-label ok">What this is</div>
+        <ul>
+          <li>A <b>classification and reference model</b> for understanding email scams.</li>
+          <li><b>Analytical and defensive</b> — for defenders, educators and responders.</li>
+          <li>Focused on <b>recognisable patterns and protective guidance</b>.</li>
+          <li><b>Open and citable</b>, with stable identifiers.</li>
+        </ul>
+      </div>
+      <div class="bound not">
+        <div class="bound-label no">What this is not</div>
+        <ul>
+          <li><b>Not</b> a script, template or playbook for running scams.</li>
+          <li><b>Not</b> operational instructions for defrauding anyone.</li>
+          <li><b>Not</b> a directory of victims or targets.</li>
+          <li><b>Not</b> a substitute for lawful reporting and consumer protection.</li>
+        </ul>
+      </div>
+    </div>
+    <p class="bound-note reveal">Every technique is described at the level of <b>classification and defence</b> — what it is, how it is recognised, and how a potential victim is protected. The emphasis is protective throughout.</p>
+  </div>
+</section>
+
+<section id="model">
+  <div class="wrap narrow">
+    <div class="sec-head reveal"><span class="eyebrow">03 · Reference Model v1.0 · SCM</span><h2>A shared vocabulary for the scam pillar.</h2>
+      <p class="sub">Three parts: a <a class="ilink" href="#taxonomy">taxonomy</a>, a <a class="ilink" href="#matrix">tactics &amp; techniques matrix</a>, and a shared <a class="ilink" href="#evidence">evidence model</a>.</p></div>
+    <div class="cite reveal">
+      <div class="cite-label">How to cite</div>
+      <p>Elements carry stable identifiers in the <code>EAI</code> namespace under the scam prefix <code>SCM</code>. Cite by code and URL — for example <code>SCM-EX-03</code> · <span class="mono">spamcrackers.com/intelligence/scam/#SCM-EX-03</span>.</p>
+    </div>
+  </div>
+</section>
+
+<section id="taxonomy">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="eyebrow">03.1 · Scam taxonomy</span><h2>Four axes of classification.</h2>
+      <p class="sub">A con is described by its scam type, the emotional hook, the monetisation and how persistently it is pursued.</p></div>
+    <div class="tax-grid">
+
+      <div class="tax-block reveal">
+        <div class="tax-head"><span class="idchip">SCM-TAX-A</span><h3>By scam type</h3></div>
+        <table class="ref-table">
+          <thead><tr><th>Code</th><th>Class</th><th>Definition</th></tr></thead>
+          <tbody>
+            <tr><td class="mono code">AA1</td><td class="pk">Advance-fee</td><td>A promised windfall unlocked only after upfront payments.</td></tr>
+            <tr><td class="mono code">AA2</td><td class="pk">Romance</td><td>A fabricated relationship leveraged for money over time.</td></tr>
+            <tr><td class="mono code">AA3</td><td class="pk">Investment / crypto</td><td>Fake high-return schemes and fraudulent trading platforms.</td></tr>
+            <tr><td class="mono code">AA4</td><td class="pk">Lottery / prize</td><td>A win or inheritance the recipient never entered.</td></tr>
+            <tr><td class="mono code">AA5</td><td class="pk">Employment</td><td>Fake job or task offers used to extract money or launder funds.</td></tr>
+            <tr><td class="mono code">AA6</td><td class="pk">Marketplace / goods</td><td>Fraud around fake purchases, rentals or sales.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tax-block reveal">
+        <div class="tax-head"><span class="idchip">SCM-TAX-B</span><h3>By emotional hook</h3></div>
+        <table class="ref-table">
+          <thead><tr><th>Code</th><th>Class</th><th>Definition</th></tr></thead>
+          <tbody>
+            <tr><td class="mono code">BB1</td><td class="pk">Windfall</td><td>The promise of unexpected money or reward.</td></tr>
+            <tr><td class="mono code">BB2</td><td class="pk">Affection</td><td>Emotional attachment and companionship.</td></tr>
+            <tr><td class="mono code">BB3</td><td class="pk">Greed</td><td>The lure of outsized, easy returns.</td></tr>
+            <tr><td class="mono code">BB4</td><td class="pk">Fear</td><td>Threats, blackmail or claimed legal jeopardy.</td></tr>
+            <tr><td class="mono code">BB5</td><td class="pk">Opportunity</td><td>A too-good job, deal or investment window.</td></tr>
+            <tr><td class="mono code">BB6</td><td class="pk">Authority</td><td>The weight of a claimed official or institution.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tax-block reveal">
+        <div class="tax-head"><span class="idchip">SCM-TAX-C</span><h3>By monetisation</h3></div>
+        <table class="ref-table">
+          <thead><tr><th>Code</th><th>Class</th><th>Definition</th></tr></thead>
+          <tbody>
+            <tr><td class="mono code">CC1</td><td class="pk">Upfront fee</td><td>Fees, taxes or charges demanded before the promised payout.</td></tr>
+            <tr><td class="mono code">CC2</td><td class="pk">Bank / card details</td><td>Direct capture of payment credentials.</td></tr>
+            <tr><td class="mono code">CC3</td><td class="pk">Cryptocurrency</td><td>Irreversible transfers to attacker wallets.</td></tr>
+            <tr><td class="mono code">CC4</td><td class="pk">Gift cards</td><td>Prepaid card codes as an untraceable payout.</td></tr>
+            <tr><td class="mono code">CC5</td><td class="pk">Money-mule recruitment</td><td>The victim is turned into a launderer of others' funds.</td></tr>
+            <tr><td class="mono code">CC6</td><td class="pk">Personal-data harvest</td><td>Identity data collected for later fraud.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tax-block reveal">
+        <div class="tax-head"><span class="idchip">SCM-TAX-D</span><h3>By persistence</h3></div>
+        <table class="ref-table">
+          <thead><tr><th>Code</th><th>Class</th><th>Definition</th></tr></thead>
+          <tbody>
+            <tr><td class="mono code">DD1</td><td class="pk">One-shot blast</td><td>A single mass attempt with no follow-up.</td></tr>
+            <tr><td class="mono code">DD2</td><td class="pk">Long con</td><td>Patient grooming over days, weeks or months.</td></tr>
+            <tr><td class="mono code">DD3</td><td class="pk">Reload</td><td>Re-targeting a prior victim for a second loss.</td></tr>
+            <tr><td class="mono code">DD4</td><td class="pk">Escalation</td><td>Rising fees justified by ever-new obstacles.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="matrix">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="eyebrow">03.2 · Scam tactics &amp; techniques</span><h2>The con, phase by phase.</h2>
+      <p class="sub">Six phases from the opening lure to the final cash-out. Each cell is a defensively-described technique; select one to jump to its detail.</p></div>
+    <div class="matrix-scroll reveal">
+
+      <div class="matrix" role="table" aria-label="Scam and fraud tactics and techniques matrix">
+        
+        <div class="matrix-col" role="column">
+          <div class="matrix-head"><span class="idchip">SCM-LB</span><span class="mh-name">Lure Broadcast</span></div>
+          <a class="matrix-cell" href="#SCM-LB-01">Mass blast<span class="cell-id mono">SCM-LB-01</span></a>
+          <a class="matrix-cell" href="#SCM-LB-02">Targeted list<span class="cell-id mono">SCM-LB-02</span></a>
+          <a class="matrix-cell" href="#SCM-LB-03">Topical &amp; seasonal<span class="cell-id mono">SCM-LB-03</span></a>
+          <a class="matrix-cell" href="#SCM-LB-04">Authority / brand veneer<span class="cell-id mono">SCM-LB-04</span></a>
+        </div>
+
+        <div class="matrix-col" role="column">
+          <div class="matrix-head"><span class="idchip">SCM-HK</span><span class="mh-name">Hook &amp; Pretext</span></div>
+          <a class="matrix-cell" href="#SCM-HK-01">Windfall claim<span class="cell-id mono">SCM-HK-01</span></a>
+          <a class="matrix-cell" href="#SCM-HK-02">Romance opener<span class="cell-id mono">SCM-HK-02</span></a>
+          <a class="matrix-cell" href="#SCM-HK-03">Investment pitch<span class="cell-id mono">SCM-HK-03</span></a>
+          <a class="matrix-cell" href="#SCM-HK-04">Job / task offer<span class="cell-id mono">SCM-HK-04</span></a>
+          <a class="matrix-cell" href="#SCM-HK-05">Threat / extortion<span class="cell-id mono">SCM-HK-05</span></a>
+        </div>
+
+        <div class="matrix-col" role="column">
+          <div class="matrix-head"><span class="idchip">SCM-TR</span><span class="mh-name">Trust Building</span></div>
+          <a class="matrix-cell" href="#SCM-TR-01">Channel migration<span class="cell-id mono">SCM-TR-01</span></a>
+          <a class="matrix-cell" href="#SCM-TR-02">Fabricated proof<span class="cell-id mono">SCM-TR-02</span></a>
+          <a class="matrix-cell" href="#SCM-TR-03">Small reciprocity<span class="cell-id mono">SCM-TR-03</span></a>
+          <a class="matrix-cell" href="#SCM-TR-04">Urgency &amp; scarcity<span class="cell-id mono">SCM-TR-04</span></a>
+        </div>
+
+        <div class="matrix-col" role="column">
+          <div class="matrix-head"><span class="idchip">SCM-EX</span><span class="mh-name">Extraction</span></div>
+          <a class="matrix-cell" href="#SCM-EX-01">Advance-fee demand<span class="cell-id mono">SCM-EX-01</span></a>
+          <a class="matrix-cell" href="#SCM-EX-02">Payment-detail capture<span class="cell-id mono">SCM-EX-02</span></a>
+          <a class="matrix-cell" href="#SCM-EX-03">Crypto transfer<span class="cell-id mono">SCM-EX-03</span></a>
+          <a class="matrix-cell" href="#SCM-EX-04">Gift-card demand<span class="cell-id mono">SCM-EX-04</span></a>
+          <a class="matrix-cell" href="#SCM-EX-05">Data harvest<span class="cell-id mono">SCM-EX-05</span></a>
+        </div>
+
+        <div class="matrix-col" role="column">
+          <div class="matrix-head"><span class="idchip">SCM-ES</span><span class="mh-name">Escalation &amp; Reload</span></div>
+          <a class="matrix-cell" href="#SCM-ES-01">Rising fees<span class="cell-id mono">SCM-ES-01</span></a>
+          <a class="matrix-cell" href="#SCM-ES-02">Sunk-cost pressure<span class="cell-id mono">SCM-ES-02</span></a>
+          <a class="matrix-cell" href="#SCM-ES-03">Reload targeting<span class="cell-id mono">SCM-ES-03</span></a>
+          <a class="matrix-cell" href="#SCM-ES-04">Mule recruitment<span class="cell-id mono">SCM-ES-04</span></a>
+        </div>
+
+        <div class="matrix-col" role="column">
+          <div class="matrix-head"><span class="idchip">SCM-CO</span><span class="mh-name">Cash-out &amp; Evasion</span></div>
+          <a class="matrix-cell" href="#SCM-CO-01">Mule networks<span class="cell-id mono">SCM-CO-01</span></a>
+          <a class="matrix-cell" href="#SCM-CO-02">Crypto laundering<span class="cell-id mono">SCM-CO-02</span></a>
+          <a class="matrix-cell" href="#SCM-CO-03">Identity churn<span class="cell-id mono">SCM-CO-03</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="wrap">
+
+      <div class="phase reveal" id="SCM-LB">
+        <div class="phase-head"><span class="idchip">SCM-LB</span><h3>Lure Broadcast</h3></div>
+        <p class="phase-blurb">How the opening message is cast toward potential victims.</p>
+        <div class="tcards">
+          
+          <article class="tcard" id="SCM-LB-01">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#SCM-LB-01">SCM-LB-01</a><h4>Mass blast</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>A generic lure is sent at high volume to unfiltered recipients.</dd>
+              <dt>Observable signals</dt><dd>Identical or lightly-varied mail across many unrelated inboxes.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Bulk-pattern detection and sender reputation.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="SCM-LB-02">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#SCM-LB-02">SCM-LB-02</a><h4>Targeted list</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>A list tied to a theme (investors, jobseekers) is used for relevance.</dd>
+              <dt>Observable signals</dt><dd>Lures aligned to a specific audience or interest.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Context-aware filtering and user awareness for at-risk groups.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="SCM-LB-03">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#SCM-LB-03">SCM-LB-03</a><h4>Topical &amp; seasonal</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Current events, holidays or disasters are used to raise plausibility.</dd>
+              <dt>Observable signals</dt><dd>A lure closely tracking a news event or season.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Heightened scrutiny of event-themed solicitations.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="SCM-LB-04">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#SCM-LB-04">SCM-LB-04</a><h4>Authority / brand veneer</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>A trusted institution or brand is invoked to open the door.</dd>
+              <dt>Observable signals</dt><dd>Institutional branding paired with an unofficial sender.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Brand-to-sender consistency checks.</dd>
+            </dl>
+          </article>
+        </div>
+      </div>
+
+      <div class="phase reveal" id="SCM-HK">
+        <div class="phase-head"><span class="idchip">SCM-HK</span><h3>Hook &amp; Pretext</h3></div>
+        <p class="phase-blurb">The story that captures attention and intent.</p>
+        <div class="tcards">
+          
+          <article class="tcard" id="SCM-HK-01">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#SCM-HK-01">SCM-HK-01</a><h4>Windfall claim</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>An unexpected prize, inheritance or refund is dangled.</dd>
+              <dt>Observable signals</dt><dd>Notification of winnings the recipient never entered.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Treat unsolicited windfalls as fraud by default.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="SCM-HK-02">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#SCM-HK-02">SCM-HK-02</a><h4>Romance opener</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>A friendly or affectionate first contact begins a relationship con.</dd>
+              <dt>Observable signals</dt><dd>Unsolicited personal approaches steering off-platform.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Awareness of romance-fraud patterns; verify identities.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="SCM-HK-03">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#SCM-HK-03">SCM-HK-03</a><h4>Investment pitch</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>A high-return scheme or platform is offered.</dd>
+              <dt>Observable signals</dt><dd>Guaranteed or outsized returns with urgency.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Independent verification of any investment solicitation.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="SCM-HK-04">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#SCM-HK-04">SCM-HK-04</a><h4>Job / task offer</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>An easy, well-paid role is offered, often as a mule funnel.</dd>
+              <dt>Observable signals</dt><dd>Unsolicited offers involving receiving or forwarding money.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Verify employers; flag money-handling 'jobs'.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="SCM-HK-05">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#SCM-HK-05">SCM-HK-05</a><h4>Threat / extortion</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Fear is used — claimed compromise, debt or legal action.</dd>
+              <dt>Observable signals</dt><dd>Payment demands under threat, often to crypto.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Recognise extortion templates; never pay, report.</dd>
+            </dl>
+          </article>
+        </div>
+      </div>
+
+      <div class="phase reveal" id="SCM-TR">
+        <div class="phase-head"><span class="idchip">SCM-TR</span><h3>Trust Building</h3></div>
+        <p class="phase-blurb">How credibility is manufactured before the ask.</p>
+        <div class="tcards">
+          
+          <article class="tcard" id="SCM-TR-01">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#SCM-TR-01">SCM-TR-01</a><h4>Channel migration</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>The victim is moved to a private channel away from oversight.</dd>
+              <dt>Observable signals</dt><dd>Early pressure to move to chat or personal email.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Awareness that off-platform moves reduce protection.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="SCM-TR-02">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#SCM-TR-02">SCM-TR-02</a><h4>Fabricated proof</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Fake documents, screenshots or credentials are shown.</dd>
+              <dt>Observable signals</dt><dd>Unverifiable 'evidence' supporting the story.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Independently verify any document or claim.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="SCM-TR-03">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#SCM-TR-03">SCM-TR-03</a><h4>Small reciprocity</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>A tiny gift or early 'return' builds false confidence.</dd>
+              <dt>Observable signals</dt><dd>A small payout preceding a larger request.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Recognise reciprocity as a manipulation lever.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="SCM-TR-04">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#SCM-TR-04">SCM-TR-04</a><h4>Urgency &amp; scarcity</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>A closing window pressures fast, unconsidered action.</dd>
+              <dt>Observable signals</dt><dd>Deadlines attached to money movement.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Slow down; legitimate opportunities survive verification.</dd>
+            </dl>
+          </article>
+        </div>
+      </div>
+
+      <div class="phase reveal" id="SCM-EX">
+        <div class="phase-head"><span class="idchip">SCM-EX</span><h3>Extraction</h3></div>
+        <p class="phase-blurb">How money or data is actually taken.</p>
+        <div class="tcards">
+          
+          <article class="tcard" id="SCM-EX-01">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#SCM-EX-01">SCM-EX-01</a><h4>Advance-fee demand</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Fees or taxes are required before the promised payout.</dd>
+              <dt>Observable signals</dt><dd>Payment demanded to release a larger sum.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">No legitimate payout requires an upfront fee.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="SCM-EX-02">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#SCM-EX-02">SCM-EX-02</a><h4>Payment-detail capture</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Bank or card details are solicited directly.</dd>
+              <dt>Observable signals</dt><dd>Requests for full card or banking data by email.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Never share payment details via unsolicited mail.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="SCM-EX-03">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#SCM-EX-03">SCM-EX-03</a><h4>Crypto transfer</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Irreversible cryptocurrency payment is requested.</dd>
+              <dt>Observable signals</dt><dd>Wallet addresses and urgency to transfer.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Treat crypto demands as a strong fraud indicator.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="SCM-EX-04">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#SCM-EX-04">SCM-EX-04</a><h4>Gift-card demand</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Prepaid card codes are requested as payment.</dd>
+              <dt>Observable signals</dt><dd>Requests to buy cards and share codes.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">No legitimate body is paid in gift cards.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="SCM-EX-05">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#SCM-EX-05">SCM-EX-05</a><h4>Data harvest</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Identity or account data is collected for later fraud.</dd>
+              <dt>Observable signals</dt><dd>Requests for identity documents or credentials.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Minimise data sharing; verify the requester.</dd>
+            </dl>
+          </article>
+        </div>
+      </div>
+
+      <div class="phase reveal" id="SCM-ES">
+        <div class="phase-head"><span class="idchip">SCM-ES</span><h3>Escalation &amp; Reload</h3></div>
+        <p class="phase-blurb">How losses are compounded after the first payment.</p>
+        <div class="tcards">
+          
+          <article class="tcard" id="SCM-ES-01">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#SCM-ES-01">SCM-ES-01</a><h4>Rising fees</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>New obstacles justify ever-larger payments.</dd>
+              <dt>Observable signals</dt><dd>A sequence of growing 'final' fees.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Recognise the sunk-cost trap; stop and report.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="SCM-ES-02">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#SCM-ES-02">SCM-ES-02</a><h4>Sunk-cost pressure</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Prior losses are used to push further payment.</dd>
+              <dt>Observable signals</dt><dd>Appeals to protect what was already paid.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Past loss never justifies new payment.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="SCM-ES-03">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#SCM-ES-03">SCM-ES-03</a><h4>Reload targeting</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>A prior victim is re-approached, sometimes as a fake 'recovery' service.</dd>
+              <dt>Observable signals</dt><dd>Follow-up offers to recover lost funds — for a fee.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Treat unsolicited recovery offers as second-stage fraud.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="SCM-ES-04">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#SCM-ES-04">SCM-ES-04</a><h4>Mule recruitment</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>The victim is enlisted to move others' stolen funds.</dd>
+              <dt>Observable signals</dt><dd>Requests to receive and forward money.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Awareness that money-handling requests enable laundering.</dd>
+            </dl>
+          </article>
+        </div>
+      </div>
+
+      <div class="phase reveal" id="SCM-CO">
+        <div class="phase-head"><span class="idchip">SCM-CO</span><h3>Cash-out &amp; Evasion</h3></div>
+        <p class="phase-blurb">How proceeds are collected and traced away.</p>
+        <div class="tcards">
+          
+          <article class="tcard" id="SCM-CO-01">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#SCM-CO-01">SCM-CO-01</a><h4>Mule networks</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Funds pass through recruited intermediaries.</dd>
+              <dt>Observable signals</dt><dd>Payments routed via unrelated personal accounts.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Beneficiary screening and rapid recall procedures.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="SCM-CO-02">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#SCM-CO-02">SCM-CO-02</a><h4>Crypto laundering</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Cryptocurrency is layered to obscure the trail.</dd>
+              <dt>Observable signals</dt><dd>Rapid movement across wallets and mixers.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">On-chain analytics and fast reporting.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="SCM-CO-03">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#SCM-CO-03">SCM-CO-03</a><h4>Identity churn</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Personas, addresses and accounts are cycled to evade blocks.</dd>
+              <dt>Observable signals</dt><dd>Recurring scripts from ever-changing identities.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Cluster campaigns by template and behaviour, not identity.</dd>
+            </dl>
+          </article>
+        </div>
+      </div>
+  </div>
+</section>
+
+<section id="evidence">
+  <div class="wrap narrow">
+    <div class="sec-head reveal"><span class="eyebrow">03.3 · Indicators &amp; evidence model</span><h2>No claim without an observable.</h2>
+      <p class="sub">The scam pillar shares the Email Abuse Intelligence evidence model — with narrative and payment-request signals carrying particular weight.</p></div>
+    <div class="reveal">
+
+        <table class="ref-table">
+          <thead><tr><th>Code</th><th>Class</th><th>Evidence captured</th></tr></thead>
+          <tbody>
+          <tr><td class="mono code">EAI-EV-NET</td><td class="pk">Network</td><td>Sending IP, ASN, reverse DNS and geolocation.</td></tr>
+          <tr><td class="mono code">EAI-EV-AUTH</td><td class="pk">Authentication</td><td>SPF, DKIM and DMARC results for the sending identity.</td></tr>
+          <tr><td class="mono code">EAI-EV-CONT</td><td class="pk">Content</td><td>Lure templates, wallet and account details, narrative fingerprints, reply-to patterns.</td></tr>
+          <tr><td class="mono code">EAI-EV-BEHAV</td><td class="pk">Behavioural</td><td>Channel migration, escalation sequences, payment-request patterns.</td></tr>
+          <tr><td class="mono code">EAI-EV-INFRA</td><td class="pk">Infrastructure</td><td>Domain age, disposable-mail use, wallet and mule-account reuse.</td></tr>
+          </tbody>
+        </table>
+    </div>
+    <div class="conf reveal">
+      <div class="conf-label">Confidence model</div>
+
+          <div class="conf-row"><span class="conf-tier t0">Low</span><span class="conf-desc">A single weak or ambiguous indicator. Suitable for enrichment, not enforcement.</span></div>
+
+          <div class="conf-row"><span class="conf-tier t1">Moderate</span><span class="conf-desc">Multiple independent indicators from different classes agree.</span></div>
+
+          <div class="conf-row"><span class="conf-tier t2">High</span><span class="conf-desc">Corroborated indicators plus payment or narrative evidence.</span></div>
+
+          <div class="conf-row"><span class="conf-tier t3">Confirmed</span><span class="conf-desc">Direct, reproducible evidence — e.g. a documented payment demand and wallet.</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="library">
+  <div class="wrap narrow">
+    <div class="sec-head reveal"><span class="eyebrow">04 · Part of the reference library</span><h2>Five pillars, one model.</h2>
+      <p class="sub">Scam &amp; fraud joins the spam, phishing, BEC and malware pillars under the same namespace and evidence model.</p></div>
+    <div class="lib-grid reveal">
+      <div class="lib-card"><div class="lib-n mono">25</div><div class="lib-l">scam techniques</div></div>
+      <div class="lib-card"><div class="lib-n mono">22</div><div class="lib-l">taxonomy classes</div></div>
+      <div class="lib-card"><div class="lib-n mono">6</div><div class="lib-l">lifecycle phases</div></div>
+      <div class="lib-card"><div class="lib-n mono">5</div><div class="lib-l">pillars active</div></div>
+    </div>
+    <div class="lib-cta reveal">
+      <a class="btn btn-primary" href="/#lab">Assess a domain against the Standard →</a>
+      <a class="btn btn-ghost" href="/intelligence/">Back to the umbrella</a>
+    </div>
+    <div class="related reveal"><span>Related pillars:</span><a href="/intelligence/">Spam</a><a href="/intelligence/phishing/">Phishing</a><a href="/intelligence/bec/">BEC</a></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-row">
+    <span><span class="sig">SPAMCRACKERS</span>.COM — the reference layer for Email Abuse Intelligence · Scam pillar v1.0</span>
+    <div class="foot-links">
+      <a href="/">Home</a>
+      <a href="/intelligence/">Intelligence</a>
+      <a href="/intelligence/bec/">BEC</a>
+      <a href="/#faq">FAQ</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var root = document.documentElement, tbtn = document.getElementById("themebtn");
+  tbtn.addEventListener("click", function(){
+    var isDark = root.getAttribute("data-theme")==="dark" || (!root.getAttribute("data-theme") && window.matchMedia("(prefers-color-scheme: dark)").matches);
+    root.setAttribute("data-theme", isDark ? "light" : "dark");
+  });
+  if(!reduce){
+    var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); } }); }, {threshold:.12});
+    document.querySelectorAll(".reveal").forEach(function(el){ io.observe(el); });
+  } else { document.querySelectorAll(".reveal").forEach(function(el){ el.classList.add("in"); }); }
+  function flash(){ var h=location.hash.replace("#",""); if(!h) return; var el=document.getElementById(h); if(el && el.classList.contains("tcard")){ el.classList.add("flash"); setTimeout(function(){ el.classList.remove("flash"); }, 1600); } }
+  window.addEventListener("hashchange", flash); flash();
+})();
+</script>
+</body>
+</html>

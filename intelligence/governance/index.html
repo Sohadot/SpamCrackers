@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Model Governance — Email Abuse Intelligence v1.0 | SpamCrackers</title>
+<meta name="description" content="Governance of the Email Abuse Intelligence reference model: the identifier scheme, identifier-stability policy, semantic versioning, changelog, citation format and licensing. Deterministic, transparent and defensive by design." />
+<link rel="canonical" href="https://spamcrackers.com/intelligence/governance/" />
+<meta name="robots" content="index, follow, max-image-preview:large" />
+<meta name="theme-color" content="#08090D" media="(prefers-color-scheme: dark)" />
+<meta name="theme-color" content="#ECEDE8" media="(prefers-color-scheme: light)" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2308090D'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%232FE39B'/%3E%3C/svg%3E" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="SpamCrackers" />
+<meta property="og:url" content="https://spamcrackers.com/intelligence/governance/" />
+<meta property="og:title" content="Model Governance — Email Abuse Intelligence v1.0" />
+<meta property="og:description" content="Identifier scheme, stability policy, semantic versioning, changelog, citation and licensing for the Email Abuse Intelligence reference model." />
+<meta property="og:image" content="https://spamcrackers.com/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Model Governance — Email Abuse Intelligence v1.0" />
+<meta name="twitter:description" content="How the Email Abuse Intelligence reference model is governed, versioned and cited." />
+<meta name="twitter:image" content="https://spamcrackers.com/og-image.png" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "@id": "https://spamcrackers.com/intelligence/governance/#article",
+      "headline": "Email Abuse Intelligence — Model Governance v1.0",
+      "description": "The governance of the Email Abuse Intelligence reference model: identifier scheme, identifier-stability policy, semantic versioning, changelog, citation and licensing.",
+      "url": "https://spamcrackers.com/intelligence/governance/",
+      "isPartOf": {
+        "@id": "https://spamcrackers.com/#website"
+      },
+      "inLanguage": "en",
+      "version": "1.0.0",
+      "publisher": {
+        "@type": "Organization",
+        "name": "SpamCrackers",
+        "url": "https://spamcrackers.com/"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "SpamCrackers",
+          "item": "https://spamcrackers.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Email Abuse Intelligence",
+          "item": "https://spamcrackers.com/intelligence/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Governance",
+          "item": "https://spamcrackers.com/intelligence/governance/"
+        }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+  :root{
+    --ground:#08090D; --ground-2:#0D0F15; --panel:#11141C;
+    --ink:#D9DEE6; --ink-dim:#9AA3B0; --mute:#5A6472;
+    --line:rgba(217,222,230,.10); --line-strong:rgba(217,222,230,.20);
+    --signal:#2FE39B; --noise:#FF3B6B; --amber:#F6C560; --focus:#7FE3FF;
+    --maxw:1180px; --narrow:760px;
+    --step--1:clamp(.78rem,.72rem + .3vw,.9rem);
+    --step-0:clamp(.98rem,.92rem + .3vw,1.06rem);
+    --step-1:clamp(1.2rem,1.05rem + .7vw,1.5rem);
+    --step-2:clamp(1.6rem,1.2rem + 1.8vw,2.4rem);
+    --step-3:clamp(2.2rem,1.5rem + 3.2vw,3.6rem);
+    --step-4:clamp(2.8rem,1.8rem + 5vw,5.2rem);
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,Roboto,Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,"SF Mono","SFMono-Regular",Menlo,Consolas,"Liberation Mono",monospace;
+  }
+  :root[data-theme="light"]{
+    --ground:#ECEDE8; --ground-2:#F4F5F1; --panel:#FFFFFF;
+    --ink:#0F1218; --ink-dim:#454E5B; --mute:#78828F;
+    --line:rgba(15,18,24,.12); --line-strong:rgba(15,18,24,.22);
+    --signal:#0F9E6A; --noise:#E01E52; --amber:#B77A11;
+  }
+  @media (prefers-color-scheme: light){
+    :root:not([data-theme="dark"]){
+      --ground:#ECEDE8; --ground-2:#F4F5F1; --panel:#FFFFFF;
+      --ink:#0F1218; --ink-dim:#454E5B; --mute:#78828F;
+      --line:rgba(15,18,24,.12); --line-strong:rgba(15,18,24,.22);
+      --signal:#0F9E6A; --noise:#E01E52; --amber:#B77A11;
+    }
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;scroll-padding-top:70px}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:var(--step-0);line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  ::selection{background:var(--signal);color:var(--ground)}
+  a{color:inherit;text-decoration:none}
+  :focus-visible{outline:2px solid var(--focus);outline-offset:3px;border-radius:2px}
+  .wrap{max-width:var(--maxw);margin-inline:auto;padding-inline:clamp(1.1rem,4vw,3rem)}
+  .wrap.narrow{max-width:calc(var(--narrow) + 6rem)}
+  .mono{font-family:var(--mono)}
+  code{font-family:var(--mono);font-size:.88em;color:var(--signal);background:color-mix(in srgb,var(--signal) 12%,transparent);padding:.1em .42em;border-radius:3px;word-break:break-word}
+  .ilink{color:var(--signal);border-bottom:1px solid color-mix(in srgb,var(--signal) 45%,transparent);transition:border-color .2s}
+  .ilink:hover{border-color:var(--signal)}
+  .eyebrow{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.26em;text-transform:uppercase;color:var(--signal);display:inline-flex;align-items:center;gap:.6em}
+  .eyebrow::before{content:"";width:24px;height:1px;background:var(--signal);opacity:.7}
+
+  /* id chips */
+  .idchip{font-family:var(--mono);font-size:.7rem;letter-spacing:.06em;color:var(--signal);border:1px solid color-mix(in srgb,var(--signal) 45%,var(--line));border-radius:4px;padding:.2em .5em;white-space:nowrap;background:color-mix(in srgb,var(--signal) 8%,transparent)}
+  .idchip-link{transition:background .2s}
+  .idchip-link:hover{background:color-mix(in srgb,var(--signal) 20%,transparent)}
+
+  /* top bar */
+  header.bar{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:.8rem clamp(1.1rem,4vw,3rem);font-family:var(--mono);font-size:var(--step--1);letter-spacing:.05em;backdrop-filter:blur(9px);background:color-mix(in srgb,var(--ground) 75%,transparent);border-bottom:1px solid var(--line)}
+  .brand-min{display:flex;align-items:center;gap:.55rem;font-weight:700}
+  .brand-min .dot{width:9px;height:9px;background:var(--signal);border-radius:50%;box-shadow:0 0 12px var(--signal)}
+  .brand-min .tld{color:var(--mute)}
+  .bar nav{display:flex;align-items:center;gap:clamp(.7rem,1.8vw,1.5rem);color:var(--ink-dim)}
+  .bar nav a{transition:color .2s}.bar nav a:hover{color:var(--signal)}
+  .bar .navlink{display:none}
+  @media(min-width:900px){.bar .navlink{display:inline}}
+  .themebtn{font-family:var(--mono);font-size:var(--step--1);background:transparent;border:1px solid var(--line-strong);color:var(--ink-dim);padding:.35em .7em;border-radius:2px;cursor:pointer;letter-spacing:.1em;transition:.2s}
+  .themebtn:hover{border-color:var(--signal);color:var(--signal)}
+
+  /* sections */
+  section{position:relative;padding:clamp(3.6rem,7vw,6rem) 0;border-top:1px solid var(--line)}
+  .hero{border-top:none;padding-top:clamp(7rem,13vw,10rem)}
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion: reduce){.reveal{opacity:1;transform:none;transition:none}}
+  .sec-head{max-width:64ch;margin-bottom:2.4rem}
+  .sec-head h2{font-weight:800;font-size:var(--step-2);line-height:1.05;letter-spacing:-.025em;margin-top:1rem;text-wrap:balance}
+  .sec-head .sub{margin-top:1rem;color:var(--ink-dim);max-width:60ch}
+
+  /* hero */
+  .hero h1{font-weight:800;font-size:var(--step-4);line-height:.98;letter-spacing:-.035em;margin-top:1.4rem;text-wrap:balance}
+  .hero .hl{color:var(--signal)}
+  .hero .lede{margin-top:1.8rem;font-size:var(--step-1);line-height:1.45;color:var(--ink);max-width:54ch;text-wrap:pretty}
+  .hero .lede strong{color:var(--signal);font-weight:700}
+  .meta-chips{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:2.2rem}
+  .meta-chips .chip{font-family:var(--mono);font-size:var(--step--1);border:1px solid var(--line);border-radius:99px;padding:.45em .95em;color:var(--ink-dim)}
+  .meta-chips .chip b{color:var(--mute);font-weight:400;letter-spacing:.08em;text-transform:uppercase;font-size:.82em;margin-right:.5em}
+  .meta-chips .chip.stance{border-color:color-mix(in srgb,var(--signal) 45%,var(--line));color:var(--signal)}
+  .meta-chips .chip.stance b{color:color-mix(in srgb,var(--signal) 70%,var(--ink-dim))}
+
+  /* prose */
+  .prose p{max-width:68ch;margin-bottom:1.2rem;color:var(--ink-dim)}
+  .prose p:last-child{margin-bottom:0}
+  .prose strong{color:var(--ink)}
+  .prose em{color:var(--signal);font-style:normal}
+
+  /* boundaries */
+  .bound-grid{display:grid;gap:1px;grid-template-columns:1fr;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  @media(min-width:720px){.bound-grid{grid-template-columns:1fr 1fr}}
+  .bound{background:var(--ground-2);padding:clamp(1.4rem,3vw,2.2rem)}
+  .bound-label{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.14em;text-transform:uppercase;margin-bottom:1.1rem;display:flex;align-items:center;gap:.6em}
+  .bound-label::before{content:"";width:10px;height:10px;border-radius:50%}
+  .bound-label.ok{color:var(--signal)}.bound-label.ok::before{background:var(--signal)}
+  .bound-label.no{color:var(--noise)}.bound-label.no::before{background:var(--noise)}
+  .bound ul{list-style:none;display:flex;flex-direction:column;gap:.75rem}
+  .bound li{position:relative;padding-left:1.5rem;color:var(--ink-dim);line-height:1.5}
+  .bound li b{color:var(--ink)}
+  .bound.is li::before{content:"✓";position:absolute;left:0;color:var(--signal);font-family:var(--mono)}
+  .bound.not li::before{content:"✕";position:absolute;left:0;color:var(--noise);font-family:var(--mono)}
+  .bound-note{margin-top:1.6rem;font-family:var(--mono);font-size:var(--step--1);color:var(--ink-dim);line-height:1.7;border-left:2px solid var(--signal);padding-left:1.2rem;max-width:74ch}
+  .bound-note b{color:var(--signal)}
+
+  /* pillars */
+  .pillar-grid{display:grid;gap:1px;grid-template-columns:1fr;background:var(--line);border:1px solid var(--line)}
+  @media(min-width:620px){.pillar-grid{grid-template-columns:repeat(2,1fr)}}
+  @media(min-width:960px){.pillar-grid{grid-template-columns:repeat(3,1fr)}}
+  .pillar{background:var(--ground);padding:clamp(1.4rem,2.6vw,2rem);display:flex;flex-direction:column;gap:.6rem;transition:background .3s}
+  .pillar:hover{background:var(--ground-2)}
+  .pillar-top{display:flex;align-items:center;justify-content:space-between;gap:.6rem}
+  .pill-status{font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+  .pillar.active{background:color-mix(in srgb,var(--signal) 6%,var(--ground))}
+  .pillar.active .pill-status{color:var(--signal)}
+  .pillar h3{font-size:var(--step-1);font-weight:800;letter-spacing:-.02em}
+  .pillar p{color:var(--ink-dim);font-size:var(--step--1);line-height:1.55}
+  .pillar.planned{opacity:.82}
+
+  /* cite */
+  .cite{border:1px solid var(--line);border-radius:8px;padding:clamp(1.2rem,3vw,1.8rem);background:var(--ground-2)}
+  .cite-label{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.14em;text-transform:uppercase;color:var(--signal);margin-bottom:.8rem}
+  .cite p{color:var(--ink-dim);max-width:70ch}
+
+  /* tables */
+  .ref-table{width:100%;border-collapse:collapse;font-size:var(--step--1)}
+  .ref-table th{text-align:left;font-family:var(--mono);color:var(--mute);font-weight:400;letter-spacing:.08em;text-transform:uppercase;font-size:.7rem;padding:0 1rem .7rem 0;border-bottom:1px solid var(--line-strong)}
+  .ref-table td{padding:.8rem 1rem .8rem 0;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink-dim);line-height:1.5}
+  .ref-table tr:last-child td{border-bottom:none}
+  .ref-table td.code{color:var(--signal);white-space:nowrap}
+  .ref-table td.pk{color:var(--ink);font-weight:600}
+
+  /* taxonomy */
+  .tax-grid{display:grid;gap:1.5rem;grid-template-columns:1fr}
+  @media(min-width:820px){.tax-grid{grid-template-columns:1fr 1fr}}
+  .tax-block{border:1px solid var(--line);border-radius:8px;padding:clamp(1.2rem,2.6vw,1.8rem);background:var(--ground-2)}
+  .tax-head{display:flex;align-items:center;gap:.8rem;margin-bottom:1.2rem}
+  .tax-head h3{font-size:var(--step-1);font-weight:800;letter-spacing:-.02em}
+
+  /* matrix */
+  .matrix-scroll{overflow-x:auto;padding-bottom:.6rem;-webkit-overflow-scrolling:touch}
+  .matrix{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(190px,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;min-width:960px}
+  .matrix-col{background:var(--ground);display:flex;flex-direction:column;gap:1px}
+  .matrix-head{background:var(--ground-2);padding:.9rem .8rem;display:flex;flex-direction:column;gap:.45rem;min-height:72px}
+  .matrix-head .mh-name{font-weight:700;font-size:.86rem;line-height:1.2;letter-spacing:-.01em}
+  .matrix-cell{background:var(--ground);padding:.7rem .8rem;font-size:.8rem;color:var(--ink-dim);display:flex;flex-direction:column;gap:.25rem;transition:background .2s,color .2s;border-top:1px solid var(--line)}
+  .matrix-cell:hover{background:color-mix(in srgb,var(--signal) 10%,var(--ground));color:var(--ink)}
+  .matrix-cell .cell-id{font-size:.66rem;color:var(--mute)}
+  .matrix-cell:hover .cell-id{color:var(--signal)}
+
+  /* technique detail */
+  .phase{margin-top:3rem;scroll-margin-top:76px}
+  .phase-head{display:flex;align-items:center;gap:.8rem}
+  .phase-head h3{font-size:var(--step-1);font-weight:800;letter-spacing:-.02em}
+  .phase-blurb{color:var(--ink-dim);margin:.7rem 0 1.4rem;max-width:64ch}
+  .tcards{display:grid;gap:1rem;grid-template-columns:1fr}
+  @media(min-width:720px){.tcards{grid-template-columns:1fr 1fr}}
+  .tcard{border:1px solid var(--line);border-radius:8px;padding:1.2rem 1.3rem;background:var(--ground-2);scroll-margin-top:80px;transition:border-color .3s,box-shadow .3s}
+  .tcard.flash{border-color:var(--signal);box-shadow:0 0 0 1px var(--signal),0 14px 40px -20px var(--signal)}
+  .tcard-top{display:flex;align-items:center;gap:.7rem;margin-bottom:1rem}
+  .tcard-top h4{font-size:var(--step-0);font-weight:700;letter-spacing:-.01em}
+  .tcard-body{display:grid;grid-template-columns:1fr;gap:.35rem}
+  .tcard-body dt{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin-top:.7rem}
+  .tcard-body dt:first-child{margin-top:0}
+  .tcard-body dt.def{color:var(--signal)}
+  .tcard-body dd{color:var(--ink-dim);font-size:var(--step--1);line-height:1.55}
+  .tcard-body dd.def{color:var(--ink)}
+
+  /* evidence + confidence */
+  .conf{margin-top:2.2rem;border:1px solid var(--line);border-radius:8px;padding:clamp(1.2rem,3vw,1.8rem);background:var(--ground-2)}
+  .conf-label{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.14em;text-transform:uppercase;color:var(--signal);margin-bottom:1.2rem}
+  .conf-row{display:flex;gap:1rem;align-items:baseline;padding:.6rem 0;border-bottom:1px solid var(--line)}
+  .conf-row:last-child{border-bottom:none}
+  .conf-tier{font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;padding:.25em .7em;border-radius:99px;border:1px solid currentColor;white-space:nowrap;flex-shrink:0;min-width:9ch;text-align:center}
+  .conf-tier.t0{color:var(--mute)}.conf-tier.t1{color:var(--amber)}.conf-tier.t2{color:var(--signal)}.conf-tier.t3{color:var(--signal)}
+  .conf-desc{color:var(--ink-dim);font-size:var(--step--1)}
+
+  /* library */
+  .lib-grid{display:grid;gap:1px;grid-template-columns:repeat(2,1fr);background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden;margin-bottom:2rem}
+  @media(min-width:720px){.lib-grid{grid-template-columns:repeat(4,1fr)}}
+  .lib-card{background:var(--ground-2);padding:1.6rem 1.3rem;display:flex;flex-direction:column;gap:.4rem}
+  .lib-n{font-size:var(--step-3);font-weight:800;color:var(--signal);line-height:1;font-variant-numeric:tabular-nums}
+  .lib-l{font-family:var(--mono);font-size:var(--step--1);color:var(--ink-dim);letter-spacing:.04em}
+  .lib-cta{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:2rem}
+  .btn{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.05em;padding:.9em 1.4em;border-radius:2px;cursor:pointer;border:1px solid transparent;display:inline-flex;align-items:center;gap:.6em;transition:transform .15s,box-shadow .2s,border-color .2s,color .2s;text-transform:uppercase}
+  .btn-primary{background:var(--signal);color:#04120C;font-weight:700}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 30px -10px var(--signal)}
+  .btn-ghost{background:transparent;color:var(--ink);border-color:var(--line-strong)}
+  .btn-ghost:hover{border-color:var(--signal);color:var(--signal)}
+
+  /* footer */
+  footer{border-top:1px solid var(--line);padding:2.6rem 0;font-family:var(--mono);font-size:var(--step--1);color:var(--mute)}
+  .foot-row{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;align-items:center}
+  .foot-row .sig{color:var(--signal)}
+  .foot-links{display:flex;gap:1.3rem;flex-wrap:wrap}
+  .foot-links a:hover{color:var(--signal)}
+
+  /* breadcrumbs */
+  .crumbs{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;font-family:var(--mono);font-size:var(--step--1);color:var(--mute);margin-bottom:1.4rem}
+  .crumbs a{color:var(--ink-dim);transition:color .2s}
+  .crumbs a:hover{color:var(--signal)}
+  .crumbs .sep{color:var(--mute);opacity:.6}
+  .crumbs .here{color:var(--signal)}
+  /* related pillars footer strip */
+  .related{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:2rem}
+  .related a{font-family:var(--mono);font-size:var(--step--1);border:1px solid var(--line);border-radius:99px;padding:.4em .95em;color:var(--ink-dim);transition:.2s}
+  .related a:hover{border-color:var(--signal);color:var(--signal)}
+  .related span{color:var(--mute);align-self:center}
+
+  .gov-principles{display:grid;gap:1px;grid-template-columns:1fr;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden;margin-top:2.4rem}
+  @media(min-width:720px){.gov-principles{grid-template-columns:1fr 1fr}}
+  .principle{background:var(--ground-2);padding:clamp(1.3rem,2.6vw,1.8rem)}
+  .principle h3{font-size:var(--step-1);font-weight:800;letter-spacing:-.02em;margin-bottom:.6rem}
+  .principle p{color:var(--ink-dim);font-size:var(--step--1);line-height:1.6}
+  .changelog{border-left:2px solid var(--signal);padding-left:1.4rem;margin-top:2.2rem;display:flex;flex-direction:column;gap:1.6rem}
+  .cl-entry .cl-ver{font-family:var(--mono);display:flex;align-items:baseline;gap:.8rem;flex-wrap:wrap}
+  .cl-entry .v{font-weight:800;color:var(--signal);font-size:var(--step-1)}
+  .cl-entry .d{color:var(--mute);font-size:var(--step--1);letter-spacing:.06em}
+  .cl-entry .tag{font-family:var(--mono);font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;border:1px solid color-mix(in srgb,var(--signal) 45%,var(--line));color:var(--signal);border-radius:99px;padding:.15em .6em}
+  .cl-entry p{color:var(--ink-dim);margin-top:.6rem;max-width:70ch;line-height:1.6}
+  .semver{display:grid;gap:1px;grid-template-columns:1fr;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden;margin-top:1.6rem}
+  @media(min-width:640px){.semver{grid-template-columns:repeat(3,1fr)}}
+  .semver .sv{background:var(--ground-2);padding:1.3rem}
+  .semver .sv .lvl{font-family:var(--mono);font-weight:800;color:var(--signal);letter-spacing:.08em}
+  .semver .sv p{color:var(--ink-dim);font-size:var(--step--1);margin-top:.5rem;line-height:1.55}
+  .cite-block{font-family:var(--mono);font-size:var(--step--1);background:var(--ground);border:1px solid var(--line);border-radius:6px;padding:1rem 1.1rem;margin-top:.9rem;color:var(--ink);line-height:1.6;word-break:break-word}
+  .cite-block .lbl{color:var(--mute);display:block;margin-bottom:.35rem;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase}
+
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <a class="brand-min" href="/"><span class="dot" aria-hidden="true"></span>SPAMCRACKERS<span class="tld">.com</span></a>
+  <nav>
+    <a class="navlink" href="/intelligence/">Intelligence</a>
+    <a class="navlink" href="#ids">Identifiers</a>
+    <a class="navlink" href="#versioning">Versioning</a>
+    <a class="navlink" href="/#lab">Check a domain</a>
+    <button class="themebtn" id="themebtn" type="button" aria-label="Toggle theme">◐ THEME</button>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span class="sep">/</span><a href="/intelligence/">Email Abuse Intelligence</a><span class="sep">/</span><span class="here">Governance</span></nav>
+    <div class="eyebrow">Email Abuse Intelligence · Governance</div>
+    <h1>Model Governance.</h1>
+    <p class="lede">A reference is only as trustworthy as its rules. This is how the Email Abuse Intelligence model is identified, versioned, changed and cited — <strong>deterministic, transparent and defensive by design</strong>, so anyone can depend on it and cite it without ambiguity.</p>
+    <div class="meta-chips">
+      <span class="chip"><b>Model</b> v1.0.0</span>
+      <span class="chip"><b>Pillars</b> 6</span>
+      <span class="chip"><b>Techniques</b> 163</span>
+      <span class="chip"><b>License</b> CC BY 4.0</span>
+    </div>
+  </div>
+</section>
+
+<section id="principles">
+  <div class="wrap narrow">
+    <div class="sec-head reveal"><span class="eyebrow">01 · Principles</span><h2>Four rules the model never breaks.</h2></div>
+    <div class="gov-principles reveal">
+      <div class="principle"><h3>Deterministic</h3><p>Every element has one stable identifier. The same input always maps to the same reference — no ambiguity, no drift.</p></div>
+      <div class="principle"><h3>Transparent</h3><p>Grading, taxonomy and technique criteria are published in full. There is no private model behind the public one.</p></div>
+      <div class="principle"><h3>Stable</h3><p>Identifiers are permanent. Once published, an id is never reused or renumbered; retired entries are deprecated, not deleted.</p></div>
+      <div class="principle"><h3>Defensive</h3><p>Every entry is classification-and-defence only. Operational content is out of scope by policy, at every version, without exception.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="ids">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="eyebrow">02 · Identifier scheme</span><h2>Every element has one permanent name.</h2>
+      <p class="sub">Identifiers are structured, human-readable and stable. This is the full grammar of the <code>EAI</code> namespace.</p></div>
+    <div class="reveal" style="overflow-x:auto">
+      <table class="ref-table">
+        <thead><tr><th>Element</th><th>Pattern</th><th>Meaning</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td class="pk">Namespace</td><td class="mono code">EAI</td><td>The root of every identifier in the model.</td><td class="mono" style="color:var(--signal);white-space:nowrap">EAI</td></tr>
+          <tr><td class="pk">Pillar prefix</td><td class="mono code">3 letters</td><td>One of six stable pillar codes.</td><td class="mono" style="color:var(--signal);white-space:nowrap">SPO</td></tr>
+          <tr><td class="pk">Phase code</td><td class="mono code">PILLAR-XX</td><td>A lifecycle phase within a pillar.</td><td class="mono" style="color:var(--signal);white-space:nowrap">SPO-AU</td></tr>
+          <tr><td class="pk">Technique ID</td><td class="mono code">PILLAR-XX-NN</td><td>A single technique, numbered within its phase.</td><td class="mono" style="color:var(--signal);white-space:nowrap">SPO-AU-03</td></tr>
+          <tr><td class="pk">Taxonomy code</td><td class="mono code">PILLAR-TAX-A#</td><td>A class on one of a pillar's four axes.</td><td class="mono" style="color:var(--signal);white-space:nowrap">SPM-TAX-A1</td></tr>
+          <tr><td class="pk">Evidence code</td><td class="mono code">EAI-EV-CLASS</td><td>A shared observable class across all pillars.</td><td class="mono" style="color:var(--signal);white-space:nowrap">EAI-EV-AUTH</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="cite reveal" style="margin-top:2rem">
+      <div class="cite-label">Identifier-stability policy</div>
+      <p>Published identifiers are <b>permanent</b>. An id is never reused for a different concept and never renumbered. When a technique is superseded it is marked <span class="mono" style="color:var(--amber)">deprecated</span> and kept in place, so existing citations never break. New entries take the next free number within their phase.</p>
+    </div>
+  </div>
+</section>
+
+<section id="versioning">
+  <div class="wrap narrow">
+    <div class="sec-head reveal"><span class="eyebrow">03 · Versioning</span><h2>Semantic versioning for a living model.</h2>
+      <p class="sub">The model is versioned <span class="mono">MAJOR.MINOR.PATCH</span>. The current release is <span class="mono" style="color:var(--signal)">v1.0.0</span>.</p></div>
+    <div class="semver reveal">
+      <div class="sv"><div class="lvl">MAJOR</div><p>A breaking change to the model's structure or identifier scheme. Rare, and never silent.</p></div>
+      <div class="sv"><div class="lvl">MINOR</div><p>Additive change — a new pillar, phase, technique or taxonomy class. Existing ids are untouched.</p></div>
+      <div class="sv"><div class="lvl">PATCH</div><p>Clarifications, wording and defensive-guidance updates. No ids change.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="changelog">
+  <div class="wrap narrow">
+    <div class="sec-head reveal"><span class="eyebrow">04 · Changelog</span><h2>Every release, on the record.</h2></div>
+    <div class="changelog reveal">
+      <div class="cl-entry">
+        <div class="cl-ver"><span class="v">v1.0.0</span><span class="d">2026 · founding release</span><span class="tag">MAJOR</span></div>
+        <p>The founding Email Abuse Intelligence model: <b>6 pillars</b>, <b>163 techniques</b> and <b>128 taxonomy classes</b>, over a shared five-class evidence model and four-tier confidence scale. Pillars and counts:</p>
+        <div class="lib-grid" style="margin-top:1.2rem">
+          <a class="lib-card" href="/intelligence/" style="text-decoration:none"><div class="lib-n mono" style="font-size:var(--step-2)">28</div><div class="lib-l">SPM · Spam Campaign Intelligence</div></a>
+          <a class="lib-card" href="/intelligence/phishing/" style="text-decoration:none"><div class="lib-n mono" style="font-size:var(--step-2)">30</div><div class="lib-l">PHI · Phishing Intelligence</div></a>
+          <a class="lib-card" href="/intelligence/bec/" style="text-decoration:none"><div class="lib-n mono" style="font-size:var(--step-2)">27</div><div class="lib-l">BEC · Business Email Compromise</div></a>
+          <a class="lib-card" href="/intelligence/mal/" style="text-decoration:none"><div class="lib-n mono" style="font-size:var(--step-2)">29</div><div class="lib-l">MAL · Malware Delivery</div></a>
+          <a class="lib-card" href="/intelligence/scam/" style="text-decoration:none"><div class="lib-n mono" style="font-size:var(--step-2)">25</div><div class="lib-l">SCM · Scam &amp; Fraud</div></a>
+          <a class="lib-card" href="/intelligence/spoofing/" style="text-decoration:none"><div class="lib-n mono" style="font-size:var(--step-2)">24</div><div class="lib-l">SPO · Spoofing &amp; Impersonation</div></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="cite">
+  <div class="wrap narrow">
+    <div class="sec-head reveal"><span class="eyebrow">05 · Citation &amp; licensing</span><h2>Built to be cited.</h2>
+      <p class="sub">The model is open. Reference it freely, in research, tooling or policy, under the terms below.</p></div>
+    <div class="reveal">
+      <div class="cite-block"><span class="lbl">Cite the model</span>SpamCrackers. <i>Email Abuse Intelligence — Reference Model v1.0</i>. spamcrackers.com/intelligence/</div>
+      <div class="cite-block"><span class="lbl">Cite a technique</span>SpamCrackers. <i>SPO-AU-03 — DMARC-none exploitation</i>, Email Abuse Intelligence Reference Model v1.0. spamcrackers.com/intelligence/spoofing/#SPO-AU-03</div>
+    </div>
+    <div class="cite reveal" style="margin-top:2rem">
+      <div class="cite-label">License</div>
+      <p>The reference model — its taxonomy, technique descriptions and identifiers — is published under <b>Creative Commons Attribution 4.0 (CC BY 4.0)</b>. You may share and adapt it, including commercially, with attribution to SpamCrackers and a link back to the model. The defensive-only scope is a condition of the model's integrity, not merely its licence.</p>
+    </div>
+    <p class="bound-note reveal" style="margin-top:2rem">Governance guarantee: <b>no version, patch or contribution will ever add operational attack content.</b> Classification and defence is the permanent boundary of this model.</p>
+    <div class="related reveal"><span>Explore:</span><a href="/intelligence/">The umbrella</a><a href="/#lab">Check a domain</a><a href="/#standard">The Standard</a></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-row">
+    <span><span class="sig">SPAMCRACKERS</span>.COM — Email Abuse Intelligence · Model Governance v1.0.0 · CC BY 4.0</span>
+    <div class="foot-links">
+      <a href="/">Home</a>
+      <a href="/intelligence/">Intelligence</a>
+      <a href="#changelog">Changelog</a>
+      <a href="/#faq">FAQ</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var root = document.documentElement, tbtn = document.getElementById("themebtn");
+  tbtn.addEventListener("click", function(){
+    var isDark = root.getAttribute("data-theme")==="dark" || (!root.getAttribute("data-theme") && window.matchMedia("(prefers-color-scheme: dark)").matches);
+    root.setAttribute("data-theme", isDark ? "light" : "dark");
+  });
+  if(!reduce){
+    var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); } }); }, {threshold:.12});
+    document.querySelectorAll(".reveal").forEach(function(el){ io.observe(el); });
+  } else { document.querySelectorAll(".reveal").forEach(function(el){ el.classList.add("in"); }); }
+})();
+</script>
+</body>
+</html>

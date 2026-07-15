@@ -470,7 +470,11 @@
   .foot-row .sig{color:var(--signal)}
   .foot-links{display:flex;gap:1.3rem;flex-wrap:wrap}
   .foot-links a:hover{color:var(--signal)}
-
+  .crumbs{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;font-family:var(--mono);font-size:var(--step--1);color:var(--mute);margin-bottom:1.4rem}
+  .crumbs a{color:var(--ink-dim);transition:color .2s}
+  .crumbs a:hover{color:var(--signal)}
+  .crumbs .sep{color:var(--mute);opacity:.6}
+  .crumbs .here{color:var(--signal)}
 </style>
 </head>
 <body>
@@ -479,8 +483,8 @@
   <a class="brand-min" href="/"><span class="dot" aria-hidden="true"></span>SPAMCRACKERS<span class="tld">.com</span></a>
   <nav>
     <a class="navlink" href="#thesis">Thesis</a>
-    <a class="navlink" href="/intelligence/phishing/">Phishing</a>
-    <a class="navlink" href="/intelligence/bec/">BEC</a>
+    <a class="navlink" href="#pillars">Pillars</a>
+    <a class="navlink" href="/intelligence/governance/">Governance</a>
     <a class="navlink" href="/#lab">Check a domain</a>
     <button class="themebtn" id="themebtn" type="button" aria-label="Toggle theme">◐ THEME</button>
   </nav>
@@ -489,6 +493,7 @@
 <!-- ============ HERO ============ -->
 <section class="hero">
   <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span class="sep">/</span><span class="here">Email Abuse Intelligence</span></nav>
     <div class="eyebrow">Email Abuse Intelligence · Reference Model v1.0</div>
     <h1>The Reference Layer for<br><span class="hl">Email Abuse Intelligence</span>.</h1>
     <p class="lede">A defensive, analytical framework for reading how email-abuse campaigns are built — so defenders can classify, evidence and counter them with a shared vocabulary. This release opens the first pillar: <strong>Spam Campaign Intelligence</strong>.</p>
@@ -566,23 +571,23 @@
           <p>Targeted impersonation of executives, vendors and partners for financial fraud. — 27 techniques →</p>
         </a>
 
-        <div class="pillar planned">
-          <div class="pillar-top"><span class="idchip">SCM</span><span class="pill-status">planned</span></div>
+        <a class="pillar active" href="/intelligence/scam/">
+          <div class="pillar-top"><span class="idchip">SCM</span><span class="pill-status">v1.0 · active</span></div>
           <h3>Scam &amp; Fraud</h3>
-          <p>Advance-fee, romance, investment and marketplace fraud delivered by mail.</p>
-        </div>
+          <p>Advance-fee, romance, investment and marketplace fraud delivered by mail. — 25 techniques →</p>
+        </a>
 
-        <div class="pillar planned">
-          <div class="pillar-top"><span class="idchip">MAL</span><span class="pill-status">planned</span></div>
+        <a class="pillar active" href="/intelligence/mal/">
+          <div class="pillar-top"><span class="idchip">MAL</span><span class="pill-status">v1.0 · active</span></div>
           <h3>Malware Delivery</h3>
-          <p>Weaponised attachments, macro documents and payload links.</p>
-        </div>
+          <p>Weaponised attachments, macro documents and payload links. — 29 techniques →</p>
+        </a>
 
-        <div class="pillar planned">
-          <div class="pillar-top"><span class="idchip">SPF</span><span class="pill-status">planned</span></div>
+        <a class="pillar active" href="/intelligence/spoofing/">
+          <div class="pillar-top"><span class="idchip">SPO</span><span class="pill-status">v1.0 · active</span></div>
           <h3>Spoofing &amp; Impersonation</h3>
-          <p>Identity forgery: exact-domain spoofing, lookalikes and display-name abuse.</p>
-        </div>
+          <p>Identity forgery: exact-domain spoofing, lookalikes and display-name abuse. — 24 techniques →</p>
+        </a>
     </div>
   </div>
 </section>
@@ -594,7 +599,7 @@
       <p class="sub">The model has three parts: a <a class="ilink" href="#taxonomy">taxonomy</a> that classifies campaigns, a <a class="ilink" href="#matrix">tactics &amp; techniques matrix</a> that describes how they operate, and an <a class="ilink" href="#evidence">evidence model</a> that grounds every claim in observables.</p></div>
     <div class="cite reveal">
       <div class="cite-label">How to cite</div>
-      <p>Every element carries a stable identifier in the <code>EAI</code> namespace (spam pillar prefix <code>SPM</code>). Cite an element by its code and this URL — for example: <code>SPM-DE-01</code> · <span class="mono">spamcrackers.com/intelligence/#SPM-DE-01</span>. Identifiers are stable across minor revisions; breaking changes increment the model version.</p>
+      <p>Every element carries a stable identifier in the <code>EAI</code> namespace (spam pillar prefix <code>SPM</code>). Cite an element by its code and this URL — for example: <code>SPM-DE-01</code> · <span class="mono">spamcrackers.com/intelligence/#SPM-DE-01</span>. Identifiers are permanent; the full scheme, versioning and changelog live in <a class="ilink" href="/intelligence/governance/">model governance</a>.</p>
     </div>
   </div>
 </section>
@@ -1084,8 +1089,8 @@
     <span><span class="sig">SPAMCRACKERS</span>.COM — the reference layer for Email Abuse Intelligence · Reference Model v1.0</span>
     <div class="foot-links">
       <a href="/">Home</a>
-      <a href="#thesis">Thesis</a>
       <a href="#model">Reference Model</a>
+      <a href="/intelligence/governance/">Governance</a>
       <a href="/#faq">FAQ</a>
     </div>
   </div>
