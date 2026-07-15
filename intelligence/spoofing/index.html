@@ -1,0 +1,1008 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Spoofing &amp; Impersonation — Reference Model v1.0 | SpamCrackers</title>
+<meta name="description" content="A defensive, analytical reference model for email spoofing and impersonation: taxonomy, tactics and techniques (exact-domain and lookalike spoofing, display-name and header forgery, authentication-gap abuse) and an evidence model. The sixth pillar of Email Abuse Intelligence." />
+<link rel="canonical" href="https://spamcrackers.com/intelligence/spoofing/" />
+<meta name="robots" content="index, follow, max-image-preview:large" />
+<meta name="theme-color" content="#08090D" media="(prefers-color-scheme: dark)" />
+<meta name="theme-color" content="#ECEDE8" media="(prefers-color-scheme: light)" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2308090D'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%232FE39B'/%3E%3C/svg%3E" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="SpamCrackers" />
+<meta property="og:url" content="https://spamcrackers.com/intelligence/spoofing/" />
+<meta property="og:title" content="Spoofing &amp; Impersonation — Reference Model v1.0" />
+<meta property="og:description" content="A defensive, analytical reference model for email spoofing and impersonation. The sixth pillar of Email Abuse Intelligence." />
+<meta property="og:image" content="https://spamcrackers.com/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Spoofing &amp; Impersonation — Reference Model v1.0" />
+<meta name="twitter:description" content="The spoofing &amp; impersonation pillar of the Email Abuse Intelligence reference. Defensive and analytical." />
+<meta name="twitter:image" content="https://spamcrackers.com/og-image.png" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "@id": "https://spamcrackers.com/intelligence/spoofing/#article",
+      "headline": "Spoofing & Impersonation — Reference Model v1.0",
+      "description": "A defensive, analytical reference model for email spoofing and impersonation: taxonomy, tactics and techniques (exact-domain and lookalike spoofing, display-name and header forgery, authentication-gap abuse), and the shared evidence model. The sixth pillar of Email Abuse Intelligence.",
+      "url": "https://spamcrackers.com/intelligence/spoofing/",
+      "isPartOf": {
+        "@id": "https://spamcrackers.com/#website"
+      },
+      "inLanguage": "en",
+      "version": "1.0",
+      "about": [
+        "email spoofing",
+        "domain impersonation",
+        "DMARC",
+        "display-name spoofing",
+        "email security"
+      ],
+      "publisher": {
+        "@type": "Organization",
+        "name": "SpamCrackers",
+        "url": "https://spamcrackers.com/"
+      }
+    },
+    {
+      "@type": "DefinedTermSet",
+      "@id": "https://spamcrackers.com/intelligence/spoofing/#model",
+      "name": "Email Abuse Intelligence Reference Model v1.0 — Spoofing pillar",
+      "url": "https://spamcrackers.com/intelligence/spoofing/",
+      "hasDefinedTerm": [
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/spoofing/#SPO-DP-01",
+          "termCode": "SPO-DP-01",
+          "name": "Lookalike registration",
+          "description": "A cousin domain is registered to resemble a trusted one (bridges SPM-ID-02)."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/spoofing/#SPO-DP-02",
+          "termCode": "SPO-DP-02",
+          "name": "Homoglyph / IDN abuse",
+          "description": "Internationalised or look-alike characters imitate familiar letters."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/spoofing/#SPO-DP-03",
+          "termCode": "SPO-DP-03",
+          "name": "Subdomain & dangling abuse",
+          "description": "A dormant subdomain or dangling DNS record is taken over to send."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/spoofing/#SPO-DP-04",
+          "termCode": "SPO-DP-04",
+          "name": "New-domain impersonation",
+          "description": "A freshly registered domain poses as an established identity."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/spoofing/#SPO-AU-01",
+          "termCode": "SPO-AU-01",
+          "name": "Missing-SPF exploitation",
+          "description": "A domain without SPF offers no policy to fail against."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/spoofing/#SPO-AU-02",
+          "termCode": "SPO-AU-02",
+          "name": "Missing-DKIM exploitation",
+          "description": "Without DKIM, receivers cannot verify a signature."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/spoofing/#SPO-AU-03",
+          "termCode": "SPO-AU-03",
+          "name": "DMARC-none exploitation",
+          "description": "A monitoring-only policy tells receivers to block nothing."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/spoofing/#SPO-AU-04",
+          "termCode": "SPO-AU-04",
+          "name": "Alignment gaps",
+          "description": "Authentication passes for a domain other than the visible From."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/spoofing/#SPO-AU-05",
+          "termCode": "SPO-AU-05",
+          "name": "Forwarder-gap abuse",
+          "description": "Legitimate forwarding that breaks SPF is exploited to slip spoofed mail."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/spoofing/#SPO-HD-01",
+          "termCode": "SPO-HD-01",
+          "name": "Header-from spoofing",
+          "description": "The visible From header is forged to a trusted address."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/spoofing/#SPO-HD-02",
+          "termCode": "SPO-HD-02",
+          "name": "Display-name impersonation",
+          "description": "The friendly name claims a trusted identity while the address does not match."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/spoofing/#SPO-HD-03",
+          "termCode": "SPO-HD-03",
+          "name": "Reply-to redirection",
+          "description": "A different reply-to quietly steers responses to the attacker."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/spoofing/#SPO-HD-04",
+          "termCode": "SPO-HD-04",
+          "name": "Envelope-from spoofing",
+          "description": "The hidden return-path is forged independent of the visible From."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/spoofing/#SPO-BR-01",
+          "termCode": "SPO-BR-01",
+          "name": "Logo & layout cloning",
+          "description": "Brand assets and layout are reproduced to appear genuine."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/spoofing/#SPO-BR-02",
+          "termCode": "SPO-BR-02",
+          "name": "Trust-seal misuse",
+          "description": "Security badges or seals are shown to imply legitimacy."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/spoofing/#SPO-BR-03",
+          "termCode": "SPO-BR-03",
+          "name": "TLS-for-trust",
+          "description": "A valid certificate on a fake domain lends a false sense of safety."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/spoofing/#SPO-BR-04",
+          "termCode": "SPO-BR-04",
+          "name": "Trusted-service abuse",
+          "description": "A genuinely reputable platform is used to relay the impersonation."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/spoofing/#SPO-DL-01",
+          "termCode": "SPO-DL-01",
+          "name": "Reputation borrowing",
+          "description": "Established infrastructure or services carry the forged mail."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/spoofing/#SPO-DL-02",
+          "termCode": "SPO-DL-02",
+          "name": "Mixed-legitimacy content",
+          "description": "Real links and text surround the forged intent to appear benign."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/spoofing/#SPO-DL-03",
+          "termCode": "SPO-DL-03",
+          "name": "Selective targeting",
+          "description": "Only chosen recipients receive the forged mail to limit exposure."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/spoofing/#SPO-OB-01",
+          "termCode": "SPO-OB-01",
+          "name": "Phishing enablement",
+          "description": "The forged identity makes a phishing lure credible (bridges PHI)."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/spoofing/#SPO-OB-02",
+          "termCode": "SPO-OB-02",
+          "name": "BEC enablement",
+          "description": "The forged identity underpins a payment-fraud request (bridges BEC)."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/spoofing/#SPO-OB-03",
+          "termCode": "SPO-OB-03",
+          "name": "Brand damage & disinformation",
+          "description": "Impersonation is used to mislead or harm a brand's audience."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/spoofing/#SPO-OB-04",
+          "termCode": "SPO-OB-04",
+          "name": "Deliverability sabotage",
+          "description": "Spoofing a domain degrades its sending reputation."
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "SpamCrackers",
+          "item": "https://spamcrackers.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Email Abuse Intelligence",
+          "item": "https://spamcrackers.com/intelligence/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Spoofing & Impersonation",
+          "item": "https://spamcrackers.com/intelligence/spoofing/"
+        }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+  :root{
+    --ground:#08090D; --ground-2:#0D0F15; --panel:#11141C;
+    --ink:#D9DEE6; --ink-dim:#9AA3B0; --mute:#5A6472;
+    --line:rgba(217,222,230,.10); --line-strong:rgba(217,222,230,.20);
+    --signal:#2FE39B; --noise:#FF3B6B; --amber:#F6C560; --focus:#7FE3FF;
+    --maxw:1180px; --narrow:760px;
+    --step--1:clamp(.78rem,.72rem + .3vw,.9rem);
+    --step-0:clamp(.98rem,.92rem + .3vw,1.06rem);
+    --step-1:clamp(1.2rem,1.05rem + .7vw,1.5rem);
+    --step-2:clamp(1.6rem,1.2rem + 1.8vw,2.4rem);
+    --step-3:clamp(2.2rem,1.5rem + 3.2vw,3.6rem);
+    --step-4:clamp(2.8rem,1.8rem + 5vw,5.2rem);
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,Roboto,Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,"SF Mono","SFMono-Regular",Menlo,Consolas,"Liberation Mono",monospace;
+  }
+  :root[data-theme="light"]{
+    --ground:#ECEDE8; --ground-2:#F4F5F1; --panel:#FFFFFF;
+    --ink:#0F1218; --ink-dim:#454E5B; --mute:#78828F;
+    --line:rgba(15,18,24,.12); --line-strong:rgba(15,18,24,.22);
+    --signal:#0F9E6A; --noise:#E01E52; --amber:#B77A11;
+  }
+  @media (prefers-color-scheme: light){
+    :root:not([data-theme="dark"]){
+      --ground:#ECEDE8; --ground-2:#F4F5F1; --panel:#FFFFFF;
+      --ink:#0F1218; --ink-dim:#454E5B; --mute:#78828F;
+      --line:rgba(15,18,24,.12); --line-strong:rgba(15,18,24,.22);
+      --signal:#0F9E6A; --noise:#E01E52; --amber:#B77A11;
+    }
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;scroll-padding-top:70px}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:var(--step-0);line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  ::selection{background:var(--signal);color:var(--ground)}
+  a{color:inherit;text-decoration:none}
+  :focus-visible{outline:2px solid var(--focus);outline-offset:3px;border-radius:2px}
+  .wrap{max-width:var(--maxw);margin-inline:auto;padding-inline:clamp(1.1rem,4vw,3rem)}
+  .wrap.narrow{max-width:calc(var(--narrow) + 6rem)}
+  .mono{font-family:var(--mono)}
+  code{font-family:var(--mono);font-size:.88em;color:var(--signal);background:color-mix(in srgb,var(--signal) 12%,transparent);padding:.1em .42em;border-radius:3px;word-break:break-word}
+  .ilink{color:var(--signal);border-bottom:1px solid color-mix(in srgb,var(--signal) 45%,transparent);transition:border-color .2s}
+  .ilink:hover{border-color:var(--signal)}
+  .eyebrow{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.26em;text-transform:uppercase;color:var(--signal);display:inline-flex;align-items:center;gap:.6em}
+  .eyebrow::before{content:"";width:24px;height:1px;background:var(--signal);opacity:.7}
+
+  /* id chips */
+  .idchip{font-family:var(--mono);font-size:.7rem;letter-spacing:.06em;color:var(--signal);border:1px solid color-mix(in srgb,var(--signal) 45%,var(--line));border-radius:4px;padding:.2em .5em;white-space:nowrap;background:color-mix(in srgb,var(--signal) 8%,transparent)}
+  .idchip-link{transition:background .2s}
+  .idchip-link:hover{background:color-mix(in srgb,var(--signal) 20%,transparent)}
+
+  /* top bar */
+  header.bar{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:.8rem clamp(1.1rem,4vw,3rem);font-family:var(--mono);font-size:var(--step--1);letter-spacing:.05em;backdrop-filter:blur(9px);background:color-mix(in srgb,var(--ground) 75%,transparent);border-bottom:1px solid var(--line)}
+  .brand-min{display:flex;align-items:center;gap:.55rem;font-weight:700}
+  .brand-min .dot{width:9px;height:9px;background:var(--signal);border-radius:50%;box-shadow:0 0 12px var(--signal)}
+  .brand-min .tld{color:var(--mute)}
+  .bar nav{display:flex;align-items:center;gap:clamp(.7rem,1.8vw,1.5rem);color:var(--ink-dim)}
+  .bar nav a{transition:color .2s}.bar nav a:hover{color:var(--signal)}
+  .bar .navlink{display:none}
+  @media(min-width:900px){.bar .navlink{display:inline}}
+  .themebtn{font-family:var(--mono);font-size:var(--step--1);background:transparent;border:1px solid var(--line-strong);color:var(--ink-dim);padding:.35em .7em;border-radius:2px;cursor:pointer;letter-spacing:.1em;transition:.2s}
+  .themebtn:hover{border-color:var(--signal);color:var(--signal)}
+
+  /* sections */
+  section{position:relative;padding:clamp(3.6rem,7vw,6rem) 0;border-top:1px solid var(--line)}
+  .hero{border-top:none;padding-top:clamp(7rem,13vw,10rem)}
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion: reduce){.reveal{opacity:1;transform:none;transition:none}}
+  .sec-head{max-width:64ch;margin-bottom:2.4rem}
+  .sec-head h2{font-weight:800;font-size:var(--step-2);line-height:1.05;letter-spacing:-.025em;margin-top:1rem;text-wrap:balance}
+  .sec-head .sub{margin-top:1rem;color:var(--ink-dim);max-width:60ch}
+
+  /* hero */
+  .hero h1{font-weight:800;font-size:var(--step-4);line-height:.98;letter-spacing:-.035em;margin-top:1.4rem;text-wrap:balance}
+  .hero .hl{color:var(--signal)}
+  .hero .lede{margin-top:1.8rem;font-size:var(--step-1);line-height:1.45;color:var(--ink);max-width:54ch;text-wrap:pretty}
+  .hero .lede strong{color:var(--signal);font-weight:700}
+  .meta-chips{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:2.2rem}
+  .meta-chips .chip{font-family:var(--mono);font-size:var(--step--1);border:1px solid var(--line);border-radius:99px;padding:.45em .95em;color:var(--ink-dim)}
+  .meta-chips .chip b{color:var(--mute);font-weight:400;letter-spacing:.08em;text-transform:uppercase;font-size:.82em;margin-right:.5em}
+  .meta-chips .chip.stance{border-color:color-mix(in srgb,var(--signal) 45%,var(--line));color:var(--signal)}
+  .meta-chips .chip.stance b{color:color-mix(in srgb,var(--signal) 70%,var(--ink-dim))}
+
+  /* prose */
+  .prose p{max-width:68ch;margin-bottom:1.2rem;color:var(--ink-dim)}
+  .prose p:last-child{margin-bottom:0}
+  .prose strong{color:var(--ink)}
+  .prose em{color:var(--signal);font-style:normal}
+
+  /* boundaries */
+  .bound-grid{display:grid;gap:1px;grid-template-columns:1fr;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  @media(min-width:720px){.bound-grid{grid-template-columns:1fr 1fr}}
+  .bound{background:var(--ground-2);padding:clamp(1.4rem,3vw,2.2rem)}
+  .bound-label{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.14em;text-transform:uppercase;margin-bottom:1.1rem;display:flex;align-items:center;gap:.6em}
+  .bound-label::before{content:"";width:10px;height:10px;border-radius:50%}
+  .bound-label.ok{color:var(--signal)}.bound-label.ok::before{background:var(--signal)}
+  .bound-label.no{color:var(--noise)}.bound-label.no::before{background:var(--noise)}
+  .bound ul{list-style:none;display:flex;flex-direction:column;gap:.75rem}
+  .bound li{position:relative;padding-left:1.5rem;color:var(--ink-dim);line-height:1.5}
+  .bound li b{color:var(--ink)}
+  .bound.is li::before{content:"✓";position:absolute;left:0;color:var(--signal);font-family:var(--mono)}
+  .bound.not li::before{content:"✕";position:absolute;left:0;color:var(--noise);font-family:var(--mono)}
+  .bound-note{margin-top:1.6rem;font-family:var(--mono);font-size:var(--step--1);color:var(--ink-dim);line-height:1.7;border-left:2px solid var(--signal);padding-left:1.2rem;max-width:74ch}
+  .bound-note b{color:var(--signal)}
+
+  /* pillars */
+  .pillar-grid{display:grid;gap:1px;grid-template-columns:1fr;background:var(--line);border:1px solid var(--line)}
+  @media(min-width:620px){.pillar-grid{grid-template-columns:repeat(2,1fr)}}
+  @media(min-width:960px){.pillar-grid{grid-template-columns:repeat(3,1fr)}}
+  .pillar{background:var(--ground);padding:clamp(1.4rem,2.6vw,2rem);display:flex;flex-direction:column;gap:.6rem;transition:background .3s}
+  .pillar:hover{background:var(--ground-2)}
+  .pillar-top{display:flex;align-items:center;justify-content:space-between;gap:.6rem}
+  .pill-status{font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+  .pillar.active{background:color-mix(in srgb,var(--signal) 6%,var(--ground))}
+  .pillar.active .pill-status{color:var(--signal)}
+  .pillar h3{font-size:var(--step-1);font-weight:800;letter-spacing:-.02em}
+  .pillar p{color:var(--ink-dim);font-size:var(--step--1);line-height:1.55}
+  .pillar.planned{opacity:.82}
+
+  /* cite */
+  .cite{border:1px solid var(--line);border-radius:8px;padding:clamp(1.2rem,3vw,1.8rem);background:var(--ground-2)}
+  .cite-label{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.14em;text-transform:uppercase;color:var(--signal);margin-bottom:.8rem}
+  .cite p{color:var(--ink-dim);max-width:70ch}
+
+  /* tables */
+  .ref-table{width:100%;border-collapse:collapse;font-size:var(--step--1)}
+  .ref-table th{text-align:left;font-family:var(--mono);color:var(--mute);font-weight:400;letter-spacing:.08em;text-transform:uppercase;font-size:.7rem;padding:0 1rem .7rem 0;border-bottom:1px solid var(--line-strong)}
+  .ref-table td{padding:.8rem 1rem .8rem 0;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink-dim);line-height:1.5}
+  .ref-table tr:last-child td{border-bottom:none}
+  .ref-table td.code{color:var(--signal);white-space:nowrap}
+  .ref-table td.pk{color:var(--ink);font-weight:600}
+
+  /* taxonomy */
+  .tax-grid{display:grid;gap:1.5rem;grid-template-columns:1fr}
+  @media(min-width:820px){.tax-grid{grid-template-columns:1fr 1fr}}
+  .tax-block{border:1px solid var(--line);border-radius:8px;padding:clamp(1.2rem,2.6vw,1.8rem);background:var(--ground-2)}
+  .tax-head{display:flex;align-items:center;gap:.8rem;margin-bottom:1.2rem}
+  .tax-head h3{font-size:var(--step-1);font-weight:800;letter-spacing:-.02em}
+
+  /* matrix */
+  .matrix-scroll{overflow-x:auto;padding-bottom:.6rem;-webkit-overflow-scrolling:touch}
+  .matrix{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(190px,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;min-width:960px}
+  .matrix-col{background:var(--ground);display:flex;flex-direction:column;gap:1px}
+  .matrix-head{background:var(--ground-2);padding:.9rem .8rem;display:flex;flex-direction:column;gap:.45rem;min-height:72px}
+  .matrix-head .mh-name{font-weight:700;font-size:.86rem;line-height:1.2;letter-spacing:-.01em}
+  .matrix-cell{background:var(--ground);padding:.7rem .8rem;font-size:.8rem;color:var(--ink-dim);display:flex;flex-direction:column;gap:.25rem;transition:background .2s,color .2s;border-top:1px solid var(--line)}
+  .matrix-cell:hover{background:color-mix(in srgb,var(--signal) 10%,var(--ground));color:var(--ink)}
+  .matrix-cell .cell-id{font-size:.66rem;color:var(--mute)}
+  .matrix-cell:hover .cell-id{color:var(--signal)}
+
+  /* technique detail */
+  .phase{margin-top:3rem;scroll-margin-top:76px}
+  .phase-head{display:flex;align-items:center;gap:.8rem}
+  .phase-head h3{font-size:var(--step-1);font-weight:800;letter-spacing:-.02em}
+  .phase-blurb{color:var(--ink-dim);margin:.7rem 0 1.4rem;max-width:64ch}
+  .tcards{display:grid;gap:1rem;grid-template-columns:1fr}
+  @media(min-width:720px){.tcards{grid-template-columns:1fr 1fr}}
+  .tcard{border:1px solid var(--line);border-radius:8px;padding:1.2rem 1.3rem;background:var(--ground-2);scroll-margin-top:80px;transition:border-color .3s,box-shadow .3s}
+  .tcard.flash{border-color:var(--signal);box-shadow:0 0 0 1px var(--signal),0 14px 40px -20px var(--signal)}
+  .tcard-top{display:flex;align-items:center;gap:.7rem;margin-bottom:1rem}
+  .tcard-top h4{font-size:var(--step-0);font-weight:700;letter-spacing:-.01em}
+  .tcard-body{display:grid;grid-template-columns:1fr;gap:.35rem}
+  .tcard-body dt{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin-top:.7rem}
+  .tcard-body dt:first-child{margin-top:0}
+  .tcard-body dt.def{color:var(--signal)}
+  .tcard-body dd{color:var(--ink-dim);font-size:var(--step--1);line-height:1.55}
+  .tcard-body dd.def{color:var(--ink)}
+
+  /* evidence + confidence */
+  .conf{margin-top:2.2rem;border:1px solid var(--line);border-radius:8px;padding:clamp(1.2rem,3vw,1.8rem);background:var(--ground-2)}
+  .conf-label{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.14em;text-transform:uppercase;color:var(--signal);margin-bottom:1.2rem}
+  .conf-row{display:flex;gap:1rem;align-items:baseline;padding:.6rem 0;border-bottom:1px solid var(--line)}
+  .conf-row:last-child{border-bottom:none}
+  .conf-tier{font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;padding:.25em .7em;border-radius:99px;border:1px solid currentColor;white-space:nowrap;flex-shrink:0;min-width:9ch;text-align:center}
+  .conf-tier.t0{color:var(--mute)}.conf-tier.t1{color:var(--amber)}.conf-tier.t2{color:var(--signal)}.conf-tier.t3{color:var(--signal)}
+  .conf-desc{color:var(--ink-dim);font-size:var(--step--1)}
+
+  /* library */
+  .lib-grid{display:grid;gap:1px;grid-template-columns:repeat(2,1fr);background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden;margin-bottom:2rem}
+  @media(min-width:720px){.lib-grid{grid-template-columns:repeat(4,1fr)}}
+  .lib-card{background:var(--ground-2);padding:1.6rem 1.3rem;display:flex;flex-direction:column;gap:.4rem}
+  .lib-n{font-size:var(--step-3);font-weight:800;color:var(--signal);line-height:1;font-variant-numeric:tabular-nums}
+  .lib-l{font-family:var(--mono);font-size:var(--step--1);color:var(--ink-dim);letter-spacing:.04em}
+  .lib-cta{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:2rem}
+  .btn{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.05em;padding:.9em 1.4em;border-radius:2px;cursor:pointer;border:1px solid transparent;display:inline-flex;align-items:center;gap:.6em;transition:transform .15s,box-shadow .2s,border-color .2s,color .2s;text-transform:uppercase}
+  .btn-primary{background:var(--signal);color:#04120C;font-weight:700}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 30px -10px var(--signal)}
+  .btn-ghost{background:transparent;color:var(--ink);border-color:var(--line-strong)}
+  .btn-ghost:hover{border-color:var(--signal);color:var(--signal)}
+
+  /* footer */
+  footer{border-top:1px solid var(--line);padding:2.6rem 0;font-family:var(--mono);font-size:var(--step--1);color:var(--mute)}
+  .foot-row{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;align-items:center}
+  .foot-row .sig{color:var(--signal)}
+  .foot-links{display:flex;gap:1.3rem;flex-wrap:wrap}
+  .foot-links a:hover{color:var(--signal)}
+
+  /* breadcrumbs */
+  .crumbs{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;font-family:var(--mono);font-size:var(--step--1);color:var(--mute);margin-bottom:1.4rem}
+  .crumbs a{color:var(--ink-dim);transition:color .2s}
+  .crumbs a:hover{color:var(--signal)}
+  .crumbs .sep{color:var(--mute);opacity:.6}
+  .crumbs .here{color:var(--signal)}
+  /* related pillars footer strip */
+  .related{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:2rem}
+  .related a{font-family:var(--mono);font-size:var(--step--1);border:1px solid var(--line);border-radius:99px;padding:.4em .95em;color:var(--ink-dim);transition:.2s}
+  .related a:hover{border-color:var(--signal);color:var(--signal)}
+  .related span{color:var(--mute);align-self:center}
+
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <a class="brand-min" href="/"><span class="dot" aria-hidden="true"></span>SPAMCRACKERS<span class="tld">.com</span></a>
+  <nav>
+    <a class="navlink" href="/intelligence/">Intelligence</a>
+    <a class="navlink" href="#model">Reference Model</a>
+    <a class="navlink" href="#matrix">Techniques</a>
+    <a class="navlink" href="/#lab">Check a domain</a>
+    <button class="themebtn" id="themebtn" type="button" aria-label="Toggle theme">◐ THEME</button>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span class="sep">/</span><a href="/intelligence/">Email Abuse Intelligence</a><span class="sep">/</span><span class="here">Spoofing &amp; Impersonation</span></nav>
+    <div class="eyebrow">Email Abuse Intelligence · Pillar SPO</div>
+    <h1>Spoofing &amp;<br>Impersonation.</h1>
+    <p class="lede">Every other abuse leans on one thing first: convincing you the sender is someone they are not. This pillar models identity forgery end to end — from lookalike domains and authentication gaps to header and brand deception. The sixth pillar of <a class="ilink" href="/intelligence/">Email Abuse Intelligence</a>, and the one your <a class="ilink" href="/#lab">domain check</a> measures directly.</p>
+    <div class="meta-chips">
+      <span class="chip"><b>Namespace</b> EAI · SPO</span>
+      <span class="chip"><b>Release</b> v1.0</span>
+      <span class="chip stance"><b>Posture</b> Defensive &amp; analytical</span>
+      <span class="chip"><b>Techniques</b> 24</span>
+    </div>
+  </div>
+</section>
+
+<section id="thesis">
+  <div class="wrap narrow">
+    <div class="sec-head reveal"><span class="eyebrow">01 · Pillar thesis</span><h2>Identity is the first line — and the first thing forged.</h2></div>
+    <div class="prose reveal">
+      <p>Spoofing is the root enabler beneath spam, phishing, BEC and fraud alike. If a message can convincingly claim to be from a trusted domain or person, every lure that follows becomes easier. That is why identity is where defence pays back most — and why authentication exists.</p>
+      <p>This pillar is the direct counterpart to the tool on the home page: the <a class="ilink" href="/#lab">domain check</a> measures your exposure to exactly these techniques, and the <a class="ilink" href="/#standard">SpamCrackers Standard</a> grades the controls — SPF, DKIM and DMARC — that close them. Here the techniques are named and mapped so a grade becomes an understanding.</p>
+    </div>
+  </div>
+</section>
+
+<section id="scope">
+  <div class="wrap narrow">
+    <div class="sec-head reveal"><span class="eyebrow">02 · Scope &amp; boundaries</span><h2>Defensive by definition.</h2></div>
+    <div class="bound-grid reveal">
+      <div class="bound is">
+        <div class="bound-label ok">What this is</div>
+        <ul>
+          <li>A <b>classification and reference model</b> for identity forgery in email.</li>
+          <li><b>Analytical and defensive</b> — for defenders, brand and email teams.</li>
+          <li>Focused on <b>observable signals and authentication controls</b>.</li>
+          <li><b>Open and citable</b>, with stable identifiers.</li>
+        </ul>
+      </div>
+      <div class="bound not">
+        <div class="bound-label no">What this is not</div>
+        <ul>
+          <li><b>Not</b> a tool or service for spoofing or impersonating anyone.</li>
+          <li><b>Not</b> operational instructions for forging identity.</li>
+          <li><b>Not</b> a directory of spoofable domains or targets.</li>
+          <li><b>Not</b> a substitute for lawful, authorised testing.</li>
+        </ul>
+      </div>
+    </div>
+    <p class="bound-note reveal">Every technique is described at the level of <b>classification and defence</b> — what it is, how it is observed, and how it is countered, with authentication as the throughline.</p>
+  </div>
+</section>
+
+<section id="model">
+  <div class="wrap narrow">
+    <div class="sec-head reveal"><span class="eyebrow">03 · Reference Model v1.0 · SPO</span><h2>A shared vocabulary for the spoofing pillar.</h2>
+      <p class="sub">Three parts: a <a class="ilink" href="#taxonomy">taxonomy</a>, a <a class="ilink" href="#matrix">tactics &amp; techniques matrix</a>, and a shared <a class="ilink" href="#evidence">evidence model</a>.</p></div>
+    <div class="cite reveal">
+      <div class="cite-label">How to cite</div>
+      <p>Elements carry stable identifiers in the <code>EAI</code> namespace under the spoofing prefix <code>SPO</code> (chosen to avoid collision with the SPF authentication standard). Cite by code and URL — for example <code>SPO-AU-03</code> · <span class="mono">spamcrackers.com/intelligence/spoofing/#SPO-AU-03</span>.</p>
+    </div>
+  </div>
+</section>
+
+<section id="taxonomy">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="eyebrow">03.1 · Spoofing taxonomy</span><h2>Four axes of classification.</h2>
+      <p class="sub">A forgery is described by the element forged, the authentication gap used, the forgery channel and the target impersonated.</p></div>
+    <div class="tax-grid">
+
+      <div class="tax-block reveal">
+        <div class="tax-head"><span class="idchip">SPO-TAX-A</span><h3>By forged element</h3></div>
+        <table class="ref-table">
+          <thead><tr><th>Code</th><th>Class</th><th>Definition</th></tr></thead>
+          <tbody>
+            <tr><td class="mono code">AA1</td><td class="pk">Exact domain</td><td>The real domain is forged in the visible From.</td></tr>
+            <tr><td class="mono code">AA2</td><td class="pk">Lookalike / cousin</td><td>A homoglyph or typo variant of the real domain.</td></tr>
+            <tr><td class="mono code">AA3</td><td class="pk">Display name</td><td>Only the friendly name is forged; the address is not.</td></tr>
+            <tr><td class="mono code">AA4</td><td class="pk">Subdomain / dangling</td><td>A dormant subdomain or dangling record is abused.</td></tr>
+            <tr><td class="mono code">AA5</td><td class="pk">Reply-to mismatch</td><td>A different reply-to quietly redirects the conversation.</td></tr>
+            <tr><td class="mono code">AA6</td><td class="pk">Homoglyph / IDN</td><td>Internationalised characters imitate familiar letters.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tax-block reveal">
+        <div class="tax-head"><span class="idchip">SPO-TAX-B</span><h3>By authentication gap</h3></div>
+        <table class="ref-table">
+          <thead><tr><th>Code</th><th>Class</th><th>Definition</th></tr></thead>
+          <tbody>
+            <tr><td class="mono code">BB1</td><td class="pk">No SPF</td><td>No sender-policy record to check against.</td></tr>
+            <tr><td class="mono code">BB2</td><td class="pk">Weak / no DKIM</td><td>No verifiable signature on the message.</td></tr>
+            <tr><td class="mono code">BB3</td><td class="pk">DMARC none</td><td>A policy that reports but never blocks.</td></tr>
+            <tr><td class="mono code">BB4</td><td class="pk">Misaligned auth</td><td>SPF or DKIM passes for a different domain than the From.</td></tr>
+            <tr><td class="mono code">BB5</td><td class="pk">Forwarder gaps</td><td>Legitimate forwarding breaks authentication and is exploited.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tax-block reveal">
+        <div class="tax-head"><span class="idchip">SPO-TAX-C</span><h3>By forgery channel</h3></div>
+        <table class="ref-table">
+          <thead><tr><th>Code</th><th>Class</th><th>Definition</th></tr></thead>
+          <tbody>
+            <tr><td class="mono code">CC1</td><td class="pk">Header-from</td><td>The visible From header is spoofed.</td></tr>
+            <tr><td class="mono code">CC2</td><td class="pk">Envelope-from</td><td>The hidden return-path is spoofed.</td></tr>
+            <tr><td class="mono code">CC3</td><td class="pk">Brand mimicry</td><td>Logos, layout and tone impersonate a brand.</td></tr>
+            <tr><td class="mono code">CC4</td><td class="pk">Trust-domain abuse</td><td>A genuinely trusted service or domain is misused.</td></tr>
+            <tr><td class="mono code">CC5</td><td class="pk">New-domain impersonation</td><td>A fresh domain poses as an established identity.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tax-block reveal">
+        <div class="tax-head"><span class="idchip">SPO-TAX-D</span><h3>By impersonated target</h3></div>
+        <table class="ref-table">
+          <thead><tr><th>Code</th><th>Class</th><th>Definition</th></tr></thead>
+          <tbody>
+            <tr><td class="mono code">DD1</td><td class="pk">Brand</td><td>A company or product identity.</td></tr>
+            <tr><td class="mono code">DD2</td><td class="pk">Executive / person</td><td>A named individual.</td></tr>
+            <tr><td class="mono code">DD3</td><td class="pk">Vendor / partner</td><td>A supplier or business relationship.</td></tr>
+            <tr><td class="mono code">DD4</td><td class="pk">Government / authority</td><td>A public body or regulator.</td></tr>
+            <tr><td class="mono code">DD5</td><td class="pk">Internal colleague</td><td>A coworker within the same organisation.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="matrix">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="eyebrow">03.2 · Spoofing tactics &amp; techniques</span><h2>Identity forgery, phase by phase.</h2>
+      <p class="sub">Six phases from preparing an impersonating identity to the objective it serves. Each cell is a defensively-described technique; select one to jump to its detail.</p></div>
+    <div class="matrix-scroll reveal">
+
+      <div class="matrix" role="table" aria-label="Spoofing and impersonation tactics and techniques matrix">
+        
+        <div class="matrix-col" role="column">
+          <div class="matrix-head"><span class="idchip">SPO-DP</span><span class="mh-name">Domain &amp; Path Preparation</span></div>
+          <a class="matrix-cell" href="#SPO-DP-01">Lookalike registration<span class="cell-id mono">SPO-DP-01</span></a>
+          <a class="matrix-cell" href="#SPO-DP-02">Homoglyph / IDN abuse<span class="cell-id mono">SPO-DP-02</span></a>
+          <a class="matrix-cell" href="#SPO-DP-03">Subdomain &amp; dangling abuse<span class="cell-id mono">SPO-DP-03</span></a>
+          <a class="matrix-cell" href="#SPO-DP-04">New-domain impersonation<span class="cell-id mono">SPO-DP-04</span></a>
+        </div>
+
+        <div class="matrix-col" role="column">
+          <div class="matrix-head"><span class="idchip">SPO-AU</span><span class="mh-name">Authentication Abuse</span></div>
+          <a class="matrix-cell" href="#SPO-AU-01">Missing-SPF exploitation<span class="cell-id mono">SPO-AU-01</span></a>
+          <a class="matrix-cell" href="#SPO-AU-02">Missing-DKIM exploitation<span class="cell-id mono">SPO-AU-02</span></a>
+          <a class="matrix-cell" href="#SPO-AU-03">DMARC-none exploitation<span class="cell-id mono">SPO-AU-03</span></a>
+          <a class="matrix-cell" href="#SPO-AU-04">Alignment gaps<span class="cell-id mono">SPO-AU-04</span></a>
+          <a class="matrix-cell" href="#SPO-AU-05">Forwarder-gap abuse<span class="cell-id mono">SPO-AU-05</span></a>
+        </div>
+
+        <div class="matrix-col" role="column">
+          <div class="matrix-head"><span class="idchip">SPO-HD</span><span class="mh-name">Header &amp; Identity Forgery</span></div>
+          <a class="matrix-cell" href="#SPO-HD-01">Header-from spoofing<span class="cell-id mono">SPO-HD-01</span></a>
+          <a class="matrix-cell" href="#SPO-HD-02">Display-name impersonation<span class="cell-id mono">SPO-HD-02</span></a>
+          <a class="matrix-cell" href="#SPO-HD-03">Reply-to redirection<span class="cell-id mono">SPO-HD-03</span></a>
+          <a class="matrix-cell" href="#SPO-HD-04">Envelope-from spoofing<span class="cell-id mono">SPO-HD-04</span></a>
+        </div>
+
+        <div class="matrix-col" role="column">
+          <div class="matrix-head"><span class="idchip">SPO-BR</span><span class="mh-name">Brand &amp; Trust Mimicry</span></div>
+          <a class="matrix-cell" href="#SPO-BR-01">Logo &amp; layout cloning<span class="cell-id mono">SPO-BR-01</span></a>
+          <a class="matrix-cell" href="#SPO-BR-02">Trust-seal misuse<span class="cell-id mono">SPO-BR-02</span></a>
+          <a class="matrix-cell" href="#SPO-BR-03">TLS-for-trust<span class="cell-id mono">SPO-BR-03</span></a>
+          <a class="matrix-cell" href="#SPO-BR-04">Trusted-service abuse<span class="cell-id mono">SPO-BR-04</span></a>
+        </div>
+
+        <div class="matrix-col" role="column">
+          <div class="matrix-head"><span class="idchip">SPO-DL</span><span class="mh-name">Delivery &amp; Evasion</span></div>
+          <a class="matrix-cell" href="#SPO-DL-01">Reputation borrowing<span class="cell-id mono">SPO-DL-01</span></a>
+          <a class="matrix-cell" href="#SPO-DL-02">Mixed-legitimacy content<span class="cell-id mono">SPO-DL-02</span></a>
+          <a class="matrix-cell" href="#SPO-DL-03">Selective targeting<span class="cell-id mono">SPO-DL-03</span></a>
+        </div>
+
+        <div class="matrix-col" role="column">
+          <div class="matrix-head"><span class="idchip">SPO-OB</span><span class="mh-name">Objective</span></div>
+          <a class="matrix-cell" href="#SPO-OB-01">Phishing enablement<span class="cell-id mono">SPO-OB-01</span></a>
+          <a class="matrix-cell" href="#SPO-OB-02">BEC enablement<span class="cell-id mono">SPO-OB-02</span></a>
+          <a class="matrix-cell" href="#SPO-OB-03">Brand damage &amp; disinformation<span class="cell-id mono">SPO-OB-03</span></a>
+          <a class="matrix-cell" href="#SPO-OB-04">Deliverability sabotage<span class="cell-id mono">SPO-OB-04</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="wrap">
+
+      <div class="phase reveal" id="SPO-DP">
+        <div class="phase-head"><span class="idchip">SPO-DP</span><h3>Domain &amp; Path Preparation</h3></div>
+        <p class="phase-blurb">How an impersonating identity is set up before sending.</p>
+        <div class="tcards">
+          
+          <article class="tcard" id="SPO-DP-01">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#SPO-DP-01">SPO-DP-01</a><h4>Lookalike registration</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>A cousin domain is registered to resemble a trusted one (bridges SPM-ID-02).</dd>
+              <dt>Observable signals</dt><dd>Recently registered homoglyph or typo domains of a brand.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Lookalike and brand monitoring; defensive registrations.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="SPO-DP-02">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#SPO-DP-02">SPO-DP-02</a><h4>Homoglyph / IDN abuse</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Internationalised or look-alike characters imitate familiar letters.</dd>
+              <dt>Observable signals</dt><dd>Non-ASCII characters imitating a known domain.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Homoglyph normalisation and IDN display policies.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="SPO-DP-03">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#SPO-DP-03">SPO-DP-03</a><h4>Subdomain &amp; dangling abuse</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>A dormant subdomain or dangling DNS record is taken over to send.</dd>
+              <dt>Observable signals</dt><dd>Authenticated mail from long-inactive subdomains.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">DNS hygiene; retire dangling records; DMARC visibility.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="SPO-DP-04">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#SPO-DP-04">SPO-DP-04</a><h4>New-domain impersonation</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>A freshly registered domain poses as an established identity.</dd>
+              <dt>Observable signals</dt><dd>Very low domain age paired with a trusted-brand pretext.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Newly-registered-domain scoring and greylisting.</dd>
+            </dl>
+          </article>
+        </div>
+      </div>
+
+      <div class="phase reveal" id="SPO-AU">
+        <div class="phase-head"><span class="idchip">SPO-AU</span><h3>Authentication Abuse</h3></div>
+        <p class="phase-blurb">How gaps in email authentication are exploited to forge identity.</p>
+        <div class="tcards">
+          
+          <article class="tcard" id="SPO-AU-01">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#SPO-AU-01">SPO-AU-01</a><h4>Missing-SPF exploitation</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>A domain without SPF offers no policy to fail against.</dd>
+              <dt>Observable signals</dt><dd>Forged mail from domains publishing no SPF.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Publish SPF ending in -all. (See the SpamCrackers Standard.)</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="SPO-AU-02">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#SPO-AU-02">SPO-AU-02</a><h4>Missing-DKIM exploitation</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Without DKIM, receivers cannot verify a signature.</dd>
+              <dt>Observable signals</dt><dd>Unsigned mail claiming a brand identity.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Enable DKIM signing and publish the key.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="SPO-AU-03">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#SPO-AU-03">SPO-AU-03</a><h4>DMARC-none exploitation</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>A monitoring-only policy tells receivers to block nothing.</dd>
+              <dt>Observable signals</dt><dd>Spoofed mail passing because DMARC is p=none.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Enforce DMARC at quarantine, then reject.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="SPO-AU-04">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#SPO-AU-04">SPO-AU-04</a><h4>Alignment gaps</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Authentication passes for a domain other than the visible From.</dd>
+              <dt>Observable signals</dt><dd>SPF or DKIM aligned to an unrelated domain.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Require DMARC alignment, not just an SPF or DKIM pass.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="SPO-AU-05">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#SPO-AU-05">SPO-AU-05</a><h4>Forwarder-gap abuse</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Legitimate forwarding that breaks SPF is exploited to slip spoofed mail.</dd>
+              <dt>Observable signals</dt><dd>Spoofed mail arriving via forwarding paths.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Use DKIM and ARC; account for forwarding in policy.</dd>
+            </dl>
+          </article>
+        </div>
+      </div>
+
+      <div class="phase reveal" id="SPO-HD">
+        <div class="phase-head"><span class="idchip">SPO-HD</span><h3>Header &amp; Identity Forgery</h3></div>
+        <p class="phase-blurb">How the visible sender identity itself is faked.</p>
+        <div class="tcards">
+          
+          <article class="tcard" id="SPO-HD-01">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#SPO-HD-01">SPO-HD-01</a><h4>Header-from spoofing</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>The visible From header is forged to a trusted address.</dd>
+              <dt>Observable signals</dt><dd>From address failing authentication or alignment.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Enforce DMARC; flag unauthenticated From.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="SPO-HD-02">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#SPO-HD-02">SPO-HD-02</a><h4>Display-name impersonation</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>The friendly name claims a trusted identity while the address does not match.</dd>
+              <dt>Observable signals</dt><dd>A known name paired with an unfamiliar address.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Header analysis and external-sender warning banners.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="SPO-HD-03">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#SPO-HD-03">SPO-HD-03</a><h4>Reply-to redirection</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>A different reply-to quietly steers responses to the attacker.</dd>
+              <dt>Observable signals</dt><dd>Reply-to diverging from the visible From.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Flag reply-to and From mismatches.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="SPO-HD-04">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#SPO-HD-04">SPO-HD-04</a><h4>Envelope-from spoofing</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>The hidden return-path is forged independent of the visible From.</dd>
+              <dt>Observable signals</dt><dd>Return-path inconsistent with the From domain.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Evaluate envelope and header alignment together.</dd>
+            </dl>
+          </article>
+        </div>
+      </div>
+
+      <div class="phase reveal" id="SPO-BR">
+        <div class="phase-head"><span class="idchip">SPO-BR</span><h3>Brand &amp; Trust Mimicry</h3></div>
+        <p class="phase-blurb">How look-and-feel is used to borrow credibility.</p>
+        <div class="tcards">
+          
+          <article class="tcard" id="SPO-BR-01">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#SPO-BR-01">SPO-BR-01</a><h4>Logo &amp; layout cloning</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Brand assets and layout are reproduced to appear genuine.</dd>
+              <dt>Observable signals</dt><dd>Brand assets paired with a mismatched sender.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Brand-to-sender consistency and logo detection.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="SPO-BR-02">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#SPO-BR-02">SPO-BR-02</a><h4>Trust-seal misuse</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Security badges or seals are shown to imply legitimacy.</dd>
+              <dt>Observable signals</dt><dd>Trust imagery on an unauthenticated message.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Treat in-message seals as decoration, not proof.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="SPO-BR-03">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#SPO-BR-03">SPO-BR-03</a><h4>TLS-for-trust</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>A valid certificate on a fake domain lends a false sense of safety.</dd>
+              <dt>Observable signals</dt><dd>A padlock on a lookalike or new domain.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">TLS is encryption, not identity; check the domain.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="SPO-BR-04">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#SPO-BR-04">SPO-BR-04</a><h4>Trusted-service abuse</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>A genuinely reputable platform is used to relay the impersonation.</dd>
+              <dt>Observable signals</dt><dd>Impersonation relayed through a trusted service.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Inspect content and intent, not only the relay's reputation.</dd>
+            </dl>
+          </article>
+        </div>
+      </div>
+
+      <div class="phase reveal" id="SPO-DL">
+        <div class="phase-head"><span class="idchip">SPO-DL</span><h3>Delivery &amp; Evasion</h3></div>
+        <p class="phase-blurb">How forged mail is pushed through and kept from detection.</p>
+        <div class="tcards">
+          
+          <article class="tcard" id="SPO-DL-01">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#SPO-DL-01">SPO-DL-01</a><h4>Reputation borrowing</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Established infrastructure or services carry the forged mail.</dd>
+              <dt>Observable signals</dt><dd>Impersonation from otherwise-reputable sources.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Reputation plus alignment, not reputation alone.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="SPO-DL-02">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#SPO-DL-02">SPO-DL-02</a><h4>Mixed-legitimacy content</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Real links and text surround the forged intent to appear benign.</dd>
+              <dt>Observable signals</dt><dd>Mostly-legitimate content with a single forged element.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Evaluate the whole message and its authentication.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="SPO-DL-03">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#SPO-DL-03">SPO-DL-03</a><h4>Selective targeting</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Only chosen recipients receive the forged mail to limit exposure.</dd>
+              <dt>Observable signals</dt><dd>Narrow, low-volume impersonation runs.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Cross-tenant intelligence sharing and DMARC reporting.</dd>
+            </dl>
+          </article>
+        </div>
+      </div>
+
+      <div class="phase reveal" id="SPO-OB">
+        <div class="phase-head"><span class="idchip">SPO-OB</span><h3>Objective</h3></div>
+        <p class="phase-blurb">What the forged identity is ultimately used to achieve.</p>
+        <div class="tcards">
+          
+          <article class="tcard" id="SPO-OB-01">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#SPO-OB-01">SPO-OB-01</a><h4>Phishing enablement</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>The forged identity makes a phishing lure credible (bridges PHI).</dd>
+              <dt>Observable signals</dt><dd>Impersonation paired with a credential-capture link.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Combine identity checks with URL detonation.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="SPO-OB-02">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#SPO-OB-02">SPO-OB-02</a><h4>BEC enablement</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>The forged identity underpins a payment-fraud request (bridges BEC).</dd>
+              <dt>Observable signals</dt><dd>Impersonation of an executive or vendor around payments.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Out-of-band verification of payment requests.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="SPO-OB-03">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#SPO-OB-03">SPO-OB-03</a><h4>Brand damage &amp; disinformation</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Impersonation is used to mislead or harm a brand's audience.</dd>
+              <dt>Observable signals</dt><dd>Forged communications contradicting official channels.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Public reporting channels and DMARC enforcement.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="SPO-OB-04">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#SPO-OB-04">SPO-OB-04</a><h4>Deliverability sabotage</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Spoofing a domain degrades its sending reputation.</dd>
+              <dt>Observable signals</dt><dd>A rise in spoofed mail harming legitimate delivery.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">DMARC enforcement and reputation monitoring.</dd>
+            </dl>
+          </article>
+        </div>
+      </div>
+  </div>
+</section>
+
+<section id="evidence">
+  <div class="wrap narrow">
+    <div class="sec-head reveal"><span class="eyebrow">03.3 · Indicators &amp; evidence model</span><h2>No claim without an observable.</h2>
+      <p class="sub">The spoofing pillar shares the Email Abuse Intelligence evidence model — with authentication alignment carrying decisive weight.</p></div>
+    <div class="reveal">
+
+        <table class="ref-table">
+          <thead><tr><th>Code</th><th>Class</th><th>Evidence captured</th></tr></thead>
+          <tbody>
+          <tr><td class="mono code">EAI-EV-NET</td><td class="pk">Network</td><td>Sending IP, ASN, reverse DNS and geolocation of the sender.</td></tr>
+          <tr><td class="mono code">EAI-EV-AUTH</td><td class="pk">Authentication</td><td>SPF, DKIM and DMARC results, alignment, ARC chain — central to this pillar.</td></tr>
+          <tr><td class="mono code">EAI-EV-CONT</td><td class="pk">Content</td><td>From, reply-to and return-path values, brand assets, header anomalies.</td></tr>
+          <tr><td class="mono code">EAI-EV-BEHAV</td><td class="pk">Behavioural</td><td>First-contact patterns, low-volume targeting, deviation from known senders.</td></tr>
+          <tr><td class="mono code">EAI-EV-INFRA</td><td class="pk">Infrastructure</td><td>Domain age, lookalike and homoglyph registration, certificate history, registrar.</td></tr>
+          </tbody>
+        </table>
+    </div>
+    <div class="conf reveal">
+      <div class="conf-label">Confidence model</div>
+
+          <div class="conf-row"><span class="conf-tier t0">Low</span><span class="conf-desc">A single weak or ambiguous indicator. Suitable for enrichment, not enforcement.</span></div>
+
+          <div class="conf-row"><span class="conf-tier t1">Moderate</span><span class="conf-desc">Multiple independent indicators from different classes agree.</span></div>
+
+          <div class="conf-row"><span class="conf-tier t2">High</span><span class="conf-desc">Corroborated indicators plus authentication-alignment evidence.</span></div>
+
+          <div class="conf-row"><span class="conf-tier t3">Confirmed</span><span class="conf-desc">Direct, reproducible evidence — e.g. a From that fails aligned DMARC.</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="library">
+  <div class="wrap narrow">
+    <div class="sec-head reveal"><span class="eyebrow">04 · The library is complete</span><h2>Six pillars, one model.</h2>
+      <p class="sub">Spoofing &amp; impersonation completes the founding umbrella — spam, phishing, BEC, malware, scam and spoofing, all under one namespace and evidence model.</p></div>
+    <div class="lib-grid reveal">
+      <div class="lib-card"><div class="lib-n mono">24</div><div class="lib-l">spoofing techniques</div></div>
+      <div class="lib-card"><div class="lib-n mono">21</div><div class="lib-l">taxonomy classes</div></div>
+      <div class="lib-card"><div class="lib-n mono">6</div><div class="lib-l">lifecycle phases</div></div>
+      <div class="lib-card"><div class="lib-n mono">6</div><div class="lib-l">pillars active</div></div>
+    </div>
+    <div class="lib-cta reveal">
+      <a class="btn btn-primary" href="/#lab">Measure your exposure now →</a>
+      <a class="btn btn-ghost" href="/intelligence/">Back to the umbrella</a>
+    </div>
+    <div class="related reveal"><span>Related pillars:</span><a href="/intelligence/">Spam</a><a href="/intelligence/phishing/">Phishing</a><a href="/intelligence/bec/">BEC</a></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-row">
+    <span><span class="sig">SPAMCRACKERS</span>.COM — the reference layer for Email Abuse Intelligence · Spoofing pillar v1.0</span>
+    <div class="foot-links">
+      <a href="/">Home</a>
+      <a href="/intelligence/">Intelligence</a>
+      <a href="/#standard">The Standard</a>
+      <a href="/#faq">FAQ</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var root = document.documentElement, tbtn = document.getElementById("themebtn");
+  tbtn.addEventListener("click", function(){
+    var isDark = root.getAttribute("data-theme")==="dark" || (!root.getAttribute("data-theme") && window.matchMedia("(prefers-color-scheme: dark)").matches);
+    root.setAttribute("data-theme", isDark ? "light" : "dark");
+  });
+  if(!reduce){
+    var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); } }); }, {threshold:.12});
+    document.querySelectorAll(".reveal").forEach(function(el){ io.observe(el); });
+  } else { document.querySelectorAll(".reveal").forEach(function(el){ el.classList.add("in"); }); }
+  function flash(){ var h=location.hash.replace("#",""); if(!h) return; var el=document.getElementById(h); if(el && el.classList.contains("tcard")){ el.classList.add("flash"); setTimeout(function(){ el.classList.remove("flash"); }, 1600); } }
+  window.addEventListener("hashchange", flash); flash();
+})();
+</script>
+</body>
+</html>

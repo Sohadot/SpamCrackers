@@ -1117,8 +1117,8 @@
     var out=[], seen={};
     function add(id,name,why){ if(!seen[id]){ seen[id]=1; out.push({id:id,name:name,why:why}); } }
     var authGap = st.SPF!=="pass" || st.DKIM!=="pass" || st.DMARC!=="pass";
-    if(authGap) add("SPM-ID-01","Exact-domain spoofing","Weak authentication lets an attacker forge your exact domain in the From line.");
-    if(st.DMARC==="fail" || st.DMARC==="warn") add("SPM-ID-03","Display-name impersonation","With DMARC unenforced, forged sender names reach the inbox unchallenged.");
+    if(authGap) add("SPO-HD-01","Exact-domain spoofing","Weak authentication lets an attacker forge your exact domain in the From line.");
+    if(st.DMARC==="fail" || st.DMARC==="warn") add("SPO-AU-03","DMARC-none exploitation","Without an enforced DMARC policy, receivers are told to block nothing.");
     return out;
   }
 
@@ -1171,7 +1171,7 @@
       var ab=document.createElement("div"); ab.className="adversary";
       var al=document.createElement("div"); al.className="adv-label"; al.textContent="What this exposure enables"; ab.appendChild(al);
       adv.forEach(function(a){
-        var it=document.createElement("a"); it.className="adv-item"; it.href="/intelligence/#"+a.id; it.title="Study "+a.id+" in Email Abuse Intelligence";
+        var it=document.createElement("a"); it.className="adv-item"; it.href="/intelligence/spoofing/#"+a.id; it.title="Study "+a.id+" in Email Abuse Intelligence";
         it.innerHTML='<span class="adv-head"><span class="adv-id">'+a.id+'</span><span class="adv-name">'+escapeHtml(a.name)+'</span><span class="adv-arrow">reference ↗</span></span>'
           +'<span class="adv-why">'+escapeHtml(a.why)+'</span>';
         ab.appendChild(it);
