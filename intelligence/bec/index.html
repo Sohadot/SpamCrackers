@@ -1,0 +1,1044 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Business Email Compromise (BEC) — Reference Model v1.0 | SpamCrackers</title>
+<meta name="description" content="A defensive, analytical reference model for Business Email Compromise: taxonomy, tactics and techniques (CEO fraud, vendor email compromise, invoice redirection, payroll diversion) and an evidence model. The third pillar of Email Abuse Intelligence." />
+<link rel="canonical" href="https://spamcrackers.com/intelligence/bec/" />
+<meta name="robots" content="index, follow, max-image-preview:large" />
+<meta name="theme-color" content="#08090D" media="(prefers-color-scheme: dark)" />
+<meta name="theme-color" content="#ECEDE8" media="(prefers-color-scheme: light)" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2308090D'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%232FE39B'/%3E%3C/svg%3E" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="SpamCrackers" />
+<meta property="og:url" content="https://spamcrackers.com/intelligence/bec/" />
+<meta property="og:title" content="Business Email Compromise — Reference Model v1.0" />
+<meta property="og:description" content="A defensive, analytical reference model for BEC. The third pillar of Email Abuse Intelligence." />
+<meta property="og:image" content="https://spamcrackers.com/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Business Email Compromise — Reference Model v1.0" />
+<meta name="twitter:description" content="The BEC pillar of the Email Abuse Intelligence reference. Defensive and analytical — never operational." />
+<meta name="twitter:image" content="https://spamcrackers.com/og-image.png" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "@id": "https://spamcrackers.com/intelligence/bec/#article",
+      "headline": "Business Email Compromise — Reference Model v1.0",
+      "description": "A defensive, analytical reference model for BEC: taxonomy, tactics and techniques (CEO fraud, vendor email compromise, invoice redirection, payroll diversion), and the shared evidence model. The third pillar of Email Abuse Intelligence.",
+      "url": "https://spamcrackers.com/intelligence/bec/",
+      "isPartOf": {
+        "@id": "https://spamcrackers.com/#website"
+      },
+      "inLanguage": "en",
+      "version": "1.0",
+      "about": [
+        "business email compromise",
+        "CEO fraud",
+        "invoice fraud",
+        "vendor email compromise",
+        "wire fraud"
+      ],
+      "publisher": {
+        "@type": "Organization",
+        "name": "SpamCrackers",
+        "url": "https://spamcrackers.com/"
+      }
+    },
+    {
+      "@type": "DefinedTermSet",
+      "@id": "https://spamcrackers.com/intelligence/bec/#model",
+      "name": "Email Abuse Intelligence Reference Model v1.0 — BEC pillar",
+      "url": "https://spamcrackers.com/intelligence/bec/",
+      "hasDefinedTerm": [
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/bec/#BEC-RT-01",
+          "termCode": "BEC-RT-01",
+          "name": "Finance-role identification",
+          "description": "Staff able to move money — accounts payable, finance, executives — are pinpointed."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/bec/#BEC-RT-02",
+          "termCode": "BEC-RT-02",
+          "name": "Relationship mapping",
+          "description": "Trust relationships (executive-to-assistant, company-to-vendor) are mapped to make requests credible."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/bec/#BEC-RT-03",
+          "termCode": "BEC-RT-03",
+          "name": "Transaction-timing research",
+          "description": "Requests are aligned to genuinely expected payments or deals."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/bec/#BEC-RT-04",
+          "termCode": "BEC-RT-04",
+          "name": "Financial-calendar awareness",
+          "description": "Month-end, quarter-end, payroll and tax windows are chosen for pressure."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/bec/#BEC-AC-01",
+          "termCode": "BEC-AC-01",
+          "name": "Internal account compromise",
+          "description": "An internal mailbox is taken over to send from a genuine identity (bridges PHI-CC-02)."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/bec/#BEC-AC-02",
+          "termCode": "BEC-AC-02",
+          "name": "Vendor email compromise (VEC)",
+          "description": "A supplier's real mailbox is compromised and used against its customers."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/bec/#BEC-AC-03",
+          "termCode": "BEC-AC-03",
+          "name": "Lookalike domain",
+          "description": "A cousin domain of the company or vendor is registered (bridges SPM-ID-02)."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/bec/#BEC-AC-04",
+          "termCode": "BEC-AC-04",
+          "name": "Display-name impersonation",
+          "description": "Only the friendly name of an executive or vendor is forged (bridges SPM-ID-03)."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/bec/#BEC-AC-05",
+          "termCode": "BEC-AC-05",
+          "name": "Mailbox-rule persistence",
+          "description": "Inbox rules hide replies and alerts on a compromised account (bridges PHI-OB-03)."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/bec/#BEC-RE-01",
+          "termCode": "BEC-RE-01",
+          "name": "Thread-context harvesting",
+          "description": "Existing threads are read to mimic tone and reference real context."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/bec/#BEC-RE-02",
+          "termCode": "BEC-RE-02",
+          "name": "Pending-payment discovery",
+          "description": "Invoices and payments in flight are located so a real one can be hijacked."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/bec/#BEC-RE-03",
+          "termCode": "BEC-RE-03",
+          "name": "Signature & tone cloning",
+          "description": "Style, signature and disclaimers are replicated for authenticity."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/bec/#BEC-RE-04",
+          "termCode": "BEC-RE-04",
+          "name": "Opportune-moment monitoring",
+          "description": "Travel, out-of-office or absence is awaited so requests go unchallenged."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/bec/#BEC-EN-01",
+          "termCode": "BEC-EN-01",
+          "name": "Executive request",
+          "description": "A supposed executive asks finance to act urgently and quietly."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/bec/#BEC-EN-02",
+          "termCode": "BEC-EN-02",
+          "name": "Vendor bank-change request",
+          "description": "A supposed supplier updates their payment details."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/bec/#BEC-EN-03",
+          "termCode": "BEC-EN-03",
+          "name": "Fraudulent invoice submission",
+          "description": "A fake or altered invoice is introduced into the process."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/bec/#BEC-EN-04",
+          "termCode": "BEC-EN-04",
+          "name": "Thread insertion",
+          "description": "The request is placed inside a genuine ongoing conversation."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/bec/#BEC-EN-05",
+          "termCode": "BEC-EN-05",
+          "name": "Confidentiality framing",
+          "description": "“Keep this between us” is used to block a second opinion."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/bec/#BEC-EX-01",
+          "termCode": "BEC-EX-01",
+          "name": "Wire-transfer instruction",
+          "description": "A direct instruction to send funds to a specified account."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/bec/#BEC-EX-02",
+          "termCode": "BEC-EX-02",
+          "name": "Banking-detail alteration",
+          "description": "Account numbers on a real payment are changed."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/bec/#BEC-EX-03",
+          "termCode": "BEC-EX-03",
+          "name": "Payroll diversion",
+          "description": "An employee's direct-deposit destination is redirected."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/bec/#BEC-EX-04",
+          "termCode": "BEC-EX-04",
+          "name": "Gift-card request",
+          "description": "Prepaid cards are requested as an untraceable payout."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/bec/#BEC-EX-05",
+          "termCode": "BEC-EX-05",
+          "name": "Verification suppression",
+          "description": "Any second channel is discouraged or blocked."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/bec/#BEC-CO-01",
+          "termCode": "BEC-CO-01",
+          "name": "Money-mule routing",
+          "description": "Funds pass through intermediary accounts to break the trail."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/bec/#BEC-CO-02",
+          "termCode": "BEC-CO-02",
+          "name": "Rapid layering",
+          "description": "Funds are moved quickly across accounts and borders."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/bec/#BEC-CO-03",
+          "termCode": "BEC-CO-03",
+          "name": "Evidence removal",
+          "description": "Sent items, rules and traces are deleted on compromised accounts."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/bec/#BEC-CO-04",
+          "termCode": "BEC-CO-04",
+          "name": "Continued impersonation",
+          "description": "Reassurance is used to stall discovery while funds clear."
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "SpamCrackers",
+          "item": "https://spamcrackers.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Email Abuse Intelligence",
+          "item": "https://spamcrackers.com/intelligence/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Business Email Compromise",
+          "item": "https://spamcrackers.com/intelligence/bec/"
+        }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+  :root{
+    --ground:#08090D; --ground-2:#0D0F15; --panel:#11141C;
+    --ink:#D9DEE6; --ink-dim:#9AA3B0; --mute:#5A6472;
+    --line:rgba(217,222,230,.10); --line-strong:rgba(217,222,230,.20);
+    --signal:#2FE39B; --noise:#FF3B6B; --amber:#F6C560; --focus:#7FE3FF;
+    --maxw:1180px; --narrow:760px;
+    --step--1:clamp(.78rem,.72rem + .3vw,.9rem);
+    --step-0:clamp(.98rem,.92rem + .3vw,1.06rem);
+    --step-1:clamp(1.2rem,1.05rem + .7vw,1.5rem);
+    --step-2:clamp(1.6rem,1.2rem + 1.8vw,2.4rem);
+    --step-3:clamp(2.2rem,1.5rem + 3.2vw,3.6rem);
+    --step-4:clamp(2.8rem,1.8rem + 5vw,5.2rem);
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,Roboto,Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,"SF Mono","SFMono-Regular",Menlo,Consolas,"Liberation Mono",monospace;
+  }
+  :root[data-theme="light"]{
+    --ground:#ECEDE8; --ground-2:#F4F5F1; --panel:#FFFFFF;
+    --ink:#0F1218; --ink-dim:#454E5B; --mute:#78828F;
+    --line:rgba(15,18,24,.12); --line-strong:rgba(15,18,24,.22);
+    --signal:#0F9E6A; --noise:#E01E52; --amber:#B77A11;
+  }
+  @media (prefers-color-scheme: light){
+    :root:not([data-theme="dark"]){
+      --ground:#ECEDE8; --ground-2:#F4F5F1; --panel:#FFFFFF;
+      --ink:#0F1218; --ink-dim:#454E5B; --mute:#78828F;
+      --line:rgba(15,18,24,.12); --line-strong:rgba(15,18,24,.22);
+      --signal:#0F9E6A; --noise:#E01E52; --amber:#B77A11;
+    }
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;scroll-padding-top:70px}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:var(--step-0);line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  ::selection{background:var(--signal);color:var(--ground)}
+  a{color:inherit;text-decoration:none}
+  :focus-visible{outline:2px solid var(--focus);outline-offset:3px;border-radius:2px}
+  .wrap{max-width:var(--maxw);margin-inline:auto;padding-inline:clamp(1.1rem,4vw,3rem)}
+  .wrap.narrow{max-width:calc(var(--narrow) + 6rem)}
+  .mono{font-family:var(--mono)}
+  code{font-family:var(--mono);font-size:.88em;color:var(--signal);background:color-mix(in srgb,var(--signal) 12%,transparent);padding:.1em .42em;border-radius:3px;word-break:break-word}
+  .ilink{color:var(--signal);border-bottom:1px solid color-mix(in srgb,var(--signal) 45%,transparent);transition:border-color .2s}
+  .ilink:hover{border-color:var(--signal)}
+  .eyebrow{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.26em;text-transform:uppercase;color:var(--signal);display:inline-flex;align-items:center;gap:.6em}
+  .eyebrow::before{content:"";width:24px;height:1px;background:var(--signal);opacity:.7}
+
+  /* id chips */
+  .idchip{font-family:var(--mono);font-size:.7rem;letter-spacing:.06em;color:var(--signal);border:1px solid color-mix(in srgb,var(--signal) 45%,var(--line));border-radius:4px;padding:.2em .5em;white-space:nowrap;background:color-mix(in srgb,var(--signal) 8%,transparent)}
+  .idchip-link{transition:background .2s}
+  .idchip-link:hover{background:color-mix(in srgb,var(--signal) 20%,transparent)}
+
+  /* top bar */
+  header.bar{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:.8rem clamp(1.1rem,4vw,3rem);font-family:var(--mono);font-size:var(--step--1);letter-spacing:.05em;backdrop-filter:blur(9px);background:color-mix(in srgb,var(--ground) 75%,transparent);border-bottom:1px solid var(--line)}
+  .brand-min{display:flex;align-items:center;gap:.55rem;font-weight:700}
+  .brand-min .dot{width:9px;height:9px;background:var(--signal);border-radius:50%;box-shadow:0 0 12px var(--signal)}
+  .brand-min .tld{color:var(--mute)}
+  .bar nav{display:flex;align-items:center;gap:clamp(.7rem,1.8vw,1.5rem);color:var(--ink-dim)}
+  .bar nav a{transition:color .2s}.bar nav a:hover{color:var(--signal)}
+  .bar .navlink{display:none}
+  @media(min-width:900px){.bar .navlink{display:inline}}
+  .themebtn{font-family:var(--mono);font-size:var(--step--1);background:transparent;border:1px solid var(--line-strong);color:var(--ink-dim);padding:.35em .7em;border-radius:2px;cursor:pointer;letter-spacing:.1em;transition:.2s}
+  .themebtn:hover{border-color:var(--signal);color:var(--signal)}
+
+  /* sections */
+  section{position:relative;padding:clamp(3.6rem,7vw,6rem) 0;border-top:1px solid var(--line)}
+  .hero{border-top:none;padding-top:clamp(7rem,13vw,10rem)}
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion: reduce){.reveal{opacity:1;transform:none;transition:none}}
+  .sec-head{max-width:64ch;margin-bottom:2.4rem}
+  .sec-head h2{font-weight:800;font-size:var(--step-2);line-height:1.05;letter-spacing:-.025em;margin-top:1rem;text-wrap:balance}
+  .sec-head .sub{margin-top:1rem;color:var(--ink-dim);max-width:60ch}
+
+  /* hero */
+  .hero h1{font-weight:800;font-size:var(--step-4);line-height:.98;letter-spacing:-.035em;margin-top:1.4rem;text-wrap:balance}
+  .hero .hl{color:var(--signal)}
+  .hero .lede{margin-top:1.8rem;font-size:var(--step-1);line-height:1.45;color:var(--ink);max-width:54ch;text-wrap:pretty}
+  .hero .lede strong{color:var(--signal);font-weight:700}
+  .meta-chips{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:2.2rem}
+  .meta-chips .chip{font-family:var(--mono);font-size:var(--step--1);border:1px solid var(--line);border-radius:99px;padding:.45em .95em;color:var(--ink-dim)}
+  .meta-chips .chip b{color:var(--mute);font-weight:400;letter-spacing:.08em;text-transform:uppercase;font-size:.82em;margin-right:.5em}
+  .meta-chips .chip.stance{border-color:color-mix(in srgb,var(--signal) 45%,var(--line));color:var(--signal)}
+  .meta-chips .chip.stance b{color:color-mix(in srgb,var(--signal) 70%,var(--ink-dim))}
+
+  /* prose */
+  .prose p{max-width:68ch;margin-bottom:1.2rem;color:var(--ink-dim)}
+  .prose p:last-child{margin-bottom:0}
+  .prose strong{color:var(--ink)}
+  .prose em{color:var(--signal);font-style:normal}
+
+  /* boundaries */
+  .bound-grid{display:grid;gap:1px;grid-template-columns:1fr;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  @media(min-width:720px){.bound-grid{grid-template-columns:1fr 1fr}}
+  .bound{background:var(--ground-2);padding:clamp(1.4rem,3vw,2.2rem)}
+  .bound-label{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.14em;text-transform:uppercase;margin-bottom:1.1rem;display:flex;align-items:center;gap:.6em}
+  .bound-label::before{content:"";width:10px;height:10px;border-radius:50%}
+  .bound-label.ok{color:var(--signal)}.bound-label.ok::before{background:var(--signal)}
+  .bound-label.no{color:var(--noise)}.bound-label.no::before{background:var(--noise)}
+  .bound ul{list-style:none;display:flex;flex-direction:column;gap:.75rem}
+  .bound li{position:relative;padding-left:1.5rem;color:var(--ink-dim);line-height:1.5}
+  .bound li b{color:var(--ink)}
+  .bound.is li::before{content:"✓";position:absolute;left:0;color:var(--signal);font-family:var(--mono)}
+  .bound.not li::before{content:"✕";position:absolute;left:0;color:var(--noise);font-family:var(--mono)}
+  .bound-note{margin-top:1.6rem;font-family:var(--mono);font-size:var(--step--1);color:var(--ink-dim);line-height:1.7;border-left:2px solid var(--signal);padding-left:1.2rem;max-width:74ch}
+  .bound-note b{color:var(--signal)}
+
+  /* pillars */
+  .pillar-grid{display:grid;gap:1px;grid-template-columns:1fr;background:var(--line);border:1px solid var(--line)}
+  @media(min-width:620px){.pillar-grid{grid-template-columns:repeat(2,1fr)}}
+  @media(min-width:960px){.pillar-grid{grid-template-columns:repeat(3,1fr)}}
+  .pillar{background:var(--ground);padding:clamp(1.4rem,2.6vw,2rem);display:flex;flex-direction:column;gap:.6rem;transition:background .3s}
+  .pillar:hover{background:var(--ground-2)}
+  .pillar-top{display:flex;align-items:center;justify-content:space-between;gap:.6rem}
+  .pill-status{font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+  .pillar.active{background:color-mix(in srgb,var(--signal) 6%,var(--ground))}
+  .pillar.active .pill-status{color:var(--signal)}
+  .pillar h3{font-size:var(--step-1);font-weight:800;letter-spacing:-.02em}
+  .pillar p{color:var(--ink-dim);font-size:var(--step--1);line-height:1.55}
+  .pillar.planned{opacity:.82}
+
+  /* cite */
+  .cite{border:1px solid var(--line);border-radius:8px;padding:clamp(1.2rem,3vw,1.8rem);background:var(--ground-2)}
+  .cite-label{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.14em;text-transform:uppercase;color:var(--signal);margin-bottom:.8rem}
+  .cite p{color:var(--ink-dim);max-width:70ch}
+
+  /* tables */
+  .ref-table{width:100%;border-collapse:collapse;font-size:var(--step--1)}
+  .ref-table th{text-align:left;font-family:var(--mono);color:var(--mute);font-weight:400;letter-spacing:.08em;text-transform:uppercase;font-size:.7rem;padding:0 1rem .7rem 0;border-bottom:1px solid var(--line-strong)}
+  .ref-table td{padding:.8rem 1rem .8rem 0;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink-dim);line-height:1.5}
+  .ref-table tr:last-child td{border-bottom:none}
+  .ref-table td.code{color:var(--signal);white-space:nowrap}
+  .ref-table td.pk{color:var(--ink);font-weight:600}
+
+  /* taxonomy */
+  .tax-grid{display:grid;gap:1.5rem;grid-template-columns:1fr}
+  @media(min-width:820px){.tax-grid{grid-template-columns:1fr 1fr}}
+  .tax-block{border:1px solid var(--line);border-radius:8px;padding:clamp(1.2rem,2.6vw,1.8rem);background:var(--ground-2)}
+  .tax-head{display:flex;align-items:center;gap:.8rem;margin-bottom:1.2rem}
+  .tax-head h3{font-size:var(--step-1);font-weight:800;letter-spacing:-.02em}
+
+  /* matrix */
+  .matrix-scroll{overflow-x:auto;padding-bottom:.6rem;-webkit-overflow-scrolling:touch}
+  .matrix{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(190px,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;min-width:960px}
+  .matrix-col{background:var(--ground);display:flex;flex-direction:column;gap:1px}
+  .matrix-head{background:var(--ground-2);padding:.9rem .8rem;display:flex;flex-direction:column;gap:.45rem;min-height:72px}
+  .matrix-head .mh-name{font-weight:700;font-size:.86rem;line-height:1.2;letter-spacing:-.01em}
+  .matrix-cell{background:var(--ground);padding:.7rem .8rem;font-size:.8rem;color:var(--ink-dim);display:flex;flex-direction:column;gap:.25rem;transition:background .2s,color .2s;border-top:1px solid var(--line)}
+  .matrix-cell:hover{background:color-mix(in srgb,var(--signal) 10%,var(--ground));color:var(--ink)}
+  .matrix-cell .cell-id{font-size:.66rem;color:var(--mute)}
+  .matrix-cell:hover .cell-id{color:var(--signal)}
+
+  /* technique detail */
+  .phase{margin-top:3rem;scroll-margin-top:76px}
+  .phase-head{display:flex;align-items:center;gap:.8rem}
+  .phase-head h3{font-size:var(--step-1);font-weight:800;letter-spacing:-.02em}
+  .phase-blurb{color:var(--ink-dim);margin:.7rem 0 1.4rem;max-width:64ch}
+  .tcards{display:grid;gap:1rem;grid-template-columns:1fr}
+  @media(min-width:720px){.tcards{grid-template-columns:1fr 1fr}}
+  .tcard{border:1px solid var(--line);border-radius:8px;padding:1.2rem 1.3rem;background:var(--ground-2);scroll-margin-top:80px;transition:border-color .3s,box-shadow .3s}
+  .tcard.flash{border-color:var(--signal);box-shadow:0 0 0 1px var(--signal),0 14px 40px -20px var(--signal)}
+  .tcard-top{display:flex;align-items:center;gap:.7rem;margin-bottom:1rem}
+  .tcard-top h4{font-size:var(--step-0);font-weight:700;letter-spacing:-.01em}
+  .tcard-body{display:grid;grid-template-columns:1fr;gap:.35rem}
+  .tcard-body dt{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin-top:.7rem}
+  .tcard-body dt:first-child{margin-top:0}
+  .tcard-body dt.def{color:var(--signal)}
+  .tcard-body dd{color:var(--ink-dim);font-size:var(--step--1);line-height:1.55}
+  .tcard-body dd.def{color:var(--ink)}
+
+  /* evidence + confidence */
+  .conf{margin-top:2.2rem;border:1px solid var(--line);border-radius:8px;padding:clamp(1.2rem,3vw,1.8rem);background:var(--ground-2)}
+  .conf-label{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.14em;text-transform:uppercase;color:var(--signal);margin-bottom:1.2rem}
+  .conf-row{display:flex;gap:1rem;align-items:baseline;padding:.6rem 0;border-bottom:1px solid var(--line)}
+  .conf-row:last-child{border-bottom:none}
+  .conf-tier{font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;padding:.25em .7em;border-radius:99px;border:1px solid currentColor;white-space:nowrap;flex-shrink:0;min-width:9ch;text-align:center}
+  .conf-tier.t0{color:var(--mute)}.conf-tier.t1{color:var(--amber)}.conf-tier.t2{color:var(--signal)}.conf-tier.t3{color:var(--signal)}
+  .conf-desc{color:var(--ink-dim);font-size:var(--step--1)}
+
+  /* library */
+  .lib-grid{display:grid;gap:1px;grid-template-columns:repeat(2,1fr);background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden;margin-bottom:2rem}
+  @media(min-width:720px){.lib-grid{grid-template-columns:repeat(4,1fr)}}
+  .lib-card{background:var(--ground-2);padding:1.6rem 1.3rem;display:flex;flex-direction:column;gap:.4rem}
+  .lib-n{font-size:var(--step-3);font-weight:800;color:var(--signal);line-height:1;font-variant-numeric:tabular-nums}
+  .lib-l{font-family:var(--mono);font-size:var(--step--1);color:var(--ink-dim);letter-spacing:.04em}
+  .lib-cta{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:2rem}
+  .btn{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.05em;padding:.9em 1.4em;border-radius:2px;cursor:pointer;border:1px solid transparent;display:inline-flex;align-items:center;gap:.6em;transition:transform .15s,box-shadow .2s,border-color .2s,color .2s;text-transform:uppercase}
+  .btn-primary{background:var(--signal);color:#04120C;font-weight:700}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 30px -10px var(--signal)}
+  .btn-ghost{background:transparent;color:var(--ink);border-color:var(--line-strong)}
+  .btn-ghost:hover{border-color:var(--signal);color:var(--signal)}
+
+  /* footer */
+  footer{border-top:1px solid var(--line);padding:2.6rem 0;font-family:var(--mono);font-size:var(--step--1);color:var(--mute)}
+  .foot-row{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;align-items:center}
+  .foot-row .sig{color:var(--signal)}
+  .foot-links{display:flex;gap:1.3rem;flex-wrap:wrap}
+  .foot-links a:hover{color:var(--signal)}
+
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <a class="brand-min" href="/"><span class="dot" aria-hidden="true"></span>SPAMCRACKERS<span class="tld">.com</span></a>
+  <nav>
+    <a class="navlink" href="/intelligence/">Intelligence</a>
+    <a class="navlink" href="#model">Reference Model</a>
+    <a class="navlink" href="#matrix">Techniques</a>
+    <a class="navlink" href="/#lab">Check a domain</a>
+    <button class="themebtn" id="themebtn" type="button" aria-label="Toggle theme">◐ THEME</button>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Email Abuse Intelligence · Pillar BEC</div>
+    <h1>Business Email<br>Compromise.</h1>
+    <p class="lede">The costliest email abuse of all carries no malware to catch — just a trusted identity, a plausible request, and money that moves. This pillar models how BEC is built, from target research to cash-out. The third pillar of <a class="ilink" href="/intelligence/">Email Abuse Intelligence</a>.</p>
+    <div class="meta-chips">
+      <span class="chip"><b>Namespace</b> EAI · BEC</span>
+      <span class="chip"><b>Release</b> v1.0</span>
+      <span class="chip stance"><b>Posture</b> Defensive &amp; analytical</span>
+      <span class="chip"><b>Techniques</b> 27</span>
+    </div>
+  </div>
+</section>
+
+<section id="thesis">
+  <div class="wrap narrow">
+    <div class="sec-head reveal"><span class="eyebrow">01 · Pillar thesis</span><h2>Nothing to detonate. Everything to verify.</h2></div>
+    <div class="prose reveal">
+      <p>Business Email Compromise defeats the tools built for spam and malware because it carries neither. There is no attachment to sandbox and often no link to follow — only a message that looks exactly like a routine request from someone you trust. The payload is social, and the vulnerability is process.</p>
+      <p>That is why BEC belongs in an intelligence model, not a filter. It is a chain — <a class="ilink" href="#matrix">research, access, reconnaissance, engagement, execution and cash-out</a> — and it is broken not by a signature but by verification designed into the payment process. This pillar names each step so defenders can place controls where they matter, and it bridges to the <a class="ilink" href="/intelligence/phishing/">phishing pillar</a>, the usual door through which BEC access begins.</p>
+    </div>
+  </div>
+</section>
+
+<section id="scope">
+  <div class="wrap narrow">
+    <div class="sec-head reveal"><span class="eyebrow">02 · Scope &amp; boundaries</span><h2>Defensive by definition.</h2></div>
+    <div class="bound-grid reveal">
+      <div class="bound is">
+        <div class="bound-label ok">What this is</div>
+        <ul>
+          <li>A <b>classification and reference model</b> for understanding BEC fraud.</li>
+          <li><b>Analytical and defensive</b> — for finance teams, defenders and responders.</li>
+          <li>Focused on <b>observable signals and process controls</b>.</li>
+          <li><b>Open and citable</b>, with stable identifiers.</li>
+        </ul>
+      </div>
+      <div class="bound not">
+        <div class="bound-label no">What this is not</div>
+        <ul>
+          <li><b>Not</b> a script, template or toolkit for committing fraud.</li>
+          <li><b>Not</b> operational instructions for impersonation or payment diversion.</li>
+          <li><b>Not</b> a directory of targets, vendors or accounts.</li>
+          <li><b>Not</b> a substitute for lawful, authorised testing and controls.</li>
+        </ul>
+      </div>
+    </div>
+    <p class="bound-note reveal">Every technique is described at the level of <b>classification and defence</b> — what it is, how it is observed, and how it is countered. The emphasis throughout is on the process controls and verification that stop the fraud.</p>
+  </div>
+</section>
+
+<section id="model">
+  <div class="wrap narrow">
+    <div class="sec-head reveal"><span class="eyebrow">03 · Reference Model v1.0 · BEC</span><h2>A shared vocabulary for the BEC pillar.</h2>
+      <p class="sub">Three parts: a <a class="ilink" href="#taxonomy">taxonomy</a> that classifies schemes, a <a class="ilink" href="#matrix">tactics &amp; techniques matrix</a>, and a shared <a class="ilink" href="#evidence">evidence model</a>.</p></div>
+    <div class="cite reveal">
+      <div class="cite-label">How to cite</div>
+      <p>Elements carry stable identifiers in the <code>EAI</code> namespace under the BEC prefix <code>BEC</code>. Cite by code and URL — for example <code>BEC-EX-02</code> · <span class="mono">spamcrackers.com/intelligence/bec/#BEC-EX-02</span>.</p>
+    </div>
+  </div>
+</section>
+
+<section id="taxonomy">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="eyebrow">03.1 · BEC taxonomy</span><h2>Four axes of classification.</h2>
+      <p class="sub">A scheme is described by who is impersonated, the objective, the access method and the manipulation lever it relies on.</p></div>
+    <div class="tax-grid">
+
+      <div class="tax-block reveal">
+        <div class="tax-head"><span class="idchip">BEC-TAX-A</span><h3>By impersonated party</h3></div>
+        <table class="ref-table">
+          <thead><tr><th>Code</th><th>Class</th><th>Definition</th></tr></thead>
+          <tbody>
+            <tr><td class="mono code">AA1</td><td class="pk">Executive (CEO fraud)</td><td>Posing as a senior leader to pressure a payment.</td></tr>
+            <tr><td class="mono code">AA2</td><td class="pk">Vendor / supplier (VEC)</td><td>Posing as a trusted supplier, often from a compromised supplier mailbox.</td></tr>
+            <tr><td class="mono code">AA3</td><td class="pk">Internal finance</td><td>Posing as a colleague in finance, payroll or accounts payable.</td></tr>
+            <tr><td class="mono code">AA4</td><td class="pk">Legal / authority</td><td>Posing as counsel, an auditor or a regulator to compel action.</td></tr>
+            <tr><td class="mono code">AA5</td><td class="pk">Trusted customer / partner</td><td>Posing as a known counterparty in an ongoing relationship.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tax-block reveal">
+        <div class="tax-head"><span class="idchip">BEC-TAX-B</span><h3>By objective</h3></div>
+        <table class="ref-table">
+          <thead><tr><th>Code</th><th>Class</th><th>Definition</th></tr></thead>
+          <tbody>
+            <tr><td class="mono code">BB1</td><td class="pk">Wire transfer</td><td>A direct instruction to send funds.</td></tr>
+            <tr><td class="mono code">BB2</td><td class="pk">Invoice redirection</td><td>Altering the payee or account on a real payment.</td></tr>
+            <tr><td class="mono code">BB3</td><td class="pk">Payroll diversion</td><td>Redirecting an employee's salary deposit.</td></tr>
+            <tr><td class="mono code">BB4</td><td class="pk">Gift-card scam</td><td>Requesting prepaid cards as an untraceable payout.</td></tr>
+            <tr><td class="mono code">BB5</td><td class="pk">Data / payroll-record theft</td><td>Extracting tax or payroll data for later fraud.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tax-block reveal">
+        <div class="tax-head"><span class="idchip">BEC-TAX-C</span><h3>By access method</h3></div>
+        <table class="ref-table">
+          <thead><tr><th>Code</th><th>Class</th><th>Definition</th></tr></thead>
+          <tbody>
+            <tr><td class="mono code">CC1</td><td class="pk">Lookalike domain</td><td>A cousin domain of the company or vendor.</td></tr>
+            <tr><td class="mono code">CC2</td><td class="pk">Compromised internal account</td><td>A genuine internal mailbox taken over via phishing.</td></tr>
+            <tr><td class="mono code">CC3</td><td class="pk">Compromised vendor account</td><td>A supplier's real mailbox used against its customers.</td></tr>
+            <tr><td class="mono code">CC4</td><td class="pk">Display-name only</td><td>No infrastructure — just a forged friendly name.</td></tr>
+            <tr><td class="mono code">CC5</td><td class="pk">Reply-chain hijack</td><td>Insertion into a real, ongoing payment conversation.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tax-block reveal">
+        <div class="tax-head"><span class="idchip">BEC-TAX-D</span><h3>By manipulation lever</h3></div>
+        <table class="ref-table">
+          <thead><tr><th>Code</th><th>Class</th><th>Definition</th></tr></thead>
+          <tbody>
+            <tr><td class="mono code">DD1</td><td class="pk">Authority</td><td>Weight of a senior or official identity.</td></tr>
+            <tr><td class="mono code">DD2</td><td class="pk">Urgency</td><td>A deadline that discourages verification.</td></tr>
+            <tr><td class="mono code">DD3</td><td class="pk">Confidentiality</td><td>“Keep this quiet” to block a second opinion.</td></tr>
+            <tr><td class="mono code">DD4</td><td class="pk">Routine mimicry</td><td>Blending into normal, expected process.</td></tr>
+            <tr><td class="mono code">DD5</td><td class="pk">Established trust</td><td>Exploiting a real, existing relationship.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="matrix">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="eyebrow">03.2 · BEC tactics &amp; techniques</span><h2>The fraud chain, phase by phase.</h2>
+      <p class="sub">Six phases from selecting a target to moving the money. Each cell is a defensively-described technique; select one to jump to its detail.</p></div>
+    <div class="matrix-scroll reveal">
+
+      <div class="matrix" role="table" aria-label="BEC tactics and techniques matrix">
+        
+        <div class="matrix-col" role="column">
+          <div class="matrix-head"><span class="idchip">BEC-RT</span><span class="mh-name">Target Selection &amp; Research</span></div>
+          <a class="matrix-cell" href="#BEC-RT-01">Finance-role identification<span class="cell-id mono">BEC-RT-01</span></a>
+          <a class="matrix-cell" href="#BEC-RT-02">Relationship mapping<span class="cell-id mono">BEC-RT-02</span></a>
+          <a class="matrix-cell" href="#BEC-RT-03">Transaction-timing research<span class="cell-id mono">BEC-RT-03</span></a>
+          <a class="matrix-cell" href="#BEC-RT-04">Financial-calendar awareness<span class="cell-id mono">BEC-RT-04</span></a>
+        </div>
+
+        <div class="matrix-col" role="column">
+          <div class="matrix-head"><span class="idchip">BEC-AC</span><span class="mh-name">Access &amp; Positioning</span></div>
+          <a class="matrix-cell" href="#BEC-AC-01">Internal account compromise<span class="cell-id mono">BEC-AC-01</span></a>
+          <a class="matrix-cell" href="#BEC-AC-02">Vendor email compromise (VEC)<span class="cell-id mono">BEC-AC-02</span></a>
+          <a class="matrix-cell" href="#BEC-AC-03">Lookalike domain<span class="cell-id mono">BEC-AC-03</span></a>
+          <a class="matrix-cell" href="#BEC-AC-04">Display-name impersonation<span class="cell-id mono">BEC-AC-04</span></a>
+          <a class="matrix-cell" href="#BEC-AC-05">Mailbox-rule persistence<span class="cell-id mono">BEC-AC-05</span></a>
+        </div>
+
+        <div class="matrix-col" role="column">
+          <div class="matrix-head"><span class="idchip">BEC-RE</span><span class="mh-name">Mailbox Reconnaissance</span></div>
+          <a class="matrix-cell" href="#BEC-RE-01">Thread-context harvesting<span class="cell-id mono">BEC-RE-01</span></a>
+          <a class="matrix-cell" href="#BEC-RE-02">Pending-payment discovery<span class="cell-id mono">BEC-RE-02</span></a>
+          <a class="matrix-cell" href="#BEC-RE-03">Signature &amp; tone cloning<span class="cell-id mono">BEC-RE-03</span></a>
+          <a class="matrix-cell" href="#BEC-RE-04">Opportune-moment monitoring<span class="cell-id mono">BEC-RE-04</span></a>
+        </div>
+
+        <div class="matrix-col" role="column">
+          <div class="matrix-head"><span class="idchip">BEC-EN</span><span class="mh-name">Engagement &amp; Pretext</span></div>
+          <a class="matrix-cell" href="#BEC-EN-01">Executive request<span class="cell-id mono">BEC-EN-01</span></a>
+          <a class="matrix-cell" href="#BEC-EN-02">Vendor bank-change request<span class="cell-id mono">BEC-EN-02</span></a>
+          <a class="matrix-cell" href="#BEC-EN-03">Fraudulent invoice submission<span class="cell-id mono">BEC-EN-03</span></a>
+          <a class="matrix-cell" href="#BEC-EN-04">Thread insertion<span class="cell-id mono">BEC-EN-04</span></a>
+          <a class="matrix-cell" href="#BEC-EN-05">Confidentiality framing<span class="cell-id mono">BEC-EN-05</span></a>
+        </div>
+
+        <div class="matrix-col" role="column">
+          <div class="matrix-head"><span class="idchip">BEC-EX</span><span class="mh-name">Execution</span></div>
+          <a class="matrix-cell" href="#BEC-EX-01">Wire-transfer instruction<span class="cell-id mono">BEC-EX-01</span></a>
+          <a class="matrix-cell" href="#BEC-EX-02">Banking-detail alteration<span class="cell-id mono">BEC-EX-02</span></a>
+          <a class="matrix-cell" href="#BEC-EX-03">Payroll diversion<span class="cell-id mono">BEC-EX-03</span></a>
+          <a class="matrix-cell" href="#BEC-EX-04">Gift-card request<span class="cell-id mono">BEC-EX-04</span></a>
+          <a class="matrix-cell" href="#BEC-EX-05">Verification suppression<span class="cell-id mono">BEC-EX-05</span></a>
+        </div>
+
+        <div class="matrix-col" role="column">
+          <div class="matrix-head"><span class="idchip">BEC-CO</span><span class="mh-name">Cash-out &amp; Cover</span></div>
+          <a class="matrix-cell" href="#BEC-CO-01">Money-mule routing<span class="cell-id mono">BEC-CO-01</span></a>
+          <a class="matrix-cell" href="#BEC-CO-02">Rapid layering<span class="cell-id mono">BEC-CO-02</span></a>
+          <a class="matrix-cell" href="#BEC-CO-03">Evidence removal<span class="cell-id mono">BEC-CO-03</span></a>
+          <a class="matrix-cell" href="#BEC-CO-04">Continued impersonation<span class="cell-id mono">BEC-CO-04</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="wrap">
+
+      <div class="phase reveal" id="BEC-RT">
+        <div class="phase-head"><span class="idchip">BEC-RT</span><h3>Target Selection &amp; Research</h3></div>
+        <p class="phase-blurb">How the right people, relationships and moments are chosen.</p>
+        <div class="tcards">
+          
+          <article class="tcard" id="BEC-RT-01">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#BEC-RT-01">BEC-RT-01</a><h4>Finance-role identification</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Staff able to move money — accounts payable, finance, executives — are pinpointed.</dd>
+              <dt>Observable signals</dt><dd>Targeting or impersonation focused on payment-authorised roles.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Extra controls and training for anyone who can authorise or execute payments.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="BEC-RT-02">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#BEC-RT-02">BEC-RT-02</a><h4>Relationship mapping</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Trust relationships (executive-to-assistant, company-to-vendor) are mapped to make requests credible.</dd>
+              <dt>Observable signals</dt><dd>Impersonation exploiting one specific, known relationship.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Codified verification norms for relationship-based payment requests.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="BEC-RT-03">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#BEC-RT-03">BEC-RT-03</a><h4>Transaction-timing research</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Requests are aligned to genuinely expected payments or deals.</dd>
+              <dt>Observable signals</dt><dd>A request coinciding suspiciously with a real, pending transaction.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Dual control and out-of-band checks on every payment and change.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="BEC-RT-04">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#BEC-RT-04">BEC-RT-04</a><h4>Financial-calendar awareness</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Month-end, quarter-end, payroll and tax windows are chosen for pressure.</dd>
+              <dt>Observable signals</dt><dd>Pressure timed precisely to a financial deadline.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Heightened scrutiny during known high-risk financial windows.</dd>
+            </dl>
+          </article>
+        </div>
+      </div>
+
+      <div class="phase reveal" id="BEC-AC">
+        <div class="phase-head"><span class="idchip">BEC-AC</span><h3>Access &amp; Positioning</h3></div>
+        <p class="phase-blurb">How the sender obtains a credible position to send from.</p>
+        <div class="tcards">
+          
+          <article class="tcard" id="BEC-AC-01">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#BEC-AC-01">BEC-AC-01</a><h4>Internal account compromise</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>An internal mailbox is taken over to send from a genuine identity (bridges PHI-CC-02).</dd>
+              <dt>Observable signals</dt><dd>Anomalous login or behaviour on a finance or executive account.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Phishing-resistant MFA, conditional access, session monitoring.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="BEC-AC-02">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#BEC-AC-02">BEC-AC-02</a><h4>Vendor email compromise (VEC)</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>A supplier's real mailbox is compromised and used against its customers.</dd>
+              <dt>Observable signals</dt><dd>A banking-change request from an otherwise-genuine vendor account.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Verify vendor changes out-of-band via a pre-known contact.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="BEC-AC-03">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#BEC-AC-03">BEC-AC-03</a><h4>Lookalike domain</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>A cousin domain of the company or vendor is registered (bridges SPM-ID-02).</dd>
+              <dt>Observable signals</dt><dd>A near-miss domain in the from or reply-to address.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Lookalike monitoring and external-sender banners.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="BEC-AC-04">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#BEC-AC-04">BEC-AC-04</a><h4>Display-name impersonation</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Only the friendly name of an executive or vendor is forged (bridges SPM-ID-03).</dd>
+              <dt>Observable signals</dt><dd>A known name paired with an unfamiliar address.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Header-from analysis and first-contact flags.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="BEC-AC-05">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#BEC-AC-05">BEC-AC-05</a><h4>Mailbox-rule persistence</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Inbox rules hide replies and alerts on a compromised account (bridges PHI-OB-03).</dd>
+              <dt>Observable signals</dt><dd>New auto-forward, move or delete rules.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Audit inbox rules and alert on rule creation.</dd>
+            </dl>
+          </article>
+        </div>
+      </div>
+
+      <div class="phase reveal" id="BEC-RE">
+        <div class="phase-head"><span class="idchip">BEC-RE</span><h3>Mailbox Reconnaissance</h3></div>
+        <p class="phase-blurb">How context is gathered to make the fraud seamless.</p>
+        <div class="tcards">
+          
+          <article class="tcard" id="BEC-RE-01">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#BEC-RE-01">BEC-RE-01</a><h4>Thread-context harvesting</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Existing threads are read to mimic tone and reference real context.</dd>
+              <dt>Observable signals</dt><dd>Messages citing accurate, non-public internal detail.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Treat anomalies as possible compromise; segment sensitive threads.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="BEC-RE-02">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#BEC-RE-02">BEC-RE-02</a><h4>Pending-payment discovery</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Invoices and payments in flight are located so a real one can be hijacked.</dd>
+              <dt>Observable signals</dt><dd>A genuine invoice quietly redirected or altered.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Verify banking details on every payment, every time.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="BEC-RE-03">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#BEC-RE-03">BEC-RE-03</a><h4>Signature &amp; tone cloning</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Style, signature and disclaimers are replicated for authenticity.</dd>
+              <dt>Observable signals</dt><dd>A near-perfect stylistic match with a subtle address change.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Never treat tone as identity; verify out-of-band.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="BEC-RE-04">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#BEC-RE-04">BEC-RE-04</a><h4>Opportune-moment monitoring</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Travel, out-of-office or absence is awaited so requests go unchallenged.</dd>
+              <dt>Observable signals</dt><dd>A request timed to a known absence of the real person.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Delegation and verification norms that persist during absences.</dd>
+            </dl>
+          </article>
+        </div>
+      </div>
+
+      <div class="phase reveal" id="BEC-EN">
+        <div class="phase-head"><span class="idchip">BEC-EN</span><h3>Engagement &amp; Pretext</h3></div>
+        <p class="phase-blurb">The request that sets the fraud in motion.</p>
+        <div class="tcards">
+          
+          <article class="tcard" id="BEC-EN-01">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#BEC-EN-01">BEC-EN-01</a><h4>Executive request</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>A supposed executive asks finance to act urgently and quietly.</dd>
+              <dt>Observable signals</dt><dd>An unusual executive payment request combining urgency and secrecy.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Mandatory independent verification for executive payment requests.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="BEC-EN-02">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#BEC-EN-02">BEC-EN-02</a><h4>Vendor bank-change request</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>A supposed supplier updates their payment details.</dd>
+              <dt>Observable signals</dt><dd>A banking-detail change requested over email.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Verify every change via a previously-known phone number.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="BEC-EN-03">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#BEC-EN-03">BEC-EN-03</a><h4>Fraudulent invoice submission</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>A fake or altered invoice is introduced into the process.</dd>
+              <dt>Observable signals</dt><dd>A new payee, altered account or mismatched totals.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Three-way match and payee allow-lists.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="BEC-EN-04">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#BEC-EN-04">BEC-EN-04</a><h4>Thread insertion</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>The request is placed inside a genuine ongoing conversation.</dd>
+              <dt>Observable signals</dt><dd>A banking change appearing mid a real thread.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Re-verify any change regardless of the thread it arrives in.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="BEC-EN-05">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#BEC-EN-05">BEC-EN-05</a><h4>Confidentiality framing</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>“Keep this between us” is used to block a second opinion.</dd>
+              <dt>Observable signals</dt><dd>Requests for secrecy around a payment.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Policy that no legitimate payment ever requires secrecy.</dd>
+            </dl>
+          </article>
+        </div>
+      </div>
+
+      <div class="phase reveal" id="BEC-EX">
+        <div class="phase-head"><span class="idchip">BEC-EX</span><h3>Execution</h3></div>
+        <p class="phase-blurb">How funds or data are actually moved.</p>
+        <div class="tcards">
+          
+          <article class="tcard" id="BEC-EX-01">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#BEC-EX-01">BEC-EX-01</a><h4>Wire-transfer instruction</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>A direct instruction to send funds to a specified account.</dd>
+              <dt>Observable signals</dt><dd>A first-time payee, urgency and a changed process.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Dual authorisation and callback verification for transfers.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="BEC-EX-02">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#BEC-EX-02">BEC-EX-02</a><h4>Banking-detail alteration</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Account numbers on a real payment are changed.</dd>
+              <dt>Observable signals</dt><dd>Last-minute account changes before a payment run.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Verify all changes out-of-band; lock vendor bank data.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="BEC-EX-03">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#BEC-EX-03">BEC-EX-03</a><h4>Payroll diversion</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>An employee's direct-deposit destination is redirected.</dd>
+              <dt>Observable signals</dt><dd>Direct-deposit change requests arriving by email.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Authenticated self-service changes with confirmation.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="BEC-EX-04">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#BEC-EX-04">BEC-EX-04</a><h4>Gift-card request</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Prepaid cards are requested as an untraceable payout.</dd>
+              <dt>Observable signals</dt><dd>An executive asking staff to buy gift cards.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Policy banning gift-card purchases requested by email.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="BEC-EX-05">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#BEC-EX-05">BEC-EX-05</a><h4>Verification suppression</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Any second channel is discouraged or blocked.</dd>
+              <dt>Observable signals</dt><dd>Excuses for why a confirming phone call cannot happen.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Make out-of-band verification mandatory, never optional.</dd>
+            </dl>
+          </article>
+        </div>
+      </div>
+
+      <div class="phase reveal" id="BEC-CO">
+        <div class="phase-head"><span class="idchip">BEC-CO</span><h3>Cash-out &amp; Cover</h3></div>
+        <p class="phase-blurb">How stolen funds are moved and the trail obscured.</p>
+        <div class="tcards">
+          
+          <article class="tcard" id="BEC-CO-01">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#BEC-CO-01">BEC-CO-01</a><h4>Money-mule routing</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Funds pass through intermediary accounts to break the trail.</dd>
+              <dt>Observable signals</dt><dd>Payments to newly-added or unusual beneficiaries.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Beneficiary risk screening and rapid recall procedures.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="BEC-CO-02">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#BEC-CO-02">BEC-CO-02</a><h4>Rapid layering</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Funds are moved quickly across accounts and borders.</dd>
+              <dt>Observable signals</dt><dd>Fast onward transfers immediately after receipt.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Real-time transaction monitoring and fast bank engagement.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="BEC-CO-03">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#BEC-CO-03">BEC-CO-03</a><h4>Evidence removal</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Sent items, rules and traces are deleted on compromised accounts.</dd>
+              <dt>Observable signals</dt><dd>Missing sent mail or altered inbox rules.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Immutable logging and out-of-band forensics.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="BEC-CO-04">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#BEC-CO-04">BEC-CO-04</a><h4>Continued impersonation</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Reassurance is used to stall discovery while funds clear.</dd>
+              <dt>Observable signals</dt><dd>Repeated claims that a payment is “processing”.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Independent confirmation with the real counterparty.</dd>
+            </dl>
+          </article>
+        </div>
+      </div>
+  </div>
+</section>
+
+<section id="evidence">
+  <div class="wrap narrow">
+    <div class="sec-head reveal"><span class="eyebrow">03.3 · Indicators &amp; evidence model</span><h2>No claim without an observable.</h2>
+      <p class="sub">The BEC pillar shares the Email Abuse Intelligence evidence model — with payment-anomaly signals carrying particular weight.</p></div>
+    <div class="reveal">
+
+        <table class="ref-table">
+          <thead><tr><th>Code</th><th>Class</th><th>Evidence captured</th></tr></thead>
+          <tbody>
+          <tr><td class="mono code">EAI-EV-NET</td><td class="pk">Network</td><td>Sending IP, ASN, reverse DNS and geolocation of the sender.</td></tr>
+          <tr><td class="mono code">EAI-EV-AUTH</td><td class="pk">Authentication</td><td>SPF, DKIM and DMARC results and alignment for the claimed identity.</td></tr>
+          <tr><td class="mono code">EAI-EV-CONT</td><td class="pk">Content</td><td>Payee and account details, invoice anomalies, tone and signature fingerprints.</td></tr>
+          <tr><td class="mono code">EAI-EV-BEHAV</td><td class="pk">Behavioural</td><td>Login anomalies, new inbox rules, first-time-payee and out-of-pattern payment signals.</td></tr>
+          <tr><td class="mono code">EAI-EV-INFRA</td><td class="pk">Infrastructure</td><td>Domain age, lookalike registration, hosting and registrar of any impersonating domain.</td></tr>
+          </tbody>
+        </table>
+    </div>
+    <div class="conf reveal">
+      <div class="conf-label">Confidence model</div>
+
+          <div class="conf-row"><span class="conf-tier t0">Low</span><span class="conf-desc">A single weak or ambiguous indicator. Suitable for enrichment, not enforcement.</span></div>
+
+          <div class="conf-row"><span class="conf-tier t1">Moderate</span><span class="conf-desc">Multiple independent indicators from different classes agree.</span></div>
+
+          <div class="conf-row"><span class="conf-tier t2">High</span><span class="conf-desc">Corroborated indicators plus authentication or payment-anomaly evidence.</span></div>
+
+          <div class="conf-row"><span class="conf-tier t3">Confirmed</span><span class="conf-desc">Direct, reproducible evidence — e.g. a verified fraudulent payee change.</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="library">
+  <div class="wrap narrow">
+    <div class="sec-head reveal"><span class="eyebrow">04 · Part of the reference library</span><h2>Three pillars, one model.</h2>
+      <p class="sub">BEC joins the spam and phishing pillars under the same namespace and evidence model.</p></div>
+    <div class="lib-grid reveal">
+      <div class="lib-card"><div class="lib-n mono">27</div><div class="lib-l">BEC techniques</div></div>
+      <div class="lib-card"><div class="lib-n mono">20</div><div class="lib-l">taxonomy classes</div></div>
+      <div class="lib-card"><div class="lib-n mono">6</div><div class="lib-l">lifecycle phases</div></div>
+      <div class="lib-card"><div class="lib-n mono">3</div><div class="lib-l">pillars active</div></div>
+    </div>
+    <div class="lib-cta reveal">
+      <a class="btn btn-primary" href="/#lab">Assess a domain against the Standard →</a>
+      <a class="btn btn-ghost" href="/intelligence/">Back to the umbrella</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-row">
+    <span><span class="sig">SPAMCRACKERS</span>.COM — the reference layer for Email Abuse Intelligence · BEC pillar v1.0</span>
+    <div class="foot-links">
+      <a href="/">Home</a>
+      <a href="/intelligence/">Intelligence</a>
+      <a href="/intelligence/phishing/">Phishing</a>
+      <a href="/#faq">FAQ</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var root = document.documentElement, tbtn = document.getElementById("themebtn");
+  tbtn.addEventListener("click", function(){
+    var isDark = root.getAttribute("data-theme")==="dark" || (!root.getAttribute("data-theme") && window.matchMedia("(prefers-color-scheme: dark)").matches);
+    root.setAttribute("data-theme", isDark ? "light" : "dark");
+  });
+  if(!reduce){
+    var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); } }); }, {threshold:.12});
+    document.querySelectorAll(".reveal").forEach(function(el){ io.observe(el); });
+  } else { document.querySelectorAll(".reveal").forEach(function(el){ el.classList.add("in"); }); }
+  function flash(){ var h=location.hash.replace("#",""); if(!h) return; var el=document.getElementById(h); if(el && el.classList.contains("tcard")){ el.classList.add("flash"); setTimeout(function(){ el.classList.remove("flash"); }, 1600); } }
+  window.addEventListener("hashchange", flash); flash();
+})();
+</script>
+</body>
+</html>
