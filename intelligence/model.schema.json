@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spamcrackers.com/intelligence/model.schema.json",
+  "title": "Email Abuse Intelligence Reference Model",
+  "description": "Schema for the machine-readable SpamCrackers Email Abuse Intelligence model published at https://spamcrackers.com/intelligence/model.json",
+  "type": "object",
+  "required": ["model", "namespace", "version", "license", "url", "counts", "pillars", "evidenceModel", "techniques"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "model": { "type": "string" },
+    "namespace": { "const": "EAI" },
+    "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "license": { "type": "string" },
+    "attribution": { "type": "string" },
+    "url": { "type": "string", "format": "uri" },
+    "governance": { "type": "string", "format": "uri" },
+    "generated": { "type": "string", "format": "date" },
+    "counts": {
+      "type": "object",
+      "required": ["pillars", "techniques", "evidenceClasses"],
+      "properties": {
+        "pillars": { "type": "integer", "minimum": 1 },
+        "techniques": { "type": "integer", "minimum": 1 },
+        "evidenceClasses": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "pillars": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["code", "name", "url", "techniques"],
+        "additionalProperties": false,
+        "properties": {
+          "code": { "type": "string", "pattern": "^[A-Z]{3}$" },
+          "name": { "type": "string" },
+          "url": { "type": "string", "format": "uri" },
+          "techniques": { "type": "integer", "minimum": 0 }
+        }
+      }
+    },
+    "evidenceModel": {
+      "type": "object",
+      "required": ["classes", "confidence"],
+      "properties": {
+        "classes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["code", "class"],
+            "additionalProperties": false,
+            "properties": {
+              "code": { "type": "string", "pattern": "^EAI-EV-[A-Z]+$" },
+              "class": { "type": "string" }
+            }
+          }
+        },
+        "confidence": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "techniques": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "pillar", "phase", "name", "description", "signals", "defense", "url"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "pattern": "^[A-Z]{3}-[A-Z]{2,3}-\\d{2}$" },
+          "pillar": { "type": "string", "pattern": "^[A-Z]{3}$" },
+          "phase": { "type": "string", "pattern": "^[A-Z]{3}-[A-Z]{2,3}$" },
+          "name": { "type": "string", "minLength": 1 },
+          "description": { "type": "string", "minLength": 1 },
+          "signals": { "type": "string", "minLength": 1 },
+          "defense": { "type": "string", "minLength": 1 },
+          "url": { "type": "string", "format": "uri" }
+        }
+      }
+    }
+  }
+}
