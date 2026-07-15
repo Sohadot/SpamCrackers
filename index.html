@@ -1202,7 +1202,7 @@
     actions.appendChild(copyBtn); actions.appendChild(linkBtn); actions.appendChild(embedBtn);
     out.appendChild(actions);
     var ref=document.createElement("div"); ref.className="result-ref";
-    ref.innerHTML='Graded and referenced against the <a href="/intelligence/">Email Abuse Intelligence</a> model.';
+    ref.innerHTML='Graded and referenced against the <a href="/intelligence/">Email Abuse Intelligence</a> model. <a href="/playbook/">Fix any gaps →</a>';
     out.appendChild(ref);
     requestAnimationFrame(function(){ fill.style.width=res.score+"%"; });
     if(!sampled){ addToLedger(d, m, res.score); }

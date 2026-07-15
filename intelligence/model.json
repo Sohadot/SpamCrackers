@@ -1,0 +1,1716 @@
+{
+  "$schema": "https://spamcrackers.com/intelligence/model.schema.json",
+  "model": "Email Abuse Intelligence Reference Model",
+  "namespace": "EAI",
+  "version": "1.0.0",
+  "license": "CC BY 4.0",
+  "attribution": "SpamCrackers — https://spamcrackers.com/intelligence/",
+  "url": "https://spamcrackers.com/intelligence/",
+  "governance": "https://spamcrackers.com/intelligence/governance/",
+  "generated": "2026-07-15",
+  "counts": {
+    "pillars": 6,
+    "techniques": 163,
+    "evidenceClasses": 5
+  },
+  "pillars": [
+    {
+      "code": "SPM",
+      "name": "Spam Campaign Intelligence",
+      "url": "https://spamcrackers.com/intelligence/",
+      "techniques": 28
+    },
+    {
+      "code": "PHI",
+      "name": "Phishing Intelligence",
+      "url": "https://spamcrackers.com/intelligence/phishing/",
+      "techniques": 30
+    },
+    {
+      "code": "BEC",
+      "name": "Business Email Compromise",
+      "url": "https://spamcrackers.com/intelligence/bec/",
+      "techniques": 27
+    },
+    {
+      "code": "MAL",
+      "name": "Malware Delivery",
+      "url": "https://spamcrackers.com/intelligence/mal/",
+      "techniques": 29
+    },
+    {
+      "code": "SCM",
+      "name": "Scam & Fraud",
+      "url": "https://spamcrackers.com/intelligence/scam/",
+      "techniques": 25
+    },
+    {
+      "code": "SPO",
+      "name": "Spoofing & Impersonation",
+      "url": "https://spamcrackers.com/intelligence/spoofing/",
+      "techniques": 24
+    }
+  ],
+  "evidenceModel": {
+    "classes": [
+      {
+        "code": "EAI-EV-NET",
+        "class": "Network"
+      },
+      {
+        "code": "EAI-EV-AUTH",
+        "class": "Authentication"
+      },
+      {
+        "code": "EAI-EV-CONT",
+        "class": "Content"
+      },
+      {
+        "code": "EAI-EV-BEHAV",
+        "class": "Behavioural"
+      },
+      {
+        "code": "EAI-EV-INFRA",
+        "class": "Infrastructure"
+      }
+    ],
+    "confidence": [
+      "Low",
+      "Moderate",
+      "High",
+      "Confirmed"
+    ]
+  },
+  "techniques": [
+    {
+      "id": "SPM-CL-01",
+      "pillar": "SPM",
+      "phase": "SPM-CL",
+      "name": "Urgency & scarcity framing",
+      "description": "Language engineered to pressure fast, unconsidered action.",
+      "signals": "Deadline, suspension and reward markers; high imperative density.",
+      "defense": "Linguistic lure classifiers; combine with sender reputation rather than keywords alone.",
+      "url": "https://spamcrackers.com/intelligence/#SPM-CL-01"
+    },
+    {
+      "id": "SPM-CL-02",
+      "pillar": "SPM",
+      "phase": "SPM-CL",
+      "name": "Brand & authority impersonation",
+      "description": "Trusted logos, layouts and tone used to borrow credibility.",
+      "signals": "Brand assets paired with a mismatched or unauthenticated sender.",
+      "defense": "Brand-asset matching, logo detection, sender-to-brand consistency checks.",
+      "url": "https://spamcrackers.com/intelligence/#SPM-CL-02"
+    },
+    {
+      "id": "SPM-CL-03",
+      "pillar": "SPM",
+      "phase": "SPM-CL",
+      "name": "Obfuscation",
+      "description": "Intent is hidden from filters using encoding, invisible characters or image-only bodies.",
+      "signals": "High image-to-text ratio, unicode anomalies, zero-width characters.",
+      "defense": "Unicode normalisation, optical character recognition, structural analysis.",
+      "url": "https://spamcrackers.com/intelligence/#SPM-CL-03"
+    },
+    {
+      "id": "SPM-CL-04",
+      "pillar": "SPM",
+      "phase": "SPM-CL",
+      "name": "Content polymorphism",
+      "description": "Each recipient receives a slightly different message to defeat exact signatures.",
+      "signals": "High template entropy; weak exact-match clustering across a burst.",
+      "defense": "Fuzzy hashing and near-duplicate clustering rather than exact signatures.",
+      "url": "https://spamcrackers.com/intelligence/#SPM-CL-04"
+    },
+    {
+      "id": "SPM-DE-01",
+      "pillar": "SPM",
+      "phase": "SPM-DE",
+      "name": "Redirect & cloaking chains",
+      "description": "Links pass through shorteners and multiple hops, sometimes serving different content to analysers than to victims.",
+      "signals": "URL shorteners, multi-hop redirects, geo- or user-agent-based cloaking.",
+      "defense": "URL detonation in a sandbox, follow chains, analyse final destinations.",
+      "url": "https://spamcrackers.com/intelligence/#SPM-DE-01"
+    },
+    {
+      "id": "SPM-DE-02",
+      "pillar": "SPM",
+      "phase": "SPM-DE",
+      "name": "Reputation warming",
+      "description": "A new IP or domain is ramped up gradually to build trust before abuse.",
+      "signals": "Steady volume increase on young infrastructure; benign early sends.",
+      "defense": "Model sender tenure and velocity together; treat trust as earned over time.",
+      "url": "https://spamcrackers.com/intelligence/#SPM-DE-02"
+    },
+    {
+      "id": "SPM-DE-03",
+      "pillar": "SPM",
+      "phase": "SPM-DE",
+      "name": "Send-and-burn",
+      "description": "Infrastructure is used intensively for a short window then abandoned.",
+      "signals": "Sources active for hours then silent; rapid infrastructure turnover.",
+      "defense": "Fast indicator sharing, first-contact caution, short-tenure penalties.",
+      "url": "https://spamcrackers.com/intelligence/#SPM-DE-03"
+    },
+    {
+      "id": "SPM-DE-04",
+      "pillar": "SPM",
+      "phase": "SPM-DE",
+      "name": "List bombing & subscription abuse",
+      "description": "Signup and confirmation flows are abused to flood a target with mail.",
+      "signals": "Bursts of subscription-confirmation messages to one recipient.",
+      "defense": "Rate limits and challenge mechanisms on signup forms; double-opt-in hygiene.",
+      "url": "https://spamcrackers.com/intelligence/#SPM-DE-04"
+    },
+    {
+      "id": "SPM-DE-05",
+      "pillar": "SPM",
+      "phase": "SPM-DE",
+      "name": "Locale & timing targeting",
+      "description": "Delivery is timed to a victim's business hours and locale to raise engagement.",
+      "signals": "Send timing aligned to recipient time zone and working hours.",
+      "defense": "Temporal baselining of normal correspondence patterns.",
+      "url": "https://spamcrackers.com/intelligence/#SPM-DE-05"
+    },
+    {
+      "id": "SPM-EP-01",
+      "pillar": "SPM",
+      "phase": "SPM-EP",
+      "name": "Credential-harvest destinations",
+      "description": "Cloned login pages hosted to capture entered credentials.",
+      "signals": "Login clones on newly-registered domains or throwaway hosting; brand mismatch.",
+      "defense": "Destination reputation, sandbox rendering, credential-form detection.",
+      "url": "https://spamcrackers.com/intelligence/#SPM-EP-01"
+    },
+    {
+      "id": "SPM-EP-02",
+      "pillar": "SPM",
+      "phase": "SPM-EP",
+      "name": "Weaponised attachments",
+      "description": "Documents or archives carrying macros, scripts or executables.",
+      "signals": "Macro-enabled documents, risky archive and file types, double extensions.",
+      "defense": "Attachment sandboxing, file-type policy, macro restrictions.",
+      "url": "https://spamcrackers.com/intelligence/#SPM-EP-02"
+    },
+    {
+      "id": "SPM-EP-03",
+      "pillar": "SPM",
+      "phase": "SPM-EP",
+      "name": "Reply funnels",
+      "description": "The message invites a reply that moves the victim into a fraud conversation.",
+      "signals": "Free-mail reply-to, thread hijacking, reply-to and From divergence.",
+      "defense": "Reply-to and From mismatch flags, conversation-thread integrity checks.",
+      "url": "https://spamcrackers.com/intelligence/#SPM-EP-03"
+    },
+    {
+      "id": "SPM-EP-04",
+      "pillar": "SPM",
+      "phase": "SPM-EP",
+      "name": "Tracking beacons",
+      "description": "Invisible images and unique links confirm live, engaged recipients.",
+      "signals": "One-pixel images, per-recipient tracking URLs.",
+      "defense": "Image proxying and stripping, link rewriting and neutralisation.",
+      "url": "https://spamcrackers.com/intelligence/#SPM-EP-04"
+    },
+    {
+      "id": "SPM-IA-01",
+      "pillar": "SPM",
+      "phase": "SPM-IA",
+      "name": "Snowshoe distribution",
+      "description": "Sending volume is spread thinly across a wide range of IP addresses and domains so no single source crosses a reputation or rate threshold.",
+      "signals": "Many low-volume, newly-seen IPs across unrelated netblocks; shared content fingerprints across sources.",
+      "defense": "Score reputation at the netblock and ASN level, not just per-IP; baseline expected volume per source.",
+      "url": "https://spamcrackers.com/intelligence/#SPM-IA-01"
+    },
+    {
+      "id": "SPM-IA-02",
+      "pillar": "SPM",
+      "phase": "SPM-IA",
+      "name": "Botnet / compromised hosts",
+      "description": "Mail originates from large numbers of compromised end-user machines.",
+      "signals": "Residential or dynamic IP ranges, missing or generic reverse DNS, inconsistent HELO identities.",
+      "defense": "Apply policy-block and dynamic-user lists; treat residential-origin mail with caution.",
+      "url": "https://spamcrackers.com/intelligence/#SPM-IA-02"
+    },
+    {
+      "id": "SPM-IA-03",
+      "pillar": "SPM",
+      "phase": "SPM-IA",
+      "name": "Compromised account abuse",
+      "description": "A legitimate mailbox or tenant is taken over and used to send.",
+      "signals": "Sudden change in sending behaviour, geolocation or velocity anomalies, unusual send times.",
+      "defense": "Authentication-anomaly detection, adaptive rate limits, session and device baselining.",
+      "url": "https://spamcrackers.com/intelligence/#SPM-IA-03"
+    },
+    {
+      "id": "SPM-IA-04",
+      "pillar": "SPM",
+      "phase": "SPM-IA",
+      "name": "ESP / bulk-provider abuse",
+      "description": "Legitimate email-service providers are used to distribute abusive lists.",
+      "signals": "Valid provider headers paired with abusive content or unconsented recipients.",
+      "defense": "Honour feedback loops, track reputation per campaign and per sub-account, complaint-rate monitoring.",
+      "url": "https://spamcrackers.com/intelligence/#SPM-IA-04"
+    },
+    {
+      "id": "SPM-IA-05",
+      "pillar": "SPM",
+      "phase": "SPM-IA",
+      "name": "Hijacked infrastructure",
+      "description": "Dormant subdomains, dangling DNS records or routing weaknesses are abused to send authenticated-looking mail.",
+      "signals": "Authenticated mail from long-inactive subdomains; records pointing at unclaimed resources.",
+      "defense": "Routine DNS hygiene, retire dangling records, use DMARC reporting for visibility.",
+      "url": "https://spamcrackers.com/intelligence/#SPM-IA-05"
+    },
+    {
+      "id": "SPM-ID-01",
+      "pillar": "SPM",
+      "phase": "SPM-ID",
+      "name": "Exact-domain spoofing",
+      "description": "A real domain is forged in the From header where authentication is absent or unenforced.",
+      "signals": "SPF or DKIM failure with a DMARC policy of none; envelope and header mismatch.",
+      "defense": "Enforce DMARC at quarantine then reject; align SPF and DKIM. (See the SpamCrackers Standard.)",
+      "url": "https://spamcrackers.com/intelligence/#SPM-ID-01"
+    },
+    {
+      "id": "SPM-ID-02",
+      "pillar": "SPM",
+      "phase": "SPM-ID",
+      "name": "Lookalike / cousin domains",
+      "description": "Domains that visually or typographically resemble a trusted brand.",
+      "signals": "Recently registered homoglyph or typo variants; low domain age; brand terms in the label.",
+      "defense": "Brand and lookalike monitoring, homoglyph normalisation, newly-registered-domain scoring.",
+      "url": "https://spamcrackers.com/intelligence/#SPM-ID-02"
+    },
+    {
+      "id": "SPM-ID-03",
+      "pillar": "SPM",
+      "phase": "SPM-ID",
+      "name": "Display-name impersonation",
+      "description": "The friendly display name claims a trusted identity while the real address does not match.",
+      "signals": "Friendly-From to envelope-From mismatch; free-mail address behind a corporate display name.",
+      "defense": "Header-From analysis, first-contact and external-sender warning banners.",
+      "url": "https://spamcrackers.com/intelligence/#SPM-ID-03"
+    },
+    {
+      "id": "SPM-ID-04",
+      "pillar": "SPM",
+      "phase": "SPM-ID",
+      "name": "Newly-registered-domain sending",
+      "description": "Domains registered shortly before a campaign, with no reputation to lose.",
+      "signals": "Domain age below a small threshold; registrar and nameserver clustering.",
+      "defense": "Age-based scoring and short-lived greylisting for very new domains.",
+      "url": "https://spamcrackers.com/intelligence/#SPM-ID-04"
+    },
+    {
+      "id": "SPM-ID-05",
+      "pillar": "SPM",
+      "phase": "SPM-ID",
+      "name": "Authentication-passing abuse",
+      "description": "Mail that legitimately passes SPF/DKIM/DMARC yet is still abusive.",
+      "signals": "Aligned authentication combined with abusive content, lists or behaviour.",
+      "defense": "Reputation and content analysis beyond authentication; authentication proves identity, not intent.",
+      "url": "https://spamcrackers.com/intelligence/#SPM-ID-05"
+    },
+    {
+      "id": "SPM-OBJ-01",
+      "pillar": "SPM",
+      "phase": "SPM-OBJ",
+      "name": "Affiliate & lead resale",
+      "description": "Clicks and leads are monetised through commission networks.",
+      "signals": "Affiliate tracking parameters, redirection to marketing funnels.",
+      "defense": "Destination and network reputation, funnel fingerprinting.",
+      "url": "https://spamcrackers.com/intelligence/#SPM-OBJ-01"
+    },
+    {
+      "id": "SPM-OBJ-02",
+      "pillar": "SPM",
+      "phase": "SPM-OBJ",
+      "name": "Advance-fee & romance fraud",
+      "description": "Long-form social engineering aimed at direct payment.",
+      "signals": "Emotional narratives, requests to move to private channels.",
+      "defense": "Narrative classifiers, reply-path analysis, user education.",
+      "url": "https://spamcrackers.com/intelligence/#SPM-OBJ-02"
+    },
+    {
+      "id": "SPM-OBJ-03",
+      "pillar": "SPM",
+      "phase": "SPM-OBJ",
+      "name": "Invoice & payment fraud",
+      "description": "Fake or altered invoices and payment-redirection requests (bridges to the BEC pillar).",
+      "signals": "Payment-detail changes, urgency around transfers, vendor impersonation.",
+      "defense": "Out-of-band verification of payment changes, vendor allow-lists.",
+      "url": "https://spamcrackers.com/intelligence/#SPM-OBJ-03"
+    },
+    {
+      "id": "SPM-OBJ-04",
+      "pillar": "SPM",
+      "phase": "SPM-OBJ",
+      "name": "Credential & data resale",
+      "description": "Harvested credentials and data are sold or reused downstream.",
+      "signals": "Post-compromise access from harvesting campaigns.",
+      "defense": "Credential-reuse monitoring, forced resets, breach correlation.",
+      "url": "https://spamcrackers.com/intelligence/#SPM-OBJ-04"
+    },
+    {
+      "id": "SPM-OBJ-05",
+      "pillar": "SPM",
+      "phase": "SPM-OBJ",
+      "name": "Extortion",
+      "description": "Threats and coercion, including mass sextortion, demanding payment.",
+      "signals": "Threatening templates, cryptocurrency payment demands, mass identical sends.",
+      "defense": "Template clustering, payment-indicator extraction, awareness messaging.",
+      "url": "https://spamcrackers.com/intelligence/#SPM-OBJ-05"
+    },
+    {
+      "id": "PHI-CC-01",
+      "pillar": "PHI",
+      "phase": "PHI-CC",
+      "name": "Cloned login page",
+      "description": "A pixel-accurate fake sign-in page records whatever the victim enters.",
+      "signals": "A credential form served from a non-official domain.",
+      "defense": "Password managers withhold autofill off-domain; verify the domain.",
+      "url": "https://spamcrackers.com/intelligence/phishing/#PHI-CC-01"
+    },
+    {
+      "id": "PHI-CC-02",
+      "pillar": "PHI",
+      "phase": "PHI-CC",
+      "name": "Adversary-in-the-middle (AiTM)",
+      "description": "A live reverse proxy relays to the real site, capturing the authenticated session and defeating many MFA methods.",
+      "signals": "Reverse-proxy patterns and real-time token relay.",
+      "defense": "Phishing-resistant MFA (FIDO2/passkeys), token binding, conditional access.",
+      "url": "https://spamcrackers.com/intelligence/phishing/#PHI-CC-02"
+    },
+    {
+      "id": "PHI-CC-03",
+      "pillar": "PHI",
+      "phase": "PHI-CC",
+      "name": "OAuth consent phishing",
+      "description": "The victim is tricked into granting an application permission — no password is ever needed.",
+      "signals": "Consent prompts from unverified or over-scoped applications.",
+      "defense": "Application governance, restrict user consent, review granted scopes.",
+      "url": "https://spamcrackers.com/intelligence/phishing/#PHI-CC-03"
+    },
+    {
+      "id": "PHI-CC-04",
+      "pillar": "PHI",
+      "phase": "PHI-CC",
+      "name": "OTP interception",
+      "description": "The victim is prompted to relay a one-time code in real time so the attacker can complete sign-in.",
+      "signals": "A page requesting an OTP immediately after a password.",
+      "defense": "Phishing-resistant MFA; educate users never to relay codes.",
+      "url": "https://spamcrackers.com/intelligence/phishing/#PHI-CC-04"
+    },
+    {
+      "id": "PHI-CC-05",
+      "pillar": "PHI",
+      "phase": "PHI-CC",
+      "name": "Progressive data harvesting",
+      "description": "Staged forms collect more than credentials — personal, financial or recovery data.",
+      "signals": "Multi-step forms requesting escalating personal information.",
+      "defense": "Detect multi-step credential-and-data form flows.",
+      "url": "https://spamcrackers.com/intelligence/phishing/#PHI-CC-05"
+    },
+    {
+      "id": "PHI-DE-01",
+      "pillar": "PHI",
+      "phase": "PHI-DE",
+      "name": "HTML smuggling",
+      "description": "The payload is assembled inside the browser from a benign-looking HTML file to bypass gateway scanning.",
+      "signals": "HTML attachments that build content or downloads client-side.",
+      "defense": "Sandbox rendering, restrict risky attachment types.",
+      "url": "https://spamcrackers.com/intelligence/phishing/#PHI-DE-01"
+    },
+    {
+      "id": "PHI-DE-02",
+      "pillar": "PHI",
+      "phase": "PHI-DE",
+      "name": "QR-code phishing (quishing)",
+      "description": "The link is delivered as a QR image, pushing the victim onto a less-protected personal device.",
+      "signals": "An image-heavy message with a QR code and little text.",
+      "defense": "Extract and analyse URLs from QR images; brief staff on the tactic.",
+      "url": "https://spamcrackers.com/intelligence/phishing/#PHI-DE-02"
+    },
+    {
+      "id": "PHI-DE-03",
+      "pillar": "PHI",
+      "phase": "PHI-DE",
+      "name": "Redirect & cloaking chains",
+      "description": "Multi-hop redirection serves different content to analysers than to victims (shared with SPM-DE-01).",
+      "signals": "Shorteners, multi-hop redirects, geo- or user-agent-based cloaking.",
+      "defense": "Detonate URLs and follow chains from multiple vantage points.",
+      "url": "https://spamcrackers.com/intelligence/phishing/#PHI-DE-03"
+    },
+    {
+      "id": "PHI-DE-04",
+      "pillar": "PHI",
+      "phase": "PHI-DE",
+      "name": "Link obfuscation",
+      "description": "The true destination is hidden behind encoding or lookalike URLs.",
+      "signals": "Encoded URLs, or visible text that disagrees with the underlying link.",
+      "defense": "URL normalisation, expose the real href before allowing the click.",
+      "url": "https://spamcrackers.com/intelligence/phishing/#PHI-DE-04"
+    },
+    {
+      "id": "PHI-DE-05",
+      "pillar": "PHI",
+      "phase": "PHI-DE",
+      "name": "Sandbox evasion",
+      "description": "CAPTCHA, geo or time gating makes analysers see benign content while victims see the lure.",
+      "signals": "Content that differs between an automated analyser and a real user.",
+      "defense": "Realistic detonation environments and repeat analysis over time.",
+      "url": "https://spamcrackers.com/intelligence/phishing/#PHI-DE-05"
+    },
+    {
+      "id": "PHI-IN-01",
+      "pillar": "PHI",
+      "phase": "PHI-IN",
+      "name": "Lookalike / cousin domains",
+      "description": "Domains that resemble a trusted brand by homoglyph or typo (bridges SPM-ID-02).",
+      "signals": "Recently registered similar domains; brand terms in the label.",
+      "defense": "Brand and lookalike monitoring, homoglyph normalisation.",
+      "url": "https://spamcrackers.com/intelligence/phishing/#PHI-IN-01"
+    },
+    {
+      "id": "PHI-IN-02",
+      "pillar": "PHI",
+      "phase": "PHI-IN",
+      "name": "Compromised legitimate hosting",
+      "description": "Landing pages are hosted on hacked but reputable websites to inherit their trust.",
+      "signals": "A login clone on an unrelated, otherwise-reputable domain path.",
+      "defense": "Destination reputation and content inspection, not domain trust alone.",
+      "url": "https://spamcrackers.com/intelligence/phishing/#PHI-IN-02"
+    },
+    {
+      "id": "PHI-IN-03",
+      "pillar": "PHI",
+      "phase": "PHI-IN",
+      "name": "Newly-registered domains",
+      "description": "Domains registered shortly before use, with no reputation to lose.",
+      "signals": "Very low domain age; registrar and nameserver clustering.",
+      "defense": "Age-based scoring and short-lived greylisting for new domains.",
+      "url": "https://spamcrackers.com/intelligence/phishing/#PHI-IN-03"
+    },
+    {
+      "id": "PHI-IN-04",
+      "pillar": "PHI",
+      "phase": "PHI-IN",
+      "name": "Free hosting & redirectors",
+      "description": "Legitimate free platforms and open redirectors are abused to host or forward to the payload.",
+      "signals": "Final destination on free-host subdomains or via open redirects.",
+      "defense": "Expand and inspect full redirect chains to the true endpoint.",
+      "url": "https://spamcrackers.com/intelligence/phishing/#PHI-IN-04"
+    },
+    {
+      "id": "PHI-IN-05",
+      "pillar": "PHI",
+      "phase": "PHI-IN",
+      "name": "TLS-for-trust",
+      "description": "A valid certificate is obtained so the destination shows a padlock and looks legitimate.",
+      "signals": "A brand-new certificate on a lookalike or throwaway domain.",
+      "defense": "Treat TLS as encryption, not identity; monitor certificate transparency.",
+      "url": "https://spamcrackers.com/intelligence/phishing/#PHI-IN-05"
+    },
+    {
+      "id": "PHI-IN-06",
+      "pillar": "PHI",
+      "phase": "PHI-IN",
+      "name": "Compromised sender account",
+      "description": "Messages are sent from a real, trusted mailbox that has been taken over (bridges SPM-IA-03).",
+      "signals": "Behavioural anomalies on an otherwise-trusted internal or partner account.",
+      "defense": "Authentication-anomaly detection, adaptive rate limits.",
+      "url": "https://spamcrackers.com/intelligence/phishing/#PHI-IN-06"
+    },
+    {
+      "id": "PHI-LP-01",
+      "pillar": "PHI",
+      "phase": "PHI-LP",
+      "name": "Brand impersonation",
+      "description": "Trusted brand identity, layout and tone are cloned to borrow credibility.",
+      "signals": "Brand assets paired with a mismatched or unauthenticated sender.",
+      "defense": "Brand-to-sender consistency checks, logo detection.",
+      "url": "https://spamcrackers.com/intelligence/phishing/#PHI-LP-01"
+    },
+    {
+      "id": "PHI-LP-02",
+      "pillar": "PHI",
+      "phase": "PHI-LP",
+      "name": "Authority & urgency",
+      "description": "Pressure from a claimed authority pushes fast, unconsidered action.",
+      "signals": "Deadline, suspension or executive-tone markers with an external link.",
+      "defense": "Verify unusual requests through a separate, trusted channel.",
+      "url": "https://spamcrackers.com/intelligence/phishing/#PHI-LP-02"
+    },
+    {
+      "id": "PHI-LP-03",
+      "pillar": "PHI",
+      "phase": "PHI-LP",
+      "name": "Account-security pretext",
+      "description": "A message claims the account is at risk and must be “verified” now.",
+      "signals": "Security-alert templates driving to an external sign-in link.",
+      "defense": "Never authenticate through emailed links; navigate directly.",
+      "url": "https://spamcrackers.com/intelligence/phishing/#PHI-LP-03"
+    },
+    {
+      "id": "PHI-LP-04",
+      "pillar": "PHI",
+      "phase": "PHI-LP",
+      "name": "Payment & invoice pretext",
+      "description": "Fake invoices, receipts or payment-detail changes (bridges the BEC pillar).",
+      "signals": "Invoice or banking-change requests, especially with urgency.",
+      "defense": "Out-of-band verification of any payment change.",
+      "url": "https://spamcrackers.com/intelligence/phishing/#PHI-LP-04"
+    },
+    {
+      "id": "PHI-LP-05",
+      "pillar": "PHI",
+      "phase": "PHI-LP",
+      "name": "Reply-chain hijacking",
+      "description": "The lure is inserted into a genuine, existing email thread to inherit its trust.",
+      "signals": "An unexpected reply resuming an old thread with a new link or file.",
+      "defense": "Scrutinise links and attachments even within known threads.",
+      "url": "https://spamcrackers.com/intelligence/phishing/#PHI-LP-05"
+    },
+    {
+      "id": "PHI-OB-01",
+      "pillar": "PHI",
+      "phase": "PHI-OB",
+      "name": "Account takeover",
+      "description": "Captured credentials or sessions are used to seize the account.",
+      "signals": "Anomalous logins shortly after a campaign.",
+      "defense": "Session revocation, conditional access, impossible-travel detection.",
+      "url": "https://spamcrackers.com/intelligence/phishing/#PHI-OB-01"
+    },
+    {
+      "id": "PHI-OB-02",
+      "pillar": "PHI",
+      "phase": "PHI-OB",
+      "name": "BEC pivot",
+      "description": "A trusted mailbox is used to run financial fraud from the inside (bridges the BEC pillar).",
+      "signals": "Internal payment or vendor requests from a genuine account.",
+      "defense": "Out-of-band verification of payment and vendor changes.",
+      "url": "https://spamcrackers.com/intelligence/phishing/#PHI-OB-02"
+    },
+    {
+      "id": "PHI-OB-03",
+      "pillar": "PHI",
+      "phase": "PHI-OB",
+      "name": "Mailbox persistence",
+      "description": "Forwarding rules and OAuth tokens are planted for durable, quiet access.",
+      "signals": "New auto-forwarding rules or unfamiliar OAuth grants.",
+      "defense": "Audit inbox rules and tokens, alert on new grants.",
+      "url": "https://spamcrackers.com/intelligence/phishing/#PHI-OB-03"
+    },
+    {
+      "id": "PHI-OB-04",
+      "pillar": "PHI",
+      "phase": "PHI-OB",
+      "name": "Data exfiltration",
+      "description": "Mail and files are harvested from the compromised account.",
+      "signals": "Bulk access or download activity after compromise.",
+      "defense": "Data-loss prevention and access-anomaly detection.",
+      "url": "https://spamcrackers.com/intelligence/phishing/#PHI-OB-04"
+    },
+    {
+      "id": "PHI-OB-05",
+      "pillar": "PHI",
+      "phase": "PHI-OB",
+      "name": "Onward propagation",
+      "description": "The victim's own contacts are phished from within the trusted account.",
+      "signals": "Internal phishing originating from a trusted mailbox.",
+      "defense": "Internal-phish detection and rapid account containment.",
+      "url": "https://spamcrackers.com/intelligence/phishing/#PHI-OB-05"
+    },
+    {
+      "id": "PHI-RT-01",
+      "pillar": "PHI",
+      "phase": "PHI-RT",
+      "name": "OSINT profiling",
+      "description": "Public information is gathered to select and tailor a convincing approach to a specific person or team.",
+      "signals": "Lures referencing niche, publicly-available detail about the recipient or their role.",
+      "defense": "Reduce unnecessary public exposure of staff detail; brief high-risk roles.",
+      "url": "https://spamcrackers.com/intelligence/phishing/#PHI-RT-01"
+    },
+    {
+      "id": "PHI-RT-02",
+      "pillar": "PHI",
+      "phase": "PHI-RT",
+      "name": "Address harvesting",
+      "description": "Valid recipient addresses are collected from leaks, scraping or guessing patterns.",
+      "signals": "Delivery to scraped, generated or rarely-used addresses.",
+      "defense": "Address aliasing, breach-exposure monitoring, catch-all hygiene.",
+      "url": "https://spamcrackers.com/intelligence/phishing/#PHI-RT-02"
+    },
+    {
+      "id": "PHI-RT-03",
+      "pillar": "PHI",
+      "phase": "PHI-RT",
+      "name": "Org-structure mapping",
+      "description": "Reporting lines and relationships are mapped to make impersonation credible.",
+      "signals": "Impersonation of a specific internal role or a known supplier contact.",
+      "defense": "Establish internal verification norms for unusual requests.",
+      "url": "https://spamcrackers.com/intelligence/phishing/#PHI-RT-03"
+    },
+    {
+      "id": "PHI-RT-04",
+      "pillar": "PHI",
+      "phase": "PHI-RT",
+      "name": "Event-timed targeting",
+      "description": "Campaigns are timed to payroll runs, tax season, outages or corporate events.",
+      "signals": "A lure aligned suspiciously well to a current internal or public event.",
+      "defense": "Heighten scrutiny during known high-risk windows; pre-warn staff.",
+      "url": "https://spamcrackers.com/intelligence/phishing/#PHI-RT-04"
+    },
+    {
+      "id": "BEC-AC-01",
+      "pillar": "BEC",
+      "phase": "BEC-AC",
+      "name": "Internal account compromise",
+      "description": "An internal mailbox is taken over to send from a genuine identity (bridges PHI-CC-02).",
+      "signals": "Anomalous login or behaviour on a finance or executive account.",
+      "defense": "Phishing-resistant MFA, conditional access, session monitoring.",
+      "url": "https://spamcrackers.com/intelligence/bec/#BEC-AC-01"
+    },
+    {
+      "id": "BEC-AC-02",
+      "pillar": "BEC",
+      "phase": "BEC-AC",
+      "name": "Vendor email compromise (VEC)",
+      "description": "A supplier's real mailbox is compromised and used against its customers.",
+      "signals": "A banking-change request from an otherwise-genuine vendor account.",
+      "defense": "Verify vendor changes out-of-band via a pre-known contact.",
+      "url": "https://spamcrackers.com/intelligence/bec/#BEC-AC-02"
+    },
+    {
+      "id": "BEC-AC-03",
+      "pillar": "BEC",
+      "phase": "BEC-AC",
+      "name": "Lookalike domain",
+      "description": "A cousin domain of the company or vendor is registered (bridges SPM-ID-02).",
+      "signals": "A near-miss domain in the from or reply-to address.",
+      "defense": "Lookalike monitoring and external-sender banners.",
+      "url": "https://spamcrackers.com/intelligence/bec/#BEC-AC-03"
+    },
+    {
+      "id": "BEC-AC-04",
+      "pillar": "BEC",
+      "phase": "BEC-AC",
+      "name": "Display-name impersonation",
+      "description": "Only the friendly name of an executive or vendor is forged (bridges SPM-ID-03).",
+      "signals": "A known name paired with an unfamiliar address.",
+      "defense": "Header-from analysis and first-contact flags.",
+      "url": "https://spamcrackers.com/intelligence/bec/#BEC-AC-04"
+    },
+    {
+      "id": "BEC-AC-05",
+      "pillar": "BEC",
+      "phase": "BEC-AC",
+      "name": "Mailbox-rule persistence",
+      "description": "Inbox rules hide replies and alerts on a compromised account (bridges PHI-OB-03).",
+      "signals": "New auto-forward, move or delete rules.",
+      "defense": "Audit inbox rules and alert on rule creation.",
+      "url": "https://spamcrackers.com/intelligence/bec/#BEC-AC-05"
+    },
+    {
+      "id": "BEC-CO-01",
+      "pillar": "BEC",
+      "phase": "BEC-CO",
+      "name": "Money-mule routing",
+      "description": "Funds pass through intermediary accounts to break the trail.",
+      "signals": "Payments to newly-added or unusual beneficiaries.",
+      "defense": "Beneficiary risk screening and rapid recall procedures.",
+      "url": "https://spamcrackers.com/intelligence/bec/#BEC-CO-01"
+    },
+    {
+      "id": "BEC-CO-02",
+      "pillar": "BEC",
+      "phase": "BEC-CO",
+      "name": "Rapid layering",
+      "description": "Funds are moved quickly across accounts and borders.",
+      "signals": "Fast onward transfers immediately after receipt.",
+      "defense": "Real-time transaction monitoring and fast bank engagement.",
+      "url": "https://spamcrackers.com/intelligence/bec/#BEC-CO-02"
+    },
+    {
+      "id": "BEC-CO-03",
+      "pillar": "BEC",
+      "phase": "BEC-CO",
+      "name": "Evidence removal",
+      "description": "Sent items, rules and traces are deleted on compromised accounts.",
+      "signals": "Missing sent mail or altered inbox rules.",
+      "defense": "Immutable logging and out-of-band forensics.",
+      "url": "https://spamcrackers.com/intelligence/bec/#BEC-CO-03"
+    },
+    {
+      "id": "BEC-CO-04",
+      "pillar": "BEC",
+      "phase": "BEC-CO",
+      "name": "Continued impersonation",
+      "description": "Reassurance is used to stall discovery while funds clear.",
+      "signals": "Repeated claims that a payment is “processing”.",
+      "defense": "Independent confirmation with the real counterparty.",
+      "url": "https://spamcrackers.com/intelligence/bec/#BEC-CO-04"
+    },
+    {
+      "id": "BEC-EN-01",
+      "pillar": "BEC",
+      "phase": "BEC-EN",
+      "name": "Executive request",
+      "description": "A supposed executive asks finance to act urgently and quietly.",
+      "signals": "An unusual executive payment request combining urgency and secrecy.",
+      "defense": "Mandatory independent verification for executive payment requests.",
+      "url": "https://spamcrackers.com/intelligence/bec/#BEC-EN-01"
+    },
+    {
+      "id": "BEC-EN-02",
+      "pillar": "BEC",
+      "phase": "BEC-EN",
+      "name": "Vendor bank-change request",
+      "description": "A supposed supplier updates their payment details.",
+      "signals": "A banking-detail change requested over email.",
+      "defense": "Verify every change via a previously-known phone number.",
+      "url": "https://spamcrackers.com/intelligence/bec/#BEC-EN-02"
+    },
+    {
+      "id": "BEC-EN-03",
+      "pillar": "BEC",
+      "phase": "BEC-EN",
+      "name": "Fraudulent invoice submission",
+      "description": "A fake or altered invoice is introduced into the process.",
+      "signals": "A new payee, altered account or mismatched totals.",
+      "defense": "Three-way match and payee allow-lists.",
+      "url": "https://spamcrackers.com/intelligence/bec/#BEC-EN-03"
+    },
+    {
+      "id": "BEC-EN-04",
+      "pillar": "BEC",
+      "phase": "BEC-EN",
+      "name": "Thread insertion",
+      "description": "The request is placed inside a genuine ongoing conversation.",
+      "signals": "A banking change appearing mid a real thread.",
+      "defense": "Re-verify any change regardless of the thread it arrives in.",
+      "url": "https://spamcrackers.com/intelligence/bec/#BEC-EN-04"
+    },
+    {
+      "id": "BEC-EN-05",
+      "pillar": "BEC",
+      "phase": "BEC-EN",
+      "name": "Confidentiality framing",
+      "description": "“Keep this between us” is used to block a second opinion.",
+      "signals": "Requests for secrecy around a payment.",
+      "defense": "Policy that no legitimate payment ever requires secrecy.",
+      "url": "https://spamcrackers.com/intelligence/bec/#BEC-EN-05"
+    },
+    {
+      "id": "BEC-EX-01",
+      "pillar": "BEC",
+      "phase": "BEC-EX",
+      "name": "Wire-transfer instruction",
+      "description": "A direct instruction to send funds to a specified account.",
+      "signals": "A first-time payee, urgency and a changed process.",
+      "defense": "Dual authorisation and callback verification for transfers.",
+      "url": "https://spamcrackers.com/intelligence/bec/#BEC-EX-01"
+    },
+    {
+      "id": "BEC-EX-02",
+      "pillar": "BEC",
+      "phase": "BEC-EX",
+      "name": "Banking-detail alteration",
+      "description": "Account numbers on a real payment are changed.",
+      "signals": "Last-minute account changes before a payment run.",
+      "defense": "Verify all changes out-of-band; lock vendor bank data.",
+      "url": "https://spamcrackers.com/intelligence/bec/#BEC-EX-02"
+    },
+    {
+      "id": "BEC-EX-03",
+      "pillar": "BEC",
+      "phase": "BEC-EX",
+      "name": "Payroll diversion",
+      "description": "An employee's direct-deposit destination is redirected.",
+      "signals": "Direct-deposit change requests arriving by email.",
+      "defense": "Authenticated self-service changes with confirmation.",
+      "url": "https://spamcrackers.com/intelligence/bec/#BEC-EX-03"
+    },
+    {
+      "id": "BEC-EX-04",
+      "pillar": "BEC",
+      "phase": "BEC-EX",
+      "name": "Gift-card request",
+      "description": "Prepaid cards are requested as an untraceable payout.",
+      "signals": "An executive asking staff to buy gift cards.",
+      "defense": "Policy banning gift-card purchases requested by email.",
+      "url": "https://spamcrackers.com/intelligence/bec/#BEC-EX-04"
+    },
+    {
+      "id": "BEC-EX-05",
+      "pillar": "BEC",
+      "phase": "BEC-EX",
+      "name": "Verification suppression",
+      "description": "Any second channel is discouraged or blocked.",
+      "signals": "Excuses for why a confirming phone call cannot happen.",
+      "defense": "Make out-of-band verification mandatory, never optional.",
+      "url": "https://spamcrackers.com/intelligence/bec/#BEC-EX-05"
+    },
+    {
+      "id": "BEC-RE-01",
+      "pillar": "BEC",
+      "phase": "BEC-RE",
+      "name": "Thread-context harvesting",
+      "description": "Existing threads are read to mimic tone and reference real context.",
+      "signals": "Messages citing accurate, non-public internal detail.",
+      "defense": "Treat anomalies as possible compromise; segment sensitive threads.",
+      "url": "https://spamcrackers.com/intelligence/bec/#BEC-RE-01"
+    },
+    {
+      "id": "BEC-RE-02",
+      "pillar": "BEC",
+      "phase": "BEC-RE",
+      "name": "Pending-payment discovery",
+      "description": "Invoices and payments in flight are located so a real one can be hijacked.",
+      "signals": "A genuine invoice quietly redirected or altered.",
+      "defense": "Verify banking details on every payment, every time.",
+      "url": "https://spamcrackers.com/intelligence/bec/#BEC-RE-02"
+    },
+    {
+      "id": "BEC-RE-03",
+      "pillar": "BEC",
+      "phase": "BEC-RE",
+      "name": "Signature & tone cloning",
+      "description": "Style, signature and disclaimers are replicated for authenticity.",
+      "signals": "A near-perfect stylistic match with a subtle address change.",
+      "defense": "Never treat tone as identity; verify out-of-band.",
+      "url": "https://spamcrackers.com/intelligence/bec/#BEC-RE-03"
+    },
+    {
+      "id": "BEC-RE-04",
+      "pillar": "BEC",
+      "phase": "BEC-RE",
+      "name": "Opportune-moment monitoring",
+      "description": "Travel, out-of-office or absence is awaited so requests go unchallenged.",
+      "signals": "A request timed to a known absence of the real person.",
+      "defense": "Delegation and verification norms that persist during absences.",
+      "url": "https://spamcrackers.com/intelligence/bec/#BEC-RE-04"
+    },
+    {
+      "id": "BEC-RT-01",
+      "pillar": "BEC",
+      "phase": "BEC-RT",
+      "name": "Finance-role identification",
+      "description": "Staff able to move money — accounts payable, finance, executives — are pinpointed.",
+      "signals": "Targeting or impersonation focused on payment-authorised roles.",
+      "defense": "Extra controls and training for anyone who can authorise or execute payments.",
+      "url": "https://spamcrackers.com/intelligence/bec/#BEC-RT-01"
+    },
+    {
+      "id": "BEC-RT-02",
+      "pillar": "BEC",
+      "phase": "BEC-RT",
+      "name": "Relationship mapping",
+      "description": "Trust relationships (executive-to-assistant, company-to-vendor) are mapped to make requests credible.",
+      "signals": "Impersonation exploiting one specific, known relationship.",
+      "defense": "Codified verification norms for relationship-based payment requests.",
+      "url": "https://spamcrackers.com/intelligence/bec/#BEC-RT-02"
+    },
+    {
+      "id": "BEC-RT-03",
+      "pillar": "BEC",
+      "phase": "BEC-RT",
+      "name": "Transaction-timing research",
+      "description": "Requests are aligned to genuinely expected payments or deals.",
+      "signals": "A request coinciding suspiciously with a real, pending transaction.",
+      "defense": "Dual control and out-of-band checks on every payment and change.",
+      "url": "https://spamcrackers.com/intelligence/bec/#BEC-RT-03"
+    },
+    {
+      "id": "BEC-RT-04",
+      "pillar": "BEC",
+      "phase": "BEC-RT",
+      "name": "Financial-calendar awareness",
+      "description": "Month-end, quarter-end, payroll and tax windows are chosen for pressure.",
+      "signals": "Pressure timed precisely to a financial deadline.",
+      "defense": "Heightened scrutiny during known high-risk financial windows.",
+      "url": "https://spamcrackers.com/intelligence/bec/#BEC-RT-04"
+    },
+    {
+      "id": "MAL-DL-01",
+      "pillar": "MAL",
+      "phase": "MAL-DL",
+      "name": "Attachment delivery",
+      "description": "The payload rides directly in the message as a file.",
+      "signals": "Risky file types arriving as attachments.",
+      "defense": "Attachment sandboxing and type policy at the gateway.",
+      "url": "https://spamcrackers.com/intelligence/mal/#MAL-DL-01"
+    },
+    {
+      "id": "MAL-DL-02",
+      "pillar": "MAL",
+      "phase": "MAL-DL",
+      "name": "Link to hosted payload",
+      "description": "A link leads to a download rather than carrying the file.",
+      "signals": "Links to direct downloads, especially of risky types.",
+      "defense": "URL detonation and download inspection before delivery.",
+      "url": "https://spamcrackers.com/intelligence/mal/#MAL-DL-02"
+    },
+    {
+      "id": "MAL-DL-03",
+      "pillar": "MAL",
+      "phase": "MAL-DL",
+      "name": "Cloud-service staging",
+      "description": "The file is hosted on a reputable cloud service to borrow its trust.",
+      "signals": "Payloads staged on file-sharing or cloud platforms.",
+      "defense": "Detonate cloud-hosted links; reputation is not safety.",
+      "url": "https://spamcrackers.com/intelligence/mal/#MAL-DL-03"
+    },
+    {
+      "id": "MAL-DL-04",
+      "pillar": "MAL",
+      "phase": "MAL-DL",
+      "name": "Reply-chain delivery",
+      "description": "The lure is inserted into a genuine thread to raise trust (bridges PHI-LP-05).",
+      "signals": "An unexpected attachment or link resuming a real thread.",
+      "defense": "Scan links and files even within known conversations.",
+      "url": "https://spamcrackers.com/intelligence/mal/#MAL-DL-04"
+    },
+    {
+      "id": "MAL-DL-05",
+      "pillar": "MAL",
+      "phase": "MAL-DL",
+      "name": "Malvertising redirect",
+      "description": "Delivery arrives via an advertising or redirect network to the payload.",
+      "signals": "Redirect chains terminating in a download.",
+      "defense": "Follow and detonate full redirect chains.",
+      "url": "https://spamcrackers.com/intelligence/mal/#MAL-DL-05"
+    },
+    {
+      "id": "MAL-EV-01",
+      "pillar": "MAL",
+      "phase": "MAL-EV",
+      "name": "Sandbox evasion",
+      "description": "Execution is withheld when analysis environments are detected.",
+      "signals": "Content that behaves differently for an analyser than a user.",
+      "defense": "Realistic detonation environments and delayed re-analysis.",
+      "url": "https://spamcrackers.com/intelligence/mal/#MAL-EV-01"
+    },
+    {
+      "id": "MAL-EV-02",
+      "pillar": "MAL",
+      "phase": "MAL-EV",
+      "name": "Packing & obfuscation",
+      "description": "Code is compressed or scrambled to defeat static signatures.",
+      "signals": "High-entropy or obfuscated files with little static detail.",
+      "defense": "Behavioural analysis and unpacking rather than signatures alone.",
+      "url": "https://spamcrackers.com/intelligence/mal/#MAL-EV-02"
+    },
+    {
+      "id": "MAL-EV-03",
+      "pillar": "MAL",
+      "phase": "MAL-EV",
+      "name": "Password gating",
+      "description": "An archive password in the email keeps gateway scanners out of the payload.",
+      "signals": "Mailed passwords accompanying archives.",
+      "defense": "Extract with the supplied password and inspect; flag the pattern.",
+      "url": "https://spamcrackers.com/intelligence/mal/#MAL-EV-03"
+    },
+    {
+      "id": "MAL-EV-04",
+      "pillar": "MAL",
+      "phase": "MAL-EV",
+      "name": "Geo & time gating",
+      "description": "The payload serves only to certain regions or times to dodge analysis.",
+      "signals": "Content varying by geography or hour of request.",
+      "defense": "Analyse from multiple vantage points and over time.",
+      "url": "https://spamcrackers.com/intelligence/mal/#MAL-EV-04"
+    },
+    {
+      "id": "MAL-EV-05",
+      "pillar": "MAL",
+      "phase": "MAL-EV",
+      "name": "Benign-first staging",
+      "description": "Early stages appear harmless; capability is fetched only later.",
+      "signals": "Innocuous droppers with delayed network activity.",
+      "defense": "Egress monitoring and staged-behaviour detection.",
+      "url": "https://spamcrackers.com/intelligence/mal/#MAL-EV-05"
+    },
+    {
+      "id": "MAL-EX-01",
+      "pillar": "MAL",
+      "phase": "MAL-EX",
+      "name": "Macro execution",
+      "description": "Enabled macros run the fetch-and-execute logic.",
+      "signals": "Documents spawning script interpreters or network calls.",
+      "defense": "Block internet-macro execution; monitor office-to-child processes.",
+      "url": "https://spamcrackers.com/intelligence/mal/#MAL-EX-01"
+    },
+    {
+      "id": "MAL-EX-02",
+      "pillar": "MAL",
+      "phase": "MAL-EX",
+      "name": "Script-host execution",
+      "description": "A shortcut or script triggers an interpreter to run the payload.",
+      "signals": "Script hosts launched from mail-delivered files.",
+      "defense": "Constrain or disable script hosts; application control.",
+      "url": "https://spamcrackers.com/intelligence/mal/#MAL-EX-02"
+    },
+    {
+      "id": "MAL-EX-03",
+      "pillar": "MAL",
+      "phase": "MAL-EX",
+      "name": "Document exploit",
+      "description": "A viewer vulnerability runs code without user action.",
+      "signals": "Crafted documents targeting known viewer flaws.",
+      "defense": "Timely patching and exploit-mitigation controls.",
+      "url": "https://spamcrackers.com/intelligence/mal/#MAL-EX-03"
+    },
+    {
+      "id": "MAL-EX-04",
+      "pillar": "MAL",
+      "phase": "MAL-EX",
+      "name": "User-run persuasion",
+      "description": "Social engineering convinces the user to run the file themselves.",
+      "signals": "Instructions coaching the user to open or enable.",
+      "defense": "User awareness plus application allow-listing.",
+      "url": "https://spamcrackers.com/intelligence/mal/#MAL-EX-04"
+    },
+    {
+      "id": "MAL-EX-05",
+      "pillar": "MAL",
+      "phase": "MAL-EX",
+      "name": "Living-off-the-land",
+      "description": "Trusted system binaries are abused to execute or fetch the payload.",
+      "signals": "Unusual use of legitimate system tools.",
+      "defense": "Behavioural detection of anomalous native-tool use.",
+      "url": "https://spamcrackers.com/intelligence/mal/#MAL-EX-05"
+    },
+    {
+      "id": "MAL-IN-01",
+      "pillar": "MAL",
+      "phase": "MAL-IN",
+      "name": "Dropper / loader stage",
+      "description": "A first stage installs and launches the main payload.",
+      "signals": "Small executables fetching larger second stages.",
+      "defense": "Endpoint detection and egress controls on new processes.",
+      "url": "https://spamcrackers.com/intelligence/mal/#MAL-IN-01"
+    },
+    {
+      "id": "MAL-IN-02",
+      "pillar": "MAL",
+      "phase": "MAL-IN",
+      "name": "Autostart persistence",
+      "description": "Registry keys or scheduled tasks re-launch the payload after reboot.",
+      "signals": "New autostart entries or scheduled tasks.",
+      "defense": "Monitor persistence locations; baseline autostart state.",
+      "url": "https://spamcrackers.com/intelligence/mal/#MAL-IN-02"
+    },
+    {
+      "id": "MAL-IN-03",
+      "pillar": "MAL",
+      "phase": "MAL-IN",
+      "name": "DLL side-loading",
+      "description": "A trusted application is made to load a malicious library.",
+      "signals": "Legitimate binaries loading unexpected libraries.",
+      "defense": "Application control and library-load monitoring.",
+      "url": "https://spamcrackers.com/intelligence/mal/#MAL-IN-03"
+    },
+    {
+      "id": "MAL-IN-04",
+      "pillar": "MAL",
+      "phase": "MAL-IN",
+      "name": "Defence tampering",
+      "description": "Security tooling is disabled or blinded to protect the foothold.",
+      "signals": "Attempts to stop or exclude security agents.",
+      "defense": "Tamper protection and independent, off-host alerting.",
+      "url": "https://spamcrackers.com/intelligence/mal/#MAL-IN-04"
+    },
+    {
+      "id": "MAL-OB-01",
+      "pillar": "MAL",
+      "phase": "MAL-OB",
+      "name": "Data theft",
+      "description": "Credentials, cookies, files and secrets are exfiltrated.",
+      "signals": "Bulk data access and unusual outbound transfer.",
+      "defense": "Data-loss prevention and egress anomaly detection.",
+      "url": "https://spamcrackers.com/intelligence/mal/#MAL-OB-01"
+    },
+    {
+      "id": "MAL-OB-02",
+      "pillar": "MAL",
+      "phase": "MAL-OB",
+      "name": "Ransomware impact",
+      "description": "Data is encrypted or stolen for extortion.",
+      "signals": "Mass file changes and shadow-copy deletion.",
+      "defense": "Tested backups, segmentation and rapid isolation.",
+      "url": "https://spamcrackers.com/intelligence/mal/#MAL-OB-02"
+    },
+    {
+      "id": "MAL-OB-03",
+      "pillar": "MAL",
+      "phase": "MAL-OB",
+      "name": "Remote control",
+      "description": "An operator gains interactive command of the host.",
+      "signals": "Command-and-control beacons and remote sessions.",
+      "defense": "Network detection and command-and-control blocking.",
+      "url": "https://spamcrackers.com/intelligence/mal/#MAL-OB-03"
+    },
+    {
+      "id": "MAL-OB-04",
+      "pillar": "MAL",
+      "phase": "MAL-OB",
+      "name": "Lateral movement",
+      "description": "The foothold is used to reach further systems.",
+      "signals": "Internal reconnaissance and credential reuse.",
+      "defense": "Segmentation, least privilege and identity monitoring.",
+      "url": "https://spamcrackers.com/intelligence/mal/#MAL-OB-04"
+    },
+    {
+      "id": "MAL-OB-05",
+      "pillar": "MAL",
+      "phase": "MAL-OB",
+      "name": "Onward propagation",
+      "description": "The host is used to send further malicious mail (bridges SPM-IA-02).",
+      "signals": "Outbound malware or spam from the compromised host.",
+      "defense": "Outbound filtering and rapid containment.",
+      "url": "https://spamcrackers.com/intelligence/mal/#MAL-OB-05"
+    },
+    {
+      "id": "MAL-PK-01",
+      "pillar": "MAL",
+      "phase": "MAL-PK",
+      "name": "Direct executable attachment",
+      "description": "An executable is attached, often disguised by icon or double extension.",
+      "signals": "Executable or double-extension files attached to mail.",
+      "defense": "Block executable attachment types at the gateway by policy.",
+      "url": "https://spamcrackers.com/intelligence/mal/#MAL-PK-01"
+    },
+    {
+      "id": "MAL-PK-02",
+      "pillar": "MAL",
+      "phase": "MAL-PK",
+      "name": "Macro-enabled document",
+      "description": "An office document carries macros that fetch or run the payload when enabled.",
+      "signals": "Macro-enabled formats prompting the user to enable content.",
+      "defense": "Disable macros from the internet by policy; sandbox documents.",
+      "url": "https://spamcrackers.com/intelligence/mal/#MAL-PK-02"
+    },
+    {
+      "id": "MAL-PK-03",
+      "pillar": "MAL",
+      "phase": "MAL-PK",
+      "name": "Shortcut & script files",
+      "description": "LNK shortcuts or script files (JS, HTA, VBS) invoke an interpreter to run code.",
+      "signals": "Shortcut or scripting file types delivered by mail.",
+      "defense": "Restrict script hosts and block risky file types.",
+      "url": "https://spamcrackers.com/intelligence/mal/#MAL-PK-03"
+    },
+    {
+      "id": "MAL-PK-04",
+      "pillar": "MAL",
+      "phase": "MAL-PK",
+      "name": "HTML smuggling package",
+      "description": "A benign-looking HTML file assembles the payload in the browser to bypass gateways.",
+      "signals": "HTML attachments that build a download client-side.",
+      "defense": "Render attachments in a sandbox; restrict HTML attachments.",
+      "url": "https://spamcrackers.com/intelligence/mal/#MAL-PK-04"
+    },
+    {
+      "id": "MAL-PK-05",
+      "pillar": "MAL",
+      "phase": "MAL-PK",
+      "name": "Password-protected archive",
+      "description": "The payload is placed in an archive whose password is given in the email body, keeping scanners out.",
+      "signals": "An archive with the password supplied in the message.",
+      "defense": "Inspect archive contents; treat mailed archive passwords as a red flag.",
+      "url": "https://spamcrackers.com/intelligence/mal/#MAL-PK-05"
+    },
+    {
+      "id": "SCM-CO-01",
+      "pillar": "SCM",
+      "phase": "SCM-CO",
+      "name": "Mule networks",
+      "description": "Funds pass through recruited intermediaries.",
+      "signals": "Payments routed via unrelated personal accounts.",
+      "defense": "Beneficiary screening and rapid recall procedures.",
+      "url": "https://spamcrackers.com/intelligence/scam/#SCM-CO-01"
+    },
+    {
+      "id": "SCM-CO-02",
+      "pillar": "SCM",
+      "phase": "SCM-CO",
+      "name": "Crypto laundering",
+      "description": "Cryptocurrency is layered to obscure the trail.",
+      "signals": "Rapid movement across wallets and mixers.",
+      "defense": "On-chain analytics and fast reporting.",
+      "url": "https://spamcrackers.com/intelligence/scam/#SCM-CO-02"
+    },
+    {
+      "id": "SCM-CO-03",
+      "pillar": "SCM",
+      "phase": "SCM-CO",
+      "name": "Identity churn",
+      "description": "Personas, addresses and accounts are cycled to evade blocks.",
+      "signals": "Recurring scripts from ever-changing identities.",
+      "defense": "Cluster campaigns by template and behaviour, not identity.",
+      "url": "https://spamcrackers.com/intelligence/scam/#SCM-CO-03"
+    },
+    {
+      "id": "SCM-ES-01",
+      "pillar": "SCM",
+      "phase": "SCM-ES",
+      "name": "Rising fees",
+      "description": "New obstacles justify ever-larger payments.",
+      "signals": "A sequence of growing 'final' fees.",
+      "defense": "Recognise the sunk-cost trap; stop and report.",
+      "url": "https://spamcrackers.com/intelligence/scam/#SCM-ES-01"
+    },
+    {
+      "id": "SCM-ES-02",
+      "pillar": "SCM",
+      "phase": "SCM-ES",
+      "name": "Sunk-cost pressure",
+      "description": "Prior losses are used to push further payment.",
+      "signals": "Appeals to protect what was already paid.",
+      "defense": "Past loss never justifies new payment.",
+      "url": "https://spamcrackers.com/intelligence/scam/#SCM-ES-02"
+    },
+    {
+      "id": "SCM-ES-03",
+      "pillar": "SCM",
+      "phase": "SCM-ES",
+      "name": "Reload targeting",
+      "description": "A prior victim is re-approached, sometimes as a fake 'recovery' service.",
+      "signals": "Follow-up offers to recover lost funds — for a fee.",
+      "defense": "Treat unsolicited recovery offers as second-stage fraud.",
+      "url": "https://spamcrackers.com/intelligence/scam/#SCM-ES-03"
+    },
+    {
+      "id": "SCM-ES-04",
+      "pillar": "SCM",
+      "phase": "SCM-ES",
+      "name": "Mule recruitment",
+      "description": "The victim is enlisted to move others' stolen funds.",
+      "signals": "Requests to receive and forward money.",
+      "defense": "Awareness that money-handling requests enable laundering.",
+      "url": "https://spamcrackers.com/intelligence/scam/#SCM-ES-04"
+    },
+    {
+      "id": "SCM-EX-01",
+      "pillar": "SCM",
+      "phase": "SCM-EX",
+      "name": "Advance-fee demand",
+      "description": "Fees or taxes are required before the promised payout.",
+      "signals": "Payment demanded to release a larger sum.",
+      "defense": "No legitimate payout requires an upfront fee.",
+      "url": "https://spamcrackers.com/intelligence/scam/#SCM-EX-01"
+    },
+    {
+      "id": "SCM-EX-02",
+      "pillar": "SCM",
+      "phase": "SCM-EX",
+      "name": "Payment-detail capture",
+      "description": "Bank or card details are solicited directly.",
+      "signals": "Requests for full card or banking data by email.",
+      "defense": "Never share payment details via unsolicited mail.",
+      "url": "https://spamcrackers.com/intelligence/scam/#SCM-EX-02"
+    },
+    {
+      "id": "SCM-EX-03",
+      "pillar": "SCM",
+      "phase": "SCM-EX",
+      "name": "Crypto transfer",
+      "description": "Irreversible cryptocurrency payment is requested.",
+      "signals": "Wallet addresses and urgency to transfer.",
+      "defense": "Treat crypto demands as a strong fraud indicator.",
+      "url": "https://spamcrackers.com/intelligence/scam/#SCM-EX-03"
+    },
+    {
+      "id": "SCM-EX-04",
+      "pillar": "SCM",
+      "phase": "SCM-EX",
+      "name": "Gift-card demand",
+      "description": "Prepaid card codes are requested as payment.",
+      "signals": "Requests to buy cards and share codes.",
+      "defense": "No legitimate body is paid in gift cards.",
+      "url": "https://spamcrackers.com/intelligence/scam/#SCM-EX-04"
+    },
+    {
+      "id": "SCM-EX-05",
+      "pillar": "SCM",
+      "phase": "SCM-EX",
+      "name": "Data harvest",
+      "description": "Identity or account data is collected for later fraud.",
+      "signals": "Requests for identity documents or credentials.",
+      "defense": "Minimise data sharing; verify the requester.",
+      "url": "https://spamcrackers.com/intelligence/scam/#SCM-EX-05"
+    },
+    {
+      "id": "SCM-HK-01",
+      "pillar": "SCM",
+      "phase": "SCM-HK",
+      "name": "Windfall claim",
+      "description": "An unexpected prize, inheritance or refund is dangled.",
+      "signals": "Notification of winnings the recipient never entered.",
+      "defense": "Treat unsolicited windfalls as fraud by default.",
+      "url": "https://spamcrackers.com/intelligence/scam/#SCM-HK-01"
+    },
+    {
+      "id": "SCM-HK-02",
+      "pillar": "SCM",
+      "phase": "SCM-HK",
+      "name": "Romance opener",
+      "description": "A friendly or affectionate first contact begins a relationship con.",
+      "signals": "Unsolicited personal approaches steering off-platform.",
+      "defense": "Awareness of romance-fraud patterns; verify identities.",
+      "url": "https://spamcrackers.com/intelligence/scam/#SCM-HK-02"
+    },
+    {
+      "id": "SCM-HK-03",
+      "pillar": "SCM",
+      "phase": "SCM-HK",
+      "name": "Investment pitch",
+      "description": "A high-return scheme or platform is offered.",
+      "signals": "Guaranteed or outsized returns with urgency.",
+      "defense": "Independent verification of any investment solicitation.",
+      "url": "https://spamcrackers.com/intelligence/scam/#SCM-HK-03"
+    },
+    {
+      "id": "SCM-HK-04",
+      "pillar": "SCM",
+      "phase": "SCM-HK",
+      "name": "Job / task offer",
+      "description": "An easy, well-paid role is offered, often as a mule funnel.",
+      "signals": "Unsolicited offers involving receiving or forwarding money.",
+      "defense": "Verify employers; flag money-handling 'jobs'.",
+      "url": "https://spamcrackers.com/intelligence/scam/#SCM-HK-04"
+    },
+    {
+      "id": "SCM-HK-05",
+      "pillar": "SCM",
+      "phase": "SCM-HK",
+      "name": "Threat / extortion",
+      "description": "Fear is used — claimed compromise, debt or legal action.",
+      "signals": "Payment demands under threat, often to crypto.",
+      "defense": "Recognise extortion templates; never pay, report.",
+      "url": "https://spamcrackers.com/intelligence/scam/#SCM-HK-05"
+    },
+    {
+      "id": "SCM-LB-01",
+      "pillar": "SCM",
+      "phase": "SCM-LB",
+      "name": "Mass blast",
+      "description": "A generic lure is sent at high volume to unfiltered recipients.",
+      "signals": "Identical or lightly-varied mail across many unrelated inboxes.",
+      "defense": "Bulk-pattern detection and sender reputation.",
+      "url": "https://spamcrackers.com/intelligence/scam/#SCM-LB-01"
+    },
+    {
+      "id": "SCM-LB-02",
+      "pillar": "SCM",
+      "phase": "SCM-LB",
+      "name": "Targeted list",
+      "description": "A list tied to a theme (investors, jobseekers) is used for relevance.",
+      "signals": "Lures aligned to a specific audience or interest.",
+      "defense": "Context-aware filtering and user awareness for at-risk groups.",
+      "url": "https://spamcrackers.com/intelligence/scam/#SCM-LB-02"
+    },
+    {
+      "id": "SCM-LB-03",
+      "pillar": "SCM",
+      "phase": "SCM-LB",
+      "name": "Topical & seasonal",
+      "description": "Current events, holidays or disasters are used to raise plausibility.",
+      "signals": "A lure closely tracking a news event or season.",
+      "defense": "Heightened scrutiny of event-themed solicitations.",
+      "url": "https://spamcrackers.com/intelligence/scam/#SCM-LB-03"
+    },
+    {
+      "id": "SCM-LB-04",
+      "pillar": "SCM",
+      "phase": "SCM-LB",
+      "name": "Authority / brand veneer",
+      "description": "A trusted institution or brand is invoked to open the door.",
+      "signals": "Institutional branding paired with an unofficial sender.",
+      "defense": "Brand-to-sender consistency checks.",
+      "url": "https://spamcrackers.com/intelligence/scam/#SCM-LB-04"
+    },
+    {
+      "id": "SCM-TR-01",
+      "pillar": "SCM",
+      "phase": "SCM-TR",
+      "name": "Channel migration",
+      "description": "The victim is moved to a private channel away from oversight.",
+      "signals": "Early pressure to move to chat or personal email.",
+      "defense": "Awareness that off-platform moves reduce protection.",
+      "url": "https://spamcrackers.com/intelligence/scam/#SCM-TR-01"
+    },
+    {
+      "id": "SCM-TR-02",
+      "pillar": "SCM",
+      "phase": "SCM-TR",
+      "name": "Fabricated proof",
+      "description": "Fake documents, screenshots or credentials are shown.",
+      "signals": "Unverifiable 'evidence' supporting the story.",
+      "defense": "Independently verify any document or claim.",
+      "url": "https://spamcrackers.com/intelligence/scam/#SCM-TR-02"
+    },
+    {
+      "id": "SCM-TR-03",
+      "pillar": "SCM",
+      "phase": "SCM-TR",
+      "name": "Small reciprocity",
+      "description": "A tiny gift or early 'return' builds false confidence.",
+      "signals": "A small payout preceding a larger request.",
+      "defense": "Recognise reciprocity as a manipulation lever.",
+      "url": "https://spamcrackers.com/intelligence/scam/#SCM-TR-03"
+    },
+    {
+      "id": "SCM-TR-04",
+      "pillar": "SCM",
+      "phase": "SCM-TR",
+      "name": "Urgency & scarcity",
+      "description": "A closing window pressures fast, unconsidered action.",
+      "signals": "Deadlines attached to money movement.",
+      "defense": "Slow down; legitimate opportunities survive verification.",
+      "url": "https://spamcrackers.com/intelligence/scam/#SCM-TR-04"
+    },
+    {
+      "id": "SPO-AU-01",
+      "pillar": "SPO",
+      "phase": "SPO-AU",
+      "name": "Missing-SPF exploitation",
+      "description": "A domain without SPF offers no policy to fail against.",
+      "signals": "Forged mail from domains publishing no SPF.",
+      "defense": "Publish SPF ending in -all. (See the SpamCrackers Standard.)",
+      "url": "https://spamcrackers.com/intelligence/spoofing/#SPO-AU-01"
+    },
+    {
+      "id": "SPO-AU-02",
+      "pillar": "SPO",
+      "phase": "SPO-AU",
+      "name": "Missing-DKIM exploitation",
+      "description": "Without DKIM, receivers cannot verify a signature.",
+      "signals": "Unsigned mail claiming a brand identity.",
+      "defense": "Enable DKIM signing and publish the key.",
+      "url": "https://spamcrackers.com/intelligence/spoofing/#SPO-AU-02"
+    },
+    {
+      "id": "SPO-AU-03",
+      "pillar": "SPO",
+      "phase": "SPO-AU",
+      "name": "DMARC-none exploitation",
+      "description": "A monitoring-only policy tells receivers to block nothing.",
+      "signals": "Spoofed mail passing because DMARC is p=none.",
+      "defense": "Enforce DMARC at quarantine, then reject.",
+      "url": "https://spamcrackers.com/intelligence/spoofing/#SPO-AU-03"
+    },
+    {
+      "id": "SPO-AU-04",
+      "pillar": "SPO",
+      "phase": "SPO-AU",
+      "name": "Alignment gaps",
+      "description": "Authentication passes for a domain other than the visible From.",
+      "signals": "SPF or DKIM aligned to an unrelated domain.",
+      "defense": "Require DMARC alignment, not just an SPF or DKIM pass.",
+      "url": "https://spamcrackers.com/intelligence/spoofing/#SPO-AU-04"
+    },
+    {
+      "id": "SPO-AU-05",
+      "pillar": "SPO",
+      "phase": "SPO-AU",
+      "name": "Forwarder-gap abuse",
+      "description": "Legitimate forwarding that breaks SPF is exploited to slip spoofed mail.",
+      "signals": "Spoofed mail arriving via forwarding paths.",
+      "defense": "Use DKIM and ARC; account for forwarding in policy.",
+      "url": "https://spamcrackers.com/intelligence/spoofing/#SPO-AU-05"
+    },
+    {
+      "id": "SPO-BR-01",
+      "pillar": "SPO",
+      "phase": "SPO-BR",
+      "name": "Logo & layout cloning",
+      "description": "Brand assets and layout are reproduced to appear genuine.",
+      "signals": "Brand assets paired with a mismatched sender.",
+      "defense": "Brand-to-sender consistency and logo detection.",
+      "url": "https://spamcrackers.com/intelligence/spoofing/#SPO-BR-01"
+    },
+    {
+      "id": "SPO-BR-02",
+      "pillar": "SPO",
+      "phase": "SPO-BR",
+      "name": "Trust-seal misuse",
+      "description": "Security badges or seals are shown to imply legitimacy.",
+      "signals": "Trust imagery on an unauthenticated message.",
+      "defense": "Treat in-message seals as decoration, not proof.",
+      "url": "https://spamcrackers.com/intelligence/spoofing/#SPO-BR-02"
+    },
+    {
+      "id": "SPO-BR-03",
+      "pillar": "SPO",
+      "phase": "SPO-BR",
+      "name": "TLS-for-trust",
+      "description": "A valid certificate on a fake domain lends a false sense of safety.",
+      "signals": "A padlock on a lookalike or new domain.",
+      "defense": "TLS is encryption, not identity; check the domain.",
+      "url": "https://spamcrackers.com/intelligence/spoofing/#SPO-BR-03"
+    },
+    {
+      "id": "SPO-BR-04",
+      "pillar": "SPO",
+      "phase": "SPO-BR",
+      "name": "Trusted-service abuse",
+      "description": "A genuinely reputable platform is used to relay the impersonation.",
+      "signals": "Impersonation relayed through a trusted service.",
+      "defense": "Inspect content and intent, not only the relay's reputation.",
+      "url": "https://spamcrackers.com/intelligence/spoofing/#SPO-BR-04"
+    },
+    {
+      "id": "SPO-DL-01",
+      "pillar": "SPO",
+      "phase": "SPO-DL",
+      "name": "Reputation borrowing",
+      "description": "Established infrastructure or services carry the forged mail.",
+      "signals": "Impersonation from otherwise-reputable sources.",
+      "defense": "Reputation plus alignment, not reputation alone.",
+      "url": "https://spamcrackers.com/intelligence/spoofing/#SPO-DL-01"
+    },
+    {
+      "id": "SPO-DL-02",
+      "pillar": "SPO",
+      "phase": "SPO-DL",
+      "name": "Mixed-legitimacy content",
+      "description": "Real links and text surround the forged intent to appear benign.",
+      "signals": "Mostly-legitimate content with a single forged element.",
+      "defense": "Evaluate the whole message and its authentication.",
+      "url": "https://spamcrackers.com/intelligence/spoofing/#SPO-DL-02"
+    },
+    {
+      "id": "SPO-DL-03",
+      "pillar": "SPO",
+      "phase": "SPO-DL",
+      "name": "Selective targeting",
+      "description": "Only chosen recipients receive the forged mail to limit exposure.",
+      "signals": "Narrow, low-volume impersonation runs.",
+      "defense": "Cross-tenant intelligence sharing and DMARC reporting.",
+      "url": "https://spamcrackers.com/intelligence/spoofing/#SPO-DL-03"
+    },
+    {
+      "id": "SPO-DP-01",
+      "pillar": "SPO",
+      "phase": "SPO-DP",
+      "name": "Lookalike registration",
+      "description": "A cousin domain is registered to resemble a trusted one (bridges SPM-ID-02).",
+      "signals": "Recently registered homoglyph or typo domains of a brand.",
+      "defense": "Lookalike and brand monitoring; defensive registrations.",
+      "url": "https://spamcrackers.com/intelligence/spoofing/#SPO-DP-01"
+    },
+    {
+      "id": "SPO-DP-02",
+      "pillar": "SPO",
+      "phase": "SPO-DP",
+      "name": "Homoglyph / IDN abuse",
+      "description": "Internationalised or look-alike characters imitate familiar letters.",
+      "signals": "Non-ASCII characters imitating a known domain.",
+      "defense": "Homoglyph normalisation and IDN display policies.",
+      "url": "https://spamcrackers.com/intelligence/spoofing/#SPO-DP-02"
+    },
+    {
+      "id": "SPO-DP-03",
+      "pillar": "SPO",
+      "phase": "SPO-DP",
+      "name": "Subdomain & dangling abuse",
+      "description": "A dormant subdomain or dangling DNS record is taken over to send.",
+      "signals": "Authenticated mail from long-inactive subdomains.",
+      "defense": "DNS hygiene; retire dangling records; DMARC visibility.",
+      "url": "https://spamcrackers.com/intelligence/spoofing/#SPO-DP-03"
+    },
+    {
+      "id": "SPO-DP-04",
+      "pillar": "SPO",
+      "phase": "SPO-DP",
+      "name": "New-domain impersonation",
+      "description": "A freshly registered domain poses as an established identity.",
+      "signals": "Very low domain age paired with a trusted-brand pretext.",
+      "defense": "Newly-registered-domain scoring and greylisting.",
+      "url": "https://spamcrackers.com/intelligence/spoofing/#SPO-DP-04"
+    },
+    {
+      "id": "SPO-HD-01",
+      "pillar": "SPO",
+      "phase": "SPO-HD",
+      "name": "Header-from spoofing",
+      "description": "The visible From header is forged to a trusted address.",
+      "signals": "From address failing authentication or alignment.",
+      "defense": "Enforce DMARC; flag unauthenticated From.",
+      "url": "https://spamcrackers.com/intelligence/spoofing/#SPO-HD-01"
+    },
+    {
+      "id": "SPO-HD-02",
+      "pillar": "SPO",
+      "phase": "SPO-HD",
+      "name": "Display-name impersonation",
+      "description": "The friendly name claims a trusted identity while the address does not match.",
+      "signals": "A known name paired with an unfamiliar address.",
+      "defense": "Header analysis and external-sender warning banners.",
+      "url": "https://spamcrackers.com/intelligence/spoofing/#SPO-HD-02"
+    },
+    {
+      "id": "SPO-HD-03",
+      "pillar": "SPO",
+      "phase": "SPO-HD",
+      "name": "Reply-to redirection",
+      "description": "A different reply-to quietly steers responses to the attacker.",
+      "signals": "Reply-to diverging from the visible From.",
+      "defense": "Flag reply-to and From mismatches.",
+      "url": "https://spamcrackers.com/intelligence/spoofing/#SPO-HD-03"
+    },
+    {
+      "id": "SPO-HD-04",
+      "pillar": "SPO",
+      "phase": "SPO-HD",
+      "name": "Envelope-from spoofing",
+      "description": "The hidden return-path is forged independent of the visible From.",
+      "signals": "Return-path inconsistent with the From domain.",
+      "defense": "Evaluate envelope and header alignment together.",
+      "url": "https://spamcrackers.com/intelligence/spoofing/#SPO-HD-04"
+    },
+    {
+      "id": "SPO-OB-01",
+      "pillar": "SPO",
+      "phase": "SPO-OB",
+      "name": "Phishing enablement",
+      "description": "The forged identity makes a phishing lure credible (bridges PHI).",
+      "signals": "Impersonation paired with a credential-capture link.",
+      "defense": "Combine identity checks with URL detonation.",
+      "url": "https://spamcrackers.com/intelligence/spoofing/#SPO-OB-01"
+    },
+    {
+      "id": "SPO-OB-02",
+      "pillar": "SPO",
+      "phase": "SPO-OB",
+      "name": "BEC enablement",
+      "description": "The forged identity underpins a payment-fraud request (bridges BEC).",
+      "signals": "Impersonation of an executive or vendor around payments.",
+      "defense": "Out-of-band verification of payment requests.",
+      "url": "https://spamcrackers.com/intelligence/spoofing/#SPO-OB-02"
+    },
+    {
+      "id": "SPO-OB-03",
+      "pillar": "SPO",
+      "phase": "SPO-OB",
+      "name": "Brand damage & disinformation",
+      "description": "Impersonation is used to mislead or harm a brand's audience.",
+      "signals": "Forged communications contradicting official channels.",
+      "defense": "Public reporting channels and DMARC enforcement.",
+      "url": "https://spamcrackers.com/intelligence/spoofing/#SPO-OB-03"
+    },
+    {
+      "id": "SPO-OB-04",
+      "pillar": "SPO",
+      "phase": "SPO-OB",
+      "name": "Deliverability sabotage",
+      "description": "Spoofing a domain degrades its sending reputation.",
+      "signals": "A rise in spoofed mail harming legitimate delivery.",
+      "defense": "DMARC enforcement and reputation monitoring.",
+      "url": "https://spamcrackers.com/intelligence/spoofing/#SPO-OB-04"
+    }
+  ]
+}
