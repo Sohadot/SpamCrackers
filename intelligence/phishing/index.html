@@ -1,0 +1,1096 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Phishing Intelligence — Reference Model v1.0 | SpamCrackers</title>
+<meta name="description" content="A defensive, analytical reference model for phishing: campaign taxonomy, tactics and techniques (including AiTM and OAuth consent phishing), and an evidence model. The second pillar of Email Abuse Intelligence." />
+<link rel="canonical" href="https://spamcrackers.com/intelligence/phishing/" />
+<meta name="robots" content="index, follow, max-image-preview:large" />
+<meta name="theme-color" content="#08090D" media="(prefers-color-scheme: dark)" />
+<meta name="theme-color" content="#ECEDE8" media="(prefers-color-scheme: light)" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2308090D'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%232FE39B'/%3E%3C/svg%3E" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="SpamCrackers" />
+<meta property="og:url" content="https://spamcrackers.com/intelligence/phishing/" />
+<meta property="og:title" content="Phishing Intelligence — Reference Model v1.0" />
+<meta property="og:description" content="A defensive, analytical reference model for phishing campaigns. The second pillar of Email Abuse Intelligence." />
+<meta property="og:image" content="https://spamcrackers.com/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Phishing Intelligence — Reference Model v1.0" />
+<meta name="twitter:description" content="The phishing pillar of the Email Abuse Intelligence reference. Defensive and analytical — never operational." />
+<meta name="twitter:image" content="https://spamcrackers.com/og-image.png" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "@id": "https://spamcrackers.com/intelligence/phishing/#article",
+      "headline": "Phishing Intelligence — Reference Model v1.0",
+      "description": "A defensive, analytical reference model for phishing campaigns: taxonomy, tactics and techniques, and an indicators and evidence model. The second pillar of Email Abuse Intelligence.",
+      "url": "https://spamcrackers.com/intelligence/phishing/",
+      "isPartOf": {
+        "@id": "https://spamcrackers.com/#website"
+      },
+      "inLanguage": "en",
+      "version": "1.0",
+      "about": [
+        "phishing",
+        "credential theft",
+        "threat intelligence",
+        "email security",
+        "AiTM"
+      ],
+      "publisher": {
+        "@type": "Organization",
+        "name": "SpamCrackers",
+        "url": "https://spamcrackers.com/"
+      }
+    },
+    {
+      "@type": "DefinedTermSet",
+      "@id": "https://spamcrackers.com/intelligence/phishing/#model",
+      "name": "Email Abuse Intelligence Reference Model v1.0 — Phishing pillar",
+      "url": "https://spamcrackers.com/intelligence/phishing/",
+      "hasDefinedTerm": [
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/phishing/#PHI-RT-01",
+          "termCode": "PHI-RT-01",
+          "name": "OSINT profiling",
+          "description": "Public information is gathered to select and tailor a convincing approach to a specific person or team."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/phishing/#PHI-RT-02",
+          "termCode": "PHI-RT-02",
+          "name": "Address harvesting",
+          "description": "Valid recipient addresses are collected from leaks, scraping or guessing patterns."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/phishing/#PHI-RT-03",
+          "termCode": "PHI-RT-03",
+          "name": "Org-structure mapping",
+          "description": "Reporting lines and relationships are mapped to make impersonation credible."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/phishing/#PHI-RT-04",
+          "termCode": "PHI-RT-04",
+          "name": "Event-timed targeting",
+          "description": "Campaigns are timed to payroll runs, tax season, outages or corporate events."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/phishing/#PHI-IN-01",
+          "termCode": "PHI-IN-01",
+          "name": "Lookalike / cousin domains",
+          "description": "Domains that resemble a trusted brand by homoglyph or typo (bridges SPM-ID-02)."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/phishing/#PHI-IN-02",
+          "termCode": "PHI-IN-02",
+          "name": "Compromised legitimate hosting",
+          "description": "Landing pages are hosted on hacked but reputable websites to inherit their trust."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/phishing/#PHI-IN-03",
+          "termCode": "PHI-IN-03",
+          "name": "Newly-registered domains",
+          "description": "Domains registered shortly before use, with no reputation to lose."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/phishing/#PHI-IN-04",
+          "termCode": "PHI-IN-04",
+          "name": "Free hosting & redirectors",
+          "description": "Legitimate free platforms and open redirectors are abused to host or forward to the payload."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/phishing/#PHI-IN-05",
+          "termCode": "PHI-IN-05",
+          "name": "TLS-for-trust",
+          "description": "A valid certificate is obtained so the destination shows a padlock and looks legitimate."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/phishing/#PHI-IN-06",
+          "termCode": "PHI-IN-06",
+          "name": "Compromised sender account",
+          "description": "Messages are sent from a real, trusted mailbox that has been taken over (bridges SPM-IA-03)."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/phishing/#PHI-LP-01",
+          "termCode": "PHI-LP-01",
+          "name": "Brand impersonation",
+          "description": "Trusted brand identity, layout and tone are cloned to borrow credibility."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/phishing/#PHI-LP-02",
+          "termCode": "PHI-LP-02",
+          "name": "Authority & urgency",
+          "description": "Pressure from a claimed authority pushes fast, unconsidered action."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/phishing/#PHI-LP-03",
+          "termCode": "PHI-LP-03",
+          "name": "Account-security pretext",
+          "description": "A message claims the account is at risk and must be “verified” now."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/phishing/#PHI-LP-04",
+          "termCode": "PHI-LP-04",
+          "name": "Payment & invoice pretext",
+          "description": "Fake invoices, receipts or payment-detail changes (bridges the BEC pillar)."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/phishing/#PHI-LP-05",
+          "termCode": "PHI-LP-05",
+          "name": "Reply-chain hijacking",
+          "description": "The lure is inserted into a genuine, existing email thread to inherit its trust."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/phishing/#PHI-DE-01",
+          "termCode": "PHI-DE-01",
+          "name": "HTML smuggling",
+          "description": "The payload is assembled inside the browser from a benign-looking HTML file to bypass gateway scanning."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/phishing/#PHI-DE-02",
+          "termCode": "PHI-DE-02",
+          "name": "QR-code phishing (quishing)",
+          "description": "The link is delivered as a QR image, pushing the victim onto a less-protected personal device."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/phishing/#PHI-DE-03",
+          "termCode": "PHI-DE-03",
+          "name": "Redirect & cloaking chains",
+          "description": "Multi-hop redirection serves different content to analysers than to victims (shared with SPM-DE-01)."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/phishing/#PHI-DE-04",
+          "termCode": "PHI-DE-04",
+          "name": "Link obfuscation",
+          "description": "The true destination is hidden behind encoding or lookalike URLs."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/phishing/#PHI-DE-05",
+          "termCode": "PHI-DE-05",
+          "name": "Sandbox evasion",
+          "description": "CAPTCHA, geo or time gating makes analysers see benign content while victims see the lure."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/phishing/#PHI-CC-01",
+          "termCode": "PHI-CC-01",
+          "name": "Cloned login page",
+          "description": "A pixel-accurate fake sign-in page records whatever the victim enters."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/phishing/#PHI-CC-02",
+          "termCode": "PHI-CC-02",
+          "name": "Adversary-in-the-middle (AiTM)",
+          "description": "A live reverse proxy relays to the real site, capturing the authenticated session and defeating many MFA methods."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/phishing/#PHI-CC-03",
+          "termCode": "PHI-CC-03",
+          "name": "OAuth consent phishing",
+          "description": "The victim is tricked into granting an application permission — no password is ever needed."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/phishing/#PHI-CC-04",
+          "termCode": "PHI-CC-04",
+          "name": "OTP interception",
+          "description": "The victim is prompted to relay a one-time code in real time so the attacker can complete sign-in."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/phishing/#PHI-CC-05",
+          "termCode": "PHI-CC-05",
+          "name": "Progressive data harvesting",
+          "description": "Staged forms collect more than credentials — personal, financial or recovery data."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/phishing/#PHI-OB-01",
+          "termCode": "PHI-OB-01",
+          "name": "Account takeover",
+          "description": "Captured credentials or sessions are used to seize the account."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/phishing/#PHI-OB-02",
+          "termCode": "PHI-OB-02",
+          "name": "BEC pivot",
+          "description": "A trusted mailbox is used to run financial fraud from the inside (bridges the BEC pillar)."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/phishing/#PHI-OB-03",
+          "termCode": "PHI-OB-03",
+          "name": "Mailbox persistence",
+          "description": "Forwarding rules and OAuth tokens are planted for durable, quiet access."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/phishing/#PHI-OB-04",
+          "termCode": "PHI-OB-04",
+          "name": "Data exfiltration",
+          "description": "Mail and files are harvested from the compromised account."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/phishing/#PHI-OB-05",
+          "termCode": "PHI-OB-05",
+          "name": "Onward propagation",
+          "description": "The victim's own contacts are phished from within the trusted account."
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "SpamCrackers",
+          "item": "https://spamcrackers.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Email Abuse Intelligence",
+          "item": "https://spamcrackers.com/intelligence/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Phishing Intelligence",
+          "item": "https://spamcrackers.com/intelligence/phishing/"
+        }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+  :root{
+    --ground:#08090D; --ground-2:#0D0F15; --panel:#11141C;
+    --ink:#D9DEE6; --ink-dim:#9AA3B0; --mute:#5A6472;
+    --line:rgba(217,222,230,.10); --line-strong:rgba(217,222,230,.20);
+    --signal:#2FE39B; --noise:#FF3B6B; --amber:#F6C560; --focus:#7FE3FF;
+    --maxw:1180px; --narrow:760px;
+    --step--1:clamp(.78rem,.72rem + .3vw,.9rem);
+    --step-0:clamp(.98rem,.92rem + .3vw,1.06rem);
+    --step-1:clamp(1.2rem,1.05rem + .7vw,1.5rem);
+    --step-2:clamp(1.6rem,1.2rem + 1.8vw,2.4rem);
+    --step-3:clamp(2.2rem,1.5rem + 3.2vw,3.6rem);
+    --step-4:clamp(2.8rem,1.8rem + 5vw,5.2rem);
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,Roboto,Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,"SF Mono","SFMono-Regular",Menlo,Consolas,"Liberation Mono",monospace;
+  }
+  :root[data-theme="light"]{
+    --ground:#ECEDE8; --ground-2:#F4F5F1; --panel:#FFFFFF;
+    --ink:#0F1218; --ink-dim:#454E5B; --mute:#78828F;
+    --line:rgba(15,18,24,.12); --line-strong:rgba(15,18,24,.22);
+    --signal:#0F9E6A; --noise:#E01E52; --amber:#B77A11;
+  }
+  @media (prefers-color-scheme: light){
+    :root:not([data-theme="dark"]){
+      --ground:#ECEDE8; --ground-2:#F4F5F1; --panel:#FFFFFF;
+      --ink:#0F1218; --ink-dim:#454E5B; --mute:#78828F;
+      --line:rgba(15,18,24,.12); --line-strong:rgba(15,18,24,.22);
+      --signal:#0F9E6A; --noise:#E01E52; --amber:#B77A11;
+    }
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;scroll-padding-top:70px}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:var(--step-0);line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  ::selection{background:var(--signal);color:var(--ground)}
+  a{color:inherit;text-decoration:none}
+  :focus-visible{outline:2px solid var(--focus);outline-offset:3px;border-radius:2px}
+  .wrap{max-width:var(--maxw);margin-inline:auto;padding-inline:clamp(1.1rem,4vw,3rem)}
+  .wrap.narrow{max-width:calc(var(--narrow) + 6rem)}
+  .mono{font-family:var(--mono)}
+  code{font-family:var(--mono);font-size:.88em;color:var(--signal);background:color-mix(in srgb,var(--signal) 12%,transparent);padding:.1em .42em;border-radius:3px;word-break:break-word}
+  .ilink{color:var(--signal);border-bottom:1px solid color-mix(in srgb,var(--signal) 45%,transparent);transition:border-color .2s}
+  .ilink:hover{border-color:var(--signal)}
+  .eyebrow{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.26em;text-transform:uppercase;color:var(--signal);display:inline-flex;align-items:center;gap:.6em}
+  .eyebrow::before{content:"";width:24px;height:1px;background:var(--signal);opacity:.7}
+
+  /* id chips */
+  .idchip{font-family:var(--mono);font-size:.7rem;letter-spacing:.06em;color:var(--signal);border:1px solid color-mix(in srgb,var(--signal) 45%,var(--line));border-radius:4px;padding:.2em .5em;white-space:nowrap;background:color-mix(in srgb,var(--signal) 8%,transparent)}
+  .idchip-link{transition:background .2s}
+  .idchip-link:hover{background:color-mix(in srgb,var(--signal) 20%,transparent)}
+
+  /* top bar */
+  header.bar{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:.8rem clamp(1.1rem,4vw,3rem);font-family:var(--mono);font-size:var(--step--1);letter-spacing:.05em;backdrop-filter:blur(9px);background:color-mix(in srgb,var(--ground) 75%,transparent);border-bottom:1px solid var(--line)}
+  .brand-min{display:flex;align-items:center;gap:.55rem;font-weight:700}
+  .brand-min .dot{width:9px;height:9px;background:var(--signal);border-radius:50%;box-shadow:0 0 12px var(--signal)}
+  .brand-min .tld{color:var(--mute)}
+  .bar nav{display:flex;align-items:center;gap:clamp(.7rem,1.8vw,1.5rem);color:var(--ink-dim)}
+  .bar nav a{transition:color .2s}.bar nav a:hover{color:var(--signal)}
+  .bar .navlink{display:none}
+  @media(min-width:900px){.bar .navlink{display:inline}}
+  .themebtn{font-family:var(--mono);font-size:var(--step--1);background:transparent;border:1px solid var(--line-strong);color:var(--ink-dim);padding:.35em .7em;border-radius:2px;cursor:pointer;letter-spacing:.1em;transition:.2s}
+  .themebtn:hover{border-color:var(--signal);color:var(--signal)}
+
+  /* sections */
+  section{position:relative;padding:clamp(3.6rem,7vw,6rem) 0;border-top:1px solid var(--line)}
+  .hero{border-top:none;padding-top:clamp(7rem,13vw,10rem)}
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion: reduce){.reveal{opacity:1;transform:none;transition:none}}
+  .sec-head{max-width:64ch;margin-bottom:2.4rem}
+  .sec-head h2{font-weight:800;font-size:var(--step-2);line-height:1.05;letter-spacing:-.025em;margin-top:1rem;text-wrap:balance}
+  .sec-head .sub{margin-top:1rem;color:var(--ink-dim);max-width:60ch}
+
+  /* hero */
+  .hero h1{font-weight:800;font-size:var(--step-4);line-height:.98;letter-spacing:-.035em;margin-top:1.4rem;text-wrap:balance}
+  .hero .hl{color:var(--signal)}
+  .hero .lede{margin-top:1.8rem;font-size:var(--step-1);line-height:1.45;color:var(--ink);max-width:54ch;text-wrap:pretty}
+  .hero .lede strong{color:var(--signal);font-weight:700}
+  .meta-chips{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:2.2rem}
+  .meta-chips .chip{font-family:var(--mono);font-size:var(--step--1);border:1px solid var(--line);border-radius:99px;padding:.45em .95em;color:var(--ink-dim)}
+  .meta-chips .chip b{color:var(--mute);font-weight:400;letter-spacing:.08em;text-transform:uppercase;font-size:.82em;margin-right:.5em}
+  .meta-chips .chip.stance{border-color:color-mix(in srgb,var(--signal) 45%,var(--line));color:var(--signal)}
+  .meta-chips .chip.stance b{color:color-mix(in srgb,var(--signal) 70%,var(--ink-dim))}
+
+  /* prose */
+  .prose p{max-width:68ch;margin-bottom:1.2rem;color:var(--ink-dim)}
+  .prose p:last-child{margin-bottom:0}
+  .prose strong{color:var(--ink)}
+  .prose em{color:var(--signal);font-style:normal}
+
+  /* boundaries */
+  .bound-grid{display:grid;gap:1px;grid-template-columns:1fr;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  @media(min-width:720px){.bound-grid{grid-template-columns:1fr 1fr}}
+  .bound{background:var(--ground-2);padding:clamp(1.4rem,3vw,2.2rem)}
+  .bound-label{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.14em;text-transform:uppercase;margin-bottom:1.1rem;display:flex;align-items:center;gap:.6em}
+  .bound-label::before{content:"";width:10px;height:10px;border-radius:50%}
+  .bound-label.ok{color:var(--signal)}.bound-label.ok::before{background:var(--signal)}
+  .bound-label.no{color:var(--noise)}.bound-label.no::before{background:var(--noise)}
+  .bound ul{list-style:none;display:flex;flex-direction:column;gap:.75rem}
+  .bound li{position:relative;padding-left:1.5rem;color:var(--ink-dim);line-height:1.5}
+  .bound li b{color:var(--ink)}
+  .bound.is li::before{content:"✓";position:absolute;left:0;color:var(--signal);font-family:var(--mono)}
+  .bound.not li::before{content:"✕";position:absolute;left:0;color:var(--noise);font-family:var(--mono)}
+  .bound-note{margin-top:1.6rem;font-family:var(--mono);font-size:var(--step--1);color:var(--ink-dim);line-height:1.7;border-left:2px solid var(--signal);padding-left:1.2rem;max-width:74ch}
+  .bound-note b{color:var(--signal)}
+
+  /* pillars */
+  .pillar-grid{display:grid;gap:1px;grid-template-columns:1fr;background:var(--line);border:1px solid var(--line)}
+  @media(min-width:620px){.pillar-grid{grid-template-columns:repeat(2,1fr)}}
+  @media(min-width:960px){.pillar-grid{grid-template-columns:repeat(3,1fr)}}
+  .pillar{background:var(--ground);padding:clamp(1.4rem,2.6vw,2rem);display:flex;flex-direction:column;gap:.6rem;transition:background .3s}
+  .pillar:hover{background:var(--ground-2)}
+  .pillar-top{display:flex;align-items:center;justify-content:space-between;gap:.6rem}
+  .pill-status{font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+  .pillar.active{background:color-mix(in srgb,var(--signal) 6%,var(--ground))}
+  .pillar.active .pill-status{color:var(--signal)}
+  .pillar h3{font-size:var(--step-1);font-weight:800;letter-spacing:-.02em}
+  .pillar p{color:var(--ink-dim);font-size:var(--step--1);line-height:1.55}
+  .pillar.planned{opacity:.82}
+
+  /* cite */
+  .cite{border:1px solid var(--line);border-radius:8px;padding:clamp(1.2rem,3vw,1.8rem);background:var(--ground-2)}
+  .cite-label{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.14em;text-transform:uppercase;color:var(--signal);margin-bottom:.8rem}
+  .cite p{color:var(--ink-dim);max-width:70ch}
+
+  /* tables */
+  .ref-table{width:100%;border-collapse:collapse;font-size:var(--step--1)}
+  .ref-table th{text-align:left;font-family:var(--mono);color:var(--mute);font-weight:400;letter-spacing:.08em;text-transform:uppercase;font-size:.7rem;padding:0 1rem .7rem 0;border-bottom:1px solid var(--line-strong)}
+  .ref-table td{padding:.8rem 1rem .8rem 0;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink-dim);line-height:1.5}
+  .ref-table tr:last-child td{border-bottom:none}
+  .ref-table td.code{color:var(--signal);white-space:nowrap}
+  .ref-table td.pk{color:var(--ink);font-weight:600}
+
+  /* taxonomy */
+  .tax-grid{display:grid;gap:1.5rem;grid-template-columns:1fr}
+  @media(min-width:820px){.tax-grid{grid-template-columns:1fr 1fr}}
+  .tax-block{border:1px solid var(--line);border-radius:8px;padding:clamp(1.2rem,2.6vw,1.8rem);background:var(--ground-2)}
+  .tax-head{display:flex;align-items:center;gap:.8rem;margin-bottom:1.2rem}
+  .tax-head h3{font-size:var(--step-1);font-weight:800;letter-spacing:-.02em}
+
+  /* matrix */
+  .matrix-scroll{overflow-x:auto;padding-bottom:.6rem;-webkit-overflow-scrolling:touch}
+  .matrix{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(190px,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;min-width:960px}
+  .matrix-col{background:var(--ground);display:flex;flex-direction:column;gap:1px}
+  .matrix-head{background:var(--ground-2);padding:.9rem .8rem;display:flex;flex-direction:column;gap:.45rem;min-height:72px}
+  .matrix-head .mh-name{font-weight:700;font-size:.86rem;line-height:1.2;letter-spacing:-.01em}
+  .matrix-cell{background:var(--ground);padding:.7rem .8rem;font-size:.8rem;color:var(--ink-dim);display:flex;flex-direction:column;gap:.25rem;transition:background .2s,color .2s;border-top:1px solid var(--line)}
+  .matrix-cell:hover{background:color-mix(in srgb,var(--signal) 10%,var(--ground));color:var(--ink)}
+  .matrix-cell .cell-id{font-size:.66rem;color:var(--mute)}
+  .matrix-cell:hover .cell-id{color:var(--signal)}
+
+  /* technique detail */
+  .phase{margin-top:3rem;scroll-margin-top:76px}
+  .phase-head{display:flex;align-items:center;gap:.8rem}
+  .phase-head h3{font-size:var(--step-1);font-weight:800;letter-spacing:-.02em}
+  .phase-blurb{color:var(--ink-dim);margin:.7rem 0 1.4rem;max-width:64ch}
+  .tcards{display:grid;gap:1rem;grid-template-columns:1fr}
+  @media(min-width:720px){.tcards{grid-template-columns:1fr 1fr}}
+  .tcard{border:1px solid var(--line);border-radius:8px;padding:1.2rem 1.3rem;background:var(--ground-2);scroll-margin-top:80px;transition:border-color .3s,box-shadow .3s}
+  .tcard.flash{border-color:var(--signal);box-shadow:0 0 0 1px var(--signal),0 14px 40px -20px var(--signal)}
+  .tcard-top{display:flex;align-items:center;gap:.7rem;margin-bottom:1rem}
+  .tcard-top h4{font-size:var(--step-0);font-weight:700;letter-spacing:-.01em}
+  .tcard-body{display:grid;grid-template-columns:1fr;gap:.35rem}
+  .tcard-body dt{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin-top:.7rem}
+  .tcard-body dt:first-child{margin-top:0}
+  .tcard-body dt.def{color:var(--signal)}
+  .tcard-body dd{color:var(--ink-dim);font-size:var(--step--1);line-height:1.55}
+  .tcard-body dd.def{color:var(--ink)}
+
+  /* evidence + confidence */
+  .conf{margin-top:2.2rem;border:1px solid var(--line);border-radius:8px;padding:clamp(1.2rem,3vw,1.8rem);background:var(--ground-2)}
+  .conf-label{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.14em;text-transform:uppercase;color:var(--signal);margin-bottom:1.2rem}
+  .conf-row{display:flex;gap:1rem;align-items:baseline;padding:.6rem 0;border-bottom:1px solid var(--line)}
+  .conf-row:last-child{border-bottom:none}
+  .conf-tier{font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;padding:.25em .7em;border-radius:99px;border:1px solid currentColor;white-space:nowrap;flex-shrink:0;min-width:9ch;text-align:center}
+  .conf-tier.t0{color:var(--mute)}.conf-tier.t1{color:var(--amber)}.conf-tier.t2{color:var(--signal)}.conf-tier.t3{color:var(--signal)}
+  .conf-desc{color:var(--ink-dim);font-size:var(--step--1)}
+
+  /* library */
+  .lib-grid{display:grid;gap:1px;grid-template-columns:repeat(2,1fr);background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden;margin-bottom:2rem}
+  @media(min-width:720px){.lib-grid{grid-template-columns:repeat(4,1fr)}}
+  .lib-card{background:var(--ground-2);padding:1.6rem 1.3rem;display:flex;flex-direction:column;gap:.4rem}
+  .lib-n{font-size:var(--step-3);font-weight:800;color:var(--signal);line-height:1;font-variant-numeric:tabular-nums}
+  .lib-l{font-family:var(--mono);font-size:var(--step--1);color:var(--ink-dim);letter-spacing:.04em}
+  .lib-cta{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:2rem}
+  .btn{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.05em;padding:.9em 1.4em;border-radius:2px;cursor:pointer;border:1px solid transparent;display:inline-flex;align-items:center;gap:.6em;transition:transform .15s,box-shadow .2s,border-color .2s,color .2s;text-transform:uppercase}
+  .btn-primary{background:var(--signal);color:#04120C;font-weight:700}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 30px -10px var(--signal)}
+  .btn-ghost{background:transparent;color:var(--ink);border-color:var(--line-strong)}
+  .btn-ghost:hover{border-color:var(--signal);color:var(--signal)}
+
+  /* footer */
+  footer{border-top:1px solid var(--line);padding:2.6rem 0;font-family:var(--mono);font-size:var(--step--1);color:var(--mute)}
+  .foot-row{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;align-items:center}
+  .foot-row .sig{color:var(--signal)}
+  .foot-links{display:flex;gap:1.3rem;flex-wrap:wrap}
+  .foot-links a:hover{color:var(--signal)}
+
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <a class="brand-min" href="/"><span class="dot" aria-hidden="true"></span>SPAMCRACKERS<span class="tld">.com</span></a>
+  <nav>
+    <a class="navlink" href="/intelligence/">Intelligence</a>
+    <a class="navlink" href="#model">Reference Model</a>
+    <a class="navlink" href="#matrix">Techniques</a>
+    <a class="navlink" href="/#lab">Check a domain</a>
+    <button class="themebtn" id="themebtn" type="button" aria-label="Toggle theme">◐ THEME</button>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Email Abuse Intelligence · Pillar PHI</div>
+    <h1>Phishing Intelligence.</h1>
+    <p class="lede">How credential-theft campaigns are built — reconnaissance, identity, lure, delivery, capture and objective — described defensively so they can be recognised, evidenced and stopped. The second pillar of <a class="ilink" href="/intelligence/">Email Abuse Intelligence</a>.</p>
+    <div class="meta-chips">
+      <span class="chip"><b>Namespace</b> EAI · PHI</span>
+      <span class="chip"><b>Release</b> v1.0</span>
+      <span class="chip stance"><b>Posture</b> Defensive &amp; analytical</span>
+      <span class="chip"><b>Techniques</b> 30</span>
+    </div>
+  </div>
+</section>
+
+<section id="thesis">
+  <div class="wrap narrow">
+    <div class="sec-head reveal"><span class="eyebrow">01 · Pillar thesis</span><h2>Phishing is not a message. It is a supply chain.</h2></div>
+    <div class="prose reveal">
+      <p>A phishing email is only the visible tip. Behind it sits a chain: targets are researched, infrastructure and identity are assembled, a pretext is crafted, delivery evades analysis, credentials or sessions are captured, and access is finally exploited. Treating phishing as a single “bad email” misses every point at which it can be seen and broken.</p>
+      <p>This pillar models that chain the same way the <a class="ilink" href="/intelligence/">spam pillar</a> models bulk abuse — a shared vocabulary of tactics, techniques and evidence, each citable by a stable identifier. It captures how the modern adversary defeats defences that once worked, including real-time <em>adversary-in-the-middle</em> proxies and <em>OAuth consent</em> phishing that never asks for a password.</p>
+    </div>
+  </div>
+</section>
+
+<section id="scope">
+  <div class="wrap narrow">
+    <div class="sec-head reveal"><span class="eyebrow">02 · Scope &amp; boundaries</span><h2>Defensive by definition.</h2></div>
+    <div class="bound-grid reveal">
+      <div class="bound is">
+        <div class="bound-label ok">What this is</div>
+        <ul>
+          <li>A <b>classification and reference model</b> for understanding phishing campaigns.</li>
+          <li><b>Analytical and defensive</b> — written for defenders, responders and researchers.</li>
+          <li>Focused on <b>observable signals and countermeasures</b>.</li>
+          <li><b>Open and citable</b>, with stable identifiers.</li>
+        </ul>
+      </div>
+      <div class="bound not">
+        <div class="bound-label no">What this is not</div>
+        <ul>
+          <li><b>Not</b> a phishing kit, template or infrastructure of any kind.</li>
+          <li><b>Not</b> operational instructions for conducting phishing.</li>
+          <li><b>Not</b> a directory of targets or exploitable victims.</li>
+          <li><b>Not</b> a substitute for lawful, authorised, consented testing.</li>
+        </ul>
+      </div>
+    </div>
+    <p class="bound-note reveal">Every technique is described at the level of <b>classification and defence</b> — what it is, how it is observed, and how it is countered — in the tradition of open defensive frameworks. Techniques that lead into fraud point to the relevant pillar rather than elaborating an attack.</p>
+  </div>
+</section>
+
+<section id="model">
+  <div class="wrap narrow">
+    <div class="sec-head reveal"><span class="eyebrow">03 · Reference Model v1.0 · PHI</span><h2>A shared vocabulary for the phishing pillar.</h2>
+      <p class="sub">Three parts: a <a class="ilink" href="#taxonomy">taxonomy</a> that classifies campaigns, a <a class="ilink" href="#matrix">tactics &amp; techniques matrix</a> that describes how they operate, and a shared <a class="ilink" href="#evidence">evidence model</a>.</p></div>
+    <div class="cite reveal">
+      <div class="cite-label">How to cite</div>
+      <p>Elements carry stable identifiers in the <code>EAI</code> namespace under the phishing prefix <code>PHI</code>. Cite by code and URL — for example <code>PHI-CC-02</code> · <span class="mono">spamcrackers.com/intelligence/phishing/#PHI-CC-02</span>.</p>
+    </div>
+  </div>
+</section>
+
+<section id="taxonomy">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="eyebrow">03.1 · Phishing taxonomy</span><h2>Four axes of classification.</h2>
+      <p class="sub">A campaign is described from complementary angles — target, pretext, delivery vector and capture method.</p></div>
+    <div class="tax-grid">
+
+      <div class="tax-block reveal">
+        <div class="tax-head"><span class="idchip">PHI-TAX-A</span><h3>By target</h3></div>
+        <table class="ref-table">
+          <thead><tr><th>Code</th><th>Class</th><th>Definition</th></tr></thead>
+          <tbody>
+            <tr><td class="mono code">AA1</td><td class="pk">Mass / consumer</td><td>Untargeted, high-volume lures cast at the general public.</td></tr>
+            <tr><td class="mono code">AA2</td><td class="pk">Spear phishing</td><td>Tailored to a specific individual using researched detail.</td></tr>
+            <tr><td class="mono code">AA3</td><td class="pk">Whaling</td><td>Aimed at executives and other high-value decision-makers.</td></tr>
+            <tr><td class="mono code">AA4</td><td class="pk">Clone phishing</td><td>A copy of a genuine prior message with the link or attachment swapped.</td></tr>
+            <tr><td class="mono code">AA5</td><td class="pk">Vendor / supply-chain</td><td>Impersonating a trusted supplier or partner relationship.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tax-block reveal">
+        <div class="tax-head"><span class="idchip">PHI-TAX-B</span><h3>By pretext</h3></div>
+        <table class="ref-table">
+          <thead><tr><th>Code</th><th>Class</th><th>Definition</th></tr></thead>
+          <tbody>
+            <tr><td class="mono code">BB1</td><td class="pk">Account security</td><td>“Verify” or “secure” an account said to be at risk.</td></tr>
+            <tr><td class="mono code">BB2</td><td class="pk">Payment / invoice</td><td>Fake bills, receipts or payment-change requests.</td></tr>
+            <tr><td class="mono code">BB3</td><td class="pk">Delivery / shipping</td><td>Parcel, customs or delivery-failure notices.</td></tr>
+            <tr><td class="mono code">BB4</td><td class="pk">HR / payroll</td><td>Benefits, payslip or policy pretexts aimed at staff.</td></tr>
+            <tr><td class="mono code">BB5</td><td class="pk">IT / helpdesk</td><td>Password resets, mailbox quota or support pretexts.</td></tr>
+            <tr><td class="mono code">BB6</td><td class="pk">Document share</td><td>A shared file or signature request on a cloud service.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tax-block reveal">
+        <div class="tax-head"><span class="idchip">PHI-TAX-C</span><h3>By delivery vector</h3></div>
+        <table class="ref-table">
+          <thead><tr><th>Code</th><th>Class</th><th>Definition</th></tr></thead>
+          <tbody>
+            <tr><td class="mono code">CC1</td><td class="pk">Embedded link</td><td>A URL leading to an attacker-controlled destination.</td></tr>
+            <tr><td class="mono code">CC2</td><td class="pk">Attachment</td><td>A file that carries or assembles the lure or payload.</td></tr>
+            <tr><td class="mono code">CC3</td><td class="pk">QR code (quishing)</td><td>A link delivered as an image to pivot to a personal device.</td></tr>
+            <tr><td class="mono code">CC4</td><td class="pk">Reply-chain hijack</td><td>Insertion into a real, existing conversation thread.</td></tr>
+            <tr><td class="mono code">CC5</td><td class="pk">Malvertising / redirect</td><td>Arriving via advertising or a redirect network.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tax-block reveal">
+        <div class="tax-head"><span class="idchip">PHI-TAX-D</span><h3>By capture method</h3></div>
+        <table class="ref-table">
+          <thead><tr><th>Code</th><th>Class</th><th>Definition</th></tr></thead>
+          <tbody>
+            <tr><td class="mono code">DD1</td><td class="pk">Cloned login page</td><td>A fake sign-in page that records entered credentials.</td></tr>
+            <tr><td class="mono code">DD2</td><td class="pk">Adversary-in-the-middle</td><td>A live proxy that relays to the real site to steal the session.</td></tr>
+            <tr><td class="mono code">DD3</td><td class="pk">OAuth consent</td><td>Tricking a user into granting application permissions.</td></tr>
+            <tr><td class="mono code">DD4</td><td class="pk">OTP interception</td><td>Prompting the victim to hand over a one-time code in real time.</td></tr>
+            <tr><td class="mono code">DD5</td><td class="pk">Data-entry form</td><td>A multi-field form harvesting credentials and personal data.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="matrix">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="eyebrow">03.2 · Phishing tactics &amp; techniques</span><h2>The campaign chain, phase by phase.</h2>
+      <p class="sub">Six phases from choosing a target to exploiting the access won. Each cell is a defensively-described technique; select one to jump to its detail.</p></div>
+    <div class="matrix-scroll reveal">
+
+      <div class="matrix" role="table" aria-label="Phishing tactics and techniques matrix">
+        
+        <div class="matrix-col" role="column">
+          <div class="matrix-head"><span class="idchip">PHI-RT</span><span class="mh-name">Reconnaissance &amp; Targeting</span></div>
+          <a class="matrix-cell" href="#PHI-RT-01">OSINT profiling<span class="cell-id mono">PHI-RT-01</span></a>
+          <a class="matrix-cell" href="#PHI-RT-02">Address harvesting<span class="cell-id mono">PHI-RT-02</span></a>
+          <a class="matrix-cell" href="#PHI-RT-03">Org-structure mapping<span class="cell-id mono">PHI-RT-03</span></a>
+          <a class="matrix-cell" href="#PHI-RT-04">Event-timed targeting<span class="cell-id mono">PHI-RT-04</span></a>
+        </div>
+
+        <div class="matrix-col" role="column">
+          <div class="matrix-head"><span class="idchip">PHI-IN</span><span class="mh-name">Infrastructure &amp; Identity</span></div>
+          <a class="matrix-cell" href="#PHI-IN-01">Lookalike / cousin domains<span class="cell-id mono">PHI-IN-01</span></a>
+          <a class="matrix-cell" href="#PHI-IN-02">Compromised legitimate hosting<span class="cell-id mono">PHI-IN-02</span></a>
+          <a class="matrix-cell" href="#PHI-IN-03">Newly-registered domains<span class="cell-id mono">PHI-IN-03</span></a>
+          <a class="matrix-cell" href="#PHI-IN-04">Free hosting &amp; redirectors<span class="cell-id mono">PHI-IN-04</span></a>
+          <a class="matrix-cell" href="#PHI-IN-05">TLS-for-trust<span class="cell-id mono">PHI-IN-05</span></a>
+          <a class="matrix-cell" href="#PHI-IN-06">Compromised sender account<span class="cell-id mono">PHI-IN-06</span></a>
+        </div>
+
+        <div class="matrix-col" role="column">
+          <div class="matrix-head"><span class="idchip">PHI-LP</span><span class="mh-name">Lure &amp; Pretext</span></div>
+          <a class="matrix-cell" href="#PHI-LP-01">Brand impersonation<span class="cell-id mono">PHI-LP-01</span></a>
+          <a class="matrix-cell" href="#PHI-LP-02">Authority &amp; urgency<span class="cell-id mono">PHI-LP-02</span></a>
+          <a class="matrix-cell" href="#PHI-LP-03">Account-security pretext<span class="cell-id mono">PHI-LP-03</span></a>
+          <a class="matrix-cell" href="#PHI-LP-04">Payment &amp; invoice pretext<span class="cell-id mono">PHI-LP-04</span></a>
+          <a class="matrix-cell" href="#PHI-LP-05">Reply-chain hijacking<span class="cell-id mono">PHI-LP-05</span></a>
+        </div>
+
+        <div class="matrix-col" role="column">
+          <div class="matrix-head"><span class="idchip">PHI-DE</span><span class="mh-name">Delivery &amp; Evasion</span></div>
+          <a class="matrix-cell" href="#PHI-DE-01">HTML smuggling<span class="cell-id mono">PHI-DE-01</span></a>
+          <a class="matrix-cell" href="#PHI-DE-02">QR-code phishing (quishing)<span class="cell-id mono">PHI-DE-02</span></a>
+          <a class="matrix-cell" href="#PHI-DE-03">Redirect &amp; cloaking chains<span class="cell-id mono">PHI-DE-03</span></a>
+          <a class="matrix-cell" href="#PHI-DE-04">Link obfuscation<span class="cell-id mono">PHI-DE-04</span></a>
+          <a class="matrix-cell" href="#PHI-DE-05">Sandbox evasion<span class="cell-id mono">PHI-DE-05</span></a>
+        </div>
+
+        <div class="matrix-col" role="column">
+          <div class="matrix-head"><span class="idchip">PHI-CC</span><span class="mh-name">Credential Capture</span></div>
+          <a class="matrix-cell" href="#PHI-CC-01">Cloned login page<span class="cell-id mono">PHI-CC-01</span></a>
+          <a class="matrix-cell" href="#PHI-CC-02">Adversary-in-the-middle (AiTM)<span class="cell-id mono">PHI-CC-02</span></a>
+          <a class="matrix-cell" href="#PHI-CC-03">OAuth consent phishing<span class="cell-id mono">PHI-CC-03</span></a>
+          <a class="matrix-cell" href="#PHI-CC-04">OTP interception<span class="cell-id mono">PHI-CC-04</span></a>
+          <a class="matrix-cell" href="#PHI-CC-05">Progressive data harvesting<span class="cell-id mono">PHI-CC-05</span></a>
+        </div>
+
+        <div class="matrix-col" role="column">
+          <div class="matrix-head"><span class="idchip">PHI-OB</span><span class="mh-name">Exploitation &amp; Objective</span></div>
+          <a class="matrix-cell" href="#PHI-OB-01">Account takeover<span class="cell-id mono">PHI-OB-01</span></a>
+          <a class="matrix-cell" href="#PHI-OB-02">BEC pivot<span class="cell-id mono">PHI-OB-02</span></a>
+          <a class="matrix-cell" href="#PHI-OB-03">Mailbox persistence<span class="cell-id mono">PHI-OB-03</span></a>
+          <a class="matrix-cell" href="#PHI-OB-04">Data exfiltration<span class="cell-id mono">PHI-OB-04</span></a>
+          <a class="matrix-cell" href="#PHI-OB-05">Onward propagation<span class="cell-id mono">PHI-OB-05</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="wrap">
+
+      <div class="phase reveal" id="PHI-RT">
+        <div class="phase-head"><span class="idchip">PHI-RT</span><h3>Reconnaissance &amp; Targeting</h3></div>
+        <p class="phase-blurb">How targets, pretexts and timing are chosen before a single message is sent.</p>
+        <div class="tcards">
+          
+          <article class="tcard" id="PHI-RT-01">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#PHI-RT-01">PHI-RT-01</a><h4>OSINT profiling</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Public information is gathered to select and tailor a convincing approach to a specific person or team.</dd>
+              <dt>Observable signals</dt><dd>Lures referencing niche, publicly-available detail about the recipient or their role.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Reduce unnecessary public exposure of staff detail; brief high-risk roles.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="PHI-RT-02">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#PHI-RT-02">PHI-RT-02</a><h4>Address harvesting</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Valid recipient addresses are collected from leaks, scraping or guessing patterns.</dd>
+              <dt>Observable signals</dt><dd>Delivery to scraped, generated or rarely-used addresses.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Address aliasing, breach-exposure monitoring, catch-all hygiene.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="PHI-RT-03">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#PHI-RT-03">PHI-RT-03</a><h4>Org-structure mapping</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Reporting lines and relationships are mapped to make impersonation credible.</dd>
+              <dt>Observable signals</dt><dd>Impersonation of a specific internal role or a known supplier contact.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Establish internal verification norms for unusual requests.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="PHI-RT-04">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#PHI-RT-04">PHI-RT-04</a><h4>Event-timed targeting</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Campaigns are timed to payroll runs, tax season, outages or corporate events.</dd>
+              <dt>Observable signals</dt><dd>A lure aligned suspiciously well to a current internal or public event.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Heighten scrutiny during known high-risk windows; pre-warn staff.</dd>
+            </dl>
+          </article>
+        </div>
+      </div>
+
+      <div class="phase reveal" id="PHI-IN">
+        <div class="phase-head"><span class="idchip">PHI-IN</span><h3>Infrastructure &amp; Identity</h3></div>
+        <p class="phase-blurb">How senders build credible-looking hosting and sender identity.</p>
+        <div class="tcards">
+          
+          <article class="tcard" id="PHI-IN-01">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#PHI-IN-01">PHI-IN-01</a><h4>Lookalike / cousin domains</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Domains that resemble a trusted brand by homoglyph or typo (bridges SPM-ID-02).</dd>
+              <dt>Observable signals</dt><dd>Recently registered similar domains; brand terms in the label.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Brand and lookalike monitoring, homoglyph normalisation.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="PHI-IN-02">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#PHI-IN-02">PHI-IN-02</a><h4>Compromised legitimate hosting</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Landing pages are hosted on hacked but reputable websites to inherit their trust.</dd>
+              <dt>Observable signals</dt><dd>A login clone on an unrelated, otherwise-reputable domain path.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Destination reputation and content inspection, not domain trust alone.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="PHI-IN-03">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#PHI-IN-03">PHI-IN-03</a><h4>Newly-registered domains</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Domains registered shortly before use, with no reputation to lose.</dd>
+              <dt>Observable signals</dt><dd>Very low domain age; registrar and nameserver clustering.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Age-based scoring and short-lived greylisting for new domains.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="PHI-IN-04">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#PHI-IN-04">PHI-IN-04</a><h4>Free hosting &amp; redirectors</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Legitimate free platforms and open redirectors are abused to host or forward to the payload.</dd>
+              <dt>Observable signals</dt><dd>Final destination on free-host subdomains or via open redirects.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Expand and inspect full redirect chains to the true endpoint.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="PHI-IN-05">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#PHI-IN-05">PHI-IN-05</a><h4>TLS-for-trust</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>A valid certificate is obtained so the destination shows a padlock and looks legitimate.</dd>
+              <dt>Observable signals</dt><dd>A brand-new certificate on a lookalike or throwaway domain.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Treat TLS as encryption, not identity; monitor certificate transparency.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="PHI-IN-06">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#PHI-IN-06">PHI-IN-06</a><h4>Compromised sender account</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Messages are sent from a real, trusted mailbox that has been taken over (bridges SPM-IA-03).</dd>
+              <dt>Observable signals</dt><dd>Behavioural anomalies on an otherwise-trusted internal or partner account.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Authentication-anomaly detection, adaptive rate limits.</dd>
+            </dl>
+          </article>
+        </div>
+      </div>
+
+      <div class="phase reveal" id="PHI-LP">
+        <div class="phase-head"><span class="idchip">PHI-LP</span><h3>Lure &amp; Pretext</h3></div>
+        <p class="phase-blurb">The story engineered to earn a click or a reply.</p>
+        <div class="tcards">
+          
+          <article class="tcard" id="PHI-LP-01">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#PHI-LP-01">PHI-LP-01</a><h4>Brand impersonation</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Trusted brand identity, layout and tone are cloned to borrow credibility.</dd>
+              <dt>Observable signals</dt><dd>Brand assets paired with a mismatched or unauthenticated sender.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Brand-to-sender consistency checks, logo detection.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="PHI-LP-02">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#PHI-LP-02">PHI-LP-02</a><h4>Authority &amp; urgency</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Pressure from a claimed authority pushes fast, unconsidered action.</dd>
+              <dt>Observable signals</dt><dd>Deadline, suspension or executive-tone markers with an external link.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Verify unusual requests through a separate, trusted channel.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="PHI-LP-03">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#PHI-LP-03">PHI-LP-03</a><h4>Account-security pretext</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>A message claims the account is at risk and must be “verified” now.</dd>
+              <dt>Observable signals</dt><dd>Security-alert templates driving to an external sign-in link.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Never authenticate through emailed links; navigate directly.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="PHI-LP-04">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#PHI-LP-04">PHI-LP-04</a><h4>Payment &amp; invoice pretext</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Fake invoices, receipts or payment-detail changes (bridges the BEC pillar).</dd>
+              <dt>Observable signals</dt><dd>Invoice or banking-change requests, especially with urgency.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Out-of-band verification of any payment change.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="PHI-LP-05">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#PHI-LP-05">PHI-LP-05</a><h4>Reply-chain hijacking</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>The lure is inserted into a genuine, existing email thread to inherit its trust.</dd>
+              <dt>Observable signals</dt><dd>An unexpected reply resuming an old thread with a new link or file.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Scrutinise links and attachments even within known threads.</dd>
+            </dl>
+          </article>
+        </div>
+      </div>
+
+      <div class="phase reveal" id="PHI-DE">
+        <div class="phase-head"><span class="idchip">PHI-DE</span><h3>Delivery &amp; Evasion</h3></div>
+        <p class="phase-blurb">How the lure reaches the inbox and evades automated analysis.</p>
+        <div class="tcards">
+          
+          <article class="tcard" id="PHI-DE-01">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#PHI-DE-01">PHI-DE-01</a><h4>HTML smuggling</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>The payload is assembled inside the browser from a benign-looking HTML file to bypass gateway scanning.</dd>
+              <dt>Observable signals</dt><dd>HTML attachments that build content or downloads client-side.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Sandbox rendering, restrict risky attachment types.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="PHI-DE-02">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#PHI-DE-02">PHI-DE-02</a><h4>QR-code phishing (quishing)</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>The link is delivered as a QR image, pushing the victim onto a less-protected personal device.</dd>
+              <dt>Observable signals</dt><dd>An image-heavy message with a QR code and little text.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Extract and analyse URLs from QR images; brief staff on the tactic.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="PHI-DE-03">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#PHI-DE-03">PHI-DE-03</a><h4>Redirect &amp; cloaking chains</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Multi-hop redirection serves different content to analysers than to victims (shared with SPM-DE-01).</dd>
+              <dt>Observable signals</dt><dd>Shorteners, multi-hop redirects, geo- or user-agent-based cloaking.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Detonate URLs and follow chains from multiple vantage points.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="PHI-DE-04">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#PHI-DE-04">PHI-DE-04</a><h4>Link obfuscation</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>The true destination is hidden behind encoding or lookalike URLs.</dd>
+              <dt>Observable signals</dt><dd>Encoded URLs, or visible text that disagrees with the underlying link.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">URL normalisation, expose the real href before allowing the click.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="PHI-DE-05">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#PHI-DE-05">PHI-DE-05</a><h4>Sandbox evasion</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>CAPTCHA, geo or time gating makes analysers see benign content while victims see the lure.</dd>
+              <dt>Observable signals</dt><dd>Content that differs between an automated analyser and a real user.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Realistic detonation environments and repeat analysis over time.</dd>
+            </dl>
+          </article>
+        </div>
+      </div>
+
+      <div class="phase reveal" id="PHI-CC">
+        <div class="phase-head"><span class="idchip">PHI-CC</span><h3>Credential Capture</h3></div>
+        <p class="phase-blurb">How credentials, tokens and sessions are actually stolen.</p>
+        <div class="tcards">
+          
+          <article class="tcard" id="PHI-CC-01">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#PHI-CC-01">PHI-CC-01</a><h4>Cloned login page</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>A pixel-accurate fake sign-in page records whatever the victim enters.</dd>
+              <dt>Observable signals</dt><dd>A credential form served from a non-official domain.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Password managers withhold autofill off-domain; verify the domain.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="PHI-CC-02">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#PHI-CC-02">PHI-CC-02</a><h4>Adversary-in-the-middle (AiTM)</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>A live reverse proxy relays to the real site, capturing the authenticated session and defeating many MFA methods.</dd>
+              <dt>Observable signals</dt><dd>Reverse-proxy patterns and real-time token relay.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Phishing-resistant MFA (FIDO2/passkeys), token binding, conditional access.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="PHI-CC-03">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#PHI-CC-03">PHI-CC-03</a><h4>OAuth consent phishing</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>The victim is tricked into granting an application permission — no password is ever needed.</dd>
+              <dt>Observable signals</dt><dd>Consent prompts from unverified or over-scoped applications.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Application governance, restrict user consent, review granted scopes.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="PHI-CC-04">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#PHI-CC-04">PHI-CC-04</a><h4>OTP interception</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>The victim is prompted to relay a one-time code in real time so the attacker can complete sign-in.</dd>
+              <dt>Observable signals</dt><dd>A page requesting an OTP immediately after a password.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Phishing-resistant MFA; educate users never to relay codes.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="PHI-CC-05">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#PHI-CC-05">PHI-CC-05</a><h4>Progressive data harvesting</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Staged forms collect more than credentials — personal, financial or recovery data.</dd>
+              <dt>Observable signals</dt><dd>Multi-step forms requesting escalating personal information.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Detect multi-step credential-and-data form flows.</dd>
+            </dl>
+          </article>
+        </div>
+      </div>
+
+      <div class="phase reveal" id="PHI-OB">
+        <div class="phase-head"><span class="idchip">PHI-OB</span><h3>Exploitation &amp; Objective</h3></div>
+        <p class="phase-blurb">What the stolen access is ultimately used for.</p>
+        <div class="tcards">
+          
+          <article class="tcard" id="PHI-OB-01">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#PHI-OB-01">PHI-OB-01</a><h4>Account takeover</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Captured credentials or sessions are used to seize the account.</dd>
+              <dt>Observable signals</dt><dd>Anomalous logins shortly after a campaign.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Session revocation, conditional access, impossible-travel detection.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="PHI-OB-02">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#PHI-OB-02">PHI-OB-02</a><h4>BEC pivot</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>A trusted mailbox is used to run financial fraud from the inside (bridges the BEC pillar).</dd>
+              <dt>Observable signals</dt><dd>Internal payment or vendor requests from a genuine account.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Out-of-band verification of payment and vendor changes.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="PHI-OB-03">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#PHI-OB-03">PHI-OB-03</a><h4>Mailbox persistence</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Forwarding rules and OAuth tokens are planted for durable, quiet access.</dd>
+              <dt>Observable signals</dt><dd>New auto-forwarding rules or unfamiliar OAuth grants.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Audit inbox rules and tokens, alert on new grants.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="PHI-OB-04">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#PHI-OB-04">PHI-OB-04</a><h4>Data exfiltration</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>Mail and files are harvested from the compromised account.</dd>
+              <dt>Observable signals</dt><dd>Bulk access or download activity after compromise.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Data-loss prevention and access-anomaly detection.</dd>
+            </dl>
+          </article>
+          
+          <article class="tcard" id="PHI-OB-05">
+            <div class="tcard-top"><a class="idchip idchip-link" href="#PHI-OB-05">PHI-OB-05</a><h4>Onward propagation</h4></div>
+            <dl class="tcard-body">
+              <dt>What it is</dt><dd>The victim's own contacts are phished from within the trusted account.</dd>
+              <dt>Observable signals</dt><dd>Internal phishing originating from a trusted mailbox.</dd>
+              <dt class="def">Defensive response</dt><dd class="def">Internal-phish detection and rapid account containment.</dd>
+            </dl>
+          </article>
+        </div>
+      </div>
+  </div>
+</section>
+
+<section id="evidence">
+  <div class="wrap narrow">
+    <div class="sec-head reveal"><span class="eyebrow">03.3 · Indicators &amp; evidence model</span><h2>No claim without an observable.</h2>
+      <p class="sub">The phishing pillar shares the Email Abuse Intelligence evidence model: the observable classes that substantiate a classification, and how they combine into confidence.</p></div>
+    <div class="reveal">
+
+        <table class="ref-table">
+          <thead><tr><th>Code</th><th>Class</th><th>Evidence captured</th></tr></thead>
+          <tbody>
+          <tr><td class="mono code">EAI-EV-NET</td><td class="pk">Network</td><td>Sending IP, ASN, reverse DNS, netblock and geolocation.</td></tr>
+          <tr><td class="mono code">EAI-EV-AUTH</td><td class="pk">Authentication</td><td>SPF, DKIM and DMARC results and alignment for the sending identity.</td></tr>
+          <tr><td class="mono code">EAI-EV-CONT</td><td class="pk">Content</td><td>URL and domain patterns, cloned-page and template fingerprints, header anomalies.</td></tr>
+          <tr><td class="mono code">EAI-EV-BEHAV</td><td class="pk">Behavioural</td><td>Login anomalies, consent grants, new inbox rules, engagement tracking.</td></tr>
+          <tr><td class="mono code">EAI-EV-INFRA</td><td class="pk">Infrastructure</td><td>Domain age, certificate history, hosting, redirect chains, registrar.</td></tr>
+          </tbody>
+        </table>
+    </div>
+    <div class="conf reveal">
+      <div class="conf-label">Confidence model</div>
+
+          <div class="conf-row"><span class="conf-tier t0">Low</span><span class="conf-desc">A single weak or ambiguous indicator. Suitable for enrichment, not enforcement.</span></div>
+
+          <div class="conf-row"><span class="conf-tier t1">Moderate</span><span class="conf-desc">Multiple independent indicators from different classes agree.</span></div>
+
+          <div class="conf-row"><span class="conf-tier t2">High</span><span class="conf-desc">Corroborated indicators plus authentication or infrastructure evidence.</span></div>
+
+          <div class="conf-row"><span class="conf-tier t3">Confirmed</span><span class="conf-desc">Direct, reproducible evidence — e.g. a detonated credential-capture page.</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="library">
+  <div class="wrap narrow">
+    <div class="sec-head reveal"><span class="eyebrow">04 · Part of the reference library</span><h2>Two pillars, one model.</h2>
+      <p class="sub">The phishing pillar joins the spam pillar under the same namespace and evidence model — the reference grows one pillar at a time.</p></div>
+    <div class="lib-grid reveal">
+      <div class="lib-card"><div class="lib-n mono">30</div><div class="lib-l">phishing techniques</div></div>
+      <div class="lib-card"><div class="lib-n mono">21</div><div class="lib-l">taxonomy classes</div></div>
+      <div class="lib-card"><div class="lib-n mono">6</div><div class="lib-l">lifecycle phases</div></div>
+      <div class="lib-card"><div class="lib-n mono">2</div><div class="lib-l">pillars active</div></div>
+    </div>
+    <div class="lib-cta reveal">
+      <a class="btn btn-primary" href="/#lab">Assess a domain against the Standard →</a>
+      <a class="btn btn-ghost" href="/intelligence/">Back to the umbrella</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-row">
+    <span><span class="sig">SPAMCRACKERS</span>.COM — the reference layer for Email Abuse Intelligence · Phishing pillar v1.0</span>
+    <div class="foot-links">
+      <a href="/">Home</a>
+      <a href="/intelligence/">Intelligence</a>
+      <a href="#model">Reference Model</a>
+      <a href="/#faq">FAQ</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var root = document.documentElement, tbtn = document.getElementById("themebtn");
+  tbtn.addEventListener("click", function(){
+    var isDark = root.getAttribute("data-theme")==="dark" || (!root.getAttribute("data-theme") && window.matchMedia("(prefers-color-scheme: dark)").matches);
+    root.setAttribute("data-theme", isDark ? "light" : "dark");
+  });
+  if(!reduce){
+    var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); } }); }, {threshold:.12});
+    document.querySelectorAll(".reveal").forEach(function(el){ io.observe(el); });
+  } else { document.querySelectorAll(".reveal").forEach(function(el){ el.classList.add("in"); }); }
+  function flash(){ var h=location.hash.replace("#",""); if(!h) return; var el=document.getElementById(h); if(el && el.classList.contains("tcard")){ el.classList.add("flash"); setTimeout(function(){ el.classList.remove("flash"); }, 1600); } }
+  window.addEventListener("hashchange", flash); flash();
+})();
+</script>
+</body>
+</html>
