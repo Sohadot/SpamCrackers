@@ -185,6 +185,29 @@ try {
     for (const k of reqK) if (!t[k] || !String(t[k]).length) fail(`model.json: ${t.id} missing ${k}`);
   }
   notes.push(`model.json: ${model.techniques.length} techniques conform to schema`);
+
+  /* ---- patterns.json conformance (references must resolve into model.json) ---- */
+  try {
+    const pat = JSON.parse(fs.readFileSync(path.join(ROOT, "intelligence/patterns.json"), "utf8"));
+    const modelIds = new Set(model.techniques.map((t) => t.id));
+    const patRe = /^EAP-\d{2}$/;
+    if (!/^\d+\.\d+\.\d+$/.test(pat.version)) fail("patterns.json: bad version");
+    if (pat.counts.patterns !== pat.patterns.length) fail("patterns.json: pattern count mismatch");
+    let refs = 0;
+    for (const p of pat.patterns) {
+      if (!patRe.test(p.id)) fail(`patterns.json: bad pattern id ${p.id}`);
+      for (const k of ["name", "url", "summary", "chain", "signals"])
+        if (!p[k] || !p[k].length) fail(`patterns.json: ${p.id} missing ${k}`);
+      if (!p.breakpoint || !p.breakpoint.technique) fail(`patterns.json: ${p.id} missing breakpoint`);
+      for (const step of p.chain || []) {
+        refs++;
+        if (!modelIds.has(step.technique)) fail(`patterns.json: ${p.id} references unknown technique ${step.technique}`);
+      }
+      if (p.breakpoint && !modelIds.has(p.breakpoint.technique))
+        fail(`patterns.json: ${p.id} breakpoint references unknown technique ${p.breakpoint.technique}`);
+    }
+    notes.push(`patterns.json: ${pat.patterns.length} patterns, ${refs} technique refs all resolve to model.json`);
+  } catch (e) { fail("patterns.json invalid: " + e.message); }
 } catch (e) { fail("model.json invalid: " + e.message); }
 
 /* ---------------- report ---------------- */

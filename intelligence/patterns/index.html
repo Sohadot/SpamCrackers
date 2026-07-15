@@ -1,0 +1,1073 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; img-src 'self' data:; font-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self' https://dns.google https://formspree.io; form-action 'self' https://formspree.io; upgrade-insecure-requests" />
+<meta name="referrer" content="strict-origin-when-cross-origin" />
+<link rel="alternate" type="application/atom+xml" title="SpamCrackers updates" href="/feed.xml" />
+<title>Patterns Library — Documented Email Abuse Campaign Archetypes | SpamCrackers</title>
+<meta name="description" content="Eight defensive email-abuse campaign archetypes — exact-domain spoofing, AiTM phishing, vendor invoice redirection, executive gift-card fraud, macro-loader ransomware, reply-chain hijack, snowshoe spam and advance-fee scams — each composed from Email Abuse Intelligence techniques with its earliest point of defence." />
+<link rel="canonical" href="https://spamcrackers.com/intelligence/patterns/" />
+<meta name="robots" content="index, follow, max-image-preview:large" />
+<meta name="theme-color" content="#08090D" media="(prefers-color-scheme: dark)" />
+<meta name="theme-color" content="#ECEDE8" media="(prefers-color-scheme: light)" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2308090D'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%232FE39B'/%3E%3C/svg%3E" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="SpamCrackers" />
+<meta property="og:url" content="https://spamcrackers.com/intelligence/patterns/" />
+<meta property="og:title" content="Patterns Library — Documented Email Abuse Campaign Archetypes" />
+<meta property="og:description" content="Eight defensive campaign archetypes that compose Email Abuse Intelligence techniques into ordered chains — each with its earliest point of defence." />
+<meta property="og:image" content="https://spamcrackers.com/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Patterns Library — Documented Email Abuse Campaign Archetypes" />
+<meta name="twitter:description" content="Eight defensive campaign archetypes, each composed from Email Abuse Intelligence techniques with its earliest point of defence." />
+<meta name="twitter:image" content="https://spamcrackers.com/og-image.png" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://spamcrackers.com/#organization",
+      "name": "SpamCrackers",
+      "url": "https://spamcrackers.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://spamcrackers.com/logo.png",
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "@type": "TechArticle",
+      "@id": "https://spamcrackers.com/intelligence/patterns/#article",
+      "headline": "Email Abuse Patterns Library — documented campaign archetypes",
+      "description": "Eight defensive campaign archetypes that compose Email Abuse Intelligence techniques into ordered chains across the abuse life-cycle, each with its earliest point of defence.",
+      "url": "https://spamcrackers.com/intelligence/patterns/",
+      "isPartOf": {
+        "@id": "https://spamcrackers.com/#organization"
+      },
+      "publisher": {
+        "@id": "https://spamcrackers.com/#organization"
+      },
+      "about": [
+        {
+          "@type": "Thing",
+          "name": "EAP-01 — Exact-domain spoofing of an unauthenticated domain"
+        },
+        {
+          "@type": "Thing",
+          "name": "EAP-02 — Adversary-in-the-middle credential phishing"
+        },
+        {
+          "@type": "Thing",
+          "name": "EAP-03 — Vendor-compromise invoice redirection"
+        },
+        {
+          "@type": "Thing",
+          "name": "EAP-04 — Executive-impersonation gift-card fraud"
+        },
+        {
+          "@type": "Thing",
+          "name": "EAP-05 — Macro-document loader to ransomware"
+        },
+        {
+          "@type": "Thing",
+          "name": "EAP-06 — Reply-chain hijack malware delivery"
+        },
+        {
+          "@type": "Thing",
+          "name": "EAP-07 — Snowshoe credential-harvest spam"
+        },
+        {
+          "@type": "Thing",
+          "name": "EAP-08 — Advance-fee & romance fraud"
+        }
+      ],
+      "license": "https://creativecommons.org/licenses/by/4.0/"
+    },
+    {
+      "@type": "CollectionPage",
+      "@id": "https://spamcrackers.com/intelligence/patterns/#collection",
+      "name": "Email Abuse Patterns Library",
+      "url": "https://spamcrackers.com/intelligence/patterns/",
+      "isPartOf": {
+        "@id": "https://spamcrackers.com/#organization"
+      },
+      "hasPart": [
+        {
+          "@type": "CreativeWork",
+          "name": "EAP-01 — Exact-domain spoofing of an unauthenticated domain",
+          "url": "https://spamcrackers.com/intelligence/patterns/#exact-domain-spoofing"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "EAP-02 — Adversary-in-the-middle credential phishing",
+          "url": "https://spamcrackers.com/intelligence/patterns/#aitm-credential-phishing"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "EAP-03 — Vendor-compromise invoice redirection",
+          "url": "https://spamcrackers.com/intelligence/patterns/#vendor-invoice-redirection"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "EAP-04 — Executive-impersonation gift-card fraud",
+          "url": "https://spamcrackers.com/intelligence/patterns/#executive-gift-card-fraud"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "EAP-05 — Macro-document loader to ransomware",
+          "url": "https://spamcrackers.com/intelligence/patterns/#macro-loader-ransomware"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "EAP-06 — Reply-chain hijack malware delivery",
+          "url": "https://spamcrackers.com/intelligence/patterns/#reply-chain-hijack-delivery"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "EAP-07 — Snowshoe credential-harvest spam",
+          "url": "https://spamcrackers.com/intelligence/patterns/#snowshoe-credential-harvest"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "EAP-08 — Advance-fee & romance fraud",
+          "url": "https://spamcrackers.com/intelligence/patterns/#advance-fee-romance-fraud"
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "SpamCrackers",
+          "item": "https://spamcrackers.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Intelligence",
+          "item": "https://spamcrackers.com/intelligence/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Patterns",
+          "item": "https://spamcrackers.com/intelligence/patterns/"
+        }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+  :root{
+    --ground:#08090D; --ground-2:#0D0F15; --panel:#11141C;
+    --ink:#D9DEE6; --ink-dim:#9AA3B0; --mute:#737D8B;
+    --line:rgba(217,222,230,.10); --line-strong:rgba(217,222,230,.20);
+    --signal:#2FE39B; --noise:#FF3B6B; --amber:#F6C560; --focus:#7FE3FF;
+    --maxw:1180px; --narrow:760px;
+    --step--1:clamp(.78rem,.72rem + .3vw,.9rem);
+    --step-0:clamp(.98rem,.92rem + .3vw,1.06rem);
+    --step-1:clamp(1.2rem,1.05rem + .7vw,1.5rem);
+    --step-2:clamp(1.6rem,1.2rem + 1.8vw,2.4rem);
+    --step-3:clamp(2.2rem,1.5rem + 3.2vw,3.6rem);
+    --step-4:clamp(2.8rem,1.8rem + 5vw,5.2rem);
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,Roboto,Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,"SF Mono","SFMono-Regular",Menlo,Consolas,"Liberation Mono",monospace;
+  }
+  :root[data-theme="light"]{
+    --ground:#ECEDE8; --ground-2:#F4F5F1; --panel:#FFFFFF;
+    --ink:#0F1218; --ink-dim:#454E5B; --mute:#5E6773;
+    --line:rgba(15,18,24,.12); --line-strong:rgba(15,18,24,.22);
+    --signal:#0F9E6A; --noise:#E01E52; --amber:#B77A11;
+  }
+  @media (prefers-color-scheme: light){
+    :root:not([data-theme="dark"]){
+      --ground:#ECEDE8; --ground-2:#F4F5F1; --panel:#FFFFFF;
+      --ink:#0F1218; --ink-dim:#454E5B; --mute:#5E6773;
+      --line:rgba(15,18,24,.12); --line-strong:rgba(15,18,24,.22);
+      --signal:#0F9E6A; --noise:#E01E52; --amber:#B77A11;
+    }
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;scroll-padding-top:70px}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:var(--step-0);line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  ::selection{background:var(--signal);color:var(--ground)}
+  a{color:inherit;text-decoration:none}
+  :focus-visible{outline:2px solid var(--focus);outline-offset:3px;border-radius:2px}
+  .wrap{max-width:var(--maxw);margin-inline:auto;padding-inline:clamp(1.1rem,4vw,3rem)}
+  .wrap.narrow{max-width:calc(var(--narrow) + 6rem)}
+  .mono{font-family:var(--mono)}
+  code{font-family:var(--mono);font-size:.88em;color:var(--signal);background:color-mix(in srgb,var(--signal) 12%,transparent);padding:.1em .42em;border-radius:3px;word-break:break-word}
+  .ilink{color:var(--signal);border-bottom:1px solid color-mix(in srgb,var(--signal) 45%,transparent);transition:border-color .2s}
+  .ilink:hover{border-color:var(--signal)}
+  .eyebrow{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.26em;text-transform:uppercase;color:var(--signal);display:inline-flex;align-items:center;gap:.6em}
+  .eyebrow::before{content:"";width:24px;height:1px;background:var(--signal);opacity:.7}
+
+  /* id chips */
+  .idchip{font-family:var(--mono);font-size:.7rem;letter-spacing:.06em;color:var(--signal);border:1px solid color-mix(in srgb,var(--signal) 45%,var(--line));border-radius:4px;padding:.2em .5em;white-space:nowrap;background:color-mix(in srgb,var(--signal) 8%,transparent)}
+  .idchip-link{transition:background .2s}
+  .idchip-link:hover{background:color-mix(in srgb,var(--signal) 20%,transparent)}
+
+  /* top bar */
+  header.bar{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:.8rem clamp(1.1rem,4vw,3rem);font-family:var(--mono);font-size:var(--step--1);letter-spacing:.05em;backdrop-filter:blur(9px);background:color-mix(in srgb,var(--ground) 75%,transparent);border-bottom:1px solid var(--line)}
+  .brand-min{display:flex;align-items:center;gap:.55rem;font-weight:700}
+  .brand-min .dot{width:9px;height:9px;background:var(--signal);border-radius:50%;box-shadow:0 0 12px var(--signal)}
+  .brand-min .tld{color:var(--mute)}
+  .bar nav{display:flex;align-items:center;gap:clamp(.7rem,1.8vw,1.5rem);color:var(--ink-dim)}
+  .bar nav a{transition:color .2s}.bar nav a:hover{color:var(--signal)}
+  .bar .navlink{display:none}
+  @media(min-width:900px){.bar .navlink{display:inline}}
+  .themebtn{font-family:var(--mono);font-size:var(--step--1);background:transparent;border:1px solid var(--line-strong);color:var(--ink-dim);padding:.35em .7em;border-radius:2px;cursor:pointer;letter-spacing:.1em;transition:.2s}
+  .themebtn:hover{border-color:var(--signal);color:var(--signal)}
+
+  /* sections */
+  section{position:relative;padding:clamp(3.6rem,7vw,6rem) 0;border-top:1px solid var(--line)}
+  .hero{border-top:none;padding-top:clamp(7rem,13vw,10rem)}
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion: reduce){.reveal{opacity:1;transform:none;transition:none}}
+  .sec-head{max-width:64ch;margin-bottom:2.4rem}
+  .sec-head h2{font-weight:800;font-size:var(--step-2);line-height:1.05;letter-spacing:-.025em;margin-top:1rem;text-wrap:balance}
+  .sec-head .sub{margin-top:1rem;color:var(--ink-dim);max-width:60ch}
+
+  /* hero */
+  .hero h1{font-weight:800;font-size:var(--step-4);line-height:.98;letter-spacing:-.035em;margin-top:1.4rem;text-wrap:balance}
+  .hero .hl{color:var(--signal)}
+  .hero .lede{margin-top:1.8rem;font-size:var(--step-1);line-height:1.45;color:var(--ink);max-width:54ch;text-wrap:pretty}
+  .hero .lede strong{color:var(--signal);font-weight:700}
+  .meta-chips{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:2.2rem}
+  .meta-chips .chip{font-family:var(--mono);font-size:var(--step--1);border:1px solid var(--line);border-radius:99px;padding:.45em .95em;color:var(--ink-dim)}
+  .meta-chips .chip b{color:var(--mute);font-weight:400;letter-spacing:.08em;text-transform:uppercase;font-size:.82em;margin-right:.5em}
+  .meta-chips .chip.stance{border-color:color-mix(in srgb,var(--signal) 45%,var(--line));color:var(--signal)}
+  .meta-chips .chip.stance b{color:color-mix(in srgb,var(--signal) 70%,var(--ink-dim))}
+
+  /* prose */
+  .prose p{max-width:68ch;margin-bottom:1.2rem;color:var(--ink-dim)}
+  .prose p:last-child{margin-bottom:0}
+  .prose strong{color:var(--ink)}
+  .prose em{color:var(--signal);font-style:normal}
+
+  /* boundaries */
+  .bound-grid{display:grid;gap:1px;grid-template-columns:1fr;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  @media(min-width:720px){.bound-grid{grid-template-columns:1fr 1fr}}
+  .bound{background:var(--ground-2);padding:clamp(1.4rem,3vw,2.2rem)}
+  .bound-label{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.14em;text-transform:uppercase;margin-bottom:1.1rem;display:flex;align-items:center;gap:.6em}
+  .bound-label::before{content:"";width:10px;height:10px;border-radius:50%}
+  .bound-label.ok{color:var(--signal)}.bound-label.ok::before{background:var(--signal)}
+  .bound-label.no{color:var(--noise)}.bound-label.no::before{background:var(--noise)}
+  .bound ul{list-style:none;display:flex;flex-direction:column;gap:.75rem}
+  .bound li{position:relative;padding-left:1.5rem;color:var(--ink-dim);line-height:1.5}
+  .bound li b{color:var(--ink)}
+  .bound.is li::before{content:"✓";position:absolute;left:0;color:var(--signal);font-family:var(--mono)}
+  .bound.not li::before{content:"✕";position:absolute;left:0;color:var(--noise);font-family:var(--mono)}
+  .bound-note{margin-top:1.6rem;font-family:var(--mono);font-size:var(--step--1);color:var(--ink-dim);line-height:1.7;border-left:2px solid var(--signal);padding-left:1.2rem;max-width:74ch}
+  .bound-note b{color:var(--signal)}
+
+  /* pillars */
+  .pillar-grid{display:grid;gap:1px;grid-template-columns:1fr;background:var(--line);border:1px solid var(--line)}
+  @media(min-width:620px){.pillar-grid{grid-template-columns:repeat(2,1fr)}}
+  @media(min-width:960px){.pillar-grid{grid-template-columns:repeat(3,1fr)}}
+  .pillar{background:var(--ground);padding:clamp(1.4rem,2.6vw,2rem);display:flex;flex-direction:column;gap:.6rem;transition:background .3s}
+  .pillar:hover{background:var(--ground-2)}
+  .pillar-top{display:flex;align-items:center;justify-content:space-between;gap:.6rem}
+  .pill-status{font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+  .pillar.active{background:color-mix(in srgb,var(--signal) 6%,var(--ground))}
+  .pillar.active .pill-status{color:var(--signal)}
+  .pillar h3{font-size:var(--step-1);font-weight:800;letter-spacing:-.02em}
+  .pillar p{color:var(--ink-dim);font-size:var(--step--1);line-height:1.55}
+  .pillar.planned{opacity:.82}
+
+  /* cite */
+  .cite{border:1px solid var(--line);border-radius:8px;padding:clamp(1.2rem,3vw,1.8rem);background:var(--ground-2)}
+  .cite-label{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.14em;text-transform:uppercase;color:var(--signal);margin-bottom:.8rem}
+  .cite p{color:var(--ink-dim);max-width:70ch}
+
+  /* tables */
+  .ref-table{width:100%;border-collapse:collapse;font-size:var(--step--1)}
+  .ref-table th{text-align:left;font-family:var(--mono);color:var(--mute);font-weight:400;letter-spacing:.08em;text-transform:uppercase;font-size:.7rem;padding:0 1rem .7rem 0;border-bottom:1px solid var(--line-strong)}
+  .ref-table td{padding:.8rem 1rem .8rem 0;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink-dim);line-height:1.5}
+  .ref-table tr:last-child td{border-bottom:none}
+  .ref-table td.code{color:var(--signal);white-space:nowrap}
+  .ref-table td.pk{color:var(--ink);font-weight:600}
+
+  /* taxonomy */
+  .tax-grid{display:grid;gap:1.5rem;grid-template-columns:1fr}
+  @media(min-width:820px){.tax-grid{grid-template-columns:1fr 1fr}}
+  .tax-block{border:1px solid var(--line);border-radius:8px;padding:clamp(1.2rem,2.6vw,1.8rem);background:var(--ground-2)}
+  .tax-head{display:flex;align-items:center;gap:.8rem;margin-bottom:1.2rem}
+  .tax-head h3{font-size:var(--step-1);font-weight:800;letter-spacing:-.02em}
+
+  /* matrix */
+  .matrix-scroll{overflow-x:auto;padding-bottom:.6rem;-webkit-overflow-scrolling:touch}
+  .matrix{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(190px,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;min-width:960px}
+  .matrix-col{background:var(--ground);display:flex;flex-direction:column;gap:1px}
+  .matrix-head{background:var(--ground-2);padding:.9rem .8rem;display:flex;flex-direction:column;gap:.45rem;min-height:72px}
+  .matrix-head .mh-name{font-weight:700;font-size:.86rem;line-height:1.2;letter-spacing:-.01em}
+  .matrix-cell{background:var(--ground);padding:.7rem .8rem;font-size:.8rem;color:var(--ink-dim);display:flex;flex-direction:column;gap:.25rem;transition:background .2s,color .2s;border-top:1px solid var(--line)}
+  .matrix-cell:hover{background:color-mix(in srgb,var(--signal) 10%,var(--ground));color:var(--ink)}
+  .matrix-cell .cell-id{font-size:.66rem;color:var(--mute)}
+  .matrix-cell:hover .cell-id{color:var(--signal)}
+
+  /* technique detail */
+  .phase{margin-top:3rem;scroll-margin-top:76px}
+  .phase-head{display:flex;align-items:center;gap:.8rem}
+  .phase-head h3{font-size:var(--step-1);font-weight:800;letter-spacing:-.02em}
+  .phase-blurb{color:var(--ink-dim);margin:.7rem 0 1.4rem;max-width:64ch}
+  .tcards{display:grid;gap:1rem;grid-template-columns:1fr}
+  @media(min-width:720px){.tcards{grid-template-columns:1fr 1fr}}
+  .tcard{border:1px solid var(--line);border-radius:8px;padding:1.2rem 1.3rem;background:var(--ground-2);scroll-margin-top:80px;transition:border-color .3s,box-shadow .3s}
+  .tcard.flash{border-color:var(--signal);box-shadow:0 0 0 1px var(--signal),0 14px 40px -20px var(--signal)}
+  .tcard-top{display:flex;align-items:center;gap:.7rem;margin-bottom:1rem}
+  .tcard-top h4{font-size:var(--step-0);font-weight:700;letter-spacing:-.01em}
+  .tcard-body{display:grid;grid-template-columns:1fr;gap:.35rem}
+  .tcard-body dt{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin-top:.7rem}
+  .tcard-body dt:first-child{margin-top:0}
+  .tcard-body dt.def{color:var(--signal)}
+  .tcard-body dd{color:var(--ink-dim);font-size:var(--step--1);line-height:1.55}
+  .tcard-body dd.def{color:var(--ink)}
+
+  /* evidence + confidence */
+  .conf{margin-top:2.2rem;border:1px solid var(--line);border-radius:8px;padding:clamp(1.2rem,3vw,1.8rem);background:var(--ground-2)}
+  .conf-label{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.14em;text-transform:uppercase;color:var(--signal);margin-bottom:1.2rem}
+  .conf-row{display:flex;gap:1rem;align-items:baseline;padding:.6rem 0;border-bottom:1px solid var(--line)}
+  .conf-row:last-child{border-bottom:none}
+  .conf-tier{font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;padding:.25em .7em;border-radius:99px;border:1px solid currentColor;white-space:nowrap;flex-shrink:0;min-width:9ch;text-align:center}
+  .conf-tier.t0{color:var(--mute)}.conf-tier.t1{color:var(--amber)}.conf-tier.t2{color:var(--signal)}.conf-tier.t3{color:var(--signal)}
+  .conf-desc{color:var(--ink-dim);font-size:var(--step--1)}
+
+  /* library */
+  .lib-grid{display:grid;gap:1px;grid-template-columns:repeat(2,1fr);background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden;margin-bottom:2rem}
+  @media(min-width:720px){.lib-grid{grid-template-columns:repeat(4,1fr)}}
+  .lib-card{background:var(--ground-2);padding:1.6rem 1.3rem;display:flex;flex-direction:column;gap:.4rem}
+  .lib-n{font-size:var(--step-3);font-weight:800;color:var(--signal);line-height:1;font-variant-numeric:tabular-nums}
+  .lib-l{font-family:var(--mono);font-size:var(--step--1);color:var(--ink-dim);letter-spacing:.04em}
+  .lib-cta{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:2rem}
+  .btn{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.05em;padding:.9em 1.4em;border-radius:2px;cursor:pointer;border:1px solid transparent;display:inline-flex;align-items:center;gap:.6em;transition:transform .15s,box-shadow .2s,border-color .2s,color .2s;text-transform:uppercase}
+  .btn-primary{background:var(--signal);color:#04120C;font-weight:700}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 30px -10px var(--signal)}
+  .btn-ghost{background:transparent;color:var(--ink);border-color:var(--line-strong)}
+  .btn-ghost:hover{border-color:var(--signal);color:var(--signal)}
+
+  /* footer */
+  footer{border-top:1px solid var(--line);padding:2.6rem 0;font-family:var(--mono);font-size:var(--step--1);color:var(--mute)}
+  .foot-row{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;align-items:center}
+  .foot-row .sig{color:var(--signal)}
+  .foot-links{display:flex;gap:1.3rem;flex-wrap:wrap}
+  .foot-links a:hover{color:var(--signal)}
+
+  /* breadcrumbs */
+  .crumbs{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;font-family:var(--mono);font-size:var(--step--1);color:var(--mute);margin-bottom:1.4rem}
+  .crumbs a{color:var(--ink-dim);transition:color .2s}
+  .crumbs a:hover{color:var(--signal)}
+  .crumbs .sep{color:var(--mute);opacity:.6}
+  .crumbs .here{color:var(--signal)}
+  /* related pillars footer strip */
+  .related{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:2rem}
+  .related a{font-family:var(--mono);font-size:var(--step--1);border:1px solid var(--line);border-radius:99px;padding:.4em .95em;color:var(--ink-dim);transition:.2s}
+  .related a:hover{border-color:var(--signal);color:var(--signal)}
+  .related span{color:var(--mute);align-self:center}
+
+  .toc{border:1px solid var(--line);border-radius:10px;background:var(--ground-2);padding:clamp(1.2rem,3vw,1.8rem);margin-top:2rem;display:grid;grid-template-columns:1fr;gap:.2rem}
+  .toc-item{display:flex;align-items:center;gap:.8rem;padding:.7rem .6rem;border-radius:6px;border-bottom:1px solid var(--line);transition:background .2s}
+  .toc-item:last-child{border-bottom:none}
+  .toc-item:hover{background:color-mix(in srgb,var(--signal) 7%,transparent)}
+  .toc-name{flex:1;font-weight:600;letter-spacing:-.01em}
+  .toc-pill{color:var(--mute);font-size:.72rem;white-space:nowrap}
+  @media(max-width:560px){.toc-pill{display:none}}
+  .pat{border:1px solid var(--line);border-radius:12px;background:var(--ground-2);padding:clamp(1.4rem,3.4vw,2.2rem);margin-top:1.8rem;scroll-margin-top:80px}
+  .pat-head{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+  .pat-h-l{display:flex;align-items:center;gap:.8rem;flex-wrap:wrap}
+  .pat-h-l h3{font-size:var(--step-1);font-weight:800;letter-spacing:-.02em;line-height:1.15}
+  .pat-pillars{display:flex;gap:.4rem;flex-wrap:wrap}
+  .pat-pillar{font-family:var(--mono);font-size:.68rem;letter-spacing:.04em;color:var(--ink-dim);border:1px solid var(--line-strong);border-radius:99px;padding:.25em .7em;white-space:nowrap;transition:.2s}
+  .pat-pillar:hover{border-color:var(--signal);color:var(--signal)}
+  .pat-summary{color:var(--ink);margin-top:1.1rem;max-width:70ch;line-height:1.55;font-weight:500}
+  .pat-scenario{color:var(--ink-dim);margin-top:.9rem;max-width:70ch;line-height:1.6}
+  .pat-label{font-family:var(--mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+  .pat-chain-wrap{margin-top:1.6rem}
+  .pat-chain{list-style:none;margin-top:1rem;display:flex;flex-direction:column;gap:.1rem;counter-reset:pc}
+  .pat-step{counter-increment:pc;display:grid;grid-template-columns:auto auto 1fr;grid-template-areas:"phase tech tname" "phase note note";gap:.15rem .8rem;align-items:center;padding:.75rem 0 .75rem 2.6rem;position:relative;border-bottom:1px solid var(--line)}
+  .pat-step:last-child{border-bottom:none}
+  .pat-step::before{content:counter(pc,decimal-leading-zero);position:absolute;left:0;top:.75rem;font-family:var(--mono);font-size:.72rem;color:var(--signal);font-weight:700}
+  .pat-step::after{content:"";position:absolute;left:.55rem;top:1.9rem;bottom:-.1rem;width:1px;background:var(--line-strong)}
+  .pat-step:last-child::after{display:none}
+  .pat-phase{grid-area:phase;font-family:var(--mono);font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);align-self:start;padding-top:.15rem;min-width:6.5ch}
+  .pat-tech{grid-area:tech;justify-self:start}
+  .pat-tname{grid-area:tname;font-weight:600;font-size:var(--step--1);letter-spacing:-.01em}
+  .pat-note{grid-area:note;color:var(--ink-dim);font-size:var(--step--1);line-height:1.45}
+  @media(max-width:620px){
+    .pat-step{grid-template-columns:auto 1fr;grid-template-areas:"phase phase" "tech tname" "note note";gap:.3rem .7rem;padding-left:2.4rem}
+    .pat-note{margin-top:.15rem}
+  }
+  .pat-break{margin-top:1.7rem;border:1px solid color-mix(in srgb,var(--signal) 35%,var(--line));border-left:3px solid var(--signal);border-radius:8px;background:color-mix(in srgb,var(--signal) 6%,transparent);padding:1.1rem 1.2rem}
+  .pat-break-l{font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--signal);margin-bottom:.6rem}
+  .pat-break-id{border-bottom:1px solid color-mix(in srgb,var(--signal) 50%,transparent)}
+  .pat-break-id:hover{color:var(--ink)}
+  .pat-break p{color:var(--ink);max-width:72ch;line-height:1.6;font-size:var(--step--1)}
+  .pat-ref{display:inline-block;margin-top:.9rem;font-family:var(--mono);font-size:var(--step--1);color:var(--ink-dim);border-bottom:1px solid var(--line-strong);transition:.2s}
+  .pat-ref:hover{color:var(--signal);border-color:var(--signal)}
+  .pat-signals{margin-top:1.6rem}
+  .pat-signals ul{list-style:none;margin-top:.8rem;display:flex;flex-direction:column;gap:.5rem}
+  .pat-signals li{position:relative;padding-left:1.4rem;color:var(--ink-dim);font-size:var(--step--1);line-height:1.5;max-width:72ch}
+  .pat-signals li::before{content:"▸";position:absolute;left:0;color:var(--noise)}
+
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <a class="brand-min" href="/"><span class="dot" aria-hidden="true"></span>SPAMCRACKERS<span class="tld">.com</span></a>
+  <nav>
+    <a class="navlink" href="/intelligence/">Pillars</a>
+    <a class="navlink" href="/intelligence/techniques/">Techniques</a>
+    <a class="navlink" href="/intelligence/governance/">Governance</a>
+    <a class="navlink" href="/#lab">Check a domain</a>
+    <button class="themebtn" id="themebtn" type="button" aria-label="Toggle theme">◐ THEME</button>
+  </nav>
+</header>
+
+<section class="hero" style="padding-bottom:0">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span class="sep">/</span><a href="/intelligence/">Intelligence</a><span class="sep">/</span><span class="here">Patterns</span></nav>
+    <div class="eyebrow">Reference Model · Patterns Library v1.0</div>
+    <h1>The Patterns<br>Library.</h1>
+    <p class="lede">Techniques are the vocabulary. <strong>Patterns are the sentences.</strong> Each archetype below composes documented Email Abuse Intelligence techniques into an ordered chain across the abuse life-cycle — and names the earliest point at which the chain can be broken.</p>
+    <div class="meta-chips">
+      <span class="chip"><b>Patterns</b> 8</span>
+      <span class="chip"><b>Built from</b> 163 techniques</span>
+      <span class="chip stance"><b>Scope</b> Defensive · classification only</span>
+      <span class="chip"><b>License</b> CC BY 4.0</span>
+    </div>
+  </div>
+</section>
+
+<section style="border-top:none;padding-top:2.4rem">
+  <div class="wrap narrow">
+    <div class="sec-head reveal"><span class="eyebrow">How to read a pattern</span><h2>A chain is only as strong as its weakest step.</h2>
+      <p class="sub">A pattern is not new intelligence — it is a <strong>composition</strong> of techniques already in the <a class="ilink" href="/intelligence/">reference model</a>. Reading a campaign as a chain reveals something a flat list can't: the earliest step where one control collapses everything downstream. Every technique code links to its full definition; every pattern ends at its break.</p></div>
+    <nav class="toc reveal" aria-label="Patterns">
+        <a class="toc-item" href="#exact-domain-spoofing"><span class="idchip">EAP-01</span><span class="toc-name">Exact-domain spoofing of an unauthenticated domain</span><span class="toc-pill mono">SPO</span></a>
+        <a class="toc-item" href="#aitm-credential-phishing"><span class="idchip">EAP-02</span><span class="toc-name">Adversary-in-the-middle credential phishing</span><span class="toc-pill mono">PHI</span></a>
+        <a class="toc-item" href="#vendor-invoice-redirection"><span class="idchip">EAP-03</span><span class="toc-name">Vendor-compromise invoice redirection</span><span class="toc-pill mono">BEC</span></a>
+        <a class="toc-item" href="#executive-gift-card-fraud"><span class="idchip">EAP-04</span><span class="toc-name">Executive-impersonation gift-card fraud</span><span class="toc-pill mono">BEC · SPO</span></a>
+        <a class="toc-item" href="#macro-loader-ransomware"><span class="idchip">EAP-05</span><span class="toc-name">Macro-document loader to ransomware</span><span class="toc-pill mono">MAL</span></a>
+        <a class="toc-item" href="#reply-chain-hijack-delivery"><span class="idchip">EAP-06</span><span class="toc-name">Reply-chain hijack malware delivery</span><span class="toc-pill mono">MAL · PHI</span></a>
+        <a class="toc-item" href="#snowshoe-credential-harvest"><span class="idchip">EAP-07</span><span class="toc-name">Snowshoe credential-harvest spam</span><span class="toc-pill mono">SPM · PHI</span></a>
+        <a class="toc-item" href="#advance-fee-romance-fraud"><span class="idchip">EAP-08</span><span class="toc-name">Advance-fee &amp; romance fraud</span><span class="toc-pill mono">SCM</span></a>
+    </nav>
+  </div>
+</section>
+
+<section style="border-top:none;padding-top:1rem">
+  <div class="wrap narrow">
+      <article class="pat reveal" id="exact-domain-spoofing">
+        <div class="pat-head">
+          <div class="pat-h-l"><span class="idchip">EAP-01</span><h3>Exact-domain spoofing of an unauthenticated domain</h3></div>
+          <div class="pat-pillars"><a class="pat-pillar" href="/intelligence/spoofing/">SPO · Spoofing</a></div>
+        </div>
+        <p class="pat-summary">The simplest, most preventable abuse chain: because a domain never published enforcing SPF/DMARC, anyone can send mail as it — and receivers have nothing to contradict them.</p>
+        <p class="pat-scenario">A domain publishes no SPF, or a DMARC record fixed at <code>p=none</code>. An operator forges the visible From address and sends from any server. Receiving systems find no enforcing policy to reject the forgery, so it can land in the inbox wearing the domain's own name — the launch pad for phishing and BEC that impersonate the brand.</p>
+        <div class="pat-chain-wrap">
+          <div class="pat-label">The chain</div>
+          <ol class="pat-chain">
+          <li class="pat-step">
+            <span class="pat-phase">Opportunity</span>
+            <a class="pat-tech idchip idchip-link" href="/intelligence/spoofing/#SPO-AU-01" title="Missing-SPF exploitation">SPO-AU-01</a>
+            <span class="pat-tname">Missing-SPF exploitation</span>
+            <span class="pat-note">No SPF record — no server list to contradict a forgery.</span>
+          </li>
+          <li class="pat-step">
+            <span class="pat-phase">Opportunity</span>
+            <a class="pat-tech idchip idchip-link" href="/intelligence/spoofing/#SPO-AU-03" title="DMARC-none exploitation">SPO-AU-03</a>
+            <span class="pat-tname">DMARC-none exploitation</span>
+            <span class="pat-note">DMARC absent or at p=none — failures are reported, never rejected.</span>
+          </li>
+          <li class="pat-step">
+            <span class="pat-phase">Forgery</span>
+            <a class="pat-tech idchip idchip-link" href="/intelligence/spoofing/#SPO-HD-01" title="Header-from spoofing">SPO-HD-01</a>
+            <span class="pat-tname">Header-from spoofing</span>
+            <span class="pat-note">The visible From is set to the target domain exactly.</span>
+          </li>
+          <li class="pat-step">
+            <span class="pat-phase">Forgery</span>
+            <a class="pat-tech idchip idchip-link" href="/intelligence/spoofing/#SPO-HD-02" title="Display-name impersonation">SPO-HD-02</a>
+            <span class="pat-tname">Display-name impersonation</span>
+            <span class="pat-note">Optionally the display name alone is impersonated for mobile clients.</span>
+          </li>
+          <li class="pat-step">
+            <span class="pat-phase">Payload</span>
+            <a class="pat-tech idchip idchip-link" href="/intelligence/spoofing/#SPO-OB-01" title="Phishing enablement">SPO-OB-01</a>
+            <span class="pat-tname">Phishing enablement</span>
+            <span class="pat-note">The trusted envelope now carries a phishing lure…</span>
+          </li>
+          <li class="pat-step">
+            <span class="pat-phase">Payload</span>
+            <a class="pat-tech idchip idchip-link" href="/intelligence/spoofing/#SPO-OB-02" title="BEC enablement">SPO-OB-02</a>
+            <span class="pat-tname">BEC enablement</span>
+            <span class="pat-note">…or a business-email-compromise instruction.</span>
+          </li>
+          </ol>
+        </div>
+        <div class="pat-break">
+          <div class="pat-break-l">Earliest break · <a class="pat-break-id" href="/intelligence/spoofing/#SPO-AU-03" title="DMARC-none exploitation">SPO-AU-03</a> · DMARC p=reject</div>
+          <p>This is the one chain the SpamCrackers domain check measures directly. Publishing SPF with <code>-all</code> and DMARC at <code>p=reject</code> with alignment removes the opportunity at its root — the forgery is rejected before delivery.</p>
+          <a class="pat-ref" href="/playbook/">Follow the remediation playbook →</a>
+        </div>
+        <div class="pat-signals">
+          <div class="pat-label">Observable signals</div>
+          <ul>
+            <li>From = your domain, sent from a server not in any SPF include.</li>
+            <li>DMARC aggregate reports show unauthenticated sources under your domain.</li>
+            <li>SPF result none/softfail and DMARC policy none in the received headers.</li>
+          </ul>
+        </div>
+      </article>
+      <article class="pat reveal" id="aitm-credential-phishing">
+        <div class="pat-head">
+          <div class="pat-h-l"><span class="idchip">EAP-02</span><h3>Adversary-in-the-middle credential phishing</h3></div>
+          <div class="pat-pillars"><a class="pat-pillar" href="/intelligence/phishing/">PHI · Phishing</a></div>
+        </div>
+        <p class="pat-summary">A phishing chain built to defeat multi-factor authentication by relaying the login in real time and stealing the authenticated session itself.</p>
+        <p class="pat-scenario">The target is profiled, a convincing lookalike domain is stood up with valid TLS, and an account-security pretext drives the victim to a reverse-proxy that sits between them and the real login. Credentials <em>and</em> the one-time code are relayed live; the stolen session cookie hands over an already-authenticated mailbox, MFA notwithstanding.</p>
+        <div class="pat-chain-wrap">
+          <div class="pat-label">The chain</div>
+          <ol class="pat-chain">
+          <li class="pat-step">
+            <span class="pat-phase">Reconnaissance</span>
+            <a class="pat-tech idchip idchip-link" href="/intelligence/phishing/#PHI-RT-01" title="OSINT profiling">PHI-RT-01</a>
+            <span class="pat-tname">OSINT profiling</span>
+            <span class="pat-note">Public profiling identifies the person and the service they use.</span>
+          </li>
+          <li class="pat-step">
+            <span class="pat-phase">Infrastructure</span>
+            <a class="pat-tech idchip idchip-link" href="/intelligence/phishing/#PHI-IN-01" title="Lookalike / cousin domains">PHI-IN-01</a>
+            <span class="pat-tname">Lookalike / cousin domains</span>
+            <span class="pat-note">A lookalike / cousin domain is registered to host the proxy.</span>
+          </li>
+          <li class="pat-step">
+            <span class="pat-phase">Infrastructure</span>
+            <a class="pat-tech idchip idchip-link" href="/intelligence/phishing/#PHI-IN-05" title="TLS-for-trust">PHI-IN-05</a>
+            <span class="pat-tname">TLS-for-trust</span>
+            <span class="pat-note">Valid TLS lends the padlock's false reassurance.</span>
+          </li>
+          <li class="pat-step">
+            <span class="pat-phase">Lure</span>
+            <a class="pat-tech idchip idchip-link" href="/intelligence/phishing/#PHI-LP-03" title="Account-security pretext">PHI-LP-03</a>
+            <span class="pat-tname">Account-security pretext</span>
+            <span class="pat-note">An account-security pretext manufactures urgency to sign in.</span>
+          </li>
+          <li class="pat-step">
+            <span class="pat-phase">Capture</span>
+            <a class="pat-tech idchip idchip-link" href="/intelligence/phishing/#PHI-CC-02" title="Adversary-in-the-middle (AiTM)">PHI-CC-02</a>
+            <span class="pat-tname">Adversary-in-the-middle (AiTM)</span>
+            <span class="pat-note">A reverse proxy relays the session to the genuine login in real time.</span>
+          </li>
+          <li class="pat-step">
+            <span class="pat-phase">Capture</span>
+            <a class="pat-tech idchip idchip-link" href="/intelligence/phishing/#PHI-CC-04" title="OTP interception">PHI-CC-04</a>
+            <span class="pat-tname">OTP interception</span>
+            <span class="pat-note">The one-time code is intercepted mid-flight.</span>
+          </li>
+          <li class="pat-step">
+            <span class="pat-phase">Outcome</span>
+            <a class="pat-tech idchip idchip-link" href="/intelligence/phishing/#PHI-OB-01" title="Account takeover">PHI-OB-01</a>
+            <span class="pat-tname">Account takeover</span>
+            <span class="pat-note">The stolen session cookie yields account takeover.</span>
+          </li>
+          <li class="pat-step">
+            <span class="pat-phase">Outcome</span>
+            <a class="pat-tech idchip idchip-link" href="/intelligence/phishing/#PHI-OB-03" title="Mailbox persistence">PHI-OB-03</a>
+            <span class="pat-tname">Mailbox persistence</span>
+            <span class="pat-note">Mailbox rules are planted for quiet persistence.</span>
+          </li>
+          </ol>
+        </div>
+        <div class="pat-break">
+          <div class="pat-break-l">Earliest break · <a class="pat-break-id" href="/intelligence/phishing/#PHI-CC-02" title="Adversary-in-the-middle (AiTM)">PHI-CC-02</a> · Phishing-resistant MFA (FIDO2)</div>
+          <p>Because AiTM defeats one-time codes, the durable break is phishing-resistant authentication (hardware-bound passkeys / FIDO2), which will not authenticate to a proxy origin. Upstream, monitoring for lookalike registrations shortens the window before the lure ever sends.</p>
+          <a class="pat-ref" href="/intelligence/phishing/">Read the phishing pillar →</a>
+        </div>
+        <div class="pat-signals">
+          <div class="pat-label">Observable signals</div>
+          <ul>
+            <li>Login origin is a proxy/lookalike host, not the real service domain.</li>
+            <li>A session cookie is used from a new geography minutes after sign-in.</li>
+            <li>New inbox rules that auto-delete or forward security notifications.</li>
+          </ul>
+        </div>
+      </article>
+      <article class="pat reveal" id="vendor-invoice-redirection">
+        <div class="pat-head">
+          <div class="pat-h-l"><span class="idchip">EAP-03</span><h3>Vendor-compromise invoice redirection</h3></div>
+          <div class="pat-pillars"><a class="pat-pillar" href="/intelligence/bec/">BEC · BEC</a></div>
+        </div>
+        <p class="pat-summary">The highest-loss email fraud pattern: a genuine vendor mailbox is compromised and used, from inside a real thread, to redirect a legitimate payment.</p>
+        <p class="pat-scenario">Rather than impersonate, the operator takes over a supplier's actual account, reads the live correspondence to find an in-flight payment, then — inside the authentic thread, from the authentic address — announces a change of banking details just before the invoice is due. Everything authenticates, because it is really the vendor's mailbox.</p>
+        <div class="pat-chain-wrap">
+          <div class="pat-label">The chain</div>
+          <ol class="pat-chain">
+          <li class="pat-step">
+            <span class="pat-phase">Reconnaissance</span>
+            <a class="pat-tech idchip idchip-link" href="/intelligence/bec/#BEC-RT-02" title="Relationship mapping">BEC-RT-02</a>
+            <span class="pat-tname">Relationship mapping</span>
+            <span class="pat-note">Buyer–supplier relationships are mapped.</span>
+          </li>
+          <li class="pat-step">
+            <span class="pat-phase">Access</span>
+            <a class="pat-tech idchip idchip-link" href="/intelligence/bec/#BEC-AC-02" title="Vendor email compromise (VEC)">BEC-AC-02</a>
+            <span class="pat-tname">Vendor email compromise (VEC)</span>
+            <span class="pat-note">The vendor's own mailbox is compromised (VEC).</span>
+          </li>
+          <li class="pat-step">
+            <span class="pat-phase">Reconnaissance</span>
+            <a class="pat-tech idchip idchip-link" href="/intelligence/bec/#BEC-RE-01" title="Thread-context harvesting">BEC-RE-01</a>
+            <span class="pat-tname">Thread-context harvesting</span>
+            <span class="pat-note">Live threads are read for context, tone and timing.</span>
+          </li>
+          <li class="pat-step">
+            <span class="pat-phase">Reconnaissance</span>
+            <a class="pat-tech idchip idchip-link" href="/intelligence/bec/#BEC-RE-02" title="Pending-payment discovery">BEC-RE-02</a>
+            <span class="pat-tname">Pending-payment discovery</span>
+            <span class="pat-note">A pending, unpaid invoice is identified.</span>
+          </li>
+          <li class="pat-step">
+            <span class="pat-phase">Engagement</span>
+            <a class="pat-tech idchip idchip-link" href="/intelligence/bec/#BEC-EN-04" title="Thread insertion">BEC-EN-04</a>
+            <span class="pat-tname">Thread insertion</span>
+            <span class="pat-note">The message is inserted into the genuine thread.</span>
+          </li>
+          <li class="pat-step">
+            <span class="pat-phase">Engagement</span>
+            <a class="pat-tech idchip idchip-link" href="/intelligence/bec/#BEC-EN-02" title="Vendor bank-change request">BEC-EN-02</a>
+            <span class="pat-tname">Vendor bank-change request</span>
+            <span class="pat-note">A bank-detail change is requested as routine.</span>
+          </li>
+          <li class="pat-step">
+            <span class="pat-phase">Exploitation</span>
+            <a class="pat-tech idchip idchip-link" href="/intelligence/bec/#BEC-EX-02" title="Banking-detail alteration">BEC-EX-02</a>
+            <span class="pat-tname">Banking-detail alteration</span>
+            <span class="pat-note">Payment routing is altered to a controlled account.</span>
+          </li>
+          <li class="pat-step">
+            <span class="pat-phase">Exploitation</span>
+            <a class="pat-tech idchip idchip-link" href="/intelligence/bec/#BEC-EX-01" title="Wire-transfer instruction">BEC-EX-01</a>
+            <span class="pat-tname">Wire-transfer instruction</span>
+            <span class="pat-note">The wire executes to the new details.</span>
+          </li>
+          <li class="pat-step">
+            <span class="pat-phase">Cash-out</span>
+            <a class="pat-tech idchip idchip-link" href="/intelligence/bec/#BEC-CO-01" title="Money-mule routing">BEC-CO-01</a>
+            <span class="pat-tname">Money-mule routing</span>
+            <span class="pat-note">Funds are moved through money-mule accounts.</span>
+          </li>
+          </ol>
+        </div>
+        <div class="pat-break">
+          <div class="pat-break-l">Earliest break · <a class="pat-break-id" href="/intelligence/bec/#BEC-EN-02" title="Vendor bank-change request">BEC-EN-02</a> · Out-of-band verification of banking changes</div>
+          <p>Authentication can't catch this — the mail is genuinely the vendor's. The break is procedural: any change to banking details is confirmed on a previously-known phone number, never a number supplied in the email. That single control neutralises the entire chain regardless of how convincing the thread is.</p>
+          <a class="pat-ref" href="/intelligence/bec/">Read the BEC pillar →</a>
+        </div>
+        <div class="pat-signals">
+          <div class="pat-label">Observable signals</div>
+          <ul>
+            <li>Banking details change partway through an existing thread.</li>
+            <li>A new reply-to or subtle send-time / language shift from the vendor.</li>
+            <li>Pressure to pay before a stated deadline, discouraging a call-back.</li>
+          </ul>
+        </div>
+      </article>
+      <article class="pat reveal" id="executive-gift-card-fraud">
+        <div class="pat-head">
+          <div class="pat-h-l"><span class="idchip">EAP-04</span><h3>Executive-impersonation gift-card fraud</h3></div>
+          <div class="pat-pillars"><a class="pat-pillar" href="/intelligence/bec/">BEC · BEC</a><a class="pat-pillar" href="/intelligence/spoofing/">SPO · Spoofing</a></div>
+        </div>
+        <p class="pat-summary">A low-tech, high-volume BEC chain: a junior employee is pressured by a spoofed executive into buying gift cards under a veil of confidentiality.</p>
+        <p class="pat-scenario">A finance or admin junior is identified and receives a message that appears to come from a senior executive — usually only the display name is forged, from a free webmail account — asking them urgently and confidentially to buy gift cards. The confidentiality framing exists precisely to stop the victim verifying with anyone.</p>
+        <div class="pat-chain-wrap">
+          <div class="pat-label">The chain</div>
+          <ol class="pat-chain">
+          <li class="pat-step">
+            <span class="pat-phase">Reconnaissance</span>
+            <a class="pat-tech idchip idchip-link" href="/intelligence/bec/#BEC-RT-01" title="Finance-role identification">BEC-RT-01</a>
+            <span class="pat-tname">Finance-role identification</span>
+            <span class="pat-note">A junior finance/admin role is identified as the target.</span>
+          </li>
+          <li class="pat-step">
+            <span class="pat-phase">Impersonation</span>
+            <a class="pat-tech idchip idchip-link" href="/intelligence/bec/#BEC-AC-04" title="Display-name impersonation">BEC-AC-04</a>
+            <span class="pat-tname">Display-name impersonation</span>
+            <span class="pat-note">The executive's display name is impersonated.</span>
+          </li>
+          <li class="pat-step">
+            <span class="pat-phase">Engagement</span>
+            <a class="pat-tech idchip idchip-link" href="/intelligence/bec/#BEC-EN-01" title="Executive request">BEC-EN-01</a>
+            <span class="pat-tname">Executive request</span>
+            <span class="pat-note">An urgent executive request is issued.</span>
+          </li>
+          <li class="pat-step">
+            <span class="pat-phase">Engagement</span>
+            <a class="pat-tech idchip idchip-link" href="/intelligence/bec/#BEC-EN-05" title="Confidentiality framing">BEC-EN-05</a>
+            <span class="pat-tname">Confidentiality framing</span>
+            <span class="pat-note">Confidentiality framing isolates the victim from colleagues.</span>
+          </li>
+          <li class="pat-step">
+            <span class="pat-phase">Exploitation</span>
+            <a class="pat-tech idchip idchip-link" href="/intelligence/bec/#BEC-EX-04" title="Gift-card request">BEC-EX-04</a>
+            <span class="pat-tname">Gift-card request</span>
+            <span class="pat-note">Gift cards are requested and their codes exfiltrated.</span>
+          </li>
+          <li class="pat-step">
+            <span class="pat-phase">Exploitation</span>
+            <a class="pat-tech idchip idchip-link" href="/intelligence/bec/#BEC-EX-05" title="Verification suppression">BEC-EX-05</a>
+            <span class="pat-tname">Verification suppression</span>
+            <span class="pat-note">Verification is actively suppressed ('I'm in a meeting').</span>
+          </li>
+          </ol>
+        </div>
+        <div class="pat-break">
+          <div class="pat-break-l">Earliest break · <a class="pat-break-id" href="/intelligence/bec/#BEC-EX-05" title="Verification suppression">BEC-EX-05</a> · A 'no gift cards, always verify' norm</div>
+          <p>Enforcing DMARC and display-name / external-sender banners strips the disguise, and a standing rule — leadership never requests gift cards by email, and any such request is verified in person — makes the verification-suppression step fail. The chain depends on the victim not checking; remove that and it collapses.</p>
+          <a class="pat-ref" href="/intelligence/bec/">Read the BEC pillar →</a>
+        </div>
+        <div class="pat-signals">
+          <div class="pat-label">Observable signals</div>
+          <ul>
+            <li>Executive display name over a free-webmail or lookalike address.</li>
+            <li>Urgency plus secrecy: 'don't tell anyone, I'm unavailable to call'.</li>
+            <li>A request for gift-card purchases or their redemption codes.</li>
+          </ul>
+        </div>
+      </article>
+      <article class="pat reveal" id="macro-loader-ransomware">
+        <div class="pat-head">
+          <div class="pat-h-l"><span class="idchip">EAP-05</span><h3>Macro-document loader to ransomware</h3></div>
+          <div class="pat-pillars"><a class="pat-pillar" href="/intelligence/mal/">MAL · Malware</a></div>
+        </div>
+        <p class="pat-summary">The classic malware-delivery chain: a lure document runs a macro that pulls a loader, which stages the final ransomware payload.</p>
+        <p class="pat-scenario">A macro-enabled document arrives as an attachment, often inside a password-protected archive with the password in the body to defeat scanning. If the recipient enables content, the macro fetches and runs a loader, which persists and stages the payload — frequently ransomware.</p>
+        <div class="pat-chain-wrap">
+          <div class="pat-label">The chain</div>
+          <ol class="pat-chain">
+          <li class="pat-step">
+            <span class="pat-phase">Packaging</span>
+            <a class="pat-tech idchip idchip-link" href="/intelligence/mal/#MAL-PK-02" title="Macro-enabled document">MAL-PK-02</a>
+            <span class="pat-tname">Macro-enabled document</span>
+            <span class="pat-note">A macro-enabled Office document is prepared as the lure.</span>
+          </li>
+          <li class="pat-step">
+            <span class="pat-phase">Delivery</span>
+            <a class="pat-tech idchip idchip-link" href="/intelligence/mal/#MAL-DL-01" title="Attachment delivery">MAL-DL-01</a>
+            <span class="pat-tname">Attachment delivery</span>
+            <span class="pat-note">It is delivered as an email attachment.</span>
+          </li>
+          <li class="pat-step">
+            <span class="pat-phase">Evasion</span>
+            <a class="pat-tech idchip idchip-link" href="/intelligence/mal/#MAL-EV-03" title="Password gating">MAL-EV-03</a>
+            <span class="pat-tname">Password gating</span>
+            <span class="pat-note">Password gating hides the payload from gateway scanners.</span>
+          </li>
+          <li class="pat-step">
+            <span class="pat-phase">Evasion</span>
+            <a class="pat-tech idchip idchip-link" href="/intelligence/mal/#MAL-EV-01" title="Sandbox evasion">MAL-EV-01</a>
+            <span class="pat-tname">Sandbox evasion</span>
+            <span class="pat-note">Sandbox checks delay execution in analysis environments.</span>
+          </li>
+          <li class="pat-step">
+            <span class="pat-phase">Execution</span>
+            <a class="pat-tech idchip idchip-link" href="/intelligence/mal/#MAL-EX-01" title="Macro execution">MAL-EX-01</a>
+            <span class="pat-tname">Macro execution</span>
+            <span class="pat-note">Enabling content runs the macro.</span>
+          </li>
+          <li class="pat-step">
+            <span class="pat-phase">Install</span>
+            <a class="pat-tech idchip idchip-link" href="/intelligence/mal/#MAL-IN-01" title="Dropper / loader stage">MAL-IN-01</a>
+            <span class="pat-tname">Dropper / loader stage</span>
+            <span class="pat-note">A dropper / loader stage fetches the next payload.</span>
+          </li>
+          <li class="pat-step">
+            <span class="pat-phase">Install</span>
+            <a class="pat-tech idchip idchip-link" href="/intelligence/mal/#MAL-IN-02" title="Autostart persistence">MAL-IN-02</a>
+            <span class="pat-tname">Autostart persistence</span>
+            <span class="pat-note">Autostart entries establish persistence.</span>
+          </li>
+          <li class="pat-step">
+            <span class="pat-phase">Impact</span>
+            <a class="pat-tech idchip idchip-link" href="/intelligence/mal/#MAL-OB-02" title="Ransomware impact">MAL-OB-02</a>
+            <span class="pat-tname">Ransomware impact</span>
+            <span class="pat-note">Ransomware encrypts and extorts.</span>
+          </li>
+          </ol>
+        </div>
+        <div class="pat-break">
+          <div class="pat-break-l">Earliest break · <a class="pat-break-id" href="/intelligence/mal/#MAL-EX-01" title="Macro execution">MAL-EX-01</a> · Block macros from the internet; detonate attachments</div>
+          <p>Disabling macros in files that arrive from the internet by policy prevents the execution step outright. Detonating attachments in a sandbox and stripping active content at the gateway remove the delivery advantage the password-gating was designed to buy.</p>
+          <a class="pat-ref" href="/intelligence/mal/">Read the malware pillar →</a>
+        </div>
+        <div class="pat-signals">
+          <div class="pat-label">Observable signals</div>
+          <ul>
+            <li>A password-protected archive with the password written in the email body.</li>
+            <li>A document that insists you 'Enable Editing / Enable Content'.</li>
+            <li>Outbound fetch to an unfamiliar host immediately after opening a document.</li>
+          </ul>
+        </div>
+      </article>
+      <article class="pat reveal" id="reply-chain-hijack-delivery">
+        <div class="pat-head">
+          <div class="pat-h-l"><span class="idchip">EAP-06</span><h3>Reply-chain hijack malware delivery</h3></div>
+          <div class="pat-pillars"><a class="pat-pillar" href="/intelligence/mal/">MAL · Malware</a><a class="pat-pillar" href="/intelligence/phishing/">PHI · Phishing</a></div>
+        </div>
+        <p class="pat-summary">Malware delivered from a real, compromised account into a genuine existing thread — trust is borrowed from the conversation, so authentication alone won't stop it.</p>
+        <p class="pat-scenario">An attacker with access to a legitimate mailbox replies into a real, ongoing thread, attaching a payload package. Because the message authenticates and continues a conversation the recipient recognises, the usual sender-trust cues all point the wrong way; the defence has to move to the content.</p>
+        <div class="pat-chain-wrap">
+          <div class="pat-label">The chain</div>
+          <ol class="pat-chain">
+          <li class="pat-step">
+            <span class="pat-phase">Access</span>
+            <a class="pat-tech idchip idchip-link" href="/intelligence/phishing/#PHI-IN-06" title="Compromised sender account">PHI-IN-06</a>
+            <span class="pat-tname">Compromised sender account</span>
+            <span class="pat-note">A legitimate sender account is compromised.</span>
+          </li>
+          <li class="pat-step">
+            <span class="pat-phase">Delivery</span>
+            <a class="pat-tech idchip idchip-link" href="/intelligence/mal/#MAL-DL-04" title="Reply-chain delivery">MAL-DL-04</a>
+            <span class="pat-tname">Reply-chain delivery</span>
+            <span class="pat-note">The payload is sent as a reply within a real thread.</span>
+          </li>
+          <li class="pat-step">
+            <span class="pat-phase">Packaging</span>
+            <a class="pat-tech idchip idchip-link" href="/intelligence/mal/#MAL-PK-04" title="HTML smuggling package">MAL-PK-04</a>
+            <span class="pat-tname">HTML smuggling package</span>
+            <span class="pat-note">HTML smuggling assembles the file in the browser to evade scanning.</span>
+          </li>
+          <li class="pat-step">
+            <span class="pat-phase">Execution</span>
+            <a class="pat-tech idchip idchip-link" href="/intelligence/mal/#MAL-EX-04" title="User-run persuasion">MAL-EX-04</a>
+            <span class="pat-tname">User-run persuasion</span>
+            <span class="pat-note">Familiar context persuades the user to run it.</span>
+          </li>
+          <li class="pat-step">
+            <span class="pat-phase">Outcome</span>
+            <a class="pat-tech idchip idchip-link" href="/intelligence/mal/#MAL-OB-03" title="Remote control">MAL-OB-03</a>
+            <span class="pat-tname">Remote control</span>
+            <span class="pat-note">The operator gains remote control of the host.</span>
+          </li>
+          </ol>
+        </div>
+        <div class="pat-break">
+          <div class="pat-break-l">Earliest break · <a class="pat-break-id" href="/intelligence/mal/#MAL-PK-04" title="HTML smuggling package">MAL-PK-04</a> · Content detonation, not sender trust</div>
+          <p>Because the sender is genuine and the thread is real, DMARC and reputation pass — so the break must be at the content: detonate attachments and reconstruct smuggled files server-side, and flag unexpected archives or HTML attachments even from known correspondents.</p>
+          <a class="pat-ref" href="/intelligence/mal/">Read the malware pillar →</a>
+        </div>
+        <div class="pat-signals">
+          <div class="pat-label">Observable signals</div>
+          <ul>
+            <li>A reply into a genuine old thread that suddenly carries an attachment.</li>
+            <li>An HTML attachment that assembles a downloadable file locally.</li>
+            <li>An archive or macro document unexpected from a known contact.</li>
+          </ul>
+        </div>
+      </article>
+      <article class="pat reveal" id="snowshoe-credential-harvest">
+        <div class="pat-head">
+          <div class="pat-h-l"><span class="idchip">EAP-07</span><h3>Snowshoe credential-harvest spam</h3></div>
+          <div class="pat-pillars"><a class="pat-pillar" href="/intelligence/">SPM · Spam</a><a class="pat-pillar" href="/intelligence/phishing/">PHI · Phishing</a></div>
+        </div>
+        <p class="pat-summary">Volume abuse that spreads a campaign thinly across many low-reputation sources to stay under per-IP thresholds while funnelling victims to a credential-harvest page.</p>
+        <p class="pat-scenario">Sending is distributed across a wide fan of low-volume IPs and freshly-warmed domains so no single source trips a volumetric filter. Urgent, brand-flavoured lures push recipients through cloaked redirects to a harvest page; captured credentials are then resold.</p>
+        <div class="pat-chain-wrap">
+          <div class="pat-label">The chain</div>
+          <ol class="pat-chain">
+          <li class="pat-step">
+            <span class="pat-phase">Infrastructure</span>
+            <a class="pat-tech idchip idchip-link" href="/intelligence/#SPM-IA-01" title="Snowshoe distribution">SPM-IA-01</a>
+            <span class="pat-tname">Snowshoe distribution</span>
+            <span class="pat-note">Snowshoe distribution spreads volume across many /24s.</span>
+          </li>
+          <li class="pat-step">
+            <span class="pat-phase">Infrastructure</span>
+            <a class="pat-tech idchip idchip-link" href="/intelligence/#SPM-DE-02" title="Reputation warming">SPM-DE-02</a>
+            <span class="pat-tname">Reputation warming</span>
+            <span class="pat-note">Reputation warming primes fresh sending identities.</span>
+          </li>
+          <li class="pat-step">
+            <span class="pat-phase">Lure</span>
+            <a class="pat-tech idchip idchip-link" href="/intelligence/#SPM-CL-01" title="Urgency &amp; scarcity framing">SPM-CL-01</a>
+            <span class="pat-tname">Urgency &amp; scarcity framing</span>
+            <span class="pat-note">Urgency & scarcity framing drives the click.</span>
+          </li>
+          <li class="pat-step">
+            <span class="pat-phase">Lure</span>
+            <a class="pat-tech idchip idchip-link" href="/intelligence/#SPM-CL-02" title="Brand &amp; authority impersonation">SPM-CL-02</a>
+            <span class="pat-tname">Brand &amp; authority impersonation</span>
+            <span class="pat-note">Brand & authority impersonation borrows trust.</span>
+          </li>
+          <li class="pat-step">
+            <span class="pat-phase">Delivery</span>
+            <a class="pat-tech idchip idchip-link" href="/intelligence/#SPM-DE-01" title="Redirect &amp; cloaking chains">SPM-DE-01</a>
+            <span class="pat-tname">Redirect &amp; cloaking chains</span>
+            <span class="pat-note">Redirect & cloaking chains hide the true destination.</span>
+          </li>
+          <li class="pat-step">
+            <span class="pat-phase">Capture</span>
+            <a class="pat-tech idchip idchip-link" href="/intelligence/#SPM-EP-01" title="Credential-harvest destinations">SPM-EP-01</a>
+            <span class="pat-tname">Credential-harvest destinations</span>
+            <span class="pat-note">A credential-harvest destination collects logins.</span>
+          </li>
+          <li class="pat-step">
+            <span class="pat-phase">Monetisation</span>
+            <a class="pat-tech idchip idchip-link" href="/intelligence/#SPM-OBJ-04" title="Credential &amp; data resale">SPM-OBJ-04</a>
+            <span class="pat-tname">Credential &amp; data resale</span>
+            <span class="pat-note">Harvested credentials & data are resold.</span>
+          </li>
+          </ol>
+        </div>
+        <div class="pat-break">
+          <div class="pat-break-l">Earliest break · <a class="pat-break-id" href="/intelligence/#SPM-IA-01" title="Snowshoe distribution">SPM-IA-01</a> · Reputation + redirect analysis at scale</div>
+          <p>Per-IP thresholds are exactly what snowshoe defeats, so the break is aggregate: cross-source reputation and campaign clustering catch the fan of thin senders, while unwrapping redirect chains exposes the shared harvest destination the lures all point to.</p>
+          <a class="pat-ref" href="/intelligence/">Read the spam pillar →</a>
+        </div>
+        <div class="pat-signals">
+          <div class="pat-label">Observable signals</div>
+          <ul>
+            <li>Many low-reputation sources each sending tiny volumes of similar mail.</li>
+            <li>Freshly-registered or recently-warmed sending domains.</li>
+            <li>Links that pass through cloaking redirects to a lookalike login page.</li>
+          </ul>
+        </div>
+      </article>
+      <article class="pat reveal" id="advance-fee-romance-fraud">
+        <div class="pat-head">
+          <div class="pat-h-l"><span class="idchip">EAP-08</span><h3>Advance-fee &amp; romance fraud</h3></div>
+          <div class="pat-pillars"><a class="pat-pillar" href="/intelligence/scam/">SCM · Scam</a></div>
+        </div>
+        <p class="pat-summary">A long-game social chain that builds rapport, moves the victim off-platform, then escalates a series of fees against a manufactured payoff that never arrives.</p>
+        <p class="pat-scenario">An opener is broadcast or narrowly targeted; a responder is drawn into a relationship or opportunity, migrated to a private channel, and slowly committed through small reciprocity. Fees then escalate against sunk cost until the victim can no longer justify stopping — paid over irreversible rails.</p>
+        <div class="pat-chain-wrap">
+          <div class="pat-label">The chain</div>
+          <ol class="pat-chain">
+          <li class="pat-step">
+            <span class="pat-phase">Casting</span>
+            <a class="pat-tech idchip idchip-link" href="/intelligence/scam/#SCM-LB-01" title="Mass blast">SCM-LB-01</a>
+            <span class="pat-tname">Mass blast</span>
+            <span class="pat-note">A mass blast seeds a wide pool of potential victims.</span>
+          </li>
+          <li class="pat-step">
+            <span class="pat-phase">Hook</span>
+            <a class="pat-tech idchip idchip-link" href="/intelligence/scam/#SCM-HK-02" title="Romance opener">SCM-HK-02</a>
+            <span class="pat-tname">Romance opener</span>
+            <span class="pat-note">A romance (or windfall/investment) opener engages a responder.</span>
+          </li>
+          <li class="pat-step">
+            <span class="pat-phase">Trust</span>
+            <a class="pat-tech idchip idchip-link" href="/intelligence/scam/#SCM-TR-03" title="Small reciprocity">SCM-TR-03</a>
+            <span class="pat-tname">Small reciprocity</span>
+            <span class="pat-note">Small reciprocity manufactures a sense of obligation.</span>
+          </li>
+          <li class="pat-step">
+            <span class="pat-phase">Trust</span>
+            <a class="pat-tech idchip idchip-link" href="/intelligence/scam/#SCM-TR-01" title="Channel migration">SCM-TR-01</a>
+            <span class="pat-tname">Channel migration</span>
+            <span class="pat-note">The victim is migrated to a private channel, off oversight.</span>
+          </li>
+          <li class="pat-step">
+            <span class="pat-phase">Escalation</span>
+            <a class="pat-tech idchip idchip-link" href="/intelligence/scam/#SCM-ES-01" title="Rising fees">SCM-ES-01</a>
+            <span class="pat-tname">Rising fees</span>
+            <span class="pat-note">Rising fees are introduced one after another.</span>
+          </li>
+          <li class="pat-step">
+            <span class="pat-phase">Escalation</span>
+            <a class="pat-tech idchip idchip-link" href="/intelligence/scam/#SCM-ES-02" title="Sunk-cost pressure">SCM-ES-02</a>
+            <span class="pat-tname">Sunk-cost pressure</span>
+            <span class="pat-note">Sunk-cost pressure keeps the victim paying.</span>
+          </li>
+          <li class="pat-step">
+            <span class="pat-phase">Exploitation</span>
+            <a class="pat-tech idchip idchip-link" href="/intelligence/scam/#SCM-EX-01" title="Advance-fee demand">SCM-EX-01</a>
+            <span class="pat-tname">Advance-fee demand</span>
+            <span class="pat-note">An advance-fee demand extracts the first payment…</span>
+          </li>
+          <li class="pat-step">
+            <span class="pat-phase">Exploitation</span>
+            <a class="pat-tech idchip idchip-link" href="/intelligence/scam/#SCM-EX-03" title="Crypto transfer">SCM-EX-03</a>
+            <span class="pat-tname">Crypto transfer</span>
+            <span class="pat-note">…over irreversible crypto rails.</span>
+          </li>
+          <li class="pat-step">
+            <span class="pat-phase">Cash-out</span>
+            <a class="pat-tech idchip idchip-link" href="/intelligence/scam/#SCM-CO-01" title="Mule networks">SCM-CO-01</a>
+            <span class="pat-tname">Mule networks</span>
+            <span class="pat-note">Mule networks launder the proceeds.</span>
+          </li>
+          </ol>
+        </div>
+        <div class="pat-break">
+          <div class="pat-break-l">Earliest break · <a class="pat-break-id" href="/intelligence/scam/#SCM-TR-01" title="Channel migration">SCM-TR-01</a> · The upfront-fee tell</div>
+          <p>The reliable break is a rule, not a filter: a legitimate prize, employer or partner never requires an upfront fee or crypto payment to release money. Channel migration off a monitored platform is the earliest observable tell — treat it as the moment to disengage and verify.</p>
+          <a class="pat-ref" href="/intelligence/scam/">Read the scam pillar →</a>
+        </div>
+        <div class="pat-signals">
+          <div class="pat-label">Observable signals</div>
+          <ul>
+            <li>A quick push to move to WhatsApp/Telegram or private email.</li>
+            <li>Escalating fees, taxes or 'release charges' against a promised payoff.</li>
+            <li>Payment demanded in gift cards or cryptocurrency.</li>
+          </ul>
+        </div>
+      </article>
+  </div>
+</section>
+
+<section id="method">
+  <div class="wrap narrow">
+    <div class="sec-head reveal"><span class="eyebrow">Method &amp; honesty</span><h2>What a pattern is — and isn't.</h2></div>
+    <div class="prose reveal">
+      <p>These archetypes are <strong>analytical compositions</strong>, not incident reports. They describe how well-documented classes of email abuse are structured, so defenders can reason about where to intervene. They are deliberately not attributed to any named actor, and they contain no operational detail — every step is a link to a classification-and-defence technique, nothing more.</p>
+      <p>Each pattern is built only from techniques that exist in the published model, and the build fails if a reference doesn't resolve — so a pattern can never drift from the reference beneath it. The set is versioned as <strong>Patterns Library v1.0</strong> alongside <a class="ilink" href="/intelligence/governance/">Reference Model v1.0</a>; the underlying technique identifiers are unchanged. The library is published as <a class="ilink" href="/intelligence/patterns.json">machine-readable JSON</a> under CC BY 4.0.</p>
+    </div>
+    <div class="lib-cta reveal" style="display:flex;flex-wrap:wrap;gap:.8rem;margin-top:2rem">
+      <a href="/#lab" style="font-family:var(--mono);font-size:var(--step--1);letter-spacing:.05em;padding:.9em 1.4em;border-radius:2px;background:var(--signal);color:#04120C;font-weight:700;text-transform:uppercase">Grade your domain →</a>
+      <a href="/intelligence/techniques/" style="font-family:var(--mono);font-size:var(--step--1);letter-spacing:.05em;padding:.9em 1.4em;border-radius:2px;border:1px solid var(--line-strong);color:var(--ink);text-transform:uppercase">Browse all techniques →</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-row">
+    <span><span class="sig">SPAMCRACKERS</span>.COM — the Patterns Library · Reference Model v1.0</span>
+    <div class="foot-links">
+      <a href="/">Home</a>
+      <a href="/intelligence/">Reference Model</a>
+      <a href="/intelligence/techniques/">Techniques</a>
+      <a href="/intelligence/governance/">Governance</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var root=document.documentElement, tbtn=document.getElementById("themebtn");
+  tbtn.addEventListener("click", function(){
+    var isDark = root.getAttribute("data-theme")==="dark" || (!root.getAttribute("data-theme") && window.matchMedia("(prefers-color-scheme: dark)").matches);
+    root.setAttribute("data-theme", isDark ? "light" : "dark");
+  });
+  if(!reduce){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target);}});},{threshold:.08});
+    document.querySelectorAll(".reveal").forEach(function(el){io.observe(el);});
+  } else { document.querySelectorAll(".reveal").forEach(function(el){el.classList.add("in");}); }
+})();
+</script>
+</body>
+</html>

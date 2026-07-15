@@ -5,10 +5,18 @@
   <link href="https://spamcrackers.com/feed.xml" rel="self" type="application/atom+xml"/>
   <link href="https://spamcrackers.com/" rel="alternate" type="text/html"/>
   <id>https://spamcrackers.com/</id>
-  <updated>2026-07-15T21:00:00Z</updated>
+  <updated>2026-07-15T23:00:00Z</updated>
   <author><name>SpamCrackers</name><uri>https://spamcrackers.com/</uri></author>
   <icon>https://spamcrackers.com/logo.png</icon>
   <rights>CC BY 4.0</rights>
+
+  <entry>
+    <title>The Patterns Library — documented campaign archetypes</title>
+    <id>https://spamcrackers.com/intelligence/patterns/</id>
+    <link href="https://spamcrackers.com/intelligence/patterns/" rel="alternate" type="text/html"/>
+    <updated>2026-07-15T23:00:00Z</updated>
+    <summary>Eight defensive campaign archetypes — exact-domain spoofing, AiTM phishing, vendor invoice redirection, executive gift-card fraud, macro-loader ransomware, reply-chain hijack, snowshoe spam and advance-fee fraud — each composing existing techniques into an ordered chain with its earliest point of defence. Published as HTML and machine-readable JSON.</summary>
+  </entry>
 
   <entry>
     <title>The Standard, published as a canonical reference</title>
