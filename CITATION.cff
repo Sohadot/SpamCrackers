@@ -1,0 +1,31 @@
+cff-version: 1.2.0
+title: "SpamCrackers — Email Abuse Intelligence Reference Model & Standard"
+message: "If you reference this model, standard, or any of its techniques, please cite it as below."
+type: dataset
+abstract: >-
+  A defensive, analytical reference for email abuse — the Email Abuse
+  Intelligence Reference Model (six pillars, 163 classification-and-defence
+  techniques with stable identifiers) and the SpamCrackers Standard for
+  email authentication (SPF, DKIM, DMARC, MX).
+authors:
+  - name: "SpamCrackers"
+    website: "https://spamcrackers.com/"
+url: "https://spamcrackers.com/intelligence/"
+repository-code: "https://github.com/Sohadot/SpamCrackers"
+license: CC-BY-4.0
+version: "1.0.0"
+date-released: "2026-07-15"
+identifiers:
+  - type: url
+    value: "https://spamcrackers.com/intelligence/model.json"
+    description: "Machine-readable model (JSON)"
+keywords:
+  - email authentication
+  - email abuse intelligence
+  - threat intelligence
+  - SPF
+  - DKIM
+  - DMARC
+  - email spoofing
+  - phishing
+  - business email compromise
