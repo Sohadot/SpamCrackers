@@ -271,7 +271,25 @@ try {
   }
   for (const d of canon) if (!recSet.has(d)) fail(`latest.json: missing measurement for ${d}`);
   notes.push(`observatory: ${canon.size} domains, page + latest.json + domains.json in sync`);
-} catch (e) { fail("observatory data invalid: " + e.message); }
+
+  /* catalog.json must stay in sync with the artifacts it describes */
+  const cat = JSON.parse(fs.readFileSync(path.join(ROOT, "catalog.json"), "utf8"));
+  const model2 = JSON.parse(fs.readFileSync(path.join(ROOT, "intelligence/model.json"), "utf8"));
+  const pat2 = JSON.parse(fs.readFileSync(path.join(ROOT, "intelligence/patterns.json"), "utf8"));
+  const expect = { "reference-model": model2.version, "patterns-library": pat2.version, "observatory": rec.measuredDate };
+  let catUrls = 0;
+  const checkUrl = (u) => { const x = resolveAbs(u); if (!x.external && !x.file) fail(`catalog.json: unresolved url ${u}`); else catUrls++; };
+  for (const d of cat.datasets) {
+    if (d.id in expect && String(d.version) !== String(expect[d.id]))
+      fail(`catalog.json: ${d.id} version ${d.version} != source ${expect[d.id]}`);
+    checkUrl(d.landingPage);
+    for (const dist of d.distribution || []) checkUrl(dist.url);
+  }
+  if (String((cat.documents.find((x) => x.id === "governance") || {}).version) !== String(model2.version))
+    fail("catalog.json: governance version != model version");
+  for (const doc of cat.documents) checkUrl(doc.url);
+  notes.push(`catalog.json: ${cat.datasets.length} datasets, ${cat.documents.length} docs, ${catUrls} urls resolve, versions in sync`);
+} catch (e) { fail("observatory/catalog data invalid: " + e.message); }
 
 /* ---------------- report ---------------- */
 console.log("SpamCrackers — verify");

@@ -1,0 +1,86 @@
+{
+  "name": "SpamCrackers — open reference catalog",
+  "description": "The citable, machine-readable catalog of SpamCrackers' open datasets and versioned reference documents for email authentication and email-abuse intelligence.",
+  "url": "https://spamcrackers.com/cite/",
+  "publisher": {
+    "name": "SpamCrackers",
+    "url": "https://spamcrackers.com/"
+  },
+  "license": "CC-BY-4.0",
+  "generated": "2026-07-16",
+  "datasets": [
+    {
+      "id": "reference-model",
+      "title": "Email Abuse Intelligence — Reference Model",
+      "version": "1.0.0",
+      "description": "163 defensively-described techniques across six pillars, each with a stable identifier.",
+      "landingPage": "https://spamcrackers.com/intelligence/",
+      "license": "CC-BY-4.0",
+      "distribution": [
+        {
+          "format": "application/json",
+          "url": "https://spamcrackers.com/intelligence/model.json"
+        },
+        {
+          "format": "application/schema+json",
+          "url": "https://spamcrackers.com/intelligence/model.schema.json"
+        }
+      ]
+    },
+    {
+      "id": "patterns-library",
+      "title": "Email Abuse Patterns Library",
+      "version": "1.0.0",
+      "description": "8 documented campaign archetypes composed from the reference model's techniques.",
+      "landingPage": "https://spamcrackers.com/intelligence/patterns/",
+      "license": "CC-BY-4.0",
+      "distribution": [
+        {
+          "format": "application/json",
+          "url": "https://spamcrackers.com/intelligence/patterns.json"
+        }
+      ]
+    },
+    {
+      "id": "observatory",
+      "title": "Observatory — email-authentication measurement record",
+      "version": "2026-07-16",
+      "description": "A weekly, server-measured record of how 24 well-known domains score against the Standard (SPF, DMARC, MX), with an immutable archive.",
+      "landingPage": "https://spamcrackers.com/observatory/",
+      "license": "CC-BY-4.0",
+      "distribution": [
+        {
+          "format": "application/json",
+          "url": "https://spamcrackers.com/observatory/latest.json"
+        },
+        {
+          "format": "application/json",
+          "url": "https://spamcrackers.com/observatory/domains.json"
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "id": "standard",
+      "title": "The SpamCrackers Standard for Email Authentication",
+      "version": "1.0",
+      "url": "https://spamcrackers.com/standard/",
+      "license": "CC-BY-4.0"
+    },
+    {
+      "id": "methodology",
+      "title": "Methodology & Limitations",
+      "version": "1.0",
+      "url": "https://spamcrackers.com/methodology/",
+      "license": "CC-BY-4.0"
+    },
+    {
+      "id": "governance",
+      "title": "Model Governance",
+      "version": "1.0.0",
+      "url": "https://spamcrackers.com/intelligence/governance/",
+      "license": "CC-BY-4.0"
+    }
+  ]
+}

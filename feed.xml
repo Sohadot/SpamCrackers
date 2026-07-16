@@ -5,10 +5,18 @@
   <link href="https://spamcrackers.com/feed.xml" rel="self" type="application/atom+xml"/>
   <link href="https://spamcrackers.com/" rel="alternate" type="text/html"/>
   <id>https://spamcrackers.com/</id>
-  <updated>2026-07-16T12:00:00Z</updated>
+  <updated>2026-07-16T16:00:00Z</updated>
   <author><name>SpamCrackers</name><uri>https://spamcrackers.com/</uri></author>
   <icon>https://spamcrackers.com/logo.png</icon>
   <rights>CC BY 4.0</rights>
+
+  <entry>
+    <title>Cite &amp; Reproduce — an open dataset catalog</title>
+    <id>https://spamcrackers.com/cite/</id>
+    <link href="https://spamcrackers.com/cite/" rel="alternate" type="text/html"/>
+    <updated>2026-07-16T16:00:00Z</updated>
+    <summary>A single hub to cite and independently reproduce every SpamCrackers work — the Standard, the Methodology, the Reference Model, the Patterns Library and the Observatory dataset — with ready citations, exact reproduction steps against public DNS, and a machine-readable catalog.json (CC BY 4.0) that describes every dataset, its version, format and license.</summary>
+  </entry>
 
   <entry>
     <title>Methodology &amp; Limitations, published in full</title>
