@@ -291,6 +291,31 @@ try {
   notes.push(`catalog.json: ${cat.datasets.length} datasets, ${cat.documents.length} docs, ${catUrls} urls resolve, versions in sync`);
 } catch (e) { fail("observatory/catalog data invalid: " + e.message); }
 
+/* ---------------- architecture decisions ---------------- */
+try {
+  const dec = JSON.parse(fs.readFileSync(path.join(ROOT, "decisions.json"), "utf8"));
+  const page = fs.readFileSync(path.join(ROOT, "decisions/index.html"), "utf8");
+  const pageIds = idsOf(path.join(ROOT, "decisions/index.html"));
+  const adrRe = /^ADR-\d{4}$/;
+  if (!/^\d+\.\d+\.\d+$/.test(dec.version)) fail("decisions.json: bad version");
+  if (dec.counts.decisions !== dec.decisions.length) fail("decisions.json: count mismatch");
+  const seen = new Set();
+  for (const d of dec.decisions) {
+    if (!adrRe.test(d.id)) fail(`decisions.json: bad id ${d.id}`);
+    if (seen.has(d.id)) fail(`decisions.json: duplicate id ${d.id}`);
+    seen.add(d.id);
+    for (const k of ["title", "status", "url", "context", "decision", "tradeoff"])
+      if (!d[k] || !String(d[k]).length) fail(`decisions.json: ${d.id} missing ${k}`);
+    if (!Array.isArray(d.alternatives) || !d.alternatives.length) fail(`decisions.json: ${d.id} needs alternatives`);
+    for (const a of d.alternatives || []) if (!a.option || !a.rejectedBecause) fail(`decisions.json: ${d.id} incomplete alternative`);
+    const frag = String(d.url).split("#")[1];
+    if (!frag || !pageIds.has(frag)) fail(`decisions.json: ${d.id} anchor #${frag} not on page`);
+  }
+  const pageCount = (page.match(/<article class="adr /g) || []).length;
+  if (pageCount !== dec.decisions.length) fail(`decisions: page has ${pageCount} cards, json has ${dec.decisions.length}`);
+  notes.push(`decisions.json: ${dec.decisions.length} ADRs, ids valid, anchors + count in sync with page`);
+} catch (e) { fail("decisions data invalid: " + e.message); }
+
 /* ---------------- report ---------------- */
 console.log("SpamCrackers — verify");
 console.log(`pages: ${files.length}`);

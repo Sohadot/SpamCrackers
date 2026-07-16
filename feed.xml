@@ -5,10 +5,18 @@
   <link href="https://spamcrackers.com/feed.xml" rel="self" type="application/atom+xml"/>
   <link href="https://spamcrackers.com/" rel="alternate" type="text/html"/>
   <id>https://spamcrackers.com/</id>
-  <updated>2026-07-16T16:00:00Z</updated>
+  <updated>2026-07-16T18:00:00Z</updated>
   <author><name>SpamCrackers</name><uri>https://spamcrackers.com/</uri></author>
   <icon>https://spamcrackers.com/logo.png</icon>
   <rights>CC BY 4.0</rights>
+
+  <entry>
+    <title>Architecture Decision Record published</title>
+    <id>https://spamcrackers.com/decisions/</id>
+    <link href="https://spamcrackers.com/decisions/" rel="alternate" type="text/html"/>
+    <updated>2026-07-16T18:00:00Z</updated>
+    <summary>Governance records the rules; a new Architecture Decision Record now records the reasoning behind the load-bearing choices — static hosting, git as the Observatory datastore, deterministic builders, permanent identifiers, one gate, defensive-only scope and more — each with the alternatives rejected and the trade-off it accepts, published as decisions.json (CC BY 4.0).</summary>
+  </entry>
 
   <entry>
     <title>Cite &amp; Reproduce — an open dataset catalog</title>

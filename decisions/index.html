@@ -1,0 +1,628 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; img-src 'self' data:; font-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self' https://dns.google https://formspree.io; form-action 'self' https://formspree.io; upgrade-insecure-requests" />
+<meta name="referrer" content="strict-origin-when-cross-origin" />
+<link rel="alternate" type="application/atom+xml" title="SpamCrackers updates" href="/feed.xml" />
+<title>Architecture Decisions — Why the Asset Is Built This Way | SpamCrackers</title>
+<meta name="description" content="The SpamCrackers architecture decision record: the reasoning behind key choices — static hosting, git as the Observatory datastore, deterministic builders, permanent identifiers, one gate, defensive-only scope — each with the alternatives rejected and the trade-off it accepts." />
+<link rel="canonical" href="https://spamcrackers.com/decisions/" />
+<meta name="robots" content="index, follow, max-image-preview:large" />
+<meta name="theme-color" content="#08090D" media="(prefers-color-scheme: dark)" />
+<meta name="theme-color" content="#ECEDE8" media="(prefers-color-scheme: light)" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2308090D'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%232FE39B'/%3E%3C/svg%3E" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="SpamCrackers" />
+<meta property="og:url" content="https://spamcrackers.com/decisions/" />
+<meta property="og:title" content="Architecture Decisions — Why the Asset Is Built This Way" />
+<meta property="og:description" content="Key architectural choices, the alternatives rejected, and the trade-off each one accepts. Recorded and versioned." />
+<meta property="og:image" content="https://spamcrackers.com/intelligence/og/decisions.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Architecture Decisions — SpamCrackers" />
+<meta name="twitter:description" content="The why-this-not-that record: choices, rejected alternatives, and accepted trade-offs." />
+<meta name="twitter:image" content="https://spamcrackers.com/intelligence/og/decisions.png" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://spamcrackers.com/#organization",
+      "name": "SpamCrackers",
+      "url": "https://spamcrackers.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://spamcrackers.com/logo.png",
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "@type": "TechArticle",
+      "@id": "https://spamcrackers.com/decisions/#article",
+      "headline": "SpamCrackers — Architecture Decision Record",
+      "description": "The reasoning behind key architectural choices — static hosting, git as datastore, deterministic builders, stable identifiers, and more — with the alternatives rejected and the trade-off each accepts.",
+      "url": "https://spamcrackers.com/decisions/",
+      "isPartOf": {
+        "@id": "https://spamcrackers.com/#organization"
+      },
+      "publisher": {
+        "@id": "https://spamcrackers.com/#organization"
+      },
+      "license": "https://creativecommons.org/licenses/by/4.0/",
+      "about": [
+        {
+          "@type": "Thing",
+          "name": "ADR-0001 — Static site with client-side checks, no backend"
+        },
+        {
+          "@type": "Thing",
+          "name": "ADR-0002 — Git history as the Observatory datastore"
+        },
+        {
+          "@type": "Thing",
+          "name": "ADR-0003 — Deterministic build scripts over a framework"
+        },
+        {
+          "@type": "Thing",
+          "name": "ADR-0004 — Permanent, structured identifiers"
+        },
+        {
+          "@type": "Thing",
+          "name": "ADR-0005 — Pillar pages are the source; model.json is generated"
+        },
+        {
+          "@type": "Thing",
+          "name": "ADR-0006 — One canonical Organization across the knowledge graph"
+        },
+        {
+          "@type": "Thing",
+          "name": "ADR-0007 — One deterministic gate as the definition of valid"
+        },
+        {
+          "@type": "Thing",
+          "name": "ADR-0008 — Two grading scores instead of one"
+        },
+        {
+          "@type": "Thing",
+          "name": "ADR-0009 — Defensive-only scope as an absolute boundary"
+        },
+        {
+          "@type": "Thing",
+          "name": "ADR-0010 — Security headers via meta-CSP plus edge rules"
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "SpamCrackers",
+          "item": "https://spamcrackers.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Governance",
+          "item": "https://spamcrackers.com/intelligence/governance/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Architecture Decisions",
+          "item": "https://spamcrackers.com/decisions/"
+        }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+  :root{
+    --ground:#08090D; --ground-2:#0D0F15; --panel:#11141C;
+    --ink:#D9DEE6; --ink-dim:#9AA3B0; --mute:#737D8B;
+    --line:rgba(217,222,230,.10); --line-strong:rgba(217,222,230,.20);
+    --signal:#2FE39B; --noise:#FF3B6B; --amber:#F6C560; --focus:#7FE3FF;
+    --maxw:1180px; --narrow:760px;
+    --step--1:clamp(.78rem,.72rem + .3vw,.9rem);
+    --step-0:clamp(.98rem,.92rem + .3vw,1.06rem);
+    --step-1:clamp(1.2rem,1.05rem + .7vw,1.5rem);
+    --step-2:clamp(1.6rem,1.2rem + 1.8vw,2.4rem);
+    --step-3:clamp(2.2rem,1.5rem + 3.2vw,3.6rem);
+    --step-4:clamp(2.8rem,1.8rem + 5vw,5.2rem);
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,Roboto,Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,"SF Mono","SFMono-Regular",Menlo,Consolas,"Liberation Mono",monospace;
+  }
+  :root[data-theme="light"]{
+    --ground:#ECEDE8; --ground-2:#F4F5F1; --panel:#FFFFFF;
+    --ink:#0F1218; --ink-dim:#454E5B; --mute:#5E6773;
+    --line:rgba(15,18,24,.12); --line-strong:rgba(15,18,24,.22);
+    --signal:#0F9E6A; --noise:#E01E52; --amber:#B77A11;
+  }
+  @media (prefers-color-scheme: light){
+    :root:not([data-theme="dark"]){
+      --ground:#ECEDE8; --ground-2:#F4F5F1; --panel:#FFFFFF;
+      --ink:#0F1218; --ink-dim:#454E5B; --mute:#5E6773;
+      --line:rgba(15,18,24,.12); --line-strong:rgba(15,18,24,.22);
+      --signal:#0F9E6A; --noise:#E01E52; --amber:#B77A11;
+    }
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;scroll-padding-top:70px}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:var(--step-0);line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  ::selection{background:var(--signal);color:var(--ground)}
+  a{color:inherit;text-decoration:none}
+  :focus-visible{outline:2px solid var(--focus);outline-offset:3px;border-radius:2px}
+  .wrap{max-width:var(--maxw);margin-inline:auto;padding-inline:clamp(1.1rem,4vw,3rem)}
+  .wrap.narrow{max-width:calc(var(--narrow) + 6rem)}
+  .mono{font-family:var(--mono)}
+  code{font-family:var(--mono);font-size:.88em;color:var(--signal);background:color-mix(in srgb,var(--signal) 12%,transparent);padding:.1em .42em;border-radius:3px;word-break:break-word}
+  .ilink{color:var(--signal);border-bottom:1px solid color-mix(in srgb,var(--signal) 45%,transparent);transition:border-color .2s}
+  .ilink:hover{border-color:var(--signal)}
+  .eyebrow{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.26em;text-transform:uppercase;color:var(--signal);display:inline-flex;align-items:center;gap:.6em}
+  .eyebrow::before{content:"";width:24px;height:1px;background:var(--signal);opacity:.7}
+
+  /* id chips */
+  .idchip{font-family:var(--mono);font-size:.7rem;letter-spacing:.06em;color:var(--signal);border:1px solid color-mix(in srgb,var(--signal) 45%,var(--line));border-radius:4px;padding:.2em .5em;white-space:nowrap;background:color-mix(in srgb,var(--signal) 8%,transparent)}
+  .idchip-link{transition:background .2s}
+  .idchip-link:hover{background:color-mix(in srgb,var(--signal) 20%,transparent)}
+
+  /* top bar */
+  header.bar{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:.8rem clamp(1.1rem,4vw,3rem);font-family:var(--mono);font-size:var(--step--1);letter-spacing:.05em;backdrop-filter:blur(9px);background:color-mix(in srgb,var(--ground) 75%,transparent);border-bottom:1px solid var(--line)}
+  .brand-min{display:flex;align-items:center;gap:.55rem;font-weight:700}
+  .brand-min .dot{width:9px;height:9px;background:var(--signal);border-radius:50%;box-shadow:0 0 12px var(--signal)}
+  .brand-min .tld{color:var(--mute)}
+  .bar nav{display:flex;align-items:center;gap:clamp(.7rem,1.8vw,1.5rem);color:var(--ink-dim)}
+  .bar nav a{transition:color .2s}.bar nav a:hover{color:var(--signal)}
+  .bar .navlink{display:none}
+  @media(min-width:900px){.bar .navlink{display:inline}}
+  .themebtn{font-family:var(--mono);font-size:var(--step--1);background:transparent;border:1px solid var(--line-strong);color:var(--ink-dim);padding:.35em .7em;border-radius:2px;cursor:pointer;letter-spacing:.1em;transition:.2s}
+  .themebtn:hover{border-color:var(--signal);color:var(--signal)}
+
+  /* sections */
+  section{position:relative;padding:clamp(3.6rem,7vw,6rem) 0;border-top:1px solid var(--line)}
+  .hero{border-top:none;padding-top:clamp(7rem,13vw,10rem)}
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion: reduce){.reveal{opacity:1;transform:none;transition:none}}
+  .sec-head{max-width:64ch;margin-bottom:2.4rem}
+  .sec-head h2{font-weight:800;font-size:var(--step-2);line-height:1.05;letter-spacing:-.025em;margin-top:1rem;text-wrap:balance}
+  .sec-head .sub{margin-top:1rem;color:var(--ink-dim);max-width:60ch}
+
+  /* hero */
+  .hero h1{font-weight:800;font-size:var(--step-4);line-height:.98;letter-spacing:-.035em;margin-top:1.4rem;text-wrap:balance}
+  .hero .hl{color:var(--signal)}
+  .hero .lede{margin-top:1.8rem;font-size:var(--step-1);line-height:1.45;color:var(--ink);max-width:54ch;text-wrap:pretty}
+  .hero .lede strong{color:var(--signal);font-weight:700}
+  .meta-chips{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:2.2rem}
+  .meta-chips .chip{font-family:var(--mono);font-size:var(--step--1);border:1px solid var(--line);border-radius:99px;padding:.45em .95em;color:var(--ink-dim)}
+  .meta-chips .chip b{color:var(--mute);font-weight:400;letter-spacing:.08em;text-transform:uppercase;font-size:.82em;margin-right:.5em}
+  .meta-chips .chip.stance{border-color:color-mix(in srgb,var(--signal) 45%,var(--line));color:var(--signal)}
+  .meta-chips .chip.stance b{color:color-mix(in srgb,var(--signal) 70%,var(--ink-dim))}
+
+  /* prose */
+  .prose p{max-width:68ch;margin-bottom:1.2rem;color:var(--ink-dim)}
+  .prose p:last-child{margin-bottom:0}
+  .prose strong{color:var(--ink)}
+  .prose em{color:var(--signal);font-style:normal}
+
+  /* boundaries */
+  .bound-grid{display:grid;gap:1px;grid-template-columns:1fr;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  @media(min-width:720px){.bound-grid{grid-template-columns:1fr 1fr}}
+  .bound{background:var(--ground-2);padding:clamp(1.4rem,3vw,2.2rem)}
+  .bound-label{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.14em;text-transform:uppercase;margin-bottom:1.1rem;display:flex;align-items:center;gap:.6em}
+  .bound-label::before{content:"";width:10px;height:10px;border-radius:50%}
+  .bound-label.ok{color:var(--signal)}.bound-label.ok::before{background:var(--signal)}
+  .bound-label.no{color:var(--noise)}.bound-label.no::before{background:var(--noise)}
+  .bound ul{list-style:none;display:flex;flex-direction:column;gap:.75rem}
+  .bound li{position:relative;padding-left:1.5rem;color:var(--ink-dim);line-height:1.5}
+  .bound li b{color:var(--ink)}
+  .bound.is li::before{content:"✓";position:absolute;left:0;color:var(--signal);font-family:var(--mono)}
+  .bound.not li::before{content:"✕";position:absolute;left:0;color:var(--noise);font-family:var(--mono)}
+  .bound-note{margin-top:1.6rem;font-family:var(--mono);font-size:var(--step--1);color:var(--ink-dim);line-height:1.7;border-left:2px solid var(--signal);padding-left:1.2rem;max-width:74ch}
+  .bound-note b{color:var(--signal)}
+
+  /* pillars */
+  .pillar-grid{display:grid;gap:1px;grid-template-columns:1fr;background:var(--line);border:1px solid var(--line)}
+  @media(min-width:620px){.pillar-grid{grid-template-columns:repeat(2,1fr)}}
+  @media(min-width:960px){.pillar-grid{grid-template-columns:repeat(3,1fr)}}
+  .pillar{background:var(--ground);padding:clamp(1.4rem,2.6vw,2rem);display:flex;flex-direction:column;gap:.6rem;transition:background .3s}
+  .pillar:hover{background:var(--ground-2)}
+  .pillar-top{display:flex;align-items:center;justify-content:space-between;gap:.6rem}
+  .pill-status{font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+  .pillar.active{background:color-mix(in srgb,var(--signal) 6%,var(--ground))}
+  .pillar.active .pill-status{color:var(--signal)}
+  .pillar h3{font-size:var(--step-1);font-weight:800;letter-spacing:-.02em}
+  .pillar p{color:var(--ink-dim);font-size:var(--step--1);line-height:1.55}
+  .pillar.planned{opacity:.82}
+
+  /* cite */
+  .cite{border:1px solid var(--line);border-radius:8px;padding:clamp(1.2rem,3vw,1.8rem);background:var(--ground-2)}
+  .cite-label{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.14em;text-transform:uppercase;color:var(--signal);margin-bottom:.8rem}
+  .cite p{color:var(--ink-dim);max-width:70ch}
+
+  /* tables */
+  .ref-table{width:100%;border-collapse:collapse;font-size:var(--step--1)}
+  .ref-table th{text-align:left;font-family:var(--mono);color:var(--mute);font-weight:400;letter-spacing:.08em;text-transform:uppercase;font-size:.7rem;padding:0 1rem .7rem 0;border-bottom:1px solid var(--line-strong)}
+  .ref-table td{padding:.8rem 1rem .8rem 0;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink-dim);line-height:1.5}
+  .ref-table tr:last-child td{border-bottom:none}
+  .ref-table td.code{color:var(--signal);white-space:nowrap}
+  .ref-table td.pk{color:var(--ink);font-weight:600}
+
+  /* taxonomy */
+  .tax-grid{display:grid;gap:1.5rem;grid-template-columns:1fr}
+  @media(min-width:820px){.tax-grid{grid-template-columns:1fr 1fr}}
+  .tax-block{border:1px solid var(--line);border-radius:8px;padding:clamp(1.2rem,2.6vw,1.8rem);background:var(--ground-2)}
+  .tax-head{display:flex;align-items:center;gap:.8rem;margin-bottom:1.2rem}
+  .tax-head h3{font-size:var(--step-1);font-weight:800;letter-spacing:-.02em}
+
+  /* matrix */
+  .matrix-scroll{overflow-x:auto;padding-bottom:.6rem;-webkit-overflow-scrolling:touch}
+  .matrix{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(190px,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;min-width:960px}
+  .matrix-col{background:var(--ground);display:flex;flex-direction:column;gap:1px}
+  .matrix-head{background:var(--ground-2);padding:.9rem .8rem;display:flex;flex-direction:column;gap:.45rem;min-height:72px}
+  .matrix-head .mh-name{font-weight:700;font-size:.86rem;line-height:1.2;letter-spacing:-.01em}
+  .matrix-cell{background:var(--ground);padding:.7rem .8rem;font-size:.8rem;color:var(--ink-dim);display:flex;flex-direction:column;gap:.25rem;transition:background .2s,color .2s;border-top:1px solid var(--line)}
+  .matrix-cell:hover{background:color-mix(in srgb,var(--signal) 10%,var(--ground));color:var(--ink)}
+  .matrix-cell .cell-id{font-size:.66rem;color:var(--mute)}
+  .matrix-cell:hover .cell-id{color:var(--signal)}
+
+  /* technique detail */
+  .phase{margin-top:3rem;scroll-margin-top:76px}
+  .phase-head{display:flex;align-items:center;gap:.8rem}
+  .phase-head h3{font-size:var(--step-1);font-weight:800;letter-spacing:-.02em}
+  .phase-blurb{color:var(--ink-dim);margin:.7rem 0 1.4rem;max-width:64ch}
+  .tcards{display:grid;gap:1rem;grid-template-columns:1fr}
+  @media(min-width:720px){.tcards{grid-template-columns:1fr 1fr}}
+  .tcard{border:1px solid var(--line);border-radius:8px;padding:1.2rem 1.3rem;background:var(--ground-2);scroll-margin-top:80px;transition:border-color .3s,box-shadow .3s}
+  .tcard.flash{border-color:var(--signal);box-shadow:0 0 0 1px var(--signal),0 14px 40px -20px var(--signal)}
+  .tcard-top{display:flex;align-items:center;gap:.7rem;margin-bottom:1rem}
+  .tcard-top h4{font-size:var(--step-0);font-weight:700;letter-spacing:-.01em}
+  .tcard-body{display:grid;grid-template-columns:1fr;gap:.35rem}
+  .tcard-body dt{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin-top:.7rem}
+  .tcard-body dt:first-child{margin-top:0}
+  .tcard-body dt.def{color:var(--signal)}
+  .tcard-body dd{color:var(--ink-dim);font-size:var(--step--1);line-height:1.55}
+  .tcard-body dd.def{color:var(--ink)}
+
+  /* evidence + confidence */
+  .conf{margin-top:2.2rem;border:1px solid var(--line);border-radius:8px;padding:clamp(1.2rem,3vw,1.8rem);background:var(--ground-2)}
+  .conf-label{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.14em;text-transform:uppercase;color:var(--signal);margin-bottom:1.2rem}
+  .conf-row{display:flex;gap:1rem;align-items:baseline;padding:.6rem 0;border-bottom:1px solid var(--line)}
+  .conf-row:last-child{border-bottom:none}
+  .conf-tier{font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;padding:.25em .7em;border-radius:99px;border:1px solid currentColor;white-space:nowrap;flex-shrink:0;min-width:9ch;text-align:center}
+  .conf-tier.t0{color:var(--mute)}.conf-tier.t1{color:var(--amber)}.conf-tier.t2{color:var(--signal)}.conf-tier.t3{color:var(--signal)}
+  .conf-desc{color:var(--ink-dim);font-size:var(--step--1)}
+
+  /* library */
+  .lib-grid{display:grid;gap:1px;grid-template-columns:repeat(2,1fr);background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden;margin-bottom:2rem}
+  @media(min-width:720px){.lib-grid{grid-template-columns:repeat(4,1fr)}}
+  .lib-card{background:var(--ground-2);padding:1.6rem 1.3rem;display:flex;flex-direction:column;gap:.4rem}
+  .lib-n{font-size:var(--step-3);font-weight:800;color:var(--signal);line-height:1;font-variant-numeric:tabular-nums}
+  .lib-l{font-family:var(--mono);font-size:var(--step--1);color:var(--ink-dim);letter-spacing:.04em}
+  .lib-cta{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:2rem}
+  .btn{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.05em;padding:.9em 1.4em;border-radius:2px;cursor:pointer;border:1px solid transparent;display:inline-flex;align-items:center;gap:.6em;transition:transform .15s,box-shadow .2s,border-color .2s,color .2s;text-transform:uppercase}
+  .btn-primary{background:var(--signal);color:#04120C;font-weight:700}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 30px -10px var(--signal)}
+  .btn-ghost{background:transparent;color:var(--ink);border-color:var(--line-strong)}
+  .btn-ghost:hover{border-color:var(--signal);color:var(--signal)}
+
+  /* footer */
+  footer{border-top:1px solid var(--line);padding:2.6rem 0;font-family:var(--mono);font-size:var(--step--1);color:var(--mute)}
+  .foot-row{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;align-items:center}
+  .foot-row .sig{color:var(--signal)}
+  .foot-links{display:flex;gap:1.3rem;flex-wrap:wrap}
+  .foot-links a:hover{color:var(--signal)}
+
+  /* breadcrumbs */
+  .crumbs{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;font-family:var(--mono);font-size:var(--step--1);color:var(--mute);margin-bottom:1.4rem}
+  .crumbs a{color:var(--ink-dim);transition:color .2s}
+  .crumbs a:hover{color:var(--signal)}
+  .crumbs .sep{color:var(--mute);opacity:.6}
+  .crumbs .here{color:var(--signal)}
+  /* related pillars footer strip */
+  .related{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:2rem}
+  .related a{font-family:var(--mono);font-size:var(--step--1);border:1px solid var(--line);border-radius:99px;padding:.4em .95em;color:var(--ink-dim);transition:.2s}
+  .related a:hover{border-color:var(--signal);color:var(--signal)}
+  .related span{color:var(--mute);align-self:center}
+
+  .adr-toc{border:1px solid var(--line);border-radius:10px;background:var(--ground-2);padding:clamp(1rem,3vw,1.6rem);margin-top:2rem;display:grid;gap:.1rem}
+  .adr-toc-item{display:flex;align-items:center;gap:.8rem;padding:.6rem;border-radius:6px;border-bottom:1px solid var(--line);transition:background .2s}
+  .adr-toc-item:last-child{border-bottom:none}
+  .adr-toc-item:hover{background:color-mix(in srgb,var(--signal) 7%,transparent)}
+  .adr-toc-t{font-weight:600;letter-spacing:-.01em;font-size:var(--step--1)}
+  .adr{border:1px solid var(--line);border-radius:12px;background:var(--ground-2);padding:clamp(1.4rem,3.4vw,2.1rem);margin-top:1.8rem;scroll-margin-top:80px}
+  .adr-head{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+  .adr-h-l{display:flex;align-items:center;gap:.8rem;flex-wrap:wrap}
+  .adr-h-l h3{font-size:var(--step-1);font-weight:800;letter-spacing:-.02em;line-height:1.15}
+  .adr-status{font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--signal);border:1px solid color-mix(in srgb,var(--signal) 40%,var(--line));border-radius:99px;padding:.3em .8em;white-space:nowrap}
+  .adr-body{margin-top:1.3rem;display:flex;flex-direction:column;gap:1.1rem}
+  .adr-row{display:grid;grid-template-columns:9.5rem 1fr;gap:.4rem 1.2rem;align-items:start}
+  @media(max-width:640px){.adr-row{grid-template-columns:1fr;gap:.3rem}}
+  .adr-k{font-family:var(--mono);font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);padding-top:.2rem}
+  .adr-row p{color:var(--ink);line-height:1.6;max-width:66ch}
+  .adr-alts{list-style:none;display:flex;flex-direction:column;gap:.6rem}
+  .adr-alts li{position:relative;padding-left:1.3rem;color:var(--ink-dim);line-height:1.55;max-width:66ch}
+  .adr-alts li::before{content:"✕";position:absolute;left:0;color:var(--noise);font-size:.85em;top:.15em}
+  .adr-alts b{color:var(--ink);font-weight:600}
+  .adr-trade p{color:var(--ink)}
+  .adr-trade .adr-k{color:var(--amber)}
+  .adr-trade{border-top:1px solid var(--line);padding-top:1.1rem}
+  .adr-links{display:flex;gap:1.1rem;flex-wrap:wrap;padding-top:.3rem}
+  .adr-links a{font-size:var(--step--1)}
+
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <a class="brand-min" href="/"><span class="dot" aria-hidden="true"></span>SPAMCRACKERS<span class="tld">.com</span></a>
+  <nav>
+    <a class="navlink" href="/intelligence/governance/">Governance</a>
+    <a class="navlink" href="/methodology/">Methodology</a>
+    <a class="navlink" href="/cite/">Cite</a>
+    <a class="navlink" href="/#lab">Check a domain</a>
+    <button class="themebtn" id="themebtn" type="button" aria-label="Toggle theme">◐ THEME</button>
+  </nav>
+</header>
+
+<section class="hero" style="padding-bottom:0">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span class="sep">/</span><a href="/intelligence/governance/">Governance</a><span class="sep">/</span><span class="here">Architecture Decisions</span></nav>
+    <div class="eyebrow">Architecture Decision Record v1.0</div>
+    <h1>Why it is built<br>this way.</h1>
+    <p class="lede">Governance records the rules; this records the <strong>reasoning</strong>. Each entry states a decision, the alternatives that were rejected, and — deliberately — the trade-off it accepts. The most expensive thing to reconstruct in any long-lived asset is <em>why</em>, so it is written down.</p>
+    <div class="meta-chips">
+      <span class="chip"><b>Decisions</b> 10</span>
+      <span class="chip"><b>Machine-readable</b> <a class="ilink" href="/decisions.json">decisions.json</a></span>
+      <span class="chip stance"><b>Honesty</b> Retrospective · trade-offs stated</span>
+      <span class="chip"><b>License</b> CC BY 4.0</span>
+    </div>
+  </div>
+</section>
+
+<section style="border-top:none;padding-top:2.4rem">
+  <div class="wrap narrow">
+    <div class="mth-note reveal" style="border-left:3px solid var(--amber);background:color-mix(in srgb,var(--amber) 7%,transparent);border-radius:0 8px 8px 0;padding:1rem 1.2rem;color:var(--ink);font-size:var(--step--1);line-height:1.6;max-width:76ch">These records were written <b>after</b> the decisions were taken. Recorded retrospectively, they risk hindsight bias — so each is held to the same standard: it must name the real alternatives and the real cost, not justify a foregone conclusion. Dates mark when each was recorded.</div>
+    <nav class="adr-toc reveal" aria-label="Decisions">
+        <a class="adr-toc-item" href="#static-client-side"><span class="idchip">ADR-0001</span><span class="adr-toc-t">Static site with client-side checks, no backend</span></a>
+        <a class="adr-toc-item" href="#git-as-datastore"><span class="idchip">ADR-0002</span><span class="adr-toc-t">Git history as the Observatory datastore</span></a>
+        <a class="adr-toc-item" href="#deterministic-builders"><span class="idchip">ADR-0003</span><span class="adr-toc-t">Deterministic build scripts over a framework</span></a>
+        <a class="adr-toc-item" href="#stable-identifiers"><span class="idchip">ADR-0004</span><span class="adr-toc-t">Permanent, structured identifiers</span></a>
+        <a class="adr-toc-item" href="#pages-are-source"><span class="idchip">ADR-0005</span><span class="adr-toc-t">Pillar pages are the source; model.json is generated</span></a>
+        <a class="adr-toc-item" href="#canonical-organization"><span class="idchip">ADR-0006</span><span class="adr-toc-t">One canonical Organization across the knowledge graph</span></a>
+        <a class="adr-toc-item" href="#single-gate"><span class="idchip">ADR-0007</span><span class="adr-toc-t">One deterministic gate as the definition of valid</span></a>
+        <a class="adr-toc-item" href="#two-scores"><span class="idchip">ADR-0008</span><span class="adr-toc-t">Two grading scores instead of one</span></a>
+        <a class="adr-toc-item" href="#defensive-only"><span class="idchip">ADR-0009</span><span class="adr-toc-t">Defensive-only scope as an absolute boundary</span></a>
+        <a class="adr-toc-item" href="#csp-two-places"><span class="idchip">ADR-0010</span><span class="adr-toc-t">Security headers via meta-CSP plus edge rules</span></a>
+    </nav>
+  </div>
+</section>
+
+<section style="border-top:none;padding-top:1rem">
+  <div class="wrap narrow">
+      <article class="adr reveal" id="static-client-side">
+        <div class="adr-head">
+          <div class="adr-h-l"><span class="idchip">ADR-0001</span><h3>Static site with client-side checks, no backend</h3></div>
+          <span class="adr-status">Accepted</span>
+        </div>
+        <div class="adr-body">
+          <div class="adr-row"><span class="adr-k">Context</span><p>The core tool grades a domain's email authentication. That could run on a server or in the browser.</p></div>
+          <div class="adr-row"><span class="adr-k">Decision</span><p>Ship a fully static site; run domain checks in the browser over DNS-over-HTTPS. No server, no accounts, no storage.</p></div>
+          <div class="adr-row"><span class="adr-k">Alternatives rejected</span>
+            <ul class="adr-alts">
+              <li><b>A server API doing the DNS lookups.</b> Adds hosting, rate-limiting, logging and a privacy surface; a domain's grade and the visitor are never ours to hold if there is no server.</li>
+              <li><b>Server-side rendering.</b> Unnecessary for content that is deterministic and cache-friendly; it would trade the privacy guarantee for marginal speed.</li>
+            </ul>
+          </div>
+          <div class="adr-row adr-trade"><span class="adr-k">Trade-off accepted</span><p>Checks are bounded to what public DNS over HTTPS and the browser allow — most notably the DKIM selector heuristic (ADR-0008). There is no place to persist per-user history.</p></div>
+          <div class="adr-links"><a class="ilink" href="/methodology/">Methodology →</a></div>
+        </div>
+      </article>
+      <article class="adr reveal" id="git-as-datastore">
+        <div class="adr-head">
+          <div class="adr-h-l"><span class="idchip">ADR-0002</span><h3>Git history as the Observatory datastore</h3></div>
+          <span class="adr-status">Accepted</span>
+        </div>
+        <div class="adr-body">
+          <div class="adr-row"><span class="adr-k">Context</span><p>The Observatory needed to become a dated record, not a per-visit sample — which implies storage of measurements over time.</p></div>
+          <div class="adr-row"><span class="adr-k">Decision</span><p>Write each weekly measurement as JSON into the repository (latest.json + an immutable history/ archive). Git history is the audit trail.</p></div>
+          <div class="adr-row"><span class="adr-k">Alternatives rejected</span>
+            <ul class="adr-alts">
+              <li><b>A key-value store (e.g. Cloudflare KV).</b> Introduces an external dependency, credentials and a retention policy to manage, for data that is small, append-mostly and benefits from being openly diffable.</li>
+              <li><b>An external database.</b> Far heavier than the data warrants, and it would move the record out of the open, versioned artifact the rest of the asset already is.</li>
+            </ul>
+          </div>
+          <div class="adr-row adr-trade"><span class="adr-k">Trade-off accepted</span><p>Granularity is weekly, not real-time; there is no query API; and the repository grows over time (bounded — snapshots are ~2 KB and git-compressed). If sub-weekly or queryable history is ever needed, this decision would be revisited.</p></div>
+          <div class="adr-links"><a class="ilink" href="/observatory/">Observatory →</a><a class="ilink" href="/cite/">Reproduce →</a></div>
+        </div>
+      </article>
+      <article class="adr reveal" id="deterministic-builders">
+        <div class="adr-head">
+          <div class="adr-h-l"><span class="idchip">ADR-0003</span><h3>Deterministic build scripts over a framework</h3></div>
+          <span class="adr-status">Accepted</span>
+        </div>
+        <div class="adr-body">
+          <div class="adr-row"><span class="adr-k">Context</span><p>Pages are generated from data (techniques, patterns, records). Something has to turn data into HTML.</p></div>
+          <div class="adr-row"><span class="adr-k">Decision</span><p>Use small, dependency-free Node scripts that read data and emit complete HTML, verified by one gate.</p></div>
+          <div class="adr-row"><span class="adr-k">Alternatives rejected</span>
+            <ul class="adr-alts">
+              <li><b>A static-site generator (Hugo, Astro, Eleventy).</b> Adds a toolchain and dependency tree to maintain and audit, for output we can produce exactly with a few readable scripts.</li>
+              <li><b>A client framework (Next, SvelteKit).</b> Ships a runtime and build system to render content that is fundamentally static; it works against the privacy and longevity goals.</li>
+            </ul>
+          </div>
+          <div class="adr-row adr-trade"><span class="adr-k">Trade-off accepted</span><p>Componentisation is manual and there is no plugin ecosystem — shared markup is duplicated across builders and kept honest by the gate rather than by a template engine.</p></div>
+          <div class="adr-links"><a class="ilink" href="/cite/">Quality gate →</a></div>
+        </div>
+      </article>
+      <article class="adr reveal" id="stable-identifiers">
+        <div class="adr-head">
+          <div class="adr-h-l"><span class="idchip">ADR-0004</span><h3>Permanent, structured identifiers</h3></div>
+          <span class="adr-status">Accepted</span>
+        </div>
+        <div class="adr-body">
+          <div class="adr-row"><span class="adr-k">Context</span><p>Techniques, patterns and decisions are cited by identifier. Citations must keep resolving.</p></div>
+          <div class="adr-row"><span class="adr-k">Decision</span><p>Assign structured, namespaced identifiers (e.g. SPO-AU-03, EAP-01, ADR-0001) that are permanent: never reused or renumbered; superseded entries are deprecated, not deleted.</p></div>
+          <div class="adr-row"><span class="adr-k">Alternatives rejected</span>
+            <ul class="adr-alts">
+              <li><b>Human slugs as the primary key.</b> Slugs drift as wording is refined, breaking citations; they are good URLs but poor identifiers.</li>
+              <li><b>A single global sequence.</b> Loses the pillar/phase structure that makes an id self-describing and sortable.</li>
+            </ul>
+          </div>
+          <div class="adr-row adr-trade"><span class="adr-k">Trade-off accepted</span><p>Identifiers cannot be tidied or renumbered even when the set would look cleaner; gaps and deprecations are permanent. Durability is bought with a little untidiness.</p></div>
+          <div class="adr-links"><a class="ilink" href="/intelligence/governance/">Governance →</a></div>
+        </div>
+      </article>
+      <article class="adr reveal" id="pages-are-source">
+        <div class="adr-head">
+          <div class="adr-h-l"><span class="idchip">ADR-0005</span><h3>Pillar pages are the source; model.json is generated</h3></div>
+          <span class="adr-status">Accepted</span>
+        </div>
+        <div class="adr-body">
+          <div class="adr-row"><span class="adr-k">Context</span><p>The technique corpus exists both as readable pages and as machine-readable model.json. One must be authoritative to avoid drift.</p></div>
+          <div class="adr-row"><span class="adr-k">Decision</span><p>Treat the built pillar pages as the source of record and derive model.json from them; the gate checks the JSON conforms and stays in sync.</p></div>
+          <div class="adr-row"><span class="adr-k">Alternatives rejected</span>
+            <ul class="adr-alts">
+              <li><b>JSON as source, pages generated from it.</b> Equally valid, but it makes the human-readable, canonical artifact a by-product of a data file — the opposite of a reference whose pages are the citable object.</li>
+            </ul>
+          </div>
+          <div class="adr-row adr-trade"><span class="adr-k">Trade-off accepted</span><p>The JSON must be regenerated whenever page content changes, and that discipline is enforced by process and the gate rather than being impossible to get wrong.</p></div>
+          <div class="adr-links"><a class="ilink" href="/intelligence/model.json">model.json →</a></div>
+        </div>
+      </article>
+      <article class="adr reveal" id="canonical-organization">
+        <div class="adr-head">
+          <div class="adr-h-l"><span class="idchip">ADR-0006</span><h3>One canonical Organization across the knowledge graph</h3></div>
+          <span class="adr-status">Accepted</span>
+        </div>
+        <div class="adr-body">
+          <div class="adr-row"><span class="adr-k">Context</span><p>Every page emits JSON-LD. Search and knowledge graphs resolve entities by identity.</p></div>
+          <div class="adr-row"><span class="adr-k">Decision</span><p>Define a single Organization entity and reference it by a shared @id on every page, rather than inlining it.</p></div>
+          <div class="adr-row"><span class="adr-k">Alternatives rejected</span>
+            <ul class="adr-alts">
+              <li><b>Inline the Organization on each page.</b> Produces many near-duplicate entities that a consumer cannot reliably unify into one publisher.</li>
+            </ul>
+          </div>
+          <div class="adr-row adr-trade"><span class="adr-k">Trade-off accepted</span><p>Every page must carry the identical @id, and a publisher change means touching all of them — a constraint the gate enforces so it cannot silently diverge.</p></div>
+          <div class="adr-links"><a class="ilink" href="/intelligence/governance/">Governance →</a></div>
+        </div>
+      </article>
+      <article class="adr reveal" id="single-gate">
+        <div class="adr-head">
+          <div class="adr-h-l"><span class="idchip">ADR-0007</span><h3>One deterministic gate as the definition of valid</h3></div>
+          <span class="adr-status">Accepted</span>
+        </div>
+        <div class="adr-body">
+          <div class="adr-row"><span class="adr-k">Context</span><p>The asset has many invariants: links, structured data, schema conformance, cross-artifact sync.</p></div>
+          <div class="adr-row"><span class="adr-k">Decision</span><p>Consolidate every invariant into one script (scripts/verify.js) that runs in CI and blocks merge on any failure.</p></div>
+          <div class="adr-row"><span class="adr-k">Alternatives rejected</span>
+            <ul class="adr-alts">
+              <li><b>A collection of linters and ad-hoc checks.</b> Spreads the definition of correct across tools and configs; nothing owns the cross-artifact invariants that matter most here.</li>
+              <li><b>Manual review.</b> Not reproducible and does not scale to hundreds of links and several machine-readable datasets.</li>
+            </ul>
+          </div>
+          <div class="adr-row adr-trade"><span class="adr-k">Trade-off accepted</span><p>The gate is bespoke and must itself be maintained and trusted; a bug in it is a single point of failure — mitigated by keeping it small, and by negative-testing new invariants when they are added.</p></div>
+          <div class="adr-links"><a class="ilink" href="/cite/">Cite &amp; reproduce →</a></div>
+        </div>
+      </article>
+      <article class="adr reveal" id="two-scores">
+        <div class="adr-head">
+          <div class="adr-h-l"><span class="idchip">ADR-0008</span><h3>Two grading scores instead of one</h3></div>
+          <span class="adr-status">Accepted</span>
+        </div>
+        <div class="adr-body">
+          <div class="adr-row"><span class="adr-k">Context</span><p>DKIM cannot be read exactly from DNS without knowing the selector; SPF, DMARC and MX can.</p></div>
+          <div class="adr-row"><span class="adr-k">Decision</span><p>Keep two scores: the full four-control check (with a bounded DKIM selector heuristic) for a single domain, and a DKIM-agnostic three-control index, rescaled to 100, for the Observatory at scale.</p></div>
+          <div class="adr-row"><span class="adr-k">Alternatives rejected</span>
+            <ul class="adr-alts">
+              <li><b>A single unified score everywhere.</b> Either drags the DKIM heuristic into the at-scale index (introducing false negatives across many domains) or drops DKIM from the single-domain grade (losing a real control).</li>
+            </ul>
+          </div>
+          <div class="adr-row adr-trade"><span class="adr-k">Trade-off accepted</span><p>Two numbers exist for the same domain and must be reconciled; a perfect-but-no-DKIM domain reads A+ in the index and B in the full check. The reconciliation is stated explicitly rather than hidden.</p></div>
+          <div class="adr-links"><a class="ilink" href="/methodology/">Methodology →</a></div>
+        </div>
+      </article>
+      <article class="adr reveal" id="defensive-only">
+        <div class="adr-head">
+          <div class="adr-h-l"><span class="idchip">ADR-0009</span><h3>Defensive-only scope as an absolute boundary</h3></div>
+          <span class="adr-status">Accepted</span>
+        </div>
+        <div class="adr-body">
+          <div class="adr-row"><span class="adr-k">Context</span><p>The intelligence model describes how email abuse works. Depth is valuable; operational detail is dangerous.</p></div>
+          <div class="adr-row"><span class="adr-k">Decision</span><p>Keep every entry at the level of classification and defence — what it is, how it is observed, how it is countered — with no payloads, kits or step-by-step methods, at every version, by policy.</p></div>
+          <div class="adr-row"><span class="adr-k">Alternatives rejected</span>
+            <ul class="adr-alts">
+              <li><b>Include operational/offensive detail for completeness.</b> Would convert a defensive reference into an abuse enabler; it is out of scope regardless of demand.</li>
+            </ul>
+          </div>
+          <div class="adr-row adr-trade"><span class="adr-k">Trade-off accepted</span><p>Readers seeking offensive tradecraft will not find it here; that audience is deliberately unserved.</p></div>
+          <div class="adr-links"><a class="ilink" href="/intelligence/governance/">Governance →</a><a class="ilink" href="/intelligence/patterns/">Patterns →</a></div>
+        </div>
+      </article>
+      <article class="adr reveal" id="csp-two-places">
+        <div class="adr-head">
+          <div class="adr-h-l"><span class="idchip">ADR-0010</span><h3>Security headers via meta-CSP plus edge rules</h3></div>
+          <span class="adr-status">Accepted</span>
+        </div>
+        <div class="adr-body">
+          <div class="adr-row"><span class="adr-k">Context</span><p>The site is hosted on GitHub Pages (which cannot set response headers) and fronted by Cloudflare (which can).</p></div>
+          <div class="adr-row"><span class="adr-k">Decision</span><p>Ship a meta http-equiv Content-Security-Policy in every page so protection holds regardless of host, and mirror the header set at the Cloudflare edge.</p></div>
+          <div class="adr-row"><span class="adr-k">Alternatives rejected</span>
+            <ul class="adr-alts">
+              <li><b>Rely on a _headers file.</b> Inert on GitHub Pages — it would give a false sense of protection with none applied.</li>
+              <li><b>Move to a host that sets headers.</b> Trades the simplicity and durability of static hosting for a capability a meta-CSP already provides.</li>
+            </ul>
+          </div>
+          <div class="adr-row adr-trade"><span class="adr-k">Trade-off accepted</span><p>The policy lives in two places (page meta and edge rules) that must be kept aligned; the meta-CSP is the guaranteed floor, the edge rules the enhancement.</p></div>
+          <div class="adr-links"><a class="ilink" href="https://github.com/Sohadot/SpamCrackers/blob/main/SECURITY.md" rel="noopener">Security →</a></div>
+        </div>
+      </article>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap narrow">
+    <div class="sec-head reveal"><span class="eyebrow">How this record works</span><h2>Recorded, versioned, and kept honest.</h2></div>
+    <div class="prose reveal">
+      <p>A decision is added when a choice is load-bearing — when reversing it later would be costly, or when a future maintainer would otherwise have to reverse-engineer the reasoning. Trivial choices are left out on purpose.</p>
+      <p>Decisions are not deleted. If one is reversed, a new record supersedes it and the original stays on file, exactly as identifiers are deprecated rather than removed under <a class="ilink" href="/intelligence/governance/">governance</a>. The record is published as <a class="ilink" href="/decisions.json">decisions.json</a> (CC BY 4.0) and kept in sync with this page by the <a class="ilink" href="/cite/">quality gate</a>.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-row">
+    <span><span class="sig">SPAMCRACKERS</span>.COM — Architecture Decision Record v1.0 · CC BY 4.0</span>
+    <div class="foot-links">
+      <a href="/">Home</a>
+      <a href="/intelligence/governance/">Governance</a>
+      <a href="/methodology/">Methodology</a>
+      <a href="/cite/">Cite &amp; reproduce</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var root=document.documentElement, tbtn=document.getElementById("themebtn");
+  tbtn.addEventListener("click", function(){
+    var isDark = root.getAttribute("data-theme")==="dark" || (!root.getAttribute("data-theme") && window.matchMedia("(prefers-color-scheme: dark)").matches);
+    root.setAttribute("data-theme", isDark ? "light" : "dark");
+  });
+  if(!reduce){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target);}});},{threshold:.06});
+    document.querySelectorAll(".reveal").forEach(function(el){io.observe(el);});
+  } else { document.querySelectorAll(".reveal").forEach(function(el){el.classList.add("in");}); }
+})();
+</script>
+</body>
+</html>

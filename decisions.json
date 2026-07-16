@@ -1,0 +1,198 @@
+{
+  "name": "SpamCrackers — Architecture Decision Record",
+  "description": "Retrospectively recorded architecture decisions: the reasoning behind key choices, the alternatives rejected, and the trade-off each one accepts.",
+  "version": "1.0.0",
+  "recorded": "2026-07-16",
+  "license": "CC-BY-4.0",
+  "url": "https://spamcrackers.com/decisions/",
+  "note": "These records were written after the decisions were made; dates reflect when each was recorded, not necessarily when it was first taken.",
+  "counts": {
+    "decisions": 10
+  },
+  "decisions": [
+    {
+      "id": "ADR-0001",
+      "title": "Static site with client-side checks, no backend",
+      "status": "Accepted",
+      "recorded": "2026-07-16",
+      "url": "https://spamcrackers.com/decisions/#static-client-side",
+      "context": "The core tool grades a domain's email authentication. That could run on a server or in the browser.",
+      "decision": "Ship a fully static site; run domain checks in the browser over DNS-over-HTTPS. No server, no accounts, no storage.",
+      "alternatives": [
+        {
+          "option": "A server API doing the DNS lookups",
+          "rejectedBecause": "Adds hosting, rate-limiting, logging and a privacy surface; a domain's grade and the visitor are never ours to hold if there is no server."
+        },
+        {
+          "option": "Server-side rendering",
+          "rejectedBecause": "Unnecessary for content that is deterministic and cache-friendly; it would trade the privacy guarantee for marginal speed."
+        }
+      ],
+      "tradeoff": "Checks are bounded to what public DNS over HTTPS and the browser allow — most notably the DKIM selector heuristic (ADR-0008). There is no place to persist per-user history."
+    },
+    {
+      "id": "ADR-0002",
+      "title": "Git history as the Observatory datastore",
+      "status": "Accepted",
+      "recorded": "2026-07-16",
+      "url": "https://spamcrackers.com/decisions/#git-as-datastore",
+      "context": "The Observatory needed to become a dated record, not a per-visit sample — which implies storage of measurements over time.",
+      "decision": "Write each weekly measurement as JSON into the repository (latest.json + an immutable history/ archive). Git history is the audit trail.",
+      "alternatives": [
+        {
+          "option": "A key-value store (e.g. Cloudflare KV)",
+          "rejectedBecause": "Introduces an external dependency, credentials and a retention policy to manage, for data that is small, append-mostly and benefits from being openly diffable."
+        },
+        {
+          "option": "An external database",
+          "rejectedBecause": "Far heavier than the data warrants, and it would move the record out of the open, versioned artifact the rest of the asset already is."
+        }
+      ],
+      "tradeoff": "Granularity is weekly, not real-time; there is no query API; and the repository grows over time (bounded — snapshots are ~2 KB and git-compressed). If sub-weekly or queryable history is ever needed, this decision would be revisited."
+    },
+    {
+      "id": "ADR-0003",
+      "title": "Deterministic build scripts over a framework",
+      "status": "Accepted",
+      "recorded": "2026-07-16",
+      "url": "https://spamcrackers.com/decisions/#deterministic-builders",
+      "context": "Pages are generated from data (techniques, patterns, records). Something has to turn data into HTML.",
+      "decision": "Use small, dependency-free Node scripts that read data and emit complete HTML, verified by one gate.",
+      "alternatives": [
+        {
+          "option": "A static-site generator (Hugo, Astro, Eleventy)",
+          "rejectedBecause": "Adds a toolchain and dependency tree to maintain and audit, for output we can produce exactly with a few readable scripts."
+        },
+        {
+          "option": "A client framework (Next, SvelteKit)",
+          "rejectedBecause": "Ships a runtime and build system to render content that is fundamentally static; it works against the privacy and longevity goals."
+        }
+      ],
+      "tradeoff": "Componentisation is manual and there is no plugin ecosystem — shared markup is duplicated across builders and kept honest by the gate rather than by a template engine."
+    },
+    {
+      "id": "ADR-0004",
+      "title": "Permanent, structured identifiers",
+      "status": "Accepted",
+      "recorded": "2026-07-16",
+      "url": "https://spamcrackers.com/decisions/#stable-identifiers",
+      "context": "Techniques, patterns and decisions are cited by identifier. Citations must keep resolving.",
+      "decision": "Assign structured, namespaced identifiers (e.g. SPO-AU-03, EAP-01, ADR-0001) that are permanent: never reused or renumbered; superseded entries are deprecated, not deleted.",
+      "alternatives": [
+        {
+          "option": "Human slugs as the primary key",
+          "rejectedBecause": "Slugs drift as wording is refined, breaking citations; they are good URLs but poor identifiers."
+        },
+        {
+          "option": "A single global sequence",
+          "rejectedBecause": "Loses the pillar/phase structure that makes an id self-describing and sortable."
+        }
+      ],
+      "tradeoff": "Identifiers cannot be tidied or renumbered even when the set would look cleaner; gaps and deprecations are permanent. Durability is bought with a little untidiness."
+    },
+    {
+      "id": "ADR-0005",
+      "title": "Pillar pages are the source; model.json is generated",
+      "status": "Accepted",
+      "recorded": "2026-07-16",
+      "url": "https://spamcrackers.com/decisions/#pages-are-source",
+      "context": "The technique corpus exists both as readable pages and as machine-readable model.json. One must be authoritative to avoid drift.",
+      "decision": "Treat the built pillar pages as the source of record and derive model.json from them; the gate checks the JSON conforms and stays in sync.",
+      "alternatives": [
+        {
+          "option": "JSON as source, pages generated from it",
+          "rejectedBecause": "Equally valid, but it makes the human-readable, canonical artifact a by-product of a data file — the opposite of a reference whose pages are the citable object."
+        }
+      ],
+      "tradeoff": "The JSON must be regenerated whenever page content changes, and that discipline is enforced by process and the gate rather than being impossible to get wrong."
+    },
+    {
+      "id": "ADR-0006",
+      "title": "One canonical Organization across the knowledge graph",
+      "status": "Accepted",
+      "recorded": "2026-07-16",
+      "url": "https://spamcrackers.com/decisions/#canonical-organization",
+      "context": "Every page emits JSON-LD. Search and knowledge graphs resolve entities by identity.",
+      "decision": "Define a single Organization entity and reference it by a shared @id on every page, rather than inlining it.",
+      "alternatives": [
+        {
+          "option": "Inline the Organization on each page",
+          "rejectedBecause": "Produces many near-duplicate entities that a consumer cannot reliably unify into one publisher."
+        }
+      ],
+      "tradeoff": "Every page must carry the identical @id, and a publisher change means touching all of them — a constraint the gate enforces so it cannot silently diverge."
+    },
+    {
+      "id": "ADR-0007",
+      "title": "One deterministic gate as the definition of valid",
+      "status": "Accepted",
+      "recorded": "2026-07-16",
+      "url": "https://spamcrackers.com/decisions/#single-gate",
+      "context": "The asset has many invariants: links, structured data, schema conformance, cross-artifact sync.",
+      "decision": "Consolidate every invariant into one script (scripts/verify.js) that runs in CI and blocks merge on any failure.",
+      "alternatives": [
+        {
+          "option": "A collection of linters and ad-hoc checks",
+          "rejectedBecause": "Spreads the definition of correct across tools and configs; nothing owns the cross-artifact invariants that matter most here."
+        },
+        {
+          "option": "Manual review",
+          "rejectedBecause": "Not reproducible and does not scale to hundreds of links and several machine-readable datasets."
+        }
+      ],
+      "tradeoff": "The gate is bespoke and must itself be maintained and trusted; a bug in it is a single point of failure — mitigated by keeping it small, and by negative-testing new invariants when they are added."
+    },
+    {
+      "id": "ADR-0008",
+      "title": "Two grading scores instead of one",
+      "status": "Accepted",
+      "recorded": "2026-07-16",
+      "url": "https://spamcrackers.com/decisions/#two-scores",
+      "context": "DKIM cannot be read exactly from DNS without knowing the selector; SPF, DMARC and MX can.",
+      "decision": "Keep two scores: the full four-control check (with a bounded DKIM selector heuristic) for a single domain, and a DKIM-agnostic three-control index, rescaled to 100, for the Observatory at scale.",
+      "alternatives": [
+        {
+          "option": "A single unified score everywhere",
+          "rejectedBecause": "Either drags the DKIM heuristic into the at-scale index (introducing false negatives across many domains) or drops DKIM from the single-domain grade (losing a real control)."
+        }
+      ],
+      "tradeoff": "Two numbers exist for the same domain and must be reconciled; a perfect-but-no-DKIM domain reads A+ in the index and B in the full check. The reconciliation is stated explicitly rather than hidden."
+    },
+    {
+      "id": "ADR-0009",
+      "title": "Defensive-only scope as an absolute boundary",
+      "status": "Accepted",
+      "recorded": "2026-07-16",
+      "url": "https://spamcrackers.com/decisions/#defensive-only",
+      "context": "The intelligence model describes how email abuse works. Depth is valuable; operational detail is dangerous.",
+      "decision": "Keep every entry at the level of classification and defence — what it is, how it is observed, how it is countered — with no payloads, kits or step-by-step methods, at every version, by policy.",
+      "alternatives": [
+        {
+          "option": "Include operational/offensive detail for completeness",
+          "rejectedBecause": "Would convert a defensive reference into an abuse enabler; it is out of scope regardless of demand."
+        }
+      ],
+      "tradeoff": "Readers seeking offensive tradecraft will not find it here; that audience is deliberately unserved."
+    },
+    {
+      "id": "ADR-0010",
+      "title": "Security headers via meta-CSP plus edge rules",
+      "status": "Accepted",
+      "recorded": "2026-07-16",
+      "url": "https://spamcrackers.com/decisions/#csp-two-places",
+      "context": "The site is hosted on GitHub Pages (which cannot set response headers) and fronted by Cloudflare (which can).",
+      "decision": "Ship a meta http-equiv Content-Security-Policy in every page so protection holds regardless of host, and mirror the header set at the Cloudflare edge.",
+      "alternatives": [
+        {
+          "option": "Rely on a _headers file",
+          "rejectedBecause": "Inert on GitHub Pages — it would give a false sense of protection with none applied."
+        },
+        {
+          "option": "Move to a host that sets headers",
+          "rejectedBecause": "Trades the simplicity and durability of static hosting for a capability a meta-CSP already provides."
+        }
+      ],
+      "tradeoff": "The policy lives in two places (page meta and edge rules) that must be kept aligned; the meta-CSP is the guaranteed floor, the edge rules the enhancement."
+    }
+  ]
+}
