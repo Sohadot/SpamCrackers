@@ -39,8 +39,8 @@ and TLS-pinning protection depend on this step.
 
 ## Reporting a concern
 
-There is no dedicated security mailbox yet. Until one is published, please
-report any concern through the contact/waitlist on
-[spamcrackers.com](https://spamcrackers.com/#join). Model-governance and scope
-are documented at
+Report any security concern to **info@spamcrackers.com**. Please include steps
+to reproduce and the affected URL or DNS record. As a static, defensive
+reference site there is no bug-bounty program, but genuine reports are welcomed
+and acknowledged. Model-governance and scope are documented at
 [/intelligence/governance/](https://spamcrackers.com/intelligence/governance/).
