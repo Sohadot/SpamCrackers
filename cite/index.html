@@ -6,25 +6,25 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; img-src 'self' data:; font-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self' https://dns.google https://formspree.io; form-action 'self' https://formspree.io; upgrade-insecure-requests" />
 <meta name="referrer" content="strict-origin-when-cross-origin" />
 <link rel="alternate" type="application/atom+xml" title="SpamCrackers updates" href="/feed.xml" />
-<title>Model Governance — Email Abuse Intelligence v1.0 | SpamCrackers</title>
-<meta name="description" content="Governance of the Email Abuse Intelligence reference model: the identifier scheme, identifier-stability policy, semantic versioning, changelog, citation format and licensing. Deterministic, transparent and defensive by design." />
-<link rel="canonical" href="https://spamcrackers.com/intelligence/governance/" />
+<title>Cite &amp; Reproduce — Open Datasets and Citations | SpamCrackers</title>
+<meta name="description" content="How to cite and independently reproduce every SpamCrackers work: the Standard, the Methodology, the Email Abuse Intelligence Reference Model, the Patterns Library and the Observatory dataset — with ready citations, a machine-readable catalog, and exact reproduction steps. CC BY 4.0." />
+<link rel="canonical" href="https://spamcrackers.com/cite/" />
 <meta name="robots" content="index, follow, max-image-preview:large" />
 <meta name="theme-color" content="#08090D" media="(prefers-color-scheme: dark)" />
 <meta name="theme-color" content="#ECEDE8" media="(prefers-color-scheme: light)" />
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2308090D'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%232FE39B'/%3E%3C/svg%3E" />
-<meta property="og:type" content="article" />
+<meta property="og:type" content="website" />
 <meta property="og:site_name" content="SpamCrackers" />
-<meta property="og:url" content="https://spamcrackers.com/intelligence/governance/" />
-<meta property="og:title" content="Model Governance — Email Abuse Intelligence v1.0" />
-<meta property="og:description" content="Identifier scheme, stability policy, semantic versioning, changelog, citation and licensing for the Email Abuse Intelligence reference model." />
-<meta property="og:image" content="https://spamcrackers.com/intelligence/og/governance.png" />
+<meta property="og:url" content="https://spamcrackers.com/cite/" />
+<meta property="og:title" content="Cite &amp; Reproduce — Open Datasets and Citations" />
+<meta property="og:description" content="Ready citations, a machine-readable catalog, and exact reproduction steps for every SpamCrackers work. CC BY 4.0." />
+<meta property="og:image" content="https://spamcrackers.com/intelligence/og/cite.png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Model Governance — Email Abuse Intelligence v1.0" />
-<meta name="twitter:description" content="How the Email Abuse Intelligence reference model is governed, versioned and cited." />
-<meta name="twitter:image" content="https://spamcrackers.com/intelligence/og/governance.png" />
+<meta name="twitter:title" content="Cite &amp; Reproduce — SpamCrackers" />
+<meta name="twitter:description" content="Ready citations, an open catalog, and exact reproduction steps for every SpamCrackers work." />
+<meta name="twitter:image" content="https://spamcrackers.com/intelligence/og/cite.png" />
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -39,33 +39,71 @@
         "url": "https://spamcrackers.com/logo.png",
         "width": 512,
         "height": 512
-      },
-      "description": "The reference layer for Email Abuse Intelligence and a transparent standard for email authentication.",
-      "knowsAbout": [
-        "Email authentication",
-        "SPF",
-        "DKIM",
-        "DMARC",
-        "Email spoofing",
-        "Phishing",
-        "Business Email Compromise",
-        "Email abuse intelligence"
-      ]
+      }
     },
     {
-      "@type": "TechArticle",
-      "@id": "https://spamcrackers.com/intelligence/governance/#article",
-      "headline": "Email Abuse Intelligence — Model Governance v1.0",
-      "description": "The governance of the Email Abuse Intelligence reference model: identifier scheme, identifier-stability policy, semantic versioning, changelog, citation and licensing.",
-      "url": "https://spamcrackers.com/intelligence/governance/",
-      "isPartOf": {
-        "@id": "https://spamcrackers.com/#website"
-      },
-      "inLanguage": "en",
-      "version": "1.0.0",
+      "@type": "DataCatalog",
+      "@id": "https://spamcrackers.com/cite/#catalog",
+      "name": "SpamCrackers — open reference catalog",
+      "url": "https://spamcrackers.com/cite/",
       "publisher": {
         "@id": "https://spamcrackers.com/#organization"
-      }
+      },
+      "license": "https://creativecommons.org/licenses/by/4.0/",
+      "dataset": [
+        {
+          "@type": "Dataset",
+          "name": "Email Abuse Intelligence — Reference Model",
+          "version": "1.0.0",
+          "url": "https://spamcrackers.com/intelligence/",
+          "license": "https://creativecommons.org/licenses/by/4.0/",
+          "distribution": [
+            {
+              "@type": "DataDownload",
+              "encodingFormat": "application/json",
+              "contentUrl": "https://spamcrackers.com/intelligence/model.json"
+            },
+            {
+              "@type": "DataDownload",
+              "encodingFormat": "application/schema+json",
+              "contentUrl": "https://spamcrackers.com/intelligence/model.schema.json"
+            }
+          ]
+        },
+        {
+          "@type": "Dataset",
+          "name": "Email Abuse Patterns Library",
+          "version": "1.0.0",
+          "url": "https://spamcrackers.com/intelligence/patterns/",
+          "license": "https://creativecommons.org/licenses/by/4.0/",
+          "distribution": [
+            {
+              "@type": "DataDownload",
+              "encodingFormat": "application/json",
+              "contentUrl": "https://spamcrackers.com/intelligence/patterns.json"
+            }
+          ]
+        },
+        {
+          "@type": "Dataset",
+          "name": "Observatory — email-authentication measurement record",
+          "version": "2026-07-16",
+          "url": "https://spamcrackers.com/observatory/",
+          "license": "https://creativecommons.org/licenses/by/4.0/",
+          "distribution": [
+            {
+              "@type": "DataDownload",
+              "encodingFormat": "application/json",
+              "contentUrl": "https://spamcrackers.com/observatory/latest.json"
+            },
+            {
+              "@type": "DataDownload",
+              "encodingFormat": "application/json",
+              "contentUrl": "https://spamcrackers.com/observatory/domains.json"
+            }
+          ]
+        }
+      ]
     },
     {
       "@type": "BreadcrumbList",
@@ -79,14 +117,8 @@
         {
           "@type": "ListItem",
           "position": 2,
-          "name": "Email Abuse Intelligence",
-          "item": "https://spamcrackers.com/intelligence/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 3,
-          "name": "Governance",
-          "item": "https://spamcrackers.com/intelligence/governance/"
+          "name": "Cite & Reproduce",
+          "item": "https://spamcrackers.com/cite/"
         }
       ]
     }
@@ -303,24 +335,19 @@
   .related a:hover{border-color:var(--signal);color:var(--signal)}
   .related span{color:var(--mute);align-self:center}
 
-  .gov-principles{display:grid;gap:1px;grid-template-columns:1fr;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden;margin-top:2.4rem}
-  @media(min-width:720px){.gov-principles{grid-template-columns:1fr 1fr}}
-  .principle{background:var(--ground-2);padding:clamp(1.3rem,2.6vw,1.8rem)}
-  .principle h3{font-size:var(--step-1);font-weight:800;letter-spacing:-.02em;margin-bottom:.6rem}
-  .principle p{color:var(--ink-dim);font-size:var(--step--1);line-height:1.6}
-  .changelog{border-left:2px solid var(--signal);padding-left:1.4rem;margin-top:2.2rem;display:flex;flex-direction:column;gap:1.6rem}
-  .cl-entry .cl-ver{font-family:var(--mono);display:flex;align-items:baseline;gap:.8rem;flex-wrap:wrap}
-  .cl-entry .v{font-weight:800;color:var(--signal);font-size:var(--step-1)}
-  .cl-entry .d{color:var(--mute);font-size:var(--step--1);letter-spacing:.06em}
-  .cl-entry .tag{font-family:var(--mono);font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;border:1px solid color-mix(in srgb,var(--signal) 45%,var(--line));color:var(--signal);border-radius:99px;padding:.15em .6em}
-  .cl-entry p{color:var(--ink-dim);margin-top:.6rem;max-width:70ch;line-height:1.6}
-  .semver{display:grid;gap:1px;grid-template-columns:1fr;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden;margin-top:1.6rem}
-  @media(min-width:640px){.semver{grid-template-columns:repeat(3,1fr)}}
-  .semver .sv{background:var(--ground-2);padding:1.3rem}
-  .semver .sv .lvl{font-family:var(--mono);font-weight:800;color:var(--signal);letter-spacing:.08em}
-  .semver .sv p{color:var(--ink-dim);font-size:var(--step--1);margin-top:.5rem;line-height:1.55}
-  .cite-block{font-family:var(--mono);font-size:var(--step--1);background:var(--ground);border:1px solid var(--line);border-radius:6px;padding:1rem 1.1rem;margin-top:.9rem;color:var(--ink);line-height:1.6;word-break:break-word}
-  .cite-block .lbl{color:var(--mute);display:block;margin-bottom:.35rem;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase}
+  .cite-block{font-family:var(--mono);font-size:var(--step--1);background:var(--ground-2);border:1px solid var(--line);border-radius:8px;padding:1rem 1.1rem;margin-top:.9rem;color:var(--ink);line-height:1.6;word-break:break-word}
+  .cite-block .lbl{color:var(--signal);display:block;margin-bottom:.4rem;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase}
+  .cite-block i{color:var(--ink);font-style:italic}
+  .cite-go{margin-top:.5rem}
+  .cite-table{width:100%;border-collapse:collapse;margin-top:1.2rem;font-size:var(--step--1)}
+  .cite-table th{text-align:left;font-family:var(--mono);font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);padding:.5rem .8rem;border-bottom:1px solid var(--line-strong)}
+  .cite-table td{padding:.6rem .8rem;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink-dim)}
+  .cite-table tr:last-child td{border-bottom:none}
+  .cite-fmt{color:var(--mute);white-space:nowrap}
+  .cite-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--ground-2);padding:.4rem clamp(.6rem,2vw,1.2rem)}
+  .repro{background:var(--ground);border:1px solid var(--line);border-radius:8px;padding:1rem 1.1rem;margin-top:1.2rem;overflow-x:auto}
+  .repro code{display:block;white-space:pre;color:var(--signal);background:none;padding:0;font-size:.82rem;line-height:1.7}
+  .repro .cmt{color:var(--mute)}
 
 </style>
 </head>
@@ -329,128 +356,111 @@
 <header class="bar">
   <a class="brand-min" href="/"><span class="dot" aria-hidden="true"></span>SPAMCRACKERS<span class="tld">.com</span></a>
   <nav>
+    <a class="navlink" href="/standard/">The Standard</a>
+    <a class="navlink" href="/methodology/">Methodology</a>
     <a class="navlink" href="/intelligence/">Intelligence</a>
-    <a class="navlink" href="#ids">Identifiers</a>
-    <a class="navlink" href="#versioning">Versioning</a>
     <a class="navlink" href="/#lab">Check a domain</a>
     <button class="themebtn" id="themebtn" type="button" aria-label="Toggle theme">◐ THEME</button>
   </nav>
 </header>
 
-<section class="hero">
+<section class="hero" style="padding-bottom:0">
   <div class="wrap">
-    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span class="sep">/</span><a href="/intelligence/">Email Abuse Intelligence</a><span class="sep">/</span><span class="here">Governance</span></nav>
-    <div class="eyebrow">Email Abuse Intelligence · Governance</div>
-    <h1>Model Governance.</h1>
-    <p class="lede">A reference is only as trustworthy as its rules. This is how the Email Abuse Intelligence model is identified, versioned, changed and cited — <strong>deterministic, transparent and defensive by design</strong>, so anyone can depend on it and cite it without ambiguity.</p>
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span class="sep">/</span><span class="here">Cite &amp; Reproduce</span></nav>
+    <div class="eyebrow">Open reference · CC BY 4.0</div>
+    <h1>Cite it.<br>Reproduce it.</h1>
+    <p class="lede">An authoritative reference is one others can <strong>cite and check for themselves</strong>. Every SpamCrackers work is versioned, openly licensed, and published in a machine-readable form. Here is how to reference each one, verify it against public DNS, and consume the whole catalog programmatically.</p>
     <div class="meta-chips">
-      <span class="chip"><b>Model</b> v1.0.0</span>
-      <span class="chip"><b>Pillars</b> 6</span>
-      <span class="chip"><b>Techniques</b> 163</span>
-      <span class="chip"><b>License</b> CC BY 4.0</span>
+      <span class="chip"><b>Works</b> 6 citable</span>
+      <span class="chip"><b>Datasets</b> 3 open (JSON)</span>
+      <span class="chip stance"><b>License</b> CC BY 4.0</span>
+      <span class="chip"><b>Catalog</b> <a class="ilink" href="/catalog.json">catalog.json</a></span>
     </div>
   </div>
 </section>
 
-<section id="principles">
+<section style="border-top:none;padding-top:2.6rem">
   <div class="wrap narrow">
-    <div class="sec-head reveal"><span class="eyebrow">01 · Principles</span><h2>Four rules the model never breaks.</h2></div>
-    <div class="gov-principles reveal">
-      <div class="principle"><h3>Deterministic</h3><p>Every element has one stable identifier. The same input always maps to the same reference — no ambiguity, no drift.</p></div>
-      <div class="principle"><h3>Transparent</h3><p>Grading, taxonomy and technique criteria are published in full. There is no private model behind the public one.</p></div>
-      <div class="principle"><h3>Stable</h3><p>Identifiers are permanent. Once published, an id is never reused or renumbered; retired entries are deprecated, not deleted.</p></div>
-      <div class="principle"><h3>Defensive</h3><p>Every entry is classification-and-defence only. Operational content is out of scope by policy, at every version, without exception.</p></div>
-    </div>
+    <div class="sec-head reveal"><span class="eyebrow">01 · Citations</span><h2>Ready to cite.</h2>
+      <p class="sub">Each work carries a stable URL and a fixed version. A formal <a class="ilink" href="/CITATION.cff">CITATION.cff</a> is also published for tooling.</p></div>
+      <div class="cite-block reveal"><span class="lbl">The Standard</span>SpamCrackers. <i>The SpamCrackers Standard for Email Authentication v1.0</i>. 2026. spamcrackers.com/standard/<div class="cite-go"><a class="ilink" href="/standard/">open →</a></div></div>
+      <div class="cite-block reveal"><span class="lbl">The Methodology</span>SpamCrackers. <i>Methodology &amp; Limitations v1.0</i>. 2026. spamcrackers.com/methodology/<div class="cite-go"><a class="ilink" href="/methodology/">open →</a></div></div>
+      <div class="cite-block reveal"><span class="lbl">The Reference Model</span>SpamCrackers. <i>Email Abuse Intelligence — Reference Model v1.0.0</i>. 2026. spamcrackers.com/intelligence/<div class="cite-go"><a class="ilink" href="/intelligence/">open →</a></div></div>
+      <div class="cite-block reveal"><span class="lbl">A single technique</span>SpamCrackers. <i>SPO-AU-03 — DMARC-none exploitation</i>, Email Abuse Intelligence Reference Model v1.0.0. spamcrackers.com/intelligence/spoofing/#SPO-AU-03<div class="cite-go"><a class="ilink" href="/intelligence/spoofing/#SPO-AU-03">open →</a></div></div>
+      <div class="cite-block reveal"><span class="lbl">The Patterns Library</span>SpamCrackers. <i>Email Abuse Patterns Library v1.0.0</i>. 2026. spamcrackers.com/intelligence/patterns/<div class="cite-go"><a class="ilink" href="/intelligence/patterns/">open →</a></div></div>
+      <div class="cite-block reveal"><span class="lbl">The Observatory dataset</span>SpamCrackers. <i>Observatory — email-authentication measurement record</i>, measured 2026-07-16. spamcrackers.com/observatory/latest.json<div class="cite-go"><a class="ilink" href="/observatory/">open →</a></div></div>
   </div>
 </section>
 
-<section id="ids">
-  <div class="wrap">
-    <div class="sec-head reveal"><span class="eyebrow">02 · Identifier scheme</span><h2>Every element has one permanent name.</h2>
-      <p class="sub">Identifiers are structured, human-readable and stable. This is the full grammar of the <code>EAI</code> namespace.</p></div>
-    <div class="reveal" style="overflow-x:auto">
-      <table class="ref-table">
-        <thead><tr><th>Element</th><th>Pattern</th><th>Meaning</th><th>Example</th></tr></thead>
+<section>
+  <div class="wrap narrow">
+    <div class="sec-head reveal"><span class="eyebrow">02 · Machine-readable</span><h2>Every dataset, openly published.</h2>
+      <p class="sub">The reference is not just pages. The underlying data is open JSON, addressable and versioned, for integration and independent analysis.</p></div>
+    <div class="cite-scroll reveal">
+      <table class="cite-table">
+        <thead><tr><th>Resource</th><th>Format</th><th>Notes</th></tr></thead>
         <tbody>
-          <tr><td class="pk">Namespace</td><td class="mono code">EAI</td><td>The root of every identifier in the model.</td><td class="mono" style="color:var(--signal);white-space:nowrap">EAI</td></tr>
-          <tr><td class="pk">Pillar prefix</td><td class="mono code">3 letters</td><td>One of six stable pillar codes.</td><td class="mono" style="color:var(--signal);white-space:nowrap">SPO</td></tr>
-          <tr><td class="pk">Phase code</td><td class="mono code">PILLAR-XX</td><td>A lifecycle phase within a pillar.</td><td class="mono" style="color:var(--signal);white-space:nowrap">SPO-AU</td></tr>
-          <tr><td class="pk">Technique ID</td><td class="mono code">PILLAR-XX-NN</td><td>A single technique, numbered within its phase.</td><td class="mono" style="color:var(--signal);white-space:nowrap">SPO-AU-03</td></tr>
-          <tr><td class="pk">Taxonomy code</td><td class="mono code">PILLAR-TAX-A#</td><td>A class on one of a pillar's four axes.</td><td class="mono" style="color:var(--signal);white-space:nowrap">SPM-TAX-A1</td></tr>
-          <tr><td class="pk">Evidence code</td><td class="mono code">EAI-EV-CLASS</td><td>A shared observable class across all pillars.</td><td class="mono" style="color:var(--signal);white-space:nowrap">EAI-EV-AUTH</td></tr>
+          <tr><td><a class="ilink" href="/intelligence/model.json">Reference Model</a></td><td class="mono cite-fmt">application/json</td><td>163 techniques, v1.0.0</td></tr>
+          <tr><td><a class="ilink" href="/intelligence/model.schema.json">Model schema</a></td><td class="mono cite-fmt">JSON Schema 2020-12</td><td>validates model.json</td></tr>
+          <tr><td><a class="ilink" href="/intelligence/patterns.json">Patterns Library</a></td><td class="mono cite-fmt">application/json</td><td>8 patterns, v1.0.0</td></tr>
+          <tr><td><a class="ilink" href="/observatory/latest.json">Observatory record</a></td><td class="mono cite-fmt">application/json</td><td>24 domains, dated</td></tr>
+          <tr><td><a class="ilink" href="/observatory/domains.json">Observatory domain set</a></td><td class="mono cite-fmt">application/json</td><td>canonical list + categories</td></tr>
+          <tr><td><a class="ilink" href="/catalog.json">Dataset catalog</a></td><td class="mono cite-fmt">application/json</td><td>this catalog, machine-readable</td></tr>
+          <tr><td><a class="ilink" href="/CITATION.cff">Citation metadata</a></td><td class="mono cite-fmt">CFF 1.2.0</td><td>formal citation file</td></tr>
+          <tr><td><a class="ilink" href="/feed.xml">Updates feed</a></td><td class="mono cite-fmt">Atom</td><td>new releases</td></tr>
+          <tr><td><a class="ilink" href="/sitemap.xml">Sitemap</a></td><td class="mono cite-fmt">XML</td><td>all pages</td></tr>
         </tbody>
       </table>
     </div>
-    <div class="cite reveal" style="margin-top:2rem">
-      <div class="cite-label">Identifier-stability policy</div>
-      <p>Published identifiers are <b>permanent</b>. An id is never reused for a different concept and never renumbered. When a technique is superseded it is marked <span class="mono" style="color:var(--amber)">deprecated</span> and kept in place, so existing citations never break. New entries take the next free number within their phase.</p>
-    </div>
   </div>
 </section>
 
-<section id="versioning">
+<section>
   <div class="wrap narrow">
-    <div class="sec-head reveal"><span class="eyebrow">03 · Versioning</span><h2>Semantic versioning for a living model.</h2>
-      <p class="sub">The model is versioned <span class="mono">MAJOR.MINOR.PATCH</span>. The current release is <span class="mono" style="color:var(--signal)">v1.0.0</span>.</p></div>
-    <div class="semver reveal">
-      <div class="sv"><div class="lvl">MAJOR</div><p>A breaking change to the model's structure or identifier scheme. Rare, and never silent.</p></div>
-      <div class="sv"><div class="lvl">MINOR</div><p>Additive change — a new pillar, phase, technique or taxonomy class. Existing ids are untouched.</p></div>
-      <div class="sv"><div class="lvl">PATCH</div><p>Clarifications, wording and defensive-guidance updates. No ids change.</p></div>
-    </div>
+    <div class="sec-head reveal"><span class="eyebrow">03 · Reproduce a grade</span><h2>Check our work against DNS.</h2>
+      <p class="sub">A grade is deterministic: the same public DNS records always produce the same grade, by the rubric in the <a class="ilink" href="/methodology/">Methodology</a>. You can read the same records we do with any DNS-over-HTTPS client — no account, no tooling of ours required.</p></div>
+    <div class="repro reveal"><code><span class="cmt"># the four lookups behind a grade for example.com</span>
+curl -s 'https://dns.google/resolve?name=example.com&type=TXT'            <span class="cmt"># SPF (v=spf1 … all)</span>
+curl -s 'https://dns.google/resolve?name=_dmarc.example.com&type=TXT'     <span class="cmt"># DMARC (p=…)</span>
+curl -s 'https://dns.google/resolve?name=example.com&type=MX'             <span class="cmt"># MX presence</span>
+curl -s 'https://dns.google/resolve?name=google._domainkey.example.com&type=TXT'  <span class="cmt"># DKIM (per selector)</span></code></div>
+    <p class="prose reveal" style="margin-top:1.4rem">Apply the point values from the <a class="ilink" href="/methodology/">scoring table</a> and you will arrive at the same grade our in-browser <a class="ilink" href="/#lab">domain check</a> shows — there is no hidden state.</p>
   </div>
 </section>
 
-<section id="changelog">
+<section>
   <div class="wrap narrow">
-    <div class="sec-head reveal"><span class="eyebrow">04 · Changelog</span><h2>Every release, on the record.</h2></div>
-    <div class="changelog reveal">
-      <div class="cl-entry">
-        <div class="cl-ver"><span class="v">Patterns v1.0.0</span><span class="d">2026 · additive layer</span><span class="tag">MINOR</span></div>
-        <p><b>Added — the <a class="ilink" href="/intelligence/patterns/">Patterns Library</a> (v1.0).</b> Eight documented campaign archetypes that compose existing techniques into ordered chains across the abuse life-cycle, each naming its earliest point of defence. Patterns reference techniques only; <b>no technique identifiers were added, changed or removed</b>, so the Reference Model stays at <span class="mono">v1.0.0</span>. Published as HTML and as <a class="ilink" href="/intelligence/patterns.json">machine-readable JSON</a> under CC BY 4.0.</p>
-      </div>
-      <div class="cl-entry">
-        <div class="cl-ver"><span class="v">v1.0.0</span><span class="d">2026 · founding release</span><span class="tag">MAJOR</span></div>
-        <p>The founding Email Abuse Intelligence model: <b>6 pillars</b>, <b>163 techniques</b> and <b>128 taxonomy classes</b>, over a shared five-class evidence model and four-tier confidence scale. Pillars and counts:</p>
-        <div class="lib-grid" style="margin-top:1.2rem">
-          <a class="lib-card" href="/intelligence/" style="text-decoration:none"><div class="lib-n mono" style="font-size:var(--step-2)">28</div><div class="lib-l">SPM · Spam Campaign Intelligence</div></a>
-          <a class="lib-card" href="/intelligence/phishing/" style="text-decoration:none"><div class="lib-n mono" style="font-size:var(--step-2)">30</div><div class="lib-l">PHI · Phishing Intelligence</div></a>
-          <a class="lib-card" href="/intelligence/bec/" style="text-decoration:none"><div class="lib-n mono" style="font-size:var(--step-2)">27</div><div class="lib-l">BEC · Business Email Compromise</div></a>
-          <a class="lib-card" href="/intelligence/mal/" style="text-decoration:none"><div class="lib-n mono" style="font-size:var(--step-2)">29</div><div class="lib-l">MAL · Malware Delivery</div></a>
-          <a class="lib-card" href="/intelligence/scam/" style="text-decoration:none"><div class="lib-n mono" style="font-size:var(--step-2)">25</div><div class="lib-l">SCM · Scam &amp; Fraud</div></a>
-          <a class="lib-card" href="/intelligence/spoofing/" style="text-decoration:none"><div class="lib-n mono" style="font-size:var(--step-2)">24</div><div class="lib-l">SPO · Spoofing &amp; Impersonation</div></a>
-        </div>
-      </div>
-    </div>
+    <div class="sec-head reveal"><span class="eyebrow">04 · Reproduce the record</span><h2>Rebuild the Observatory dataset.</h2>
+      <p class="sub">The <a class="ilink" href="/observatory/">Observatory</a> record is produced by an open script over the canonical domain set, re-measured weekly, with an immutable archive so any past state can be recovered from version history.</p></div>
+    <div class="repro reveal"><code><span class="cmt"># from a clone of the repository</span>
+node scripts/observe.js       <span class="cmt"># writes observatory/latest.json + history/&lt;date&gt;.json</span>
+node scripts/verify.js        <span class="cmt"># the same deterministic gate CI runs</span></code></div>
+    <p class="prose reveal" style="margin-top:1.4rem">If any domain fails to resolve during a scheduled run, the run aborts rather than publish a partial record — measurement integrity over completeness, as stated in the <a class="ilink" href="/methodology/">Methodology</a>.</p>
   </div>
 </section>
 
-<section id="cite">
+<section>
   <div class="wrap narrow">
-    <div class="sec-head reveal"><span class="eyebrow">05 · Citation &amp; licensing</span><h2>Built to be cited.</h2>
-      <p class="sub">The model is open. Reference it freely, in research, tooling or policy, under the terms below.</p></div>
-    <div class="reveal">
-      <div class="cite-block"><span class="lbl">Cite the model</span>SpamCrackers. <i>Email Abuse Intelligence — Reference Model v1.0</i>. spamcrackers.com/intelligence/</div>
-      <div class="cite-block"><span class="lbl">Cite a technique</span>SpamCrackers. <i>SPO-AU-03 — DMARC-none exploitation</i>, Email Abuse Intelligence Reference Model v1.0. spamcrackers.com/intelligence/spoofing/#SPO-AU-03</div>
-      <div class="cite-block"><span class="lbl">Machine-readable</span>The complete model — every pillar, taxonomy class and technique with its stable id — is published as JSON for integration and citation: <a class="ilink" href="/intelligence/model.json">spamcrackers.com/intelligence/model.json</a></div>
-      <div class="cite-block"><span class="lbl">All works &amp; datasets</span>Citations and reproduction steps for every SpamCrackers work, plus a machine-readable catalog, live at <a class="ilink" href="/cite/">spamcrackers.com/cite/</a></div>
+    <div class="sec-head reveal"><span class="eyebrow">05 · License &amp; permanence</span><h2>Free to use, built to last.</h2></div>
+    <div class="prose reveal">
+      <p>All reference content — the Standard, the Methodology, the model, the patterns and the datasets — is licensed <strong>CC BY 4.0</strong>: use it, quote it, build on it, with attribution. Identifiers are permanent and changes are versioned under <a class="ilink" href="/intelligence/governance/">governance</a>, so a citation made today keeps resolving to the same thing tomorrow.</p>
+      <p>The complete catalog is itself machine-readable at <a class="ilink" href="/catalog.json">catalog.json</a> — discover every dataset, its version, format and license in one request.</p>
     </div>
-    <div class="cite reveal" style="margin-top:2rem">
-      <div class="cite-label">License</div>
-      <p>The reference model — its taxonomy, technique descriptions and identifiers — is published under <b>Creative Commons Attribution 4.0 (CC BY 4.0)</b>. You may share and adapt it, including commercially, with attribution to SpamCrackers and a link back to the model. The defensive-only scope is a condition of the model's integrity, not merely its licence.</p>
+    <div class="lib-cta reveal" style="display:flex;flex-wrap:wrap;gap:.8rem;margin-top:2rem">
+      <a href="/intelligence/" style="font-family:var(--mono);font-size:var(--step--1);letter-spacing:.05em;padding:.9em 1.4em;border-radius:2px;background:var(--signal);color:#04120C;font-weight:700;text-transform:uppercase">Browse the reference →</a>
+      <a href="/catalog.json" style="font-family:var(--mono);font-size:var(--step--1);letter-spacing:.05em;padding:.9em 1.4em;border-radius:2px;border:1px solid var(--line-strong);color:var(--ink);text-transform:uppercase">Open catalog.json →</a>
     </div>
-    <p class="bound-note reveal" style="margin-top:2rem">Governance guarantee: <b>no version, patch or contribution will ever add operational attack content.</b> Classification and defence is the permanent boundary of this model.</p>
-    <div class="related reveal"><span>Explore:</span><a href="/intelligence/">The umbrella</a><a href="/#lab">Check a domain</a><a href="/standard/">The Standard</a></div>
   </div>
 </section>
 
 <footer>
   <div class="wrap foot-row">
-    <span><span class="sig">SPAMCRACKERS</span>.COM — Email Abuse Intelligence · Model Governance v1.0.0 · CC BY 4.0</span>
+    <span><span class="sig">SPAMCRACKERS</span>.COM — Cite &amp; Reproduce · CC BY 4.0</span>
     <div class="foot-links">
       <a href="/">Home</a>
-      <a href="/intelligence/">Intelligence</a>
-      <a href="#changelog">Changelog</a>
-      <a href="/#faq">FAQ</a>
+      <a href="/standard/">The Standard</a>
+      <a href="/methodology/">Methodology</a>
+      <a href="/intelligence/governance/">Governance</a>
     </div>
   </div>
 </footer>
@@ -459,15 +469,15 @@
 (function(){
   "use strict";
   var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var root = document.documentElement, tbtn = document.getElementById("themebtn");
+  var root=document.documentElement, tbtn=document.getElementById("themebtn");
   tbtn.addEventListener("click", function(){
     var isDark = root.getAttribute("data-theme")==="dark" || (!root.getAttribute("data-theme") && window.matchMedia("(prefers-color-scheme: dark)").matches);
     root.setAttribute("data-theme", isDark ? "light" : "dark");
   });
   if(!reduce){
-    var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); } }); }, {threshold:.12});
-    document.querySelectorAll(".reveal").forEach(function(el){ io.observe(el); });
-  } else { document.querySelectorAll(".reveal").forEach(function(el){ el.classList.add("in"); }); }
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target);}});},{threshold:.08});
+    document.querySelectorAll(".reveal").forEach(function(el){io.observe(el);});
+  } else { document.querySelectorAll(".reveal").forEach(function(el){el.classList.add("in");}); }
 })();
 </script>
 </body>

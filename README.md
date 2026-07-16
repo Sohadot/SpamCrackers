@@ -29,6 +29,7 @@ The loop is the point: **Tool → Diagnosis → Reference → Remediation → Re
 | `/intelligence/patterns/` | Patterns Library — campaign archetypes composed from the techniques (+ `patterns.json`) |
 | `/intelligence/governance/` | Identifier scheme, versioning, changelog, citation, licensing |
 | `/intelligence/model.json` | The complete model as machine-readable JSON (+ `model.schema.json`) |
+| `/cite/` | Cite & Reproduce hub — citations, reproduction steps, and `catalog.json` (machine-readable dataset catalog) |
 
 ## The reference model
 
