@@ -207,6 +207,37 @@ try {
         fail(`patterns.json: ${p.id} breakpoint references unknown technique ${p.breakpoint.technique}`);
     }
     notes.push(`patterns.json: ${pat.patterns.length} patterns, ${refs} technique refs all resolve to model.json`);
+
+    /* ---- bidirectional invariant: every reference has its backlink on the card ---- */
+    const PILLAR_FILE = {
+      SPM: "intelligence/index.html", PHI: "intelligence/phishing/index.html",
+      BEC: "intelligence/bec/index.html", MAL: "intelligence/mal/index.html",
+      SCM: "intelligence/scam/index.html", SPO: "intelligence/spoofing/index.html",
+    };
+    const srcCache = {};
+    const readPillar = (f) => (srcCache[f] = srcCache[f] || fs.readFileSync(path.join(ROOT, f), "utf8"));
+    const cardSlice = (src, tid) => {
+      const start = src.indexOf(`<article class="tcard" id="${tid}">`);
+      if (start === -1) return null;
+      const end = src.indexOf("</article>", start);
+      return end === -1 ? null : src.slice(start, end);
+    };
+    let backChecked = 0;
+    for (const p of pat.patterns) {
+      const anchor = String(p.url).split("#")[1];
+      const techs = new Set((p.chain || []).map((s) => s.technique));
+      if (p.breakpoint && p.breakpoint.technique) techs.add(p.breakpoint.technique);
+      for (const tid of techs) {
+        const f = PILLAR_FILE[tid.slice(0, 3)];
+        if (!f) { fail(`backlink: ${tid} has no pillar file`); continue; }
+        const card = cardSlice(readPillar(f), tid);
+        if (card == null) { fail(`backlink: card ${tid} not found in ${f}`); continue; }
+        backChecked++;
+        if (!card.includes(`/intelligence/patterns/#${anchor}`))
+          fail(`backlink: ${tid} card missing backlink to pattern ${p.id} (#${anchor})`);
+      }
+    }
+    notes.push(`patterns backlinks: ${backChecked} technique cards carry their pattern backlink`);
   } catch (e) { fail("patterns.json invalid: " + e.message); }
 } catch (e) { fail("model.json invalid: " + e.message); }
 
