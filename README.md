@@ -3,6 +3,7 @@
 **The reference layer for Email Abuse Intelligence, and a transparent standard for email authentication.**
 
 [![verify](https://github.com/Sohadot/SpamCrackers/actions/workflows/verify.yml/badge.svg)](https://github.com/Sohadot/SpamCrackers/actions/workflows/verify.yml)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21395837.svg)](https://doi.org/10.5281/zenodo.21395837)
 
 Live: **[spamcrackers.com](https://spamcrackers.com/)**
 
@@ -74,8 +75,8 @@ The Observatory is a **dated record**, not just a live view. `scripts/observe.js
 
 ## Citation & license
 
-The reference model content (taxonomy, technique descriptions, identifiers) is licensed **CC BY 4.0**. To cite the work, use [`CITATION.cff`](./CITATION.cff) or:
+The reference model content (taxonomy, technique descriptions, identifiers) is licensed **CC BY 4.0** (see [`LICENSE`](./LICENSE)). The work is archived on Zenodo with a permanent DOI — cite the concept DOI to always resolve to the latest version, or the version DOI to cite `v1.0.0` specifically:
 
-> SpamCrackers. *Email Abuse Intelligence — Reference Model v1.0*. https://spamcrackers.com/intelligence/
+> SpamCrackers. *Email Abuse Intelligence — Reference Model & Standard*. Zenodo. https://doi.org/10.5281/zenodo.21395837 (v1.0.0: https://doi.org/10.5281/zenodo.21395838)
 
-Contributions and change rules: see [`CONTRIBUTING.md`](./CONTRIBUTING.md). Security posture: see [`SECURITY.md`](./SECURITY.md).
+Machine-readable citation metadata: [`CITATION.cff`](./CITATION.cff). Contributions and change rules: see [`CONTRIBUTING.md`](./CONTRIBUTING.md). Security posture: see [`SECURITY.md`](./SECURITY.md).
