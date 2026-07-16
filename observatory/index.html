@@ -546,7 +546,7 @@
     return Promise.all([dohQuery(d,"TXT"),dohQuery("_dmarc."+d,"TXT").catch(function(){return {};}),dohQuery(d,"MX").catch(function(){return {};})]).then(function(r){
       var spf=txt(r[0]).find(function(t){return /^v=spf1/i.test(t);});
       var dmarcRec=txt(r[1]).find(function(t){return /v=DMARC1/i.test(t);});
-      var mx=(r[2]&&r[2].Answer)?r[2].Answer.filter(function(a){return a.type===15;}).length:0;
+      var mx=(r[2]&&r[2].Answer)?r[2].Answer.filter(function(a){return a.type===15 && String(a.data).replace(/^\d+\s+/,"").replace(/\.$/,"")!=="";}).length:0;
       var s=0,p="none";
       if(spf){ s+= spf.indexOf("-all")>-1?25:(spf.indexOf("~all")>-1?18:10); }
       if(dmarcRec){ p=((dmarcRec.match(/p=([a-z]+)/i)||[])[1]||"none").toLowerCase(); s+=p==="reject"?25:(p==="quarantine"?20:10); }

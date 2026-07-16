@@ -61,7 +61,8 @@ async function measure(domain) {
   ]);
   const spf = txt(a).find((t) => /^v=spf1/i.test(t));
   const dmarcRec = txt(b).find((t) => /v=DMARC1/i.test(t));
-  const mxCount = c && c.Answer ? c.Answer.filter((x) => x.type === 15).length : 0;
+  // exclude a null MX (RFC 7505: "0 .") — it declares the domain receives no mail
+  const mxCount = c && c.Answer ? c.Answer.filter((x) => x.type === 15 && String(x.data).replace(/^\d+\s+/, "").replace(/\.$/, "") !== "").length : 0;
 
   let s = 0, spfQual = "none", dmarc = "none";
   if (spf) { spfQual = spf.indexOf("-all") > -1 ? "-all" : (spf.indexOf("~all") > -1 ? "~all" : "soft"); s += spfQual === "-all" ? 25 : (spfQual === "~all" ? 18 : 10); }
