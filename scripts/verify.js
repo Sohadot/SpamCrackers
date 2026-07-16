@@ -316,6 +316,35 @@ try {
   notes.push(`decisions.json: ${dec.decisions.length} ADRs, ids valid, anchors + count in sync with page`);
 } catch (e) { fail("decisions data invalid: " + e.message); }
 
+/* ---------------- evidence & confidence model ---------------- */
+try {
+  const ev = JSON.parse(fs.readFileSync(path.join(ROOT, "intelligence/evidence.json"), "utf8"));
+  const evPage = idsOf(path.join(ROOT, "intelligence/evidence/index.html"));
+  const umbrella = fs.readFileSync(path.join(ROOT, "intelligence/index.html"), "utf8");
+  if (!/^\d+\.\d+\.\d+$/.test(ev.version)) fail("evidence.json: bad version");
+  if (ev.counts.evidenceClasses !== ev.evidenceClasses.length) fail("evidence.json: class count mismatch");
+  if (ev.counts.confidenceTiers !== ev.confidenceTiers.length) fail("evidence.json: tier count mismatch");
+  const evRe = /^EAI-EV-[A-Z]+$/, cfRe = /^EAI-CONF-[1-9]$/;
+  for (const c of ev.evidenceClasses) {
+    if (!evRe.test(c.id)) fail(`evidence.json: bad class id ${c.id}`);
+    for (const k of ["name", "captures", "directlyObserved", "url"]) if (!c[k]) fail(`evidence.json: ${c.id} missing ${k}`);
+    const frag = String(c.url).split("#")[1];
+    if (!frag || !evPage.has(frag)) fail(`evidence.json: ${c.id} anchor #${frag} not on page`);
+    // canonical codes must also appear on the umbrella reference page
+    if (!umbrella.includes(c.id)) fail(`evidence.json: class ${c.id} not present on the umbrella reference page`);
+  }
+  let lvl = 0;
+  for (const t of ev.confidenceTiers) {
+    if (!cfRe.test(t.id)) fail(`evidence.json: bad tier id ${t.id}`);
+    if (t.level !== lvl + 1) fail(`evidence.json: tier levels must be sequential (got ${t.level})`);
+    lvl = t.level;
+    for (const k of ["name", "rule", "use", "url"]) if (!t[k]) fail(`evidence.json: ${t.id} missing ${k}`);
+    const frag = String(t.url).split("#")[1];
+    if (!frag || !evPage.has(frag)) fail(`evidence.json: ${t.id} anchor #${frag} not on page`);
+  }
+  notes.push(`evidence.json: ${ev.evidenceClasses.length} classes + ${ev.confidenceTiers.length} tiers, ids valid, anchors + umbrella codes in sync`);
+} catch (e) { fail("evidence data invalid: " + e.message); }
+
 /* ---------------- report ---------------- */
 console.log("SpamCrackers — verify");
 console.log(`pages: ${files.length}`);

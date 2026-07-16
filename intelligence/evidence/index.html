@@ -6,25 +6,25 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; img-src 'self' data:; font-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self' https://dns.google https://formspree.io; form-action 'self' https://formspree.io; upgrade-insecure-requests" />
 <meta name="referrer" content="strict-origin-when-cross-origin" />
 <link rel="alternate" type="application/atom+xml" title="SpamCrackers updates" href="/feed.xml" />
-<title>Cite &amp; Reproduce — Open Datasets and Citations | SpamCrackers</title>
-<meta name="description" content="How to cite and independently reproduce every SpamCrackers work: the Standard, the Methodology, the Email Abuse Intelligence Reference Model, the Patterns Library and the Observatory dataset — with ready citations, a machine-readable catalog, and exact reproduction steps. CC BY 4.0." />
-<link rel="canonical" href="https://spamcrackers.com/cite/" />
+<title>Evidence &amp; Confidence Model — How a Classification Is Substantiated | SpamCrackers</title>
+<meta name="description" content="The Email Abuse Intelligence evidence and confidence model: five classes of observable evidence (network, authentication, content, behavioural, infrastructure) and four confidence tiers, each with a stable identifier and a precise rule. No classification without an observable." />
+<link rel="canonical" href="https://spamcrackers.com/intelligence/evidence/" />
 <meta name="robots" content="index, follow, max-image-preview:large" />
 <meta name="theme-color" content="#08090D" media="(prefers-color-scheme: dark)" />
 <meta name="theme-color" content="#ECEDE8" media="(prefers-color-scheme: light)" />
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2308090D'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%232FE39B'/%3E%3C/svg%3E" />
-<meta property="og:type" content="website" />
+<meta property="og:type" content="article" />
 <meta property="og:site_name" content="SpamCrackers" />
-<meta property="og:url" content="https://spamcrackers.com/cite/" />
-<meta property="og:title" content="Cite &amp; Reproduce — Open Datasets and Citations" />
-<meta property="og:description" content="Ready citations, a machine-readable catalog, and exact reproduction steps for every SpamCrackers work. CC BY 4.0." />
-<meta property="og:image" content="https://spamcrackers.com/intelligence/og/cite.png" />
+<meta property="og:url" content="https://spamcrackers.com/intelligence/evidence/" />
+<meta property="og:title" content="Evidence &amp; Confidence Model — How a Classification Is Substantiated" />
+<meta property="og:description" content="Five classes of observable evidence and four confidence tiers, each with a stable identifier and a precise rule. No claim without an observable." />
+<meta property="og:image" content="https://spamcrackers.com/intelligence/og/evidence.png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Cite &amp; Reproduce — SpamCrackers" />
-<meta name="twitter:description" content="Ready citations, an open catalog, and exact reproduction steps for every SpamCrackers work." />
-<meta name="twitter:image" content="https://spamcrackers.com/intelligence/og/cite.png" />
+<meta name="twitter:title" content="Evidence &amp; Confidence Model — SpamCrackers" />
+<meta name="twitter:description" content="Five evidence classes, four confidence tiers, each with a stable id and a precise rule." />
+<meta name="twitter:image" content="https://spamcrackers.com/intelligence/og/evidence.png" />
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -42,71 +42,76 @@
       }
     },
     {
-      "@type": "DataCatalog",
-      "@id": "https://spamcrackers.com/cite/#catalog",
-      "name": "SpamCrackers — open reference catalog",
-      "url": "https://spamcrackers.com/cite/",
+      "@type": "DefinedTermSet",
+      "@id": "https://spamcrackers.com/intelligence/evidence/#termset",
+      "name": "Email Abuse Intelligence — Evidence & Confidence Model",
+      "url": "https://spamcrackers.com/intelligence/evidence/",
       "publisher": {
         "@id": "https://spamcrackers.com/#organization"
       },
-      "license": "https://creativecommons.org/licenses/by/4.0/",
-      "dataset": [
+      "hasDefinedTerm": [
         {
-          "@type": "Dataset",
-          "name": "Email Abuse Intelligence — Reference Model",
-          "version": "1.0.0",
-          "url": "https://spamcrackers.com/intelligence/",
-          "license": "https://creativecommons.org/licenses/by/4.0/",
-          "distribution": [
-            {
-              "@type": "DataDownload",
-              "encodingFormat": "application/json",
-              "contentUrl": "https://spamcrackers.com/intelligence/model.json"
-            },
-            {
-              "@type": "DataDownload",
-              "encodingFormat": "application/schema+json",
-              "contentUrl": "https://spamcrackers.com/intelligence/model.schema.json"
-            },
-            {
-              "@type": "DataDownload",
-              "encodingFormat": "application/json",
-              "contentUrl": "https://spamcrackers.com/intelligence/evidence.json"
-            }
-          ]
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/evidence/#ev-net",
+          "termCode": "EAI-EV-NET",
+          "name": "Network",
+          "description": "Sending IP, ASN, reverse DNS, netblock and geolocation, HELO/EHLO identity."
         },
         {
-          "@type": "Dataset",
-          "name": "Email Abuse Patterns Library",
-          "version": "1.0.0",
-          "url": "https://spamcrackers.com/intelligence/patterns/",
-          "license": "https://creativecommons.org/licenses/by/4.0/",
-          "distribution": [
-            {
-              "@type": "DataDownload",
-              "encodingFormat": "application/json",
-              "contentUrl": "https://spamcrackers.com/intelligence/patterns.json"
-            }
-          ]
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/evidence/#ev-auth",
+          "termCode": "EAI-EV-AUTH",
+          "name": "Authentication",
+          "description": "SPF result, DKIM result and selector, DMARC policy and alignment, ARC chain."
         },
         {
-          "@type": "Dataset",
-          "name": "Observatory — email-authentication measurement record",
-          "version": "2026-07-16",
-          "url": "https://spamcrackers.com/observatory/",
-          "license": "https://creativecommons.org/licenses/by/4.0/",
-          "distribution": [
-            {
-              "@type": "DataDownload",
-              "encodingFormat": "application/json",
-              "contentUrl": "https://spamcrackers.com/observatory/latest.json"
-            },
-            {
-              "@type": "DataDownload",
-              "encodingFormat": "application/json",
-              "contentUrl": "https://spamcrackers.com/observatory/domains.json"
-            }
-          ]
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/evidence/#ev-cont",
+          "termCode": "EAI-EV-CONT",
+          "name": "Content",
+          "description": "URL and domain patterns, file and body hashes, template and layout fingerprints, header anomalies."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/evidence/#ev-behav",
+          "termCode": "EAI-EV-BEHAV",
+          "name": "Behavioural",
+          "description": "Volume and velocity, send timing, list-bombing bursts, engagement tracking."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/evidence/#ev-infra",
+          "termCode": "EAI-EV-INFRA",
+          "name": "Infrastructure",
+          "description": "Domain age and registrar, nameservers, hosting, redirect chains, certificate history."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/evidence/#conf-1",
+          "termCode": "EAI-CONF-1",
+          "name": "Low",
+          "description": "A single weak or ambiguous indicator from one evidence class."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/evidence/#conf-2",
+          "termCode": "EAI-CONF-2",
+          "name": "Moderate",
+          "description": "Multiple independent indicators from two or more different evidence classes point to the same classification."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/evidence/#conf-3",
+          "termCode": "EAI-CONF-3",
+          "name": "High",
+          "description": "Corroborated indicators across classes, including at least one strong class — Authentication or Infrastructure."
+        },
+        {
+          "@type": "DefinedTerm",
+          "@id": "https://spamcrackers.com/intelligence/evidence/#conf-4",
+          "termCode": "EAI-CONF-4",
+          "name": "Confirmed",
+          "description": "Direct, reproducible evidence — a detonated payload, an observed campaign artefact, or a reproduced authentication failure."
         }
       ]
     },
@@ -122,8 +127,14 @@
         {
           "@type": "ListItem",
           "position": 2,
-          "name": "Cite & Reproduce",
-          "item": "https://spamcrackers.com/cite/"
+          "name": "Intelligence",
+          "item": "https://spamcrackers.com/intelligence/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Evidence & Confidence",
+          "item": "https://spamcrackers.com/intelligence/evidence/"
         }
       ]
     }
@@ -340,19 +351,31 @@
   .related a:hover{border-color:var(--signal);color:var(--signal)}
   .related span{color:var(--mute);align-self:center}
 
-  .cite-block{font-family:var(--mono);font-size:var(--step--1);background:var(--ground-2);border:1px solid var(--line);border-radius:8px;padding:1rem 1.1rem;margin-top:.9rem;color:var(--ink);line-height:1.6;word-break:break-word}
-  .cite-block .lbl{color:var(--signal);display:block;margin-bottom:.4rem;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase}
-  .cite-block i{color:var(--ink);font-style:italic}
-  .cite-go{margin-top:.5rem}
-  .cite-table{width:100%;border-collapse:collapse;margin-top:1.2rem;font-size:var(--step--1)}
-  .cite-table th{text-align:left;font-family:var(--mono);font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);padding:.5rem .8rem;border-bottom:1px solid var(--line-strong)}
-  .cite-table td{padding:.6rem .8rem;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink-dim)}
-  .cite-table tr:last-child td{border-bottom:none}
-  .cite-fmt{color:var(--mute);white-space:nowrap}
-  .cite-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--ground-2);padding:.4rem clamp(.6rem,2vw,1.2rem)}
-  .repro{background:var(--ground);border:1px solid var(--line);border-radius:8px;padding:1rem 1.1rem;margin-top:1.2rem;overflow-x:auto}
-  .repro code{display:block;white-space:pre;color:var(--signal);background:none;padding:0;font-size:.82rem;line-height:1.7}
-  .repro .cmt{color:var(--mute)}
+  .ev-table{width:100%;border-collapse:collapse;margin-top:1.4rem;font-size:var(--step--1)}
+  .ev-table th{text-align:left;font-family:var(--mono);font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);padding:.5rem .8rem;border-bottom:1px solid var(--line-strong)}
+  .ev-table td{padding:.75rem .8rem;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink)}
+  .ev-table tr:last-child td{border-bottom:none}
+  .ev-table tr{scroll-margin-top:80px}
+  .ev-id{white-space:nowrap}
+  .ev-name{font-weight:700;white-space:nowrap}
+  .ev-obs{margin-top:.5rem;color:var(--ink-dim);line-height:1.5}
+  .ev-obs span{font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin-right:.5em}
+  .ev-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--ground-2);padding:.4rem clamp(.6rem,2vw,1.2rem)}
+  .conf-tier{font-family:var(--mono);font-size:.72rem;font-weight:700;letter-spacing:.04em;padding:.3em .8em;border-radius:99px;white-space:nowrap}
+  .conf-tier.t0{color:var(--mute);border:1px solid var(--line-strong)}
+  .conf-tier.t1{color:var(--amber);border:1px solid color-mix(in srgb,var(--amber) 45%,var(--line))}
+  .conf-tier.t2{color:var(--signal);border:1px solid color-mix(in srgb,var(--signal) 45%,var(--line))}
+  .conf-tier.t3{color:var(--signal);border:1px solid var(--signal);background:color-mix(in srgb,var(--signal) 12%,transparent)}
+  .tier{border:1px solid var(--line);border-radius:10px;background:var(--ground-2);padding:1.2rem 1.3rem;margin-top:1.1rem;scroll-margin-top:80px}
+  .tier-head{display:flex;align-items:center;gap:.7rem;flex-wrap:wrap}
+  .tier-lvl{color:var(--mute);font-size:.7rem;margin-left:auto}
+  .tier-body{margin-top:1rem;display:flex;flex-direction:column;gap:.7rem}
+  .tier-row{display:grid;grid-template-columns:5rem 1fr;gap:.3rem 1rem;align-items:start}
+  @media(max-width:560px){.tier-row{grid-template-columns:1fr}}
+  .tier-k{font-family:var(--mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);padding-top:.15rem}
+  .tier-row p{color:var(--ink);line-height:1.55;max-width:64ch}
+  .ev-note{margin-top:1.6rem;border-left:3px solid var(--signal);background:color-mix(in srgb,var(--signal) 6%,transparent);border-radius:0 8px 8px 0;padding:1rem 1.2rem;color:var(--ink);font-size:var(--step--1);line-height:1.6;max-width:76ch}
+  .ev-note b{color:var(--signal)}
 
 </style>
 </head>
@@ -361,9 +384,9 @@
 <header class="bar">
   <a class="brand-min" href="/"><span class="dot" aria-hidden="true"></span>SPAMCRACKERS<span class="tld">.com</span></a>
   <nav>
-    <a class="navlink" href="/standard/">The Standard</a>
-    <a class="navlink" href="/methodology/">Methodology</a>
-    <a class="navlink" href="/intelligence/">Intelligence</a>
+    <a class="navlink" href="/intelligence/">Reference Model</a>
+    <a class="navlink" href="/intelligence/techniques/">Techniques</a>
+    <a class="navlink" href="/intelligence/governance/">Governance</a>
     <a class="navlink" href="/#lab">Check a domain</a>
     <button class="themebtn" id="themebtn" type="button" aria-label="Toggle theme">◐ THEME</button>
   </nav>
@@ -371,51 +394,52 @@
 
 <section class="hero" style="padding-bottom:0">
   <div class="wrap">
-    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span class="sep">/</span><span class="here">Cite &amp; Reproduce</span></nav>
-    <div class="eyebrow">Open reference · CC BY 4.0</div>
-    <h1>Cite it.<br>Reproduce it.</h1>
-    <p class="lede">An authoritative reference is one others can <strong>cite and check for themselves</strong>. Every SpamCrackers work is versioned, openly licensed, and published in a machine-readable form. Here is how to reference each one, verify it against public DNS, and consume the whole catalog programmatically.</p>
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span class="sep">/</span><a href="/intelligence/">Intelligence</a><span class="sep">/</span><span class="here">Evidence &amp; Confidence</span></nav>
+    <div class="eyebrow">Reference Model · Evidence &amp; Confidence v1.0</div>
+    <h1>No claim without<br>an observable.</h1>
+    <p class="lede">A technique or pattern is a <strong>hypothesis</strong> until evidence supports it. This model is the reference's substantiation layer: <strong>five classes of observable evidence</strong> and <strong>four tiers of confidence</strong> — each with a stable identifier and a precise rule, so an assessment can be stated, cited, and challenged on the same terms.</p>
     <div class="meta-chips">
-      <span class="chip"><b>Works</b> 6 citable</span>
-      <span class="chip"><b>Datasets</b> 3 open (JSON)</span>
+      <span class="chip"><b>Evidence classes</b> 5</span>
+      <span class="chip"><b>Confidence tiers</b> 4</span>
+      <span class="chip"><b>Machine-readable</b> <a class="ilink" href="/intelligence/evidence.json">evidence.json</a></span>
       <span class="chip stance"><b>License</b> CC BY 4.0</span>
-      <span class="chip"><b>Catalog</b> <a class="ilink" href="/catalog.json">catalog.json</a></span>
     </div>
   </div>
 </section>
 
 <section style="border-top:none;padding-top:2.6rem">
   <div class="wrap narrow">
-    <div class="sec-head reveal"><span class="eyebrow">01 · Citations</span><h2>Ready to cite.</h2>
-      <p class="sub">Each work carries a stable URL and a fixed version. A formal <a class="ilink" href="/CITATION.cff">CITATION.cff</a> is also published for tooling.</p></div>
-      <div class="cite-block reveal"><span class="lbl">The Standard</span>SpamCrackers. <i>The SpamCrackers Standard for Email Authentication v1.0</i>. 2026. spamcrackers.com/standard/<div class="cite-go"><a class="ilink" href="/standard/">open →</a></div></div>
-      <div class="cite-block reveal"><span class="lbl">The Methodology</span>SpamCrackers. <i>Methodology &amp; Limitations v1.0</i>. 2026. spamcrackers.com/methodology/<div class="cite-go"><a class="ilink" href="/methodology/">open →</a></div></div>
-      <div class="cite-block reveal"><span class="lbl">The Reference Model</span>SpamCrackers. <i>Email Abuse Intelligence — Reference Model v1.0.0</i>. 2026. spamcrackers.com/intelligence/<div class="cite-go"><a class="ilink" href="/intelligence/">open →</a></div></div>
-      <div class="cite-block reveal"><span class="lbl">A single technique</span>SpamCrackers. <i>SPO-AU-03 — DMARC-none exploitation</i>, Email Abuse Intelligence Reference Model v1.0.0. spamcrackers.com/intelligence/spoofing/#SPO-AU-03<div class="cite-go"><a class="ilink" href="/intelligence/spoofing/#SPO-AU-03">open →</a></div></div>
-      <div class="cite-block reveal"><span class="lbl">The Patterns Library</span>SpamCrackers. <i>Email Abuse Patterns Library v1.0.0</i>. 2026. spamcrackers.com/intelligence/patterns/<div class="cite-go"><a class="ilink" href="/intelligence/patterns/">open →</a></div></div>
-      <div class="cite-block reveal"><span class="lbl">The Observatory dataset</span>SpamCrackers. <i>Observatory — email-authentication measurement record</i>, measured 2026-07-16. spamcrackers.com/observatory/latest.json<div class="cite-go"><a class="ilink" href="/observatory/">open →</a></div></div>
-  </div>
-</section>
-
-<section>
-  <div class="wrap narrow">
-    <div class="sec-head reveal"><span class="eyebrow">02 · Machine-readable</span><h2>Every dataset, openly published.</h2>
-      <p class="sub">The reference is not just pages. The underlying data is open JSON, addressable and versioned, for integration and independent analysis.</p></div>
-    <div class="cite-scroll reveal">
-      <table class="cite-table">
-        <thead><tr><th>Resource</th><th>Format</th><th>Notes</th></tr></thead>
+    <div class="sec-head reveal"><span class="eyebrow">01 · Evidence classes</span><h2>Five kinds of observable.</h2>
+      <p class="sub">Every indicator that can substantiate a classification falls into one of five classes. Each carries a stable <code>EAI-EV-*</code> identifier and is noted with where it can actually be observed — because the class an analyst reasons about is not always one a given tool can see.</p></div>
+    <div class="ev-scroll reveal">
+      <table class="ev-table">
+        <thead><tr><th>Identifier</th><th>Class</th><th>Evidence captured</th></tr></thead>
         <tbody>
-          <tr><td><a class="ilink" href="/intelligence/model.json">Reference Model</a></td><td class="mono cite-fmt">application/json</td><td>163 techniques, v1.0.0</td></tr>
-          <tr><td><a class="ilink" href="/intelligence/model.schema.json">Model schema</a></td><td class="mono cite-fmt">JSON Schema 2020-12</td><td>validates model.json</td></tr>
-          <tr><td><a class="ilink" href="/intelligence/patterns.json">Patterns Library</a></td><td class="mono cite-fmt">application/json</td><td>8 patterns, v1.0.0</td></tr>
-          <tr><td><a class="ilink" href="/intelligence/evidence.json">Evidence &amp; confidence</a></td><td class="mono cite-fmt">application/json</td><td>5 classes + 4 tiers</td></tr>
-          <tr><td><a class="ilink" href="/observatory/latest.json">Observatory record</a></td><td class="mono cite-fmt">application/json</td><td>24 domains, dated</td></tr>
-          <tr><td><a class="ilink" href="/observatory/domains.json">Observatory domain set</a></td><td class="mono cite-fmt">application/json</td><td>canonical list + categories</td></tr>
-          <tr><td><a class="ilink" href="/decisions.json">Architecture decisions</a></td><td class="mono cite-fmt">application/json</td><td>10 ADRs, v1.0.0</td></tr>
-          <tr><td><a class="ilink" href="/catalog.json">Dataset catalog</a></td><td class="mono cite-fmt">application/json</td><td>this catalog, machine-readable</td></tr>
-          <tr><td><a class="ilink" href="/CITATION.cff">Citation metadata</a></td><td class="mono cite-fmt">CFF 1.2.0</td><td>formal citation file</td></tr>
-          <tr><td><a class="ilink" href="/feed.xml">Updates feed</a></td><td class="mono cite-fmt">Atom</td><td>new releases</td></tr>
-          <tr><td><a class="ilink" href="/sitemap.xml">Sitemap</a></td><td class="mono cite-fmt">XML</td><td>all pages</td></tr>
+          <tr id="ev-net">
+            <td class="mono ev-id"><a class="idchip idchip-link" href="#ev-net">EAI-EV-NET</a></td>
+            <td class="ev-name">Network</td>
+            <td>Sending IP, ASN, reverse DNS, netblock and geolocation, HELO/EHLO identity.<div class="ev-obs"><span>Observed</span> From the receiving MTA and message headers — not from DNS alone.</div></td>
+          </tr>
+          <tr id="ev-auth">
+            <td class="mono ev-id"><a class="idchip idchip-link" href="#ev-auth">EAI-EV-AUTH</a></td>
+            <td class="ev-name">Authentication</td>
+            <td>SPF result, DKIM result and selector, DMARC policy and alignment, ARC chain.<div class="ev-obs"><span>Observed</span> The one class SpamCrackers reads directly: SPF, DMARC and MX exactly, and DKIM heuristically, over public DNS. A pass/fail result and ARC require the received message.</div></td>
+          </tr>
+          <tr id="ev-cont">
+            <td class="mono ev-id"><a class="idchip idchip-link" href="#ev-cont">EAI-EV-CONT</a></td>
+            <td class="ev-name">Content</td>
+            <td>URL and domain patterns, file and body hashes, template and layout fingerprints, header anomalies.<div class="ev-obs"><span>Observed</span> From the message body and its attachments.</div></td>
+          </tr>
+          <tr id="ev-behav">
+            <td class="mono ev-id"><a class="idchip idchip-link" href="#ev-behav">EAI-EV-BEHAV</a></td>
+            <td class="ev-name">Behavioural</td>
+            <td>Volume and velocity, send timing, list-bombing bursts, engagement tracking.<div class="ev-obs"><span>Observed</span> From aggregate mail-flow telemetry over time.</div></td>
+          </tr>
+          <tr id="ev-infra">
+            <td class="mono ev-id"><a class="idchip idchip-link" href="#ev-infra">EAI-EV-INFRA</a></td>
+            <td class="ev-name">Infrastructure</td>
+            <td>Domain age and registrar, nameservers, hosting, redirect chains, certificate history.<div class="ev-obs"><span>Observed</span> From DNS, WHOIS and certificate-transparency enrichment.</div></td>
+          </tr>
         </tbody>
       </table>
     </div>
@@ -424,48 +448,84 @@
 
 <section>
   <div class="wrap narrow">
-    <div class="sec-head reveal"><span class="eyebrow">03 · Reproduce a grade</span><h2>Check our work against DNS.</h2>
-      <p class="sub">A grade is deterministic: the same public DNS records always produce the same grade, by the rubric in the <a class="ilink" href="/methodology/">Methodology</a>. You can read the same records we do with any DNS-over-HTTPS client — no account, no tooling of ours required.</p></div>
-    <div class="repro reveal"><code><span class="cmt"># the four lookups behind a grade for example.com</span>
-curl -s 'https://dns.google/resolve?name=example.com&type=TXT'            <span class="cmt"># SPF (v=spf1 … all)</span>
-curl -s 'https://dns.google/resolve?name=_dmarc.example.com&type=TXT'     <span class="cmt"># DMARC (p=…)</span>
-curl -s 'https://dns.google/resolve?name=example.com&type=MX'             <span class="cmt"># MX presence</span>
-curl -s 'https://dns.google/resolve?name=google._domainkey.example.com&type=TXT'  <span class="cmt"># DKIM (per selector)</span></code></div>
-    <p class="prose reveal" style="margin-top:1.4rem">Apply the point values from the <a class="ilink" href="/methodology/">scoring table</a> and you will arrive at the same grade our in-browser <a class="ilink" href="/#lab">domain check</a> shows — there is no hidden state.</p>
+    <div class="sec-head reveal"><span class="eyebrow">02 · Confidence tiers</span><h2>How evidence becomes confidence.</h2>
+      <p class="sub">Indicators combine into a graded assessment. The tiers are ordered and their rules are explicit — a higher tier requires strictly more, and stronger, corroboration than the one below it.</p></div>
+      <article class="tier reveal" id="conf-1">
+        <div class="tier-head">
+          <span class="conf-tier t0">Low</span>
+          <span class="idchip">EAI-CONF-1</span>
+          <span class="tier-lvl mono">level 1 / 4</span>
+        </div>
+        <div class="tier-body">
+          <div class="tier-row"><span class="tier-k">Rule</span><p>A single weak or ambiguous indicator from one evidence class.</p></div>
+          <div class="tier-row"><span class="tier-k">Use</span><p>Suitable for enrichment and triage — not for enforcement.</p></div>
+        </div>
+      </article>
+      <article class="tier reveal" id="conf-2">
+        <div class="tier-head">
+          <span class="conf-tier t1">Moderate</span>
+          <span class="idchip">EAI-CONF-2</span>
+          <span class="tier-lvl mono">level 2 / 4</span>
+        </div>
+        <div class="tier-body">
+          <div class="tier-row"><span class="tier-k">Rule</span><p>Multiple independent indicators from two or more different evidence classes point to the same classification.</p></div>
+          <div class="tier-row"><span class="tier-k">Use</span><p>Supports prioritisation and soft action such as flagging.</p></div>
+        </div>
+      </article>
+      <article class="tier reveal" id="conf-3">
+        <div class="tier-head">
+          <span class="conf-tier t2">High</span>
+          <span class="idchip">EAI-CONF-3</span>
+          <span class="tier-lvl mono">level 3 / 4</span>
+        </div>
+        <div class="tier-body">
+          <div class="tier-row"><span class="tier-k">Rule</span><p>Corroborated indicators across classes, including at least one strong class — Authentication or Infrastructure.</p></div>
+          <div class="tier-row"><span class="tier-k">Use</span><p>Supports enforcement decisions.</p></div>
+        </div>
+      </article>
+      <article class="tier reveal" id="conf-4">
+        <div class="tier-head">
+          <span class="conf-tier t3">Confirmed</span>
+          <span class="idchip">EAI-CONF-4</span>
+          <span class="tier-lvl mono">level 4 / 4</span>
+        </div>
+        <div class="tier-body">
+          <div class="tier-row"><span class="tier-k">Rule</span><p>Direct, reproducible evidence — a detonated payload, an observed campaign artefact, or a reproduced authentication failure.</p></div>
+          <div class="tier-row"><span class="tier-k">Use</span><p>Definitive; supports attribution-grade conclusions and blocking.</p></div>
+        </div>
+      </article>
   </div>
 </section>
 
 <section>
   <div class="wrap narrow">
-    <div class="sec-head reveal"><span class="eyebrow">04 · Reproduce the record</span><h2>Rebuild the Observatory dataset.</h2>
-      <p class="sub">The <a class="ilink" href="/observatory/">Observatory</a> record is produced by an open script over the canonical domain set, re-measured weekly, with an immutable archive so any past state can be recovered from version history.</p></div>
-    <div class="repro reveal"><code><span class="cmt"># from a clone of the repository</span>
-node scripts/observe.js       <span class="cmt"># writes observatory/latest.json + history/&lt;date&gt;.json</span>
-node scripts/verify.js        <span class="cmt"># the same deterministic gate CI runs</span></code></div>
-    <p class="prose reveal" style="margin-top:1.4rem">If any domain fails to resolve during a scheduled run, the run aborts rather than publish a partial record — measurement integrity over completeness, as stated in the <a class="ilink" href="/methodology/">Methodology</a>.</p>
-  </div>
-</section>
-
-<section>
-  <div class="wrap narrow">
-    <div class="sec-head reveal"><span class="eyebrow">05 · License &amp; permanence</span><h2>Free to use, built to last.</h2></div>
+    <div class="sec-head reveal"><span class="eyebrow">03 · The rule</span><h2>One principle, applied consistently.</h2></div>
     <div class="prose reveal">
-      <p>All reference content — the Standard, the Methodology, the model, the patterns and the datasets — is licensed <strong>CC BY 4.0</strong>: use it, quote it, build on it, with attribution. Identifiers are permanent and changes are versioned under <a class="ilink" href="/intelligence/governance/">governance</a>, so a citation made today keeps resolving to the same thing tomorrow.</p>
-      <p>The complete catalog is itself machine-readable at <a class="ilink" href="/catalog.json">catalog.json</a> — discover every dataset, its version, format and license in one request.</p>
+      <p><strong>No classification is asserted without an observable.</strong> A single indicator earns the lowest tier; confidence rises only as independent indicators from <em>different</em> classes corroborate one another, and reaches its ceiling only with direct, reproducible evidence. Corroboration across classes matters more than volume within one — ten content signals of the same kind are weaker than one content signal aligned with an authentication and an infrastructure signal.</p>
+      <p>This is why the <a class="ilink" href="/intelligence/">reference model</a> describes every technique in terms of its <em>observable signals</em>: the model and this evidence layer are the same discipline seen from two sides — what to look for, and how much to trust what you find.</p>
     </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap narrow">
+    <div class="sec-head reveal"><span class="eyebrow">04 · Honest scope</span><h2>What this site actually observes.</h2>
+      <p class="sub">The evidence model is the full analytical framework a defender reasons within. SpamCrackers' own automated tooling sees only part of it — and says so.</p></div>
+    <div class="ev-note reveal"><b>SpamCrackers directly observes the Authentication class only</b> (<span class="mono">EAI-EV-AUTH</span>), and only its DNS-visible part: SPF, DMARC and MX exactly, DKIM heuristically — as set out in the <a class="ilink" href="/methodology/">Methodology</a>. The Network, Content, Behavioural and Infrastructure classes require the received message or telemetry a static, in-browser tool does not have. They are published here as the reference framework for defenders who <em>do</em> hold that evidence — not as something this site measures.</div>
+    <p class="prose reveal" style="margin-top:1.6rem">Stating the boundary is the point: a grade from the domain check is an Authentication-class observation at a single moment, and it should be read as exactly that — no more, no less.</p>
     <div class="lib-cta reveal" style="display:flex;flex-wrap:wrap;gap:.8rem;margin-top:2rem">
       <a href="/intelligence/" style="font-family:var(--mono);font-size:var(--step--1);letter-spacing:.05em;padding:.9em 1.4em;border-radius:2px;background:var(--signal);color:#04120C;font-weight:700;text-transform:uppercase">Browse the reference →</a>
-      <a href="/catalog.json" style="font-family:var(--mono);font-size:var(--step--1);letter-spacing:.05em;padding:.9em 1.4em;border-radius:2px;border:1px solid var(--line-strong);color:var(--ink);text-transform:uppercase">Open catalog.json →</a>
+      <a href="/intelligence/governance/" style="font-family:var(--mono);font-size:var(--step--1);letter-spacing:.05em;padding:.9em 1.4em;border-radius:2px;border:1px solid var(--line-strong);color:var(--ink);text-transform:uppercase">Governance →</a>
     </div>
   </div>
 </section>
 
 <footer>
   <div class="wrap foot-row">
-    <span><span class="sig">SPAMCRACKERS</span>.COM — Cite &amp; Reproduce · CC BY 4.0</span>
+    <span><span class="sig">SPAMCRACKERS</span>.COM — Evidence &amp; Confidence Model v1.0 · CC BY 4.0</span>
     <div class="foot-links">
       <a href="/">Home</a>
-      <a href="/standard/">The Standard</a>
+      <a href="/intelligence/">Reference Model</a>
       <a href="/methodology/">Methodology</a>
       <a href="/intelligence/governance/">Governance</a>
     </div>
