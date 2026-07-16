@@ -371,6 +371,19 @@ try {
   notes.push(`map: ${checked} generated counts match their sources`);
 } catch (e) { fail("map invalid: " + e.message); }
 
+/* ---------------- llms.txt links must resolve ---------------- */
+try {
+  const llms = fs.readFileSync(path.join(ROOT, "llms.txt"), "utf8");
+  let n = 0;
+  for (const m of llms.matchAll(/\]\((https:\/\/spamcrackers\.com[^)]*)\)/g)) {
+    const x = resolveAbs(m[1]);
+    if (!x.external && !x.file) fail(`llms.txt: unresolved link ${m[1]}`);
+    else n++;
+  }
+  if (!n) fail("llms.txt: no internal links found (file missing or malformed)");
+  notes.push(`llms.txt: ${n} internal links resolve`);
+} catch (e) { fail("llms.txt invalid: " + e.message); }
+
 /* ---------------- taxonomy.json (derived from pillar pages) ---------------- */
 try {
   const tax = JSON.parse(fs.readFileSync(path.join(ROOT, "intelligence/taxonomy.json"), "utf8"));
