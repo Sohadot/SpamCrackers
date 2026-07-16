@@ -6,25 +6,25 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; img-src 'self' data:; font-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self' https://dns.google https://formspree.io; form-action 'self' https://formspree.io; upgrade-insecure-requests" />
 <meta name="referrer" content="strict-origin-when-cross-origin" />
 <link rel="alternate" type="application/atom+xml" title="SpamCrackers updates" href="/feed.xml" />
-<title>The SpamCrackers Standard — Email Authentication Grading (v1.0)</title>
-<meta name="description" content="The SpamCrackers Standard: a single, transparent A+ to F grade for a domain's email authentication — SPF, DKIM, DMARC and MX. Public rubric, live in-browser checks, versioned and citable." />
-<link rel="canonical" href="https://spamcrackers.com/standard/" />
+<title>Methodology &amp; Limitations — How SpamCrackers Grades Email Authentication | SpamCrackers</title>
+<meta name="description" content="Exactly how SpamCrackers grades email authentication: data acquisition over DNS-over-HTTPS, the SPF/DKIM/DMARC/MX scoring rubric, the A+ to F scale, what is deliberately out of scope, and the threats to validity that bound every grade. Deterministic, transparent, versioned." />
+<link rel="canonical" href="https://spamcrackers.com/methodology/" />
 <meta name="robots" content="index, follow, max-image-preview:large" />
 <meta name="theme-color" content="#08090D" media="(prefers-color-scheme: dark)" />
 <meta name="theme-color" content="#ECEDE8" media="(prefers-color-scheme: light)" />
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2308090D'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%232FE39B'/%3E%3C/svg%3E" />
 <meta property="og:type" content="article" />
 <meta property="og:site_name" content="SpamCrackers" />
-<meta property="og:url" content="https://spamcrackers.com/standard/" />
-<meta property="og:title" content="The SpamCrackers Standard for Email Authentication" />
-<meta property="og:description" content="A single, transparent A+ to F grade for a domain's SPF, DKIM, DMARC and MX — public rubric, live checks, citable." />
-<meta property="og:image" content="https://spamcrackers.com/og-image.png" />
+<meta property="og:url" content="https://spamcrackers.com/methodology/" />
+<meta property="og:title" content="Methodology &amp; Limitations — How SpamCrackers Grades Email Authentication" />
+<meta property="og:description" content="Data acquisition, scoring rubric, grade scale, scope, and threats to validity — the citable specification behind every grade." />
+<meta property="og:image" content="https://spamcrackers.com/intelligence/og/methodology.png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="The SpamCrackers Standard for Email Authentication" />
-<meta name="twitter:description" content="A single A+ to F grade for a domain's SPF, DKIM, DMARC and MX." />
-<meta name="twitter:image" content="https://spamcrackers.com/og-image.png" />
+<meta name="twitter:title" content="Methodology &amp; Limitations — SpamCrackers" />
+<meta name="twitter:description" content="How every grade is produced, what is out of scope, and the threats to validity that bound it." />
+<meta name="twitter:image" content="https://spamcrackers.com/intelligence/og/methodology.png" />
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -39,74 +39,45 @@
         "url": "https://spamcrackers.com/logo.png",
         "width": 512,
         "height": 512
-      },
-      "description": "The reference layer for Email Abuse Intelligence and a transparent standard for email authentication.",
-      "knowsAbout": [
-        "Email authentication",
-        "SPF",
-        "DKIM",
-        "DMARC",
-        "Email spoofing",
-        "Phishing",
-        "Business Email Compromise",
-        "Email abuse intelligence"
-      ]
-    },
-    {
-      "@type": "TechArticle",
-      "@id": "https://spamcrackers.com/standard/#article",
-      "headline": "The SpamCrackers Standard for Email Authentication (v1.0)",
-      "description": "A single, transparent A+ to F grade for a domain's email authentication — SPF, DKIM, DMARC and MX — computed live in the browser against public DNS.",
-      "url": "https://spamcrackers.com/standard/",
-      "isPartOf": {
-        "@id": "https://spamcrackers.com/#website"
-      },
-      "inLanguage": "en",
-      "version": "1.0",
-      "publisher": {
-        "@id": "https://spamcrackers.com/#organization"
       }
     },
     {
-      "@type": "DefinedTermSet",
-      "@id": "https://spamcrackers.com/standard/#grades",
-      "name": "SpamCrackers Standard grade scale",
-      "hasDefinedTerm": [
+      "@type": "TechArticle",
+      "@id": "https://spamcrackers.com/methodology/#article",
+      "headline": "SpamCrackers Methodology & Limitations v1.0",
+      "description": "Exactly how SpamCrackers grades email authentication (SPF, DKIM, DMARC, MX): data acquisition over DNS-over-HTTPS, the scoring rubric, the grade scale, scope, and the threats to validity that bound every grade.",
+      "url": "https://spamcrackers.com/methodology/",
+      "isPartOf": {
+        "@id": "https://spamcrackers.com/#organization"
+      },
+      "publisher": {
+        "@id": "https://spamcrackers.com/#organization"
+      },
+      "license": "https://creativecommons.org/licenses/by/4.0/",
+      "about": [
         {
-          "@type": "DefinedTerm",
-          "termCode": "A+",
-          "name": "A+ — Sovereign",
-          "description": "The reference standard — fully armored across all four controls. (score 95–100)"
+          "@type": "Thing",
+          "name": "SPF"
         },
         {
-          "@type": "DefinedTerm",
-          "termCode": "A",
-          "name": "A — Armored",
-          "description": "Protected against impersonation, with strong enforcement. (score 85–94)"
+          "@type": "Thing",
+          "name": "DKIM"
         },
         {
-          "@type": "DefinedTerm",
-          "termCode": "B",
-          "name": "B — Guarded",
-          "description": "Solid, with room to harden one control further. (score 70–84)"
+          "@type": "Thing",
+          "name": "DMARC"
         },
         {
-          "@type": "DefinedTerm",
-          "termCode": "C",
-          "name": "C — Partial",
-          "description": "Real gaps a spoofer can exploit today. (score 50–69)"
+          "@type": "Thing",
+          "name": "MX"
         },
         {
-          "@type": "DefinedTerm",
-          "termCode": "D",
-          "name": "D — Exposed",
-          "description": "Weak controls — the domain is easily spoofed. (score 30–49)"
+          "@type": "Thing",
+          "name": "DNS-over-HTTPS"
         },
         {
-          "@type": "DefinedTerm",
-          "termCode": "F",
-          "name": "F — Open",
-          "description": "Wide open to impersonation. No meaningful protection. (score 0–29)"
+          "@type": "Thing",
+          "name": "email authentication"
         }
       ]
     },
@@ -122,8 +93,8 @@
         {
           "@type": "ListItem",
           "position": 2,
-          "name": "The Standard",
-          "item": "https://spamcrackers.com/standard/"
+          "name": "Methodology",
+          "item": "https://spamcrackers.com/methodology/"
         }
       ]
     }
@@ -340,33 +311,20 @@
   .related a:hover{border-color:var(--signal);color:var(--signal)}
   .related span{color:var(--mute);align-self:center}
 
-  .std2-cols{display:grid;gap:1.5rem;grid-template-columns:1fr;margin-top:2.4rem}
-  @media(min-width:900px){.std2-cols{grid-template-columns:1.25fr .9fr}}
-  .std2-card{border:1px solid var(--line);border-radius:10px;background:var(--ground-2);padding:clamp(1.3rem,3vw,2rem)}
-  .std2-label{font-family:var(--mono);font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--signal);margin-bottom:1.2rem}
-  .rub-table{width:100%;border-collapse:collapse}
-  .rub-table td{padding:1rem 0;border-bottom:1px solid var(--line);vertical-align:top}
-  .rub-table tr:last-child td{border-bottom:none}
-  .rub-table td:first-child{width:64px}
-  .rub-table .pk{color:var(--ink);font-weight:600;line-height:1.4}
-  .rub-why{color:var(--ink-dim);font-weight:400;font-size:var(--step--1);margin-top:.4rem;line-height:1.55}
-  .rub-table .wt{color:var(--signal);text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums;width:56px}
-  .grade2-row{display:grid;grid-template-columns:2.4ch 6ch 1fr;gap:1rem;align-items:baseline;padding:.7rem 0;border-bottom:1px solid var(--line)}
-  .grade2-row:last-child{border-bottom:none}
-  .grade2-g{font-family:var(--mono);font-weight:800;font-size:1.2rem}
-  .grade2-r{font-size:var(--step--1);color:var(--mute);font-variant-numeric:tabular-nums}
-  .grade2-meta{display:flex;flex-direction:column;gap:.15rem}
-  .grade2-tier{font-family:var(--mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink)}
-  .grade2-desc{color:var(--ink-dim);font-size:var(--step--1);line-height:1.45}
-  .method{display:grid;gap:1px;grid-template-columns:1fr;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden;margin-top:2.4rem}
-  @media(min-width:720px){.method{grid-template-columns:1fr 1fr}}
-  .method-cell{background:var(--ground-2);padding:1.4rem 1.5rem}
-  .method-cell h3{font-size:var(--step-0);font-weight:700;margin-bottom:.5rem}
-  .method-cell p{color:var(--ink-dim);font-size:var(--step--1);line-height:1.6}
-  .std2-cta{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:2.4rem}
-  .std2-cta a{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.05em;padding:.9em 1.4em;border-radius:2px;text-transform:uppercase;display:inline-flex;gap:.6em}
-  .std2-cta .p{background:var(--signal);color:#04120C;font-weight:700}
-  .std2-cta .g{border:1px solid var(--line-strong);color:var(--ink)}
+  .mth-table{width:100%;border-collapse:collapse;margin-top:1.4rem;font-size:var(--step--1)}
+  .mth-table th{text-align:left;font-family:var(--mono);font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);padding:.5rem .8rem;border-bottom:1px solid var(--line-strong)}
+  .mth-table td{padding:.6rem .8rem;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink)}
+  .mth-table tr:last-child td{border-bottom:none}
+  .mth-pts{color:var(--signal);text-align:right;white-space:nowrap;font-weight:700}
+  .mth-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--ground-2);padding:.4rem clamp(.6rem,2vw,1.2rem)}
+  .mth-list{margin-top:1.4rem;display:flex;flex-direction:column;gap:0}
+  .mth-item{padding:1.1rem 0;border-bottom:1px solid var(--line)}
+  .mth-item:last-child{border-bottom:none}
+  .mth-item dt{font-weight:700;letter-spacing:-.01em;color:var(--ink)}
+  .mth-item dd{margin-top:.4rem;color:var(--ink-dim);max-width:74ch;line-height:1.6}
+  .mth-note{margin-top:1.6rem;border-left:3px solid var(--signal);background:color-mix(in srgb,var(--signal) 6%,transparent);border-radius:0 8px 8px 0;padding:1rem 1.2rem;color:var(--ink);font-size:var(--step--1);line-height:1.6;max-width:76ch}
+  .mth-note b{color:var(--signal)}
+  .mth-q{display:flex;gap:.6rem;align-items:baseline;flex-wrap:wrap;margin-top:.5rem;font-family:var(--mono);font-size:var(--step--1);color:var(--ink-dim)}
 
 </style>
 </head>
@@ -375,145 +333,149 @@
 <header class="bar">
   <a class="brand-min" href="/"><span class="dot" aria-hidden="true"></span>SPAMCRACKERS<span class="tld">.com</span></a>
   <nav>
-    <a class="navlink" href="/#lab">Check a domain</a>
+    <a class="navlink" href="/standard/">The Standard</a>
     <a class="navlink" href="/observatory/">Observatory</a>
     <a class="navlink" href="/intelligence/">Intelligence</a>
+    <a class="navlink" href="/#lab">Check a domain</a>
     <button class="themebtn" id="themebtn" type="button" aria-label="Toggle theme">◐ THEME</button>
   </nav>
 </header>
 
 <section class="hero" style="padding-bottom:0">
   <div class="wrap">
-    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span class="sep">/</span><span class="here">The Standard</span></nav>
-    <div class="eyebrow">The SpamCrackers Standard · v1.0</div>
-    <h1>One grade for email trust.</h1>
-    <p class="lede">Email authentication is four separate records and a lot of jargon. The Standard turns them into a single, transparent grade — <strong>A+ to F</strong> — for whether a domain is armored against impersonation. Public rubric, computed <a class="ilink" href="/#lab">live in your browser</a>, versioned and citable.</p>
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span class="sep">/</span><span class="here">Methodology</span></nav>
+    <div class="eyebrow">Methodology &amp; Limitations v1.0</div>
+    <h1>How every grade<br>is produced.</h1>
+    <p class="lede">A reference is only as trustworthy as its method. This is the exact specification behind every SpamCrackers grade — <strong>what is measured, what is not, and where the uncertainty lives</strong>. Nothing here is aspirational; it describes the running system, and it is versioned so its meaning cannot silently drift.</p>
+    <div class="meta-chips">
+      <span class="chip"><b>Controls</b> SPF · DKIM · DMARC · MX</span>
+      <span class="chip"><b>Source</b> Public DNS over HTTPS</span>
+      <span class="chip stance"><b>Stance</b> Deterministic · transparent</span>
+      <span class="chip"><b>License</b> CC BY 4.0</span>
+    </div>
   </div>
 </section>
 
-<section id="why">
+<section style="border-top:none;padding-top:2.6rem">
   <div class="wrap narrow">
-    <div class="sec-head reveal"><span class="eyebrow">01 · Why a standard</span><h2>Posture you can read at a glance.</h2></div>
+    <div class="sec-head reveal"><span class="eyebrow">01 · Data acquisition</span><h2>Read directly from public DNS.</h2>
+      <p class="sub">Every grade is derived only from public DNS records, queried over DNS-over-HTTPS from Google's resolver (<code>dns.google/resolve</code>). There is no crawling, no mail is sent, and nothing about the domain or the visitor is stored. Four record lookups are made:</p></div>
+    <div class="mth-list reveal">
+      <div class="mth-item"><dt>SPF</dt><dd><code>TXT</code> at the apex; the record beginning <code>v=spf1</code> is read for its <code>all</code> qualifier.</dd></div>
+      <div class="mth-item"><dt>DMARC</dt><dd><code>TXT</code> at <code>_dmarc.&lt;domain&gt;</code>; the <code>p=</code> policy tag is read from the <code>v=DMARC1</code> record.</dd></div>
+      <div class="mth-item"><dt>MX</dt><dd><code>MX</code> at the apex; presence of one or more hosts is scored.</dd></div>
+      <div class="mth-item"><dt>DKIM</dt><dd><code>TXT</code> at <code>&lt;selector&gt;._domainkey.&lt;domain&gt;</code> across 19 common selectors: <span class="mono" style="color:var(--ink-dim);font-size:.9em">google, selector1, selector2, default, s1, s2, k1, dkim, mail, mandrill, mxvault, pic, smtp, zoho, sig1, key1, fm1, fm2, fm3</span>. The first key found scores DKIM.</dd></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap narrow">
+    <div class="sec-head reveal"><span class="eyebrow">02 · Scoring</span><h2>Four controls, twenty-five points each.</h2>
+      <p class="sub">The full <a class="ilink" href="/standard/">domain check</a> scores four controls out of 25 for a total out of 100. The mapping from record to points is fixed:</p></div>
+    <div class="mth-scroll reveal">
+      <table class="mth-table">
+        <thead><tr><th>Control</th><th>Condition</th><th style="text-align:right">Points</th></tr></thead>
+        <tbody>
+          <tr><td><span class="idchip">SPF</span></td><td><code>-all</code> hard fail</td><td class="mono mth-pts">25</td></tr>
+          <tr><td><span class="idchip">SPF</span></td><td><code>~all</code> soft fail</td><td class="mono mth-pts">18</td></tr>
+          <tr><td><span class="idchip">SPF</span></td><td>neutral / permissive qualifier (<code>?all</code>, <code>+all</code>, no <code>all</code>)</td><td class="mono mth-pts">10</td></tr>
+          <tr><td><span class="idchip">SPF</span></td><td>no <code>v=spf1</code> record</td><td class="mono mth-pts">0</td></tr>
+          <tr><td><span class="idchip">DKIM</span></td><td>key found on a common selector</td><td class="mono mth-pts">25</td></tr>
+          <tr><td><span class="idchip">DKIM</span></td><td>no key on any queried selector</td><td class="mono mth-pts">0</td></tr>
+          <tr><td><span class="idchip">DMARC</span></td><td><code>p=reject</code></td><td class="mono mth-pts">25</td></tr>
+          <tr><td><span class="idchip">DMARC</span></td><td><code>p=quarantine</code></td><td class="mono mth-pts">20</td></tr>
+          <tr><td><span class="idchip">DMARC</span></td><td><code>p=none</code> (record present, monitoring only)</td><td class="mono mth-pts">10</td></tr>
+          <tr><td><span class="idchip">DMARC</span></td><td>no <code>v=DMARC1</code> record</td><td class="mono mth-pts">0</td></tr>
+          <tr><td><span class="idchip">MX</span></td><td>one or more MX hosts present</td><td class="mono mth-pts">25</td></tr>
+          <tr><td><span class="idchip">MX</span></td><td>no MX record</td><td class="mono mth-pts">0</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap narrow">
+    <div class="sec-head reveal"><span class="eyebrow">03 · Grade scale</span><h2>From A+ to F.</h2>
+      <p class="sub">The total maps to a single grade. The bands are fixed and part of the versioned Standard.</p></div>
+    <div class="mth-scroll reveal">
+      <table class="mth-table">
+        <thead><tr><th>Grade</th><th>Tier</th><th>Score</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td class="mono" style="color:var(--signal);font-weight:700">A+</td><td>Sovereign</td><td class="mono">95–100</td><td>the reference standard — fully armored</td></tr>
+          <tr><td class="mono" style="color:var(--signal);font-weight:700">A</td><td>Armored</td><td class="mono">85–94</td><td>protected against impersonation</td></tr>
+          <tr><td class="mono" style="color:var(--signal);font-weight:700">B</td><td>Guarded</td><td class="mono">70–84</td><td>meaningful protection, with gaps</td></tr>
+          <tr><td class="mono" style="color:var(--amber);font-weight:700">C</td><td>Partial</td><td class="mono">50–69</td><td>partial; impersonation is still viable</td></tr>
+          <tr><td class="mono" style="color:var(--noise);font-weight:700">D</td><td>Exposed</td><td class="mono">30–49</td><td>largely unprotected</td></tr>
+          <tr><td class="mono" style="color:var(--noise);font-weight:700">F</td><td>Open</td><td class="mono">0–29</td><td>no effective authentication</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap narrow">
+    <div class="sec-head reveal"><span class="eyebrow">04 · The two scores, reconciled</span><h2>Why the Observatory number differs.</h2>
+      <p class="sub">The <a class="ilink" href="/observatory/">Observatory</a> uses a faster pass that grades only the three controls readable exactly from DNS — <b>SPF, DMARC and MX</b> — omitting DKIM, then rescales the 75 available points to 100: <span class="mono">round(points ÷ 75 × 100)</span>.</p></div>
+    <div class="mth-note reveal"><b>They are not directly comparable.</b> A domain with perfect SPF, DMARC and MX but no discoverable DKIM scores <b>100 (A+)</b> in the Observatory, yet <b>75 (B)</b> in the full check. The Observatory number is a DKIM-agnostic index of the three exact controls; the full check is the complete grade. Each page states which it shows, and both share the same grade bands.</div>
+    <p class="prose reveal" style="margin-top:1.6rem">This is a deliberate design choice: the Observatory measures many domains at scale without the DKIM selector guesswork that could produce false negatives, so its index stays exact and reproducible. The full check accepts the one bounded DKIM heuristic in exchange for completeness on a single domain.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap narrow">
+    <div class="sec-head reveal"><span class="eyebrow">05 · Scope</span><h2>What is deliberately out of scope.</h2>
+      <p class="sub">A defensible grade is precise about its boundaries. The following are <em>not</em> part of the score — stated plainly so no grade is read as more than it is.</p></div>
+    <dl class="mth-list reveal">
+        <div class="mth-item"><dt>DKIM completeness</dt><dd>DKIM is probed against 19 common selectors. A domain that signs on a custom selector can show DKIM as absent even when present — a false negative bounded to a single control. SPF, DMARC and MX are read directly and are exact.</dd></div>
+        <div class="mth-item"><dt>Key strength &amp; rotation</dt><dd>The presence of a DKIM key is scored, not its algorithm, bit length, or rotation hygiene.</dd></div>
+        <div class="mth-item"><dt>SPF evaluation depth</dt><dd>The SPF qualifier is read from the published record. The 10-DNS-lookup limit, recursive <code>include:</code> resolution, and macro expansion are not evaluated.</dd></div>
+        <div class="mth-item"><dt>DMARC enforcement in practice</dt><dd>The declared policy is read. Whether a given receiver honours it — and any <code>pct</code>, <code>sp</code>, or alignment-mode nuance — is out of scope.</dd></div>
+        <div class="mth-item"><dt>Adjacent standards</dt><dd>BIMI, MTA-STS, TLS-RPT, ARC and DNSSEC are not part of the grade. They are complementary, not authentication of the From address.</dd></div>
+        <div class="mth-item"><dt>Subdomains &amp; sending sources</dt><dd>The grade describes the queried apex (or the exact host given). It does not enumerate subdomains, nor inspect actual outbound mail, content, or deliverability.</dd></div>
+    </dl>
+  </div>
+</section>
+
+<section>
+  <div class="wrap narrow">
+    <div class="sec-head reveal"><span class="eyebrow">06 · Threats to validity</span><h2>Where the uncertainty lives.</h2>
+      <p class="sub">Every measurement carries assumptions. These are the ones that bound a SpamCrackers grade — named so they can be reasoned about rather than discovered.</p></div>
+    <dl class="mth-list reveal">
+        <div class="mth-item"><dt>Point-in-time</dt><dd>A grade reflects DNS as observed at query time. Records change; a grade is a snapshot, and the Observatory dates every measurement for exactly this reason.</dd></div>
+        <div class="mth-item"><dt>Caching &amp; propagation</dt><dd>Answers are subject to TTL caching and propagation delay. A change published moments earlier may not yet be globally visible.</dd></div>
+        <div class="mth-item"><dt>Single resolver</dt><dd>All lookups use one DNS-over-HTTPS resolver (Google, <code>dns.google/resolve</code>). Split-horizon or geo-targeted DNS could return different records to a different resolver or region.</dd></div>
+        <div class="mth-item"><dt>Declared vs. enforced</dt><dd>SPF and DMARC scores measure <em>policy declaration</em>. They are a strong proxy for protection, not a guarantee of any individual receiver's action.</dd></div>
+        <div class="mth-item"><dt>Forwarding &amp; ARC</dt><dd>Legitimate forwarding can break SPF and DKIM alignment downstream. The grade scores the sender's published posture, not survival across every forwarding path.</dd></div>
+        <div class="mth-item"><dt>Integrity over completeness</dt><dd>If any domain in a scheduled Observatory run fails to resolve, the run aborts rather than publish a partial record — no measurement is preferred to a misleading one.</dd></div>
+    </dl>
+  </div>
+</section>
+
+<section>
+  <div class="wrap narrow">
+    <div class="sec-head reveal"><span class="eyebrow">07 · Reproducibility &amp; change control</span><h2>Deterministic, and versioned.</h2></div>
     <div class="prose reveal">
-      <p>Ask most tools whether your email is secure and you get four raw verdicts and a shrug. Is a soft-fail SPF with monitoring-only DMARC good or bad? Compared to what? Raw pass/fail hides the answer that actually matters: <em>how exposed am I, and to whom?</em></p>
-      <p>The Standard answers that in one symbol. It weighs the four controls that determine whether someone can send mail as you, rolls them into a score, and maps that score to a grade with a plain meaning — from <strong>Sovereign</strong> to <strong>Open</strong>. The rubric is public and fixed, so two domains graded a year apart are graded the same way.</p>
+      <p>Given the same DNS state, the method returns the same grade — there is no hidden model and no randomness. The rubric is published here in full; the Observatory's underlying data is open as <a class="ilink" href="/observatory/latest.json">latest.json</a> under CC BY 4.0, re-measured weekly with an immutable archive, so results can be independently reproduced and audited against git history.</p>
+      <p>This methodology is <strong>v1.0</strong>. Grade semantics are stable: the bands and control weights above will not change meaning without a version bump recorded in <a class="ilink" href="/intelligence/governance/">governance</a>. When the DKIM selector set or any weight changes, it is a documented, versioned change — never a silent one.</p>
     </div>
-  </div>
-</section>
-
-<section id="rubric">
-  <div class="wrap">
-    <div class="sec-head reveal"><span class="eyebrow">02 · What it grades</span><h2>Four controls. Twenty-five points each.</h2></div>
-    <div class="std2-cols">
-      <div class="std2-card reveal">
-        <div class="std2-label">The rubric · 100 points</div>
-        <table class="rub-table">
-
-        <tr>
-          <td><span class="idchip">SPF</span></td>
-          <td class="pk">Only servers you authorise may send as your domain.<div class="rub-why">Without it, anyone can send mail as you and no record contradicts them. SPF is the foundation of sender identity.</div></td>
-          <td class="wt mono">+25</td>
-        </tr>
-
-        <tr>
-          <td><span class="idchip">DKIM</span></td>
-          <td class="pk">Every message carries a signature receivers can verify.<div class="rub-why">A cryptographic proof that the message is genuinely yours and unaltered — impossible to forge without your private key.</div></td>
-          <td class="wt mono">+25</td>
-        </tr>
-
-        <tr>
-          <td><span class="idchip">DMARC</span></td>
-          <td class="pk">Receivers are told to reject anything that fails.<div class="rub-why">Ties SPF and DKIM to the visible From address and enforces a policy. The only control that reliably stops exact-domain spoofing.</div></td>
-          <td class="wt mono">+25</td>
-        </tr>
-
-        <tr>
-          <td><span class="idchip">MX</span></td>
-          <td class="pk">Mail is received and can be filtered.<div class="rub-why">No MX means no inbound mail — and nowhere to apply inbound protection. It anchors the receiving side of the domain.</div></td>
-          <td class="wt mono">+25</td>
-        </tr>
-        </table>
-      </div>
-      <div class="std2-card reveal">
-        <div class="std2-label">The grade scale</div>
-
-        <div class="grade2-row">
-          <span class="grade2-g" style="color:var(--signal)">A+</span>
-          <span class="grade2-r mono">95–100</span>
-          <div class="grade2-meta"><span class="grade2-tier">Sovereign</span><span class="grade2-desc">The reference standard — fully armored across all four controls.</span></div>
-        </div>
-
-        <div class="grade2-row">
-          <span class="grade2-g" style="color:var(--signal)">A</span>
-          <span class="grade2-r mono">85–94</span>
-          <div class="grade2-meta"><span class="grade2-tier">Armored</span><span class="grade2-desc">Protected against impersonation, with strong enforcement.</span></div>
-        </div>
-
-        <div class="grade2-row">
-          <span class="grade2-g" style="color:var(--signal)">B</span>
-          <span class="grade2-r mono">70–84</span>
-          <div class="grade2-meta"><span class="grade2-tier">Guarded</span><span class="grade2-desc">Solid, with room to harden one control further.</span></div>
-        </div>
-
-        <div class="grade2-row">
-          <span class="grade2-g" style="color:var(--amber)">C</span>
-          <span class="grade2-r mono">50–69</span>
-          <div class="grade2-meta"><span class="grade2-tier">Partial</span><span class="grade2-desc">Real gaps a spoofer can exploit today.</span></div>
-        </div>
-
-        <div class="grade2-row">
-          <span class="grade2-g" style="color:var(--noise)">D</span>
-          <span class="grade2-r mono">30–49</span>
-          <div class="grade2-meta"><span class="grade2-tier">Exposed</span><span class="grade2-desc">Weak controls — the domain is easily spoofed.</span></div>
-        </div>
-
-        <div class="grade2-row">
-          <span class="grade2-g" style="color:var(--noise)">F</span>
-          <span class="grade2-r mono">0–29</span>
-          <div class="grade2-meta"><span class="grade2-tier">Open</span><span class="grade2-desc">Wide open to impersonation. No meaningful protection.</span></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="method">
-  <div class="wrap narrow">
-    <div class="sec-head reveal"><span class="eyebrow">03 · Methodology</span><h2>Transparent, deterministic, private.</h2></div>
-    <div class="method reveal">
-      <div class="method-cell"><h3>Live &amp; in-browser</h3><p>Every check runs in your browser over DNS-over-HTTPS against public DNS. No domain, result or email reaches a server — there is none in the loop — and nothing is stored.</p></div>
-      <div class="method-cell"><h3>Deterministic</h3><p>The same records always produce the same grade. The rubric and thresholds are published here and fixed within a version.</p></div>
-      <div class="method-cell"><h3>Transparent</h3><p>Each result shows the record it read and the exact fix for every gap, mapped to the <a class="ilink" href="/playbook/">Remediation Playbook</a>.</p></div>
-      <div class="method-cell"><h3>One honest caveat</h3><p>DKIM is detected against a set of common selectors. A domain using a custom selector may show DKIM as not found even when it is present — the single heuristic in an otherwise exact grade. SPF, DMARC and MX are read directly.</p></div>
-    </div>
-    <p class="sub reveal" style="margin-top:1.8rem">The complete specification — data acquisition, the exact scoring table, scope, and the threats to validity that bound every grade — is documented in the <a class="ilink" href="/methodology/">Methodology &amp; Limitations</a>.</p>
-  </div>
-</section>
-
-<section id="cite">
-  <div class="wrap narrow">
-    <div class="sec-head reveal"><span class="eyebrow">04 · Version &amp; citation</span><h2>Fixed, versioned, citable.</h2>
-      <p class="sub">The Standard is <span class="mono" style="color:var(--signal)">v1.0</span>. Changes to the rubric or thresholds are versioned transparently under <a class="ilink" href="/intelligence/governance/">model governance</a>.</p></div>
-    <div class="std2-card reveal" style="font-family:var(--mono);font-size:var(--step--1);color:var(--ink);line-height:1.7">
-      <span style="color:var(--mute);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;display:block;margin-bottom:.5rem">Cite the Standard</span>
-      SpamCrackers Standard for Email Authentication, v1.0. spamcrackers.com/standard/
-    </div>
-    <div class="std2-cta reveal">
-      <a class="p" href="/#lab">Grade your domain →</a>
-      <a class="g" href="/playbook/">Fix your gaps →</a>
-      <a class="g" href="/observatory/">See how others score →</a>
+    <div class="lib-cta reveal" style="display:flex;flex-wrap:wrap;gap:.8rem;margin-top:2rem">
+      <a href="/#lab" style="font-family:var(--mono);font-size:var(--step--1);letter-spacing:.05em;padding:.9em 1.4em;border-radius:2px;background:var(--signal);color:#04120C;font-weight:700;text-transform:uppercase">Grade your domain →</a>
+      <a href="/standard/" style="font-family:var(--mono);font-size:var(--step--1);letter-spacing:.05em;padding:.9em 1.4em;border-radius:2px;border:1px solid var(--line-strong);color:var(--ink);text-transform:uppercase">Read the Standard →</a>
     </div>
   </div>
 </section>
 
 <footer>
   <div class="wrap foot-row">
-    <span><span class="sig">SPAMCRACKERS</span>.COM — The Standard for Email Authentication · v1.0</span>
+    <span><span class="sig">SPAMCRACKERS</span>.COM — Methodology &amp; Limitations v1.0 · CC BY 4.0</span>
     <div class="foot-links">
       <a href="/">Home</a>
-      <a href="/#lab">Check a domain</a>
-      <a href="/playbook/">Playbook</a>
-      <a href="/intelligence/">Intelligence</a>
+      <a href="/standard/">The Standard</a>
+      <a href="/observatory/">Observatory</a>
+      <a href="/intelligence/governance/">Governance</a>
     </div>
   </div>
 </footer>
@@ -528,7 +490,7 @@
     root.setAttribute("data-theme", isDark ? "light" : "dark");
   });
   if(!reduce){
-    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target);}});},{threshold:.1});
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target);}});},{threshold:.08});
     document.querySelectorAll(".reveal").forEach(function(el){io.observe(el);});
   } else { document.querySelectorAll(".reveal").forEach(function(el){el.classList.add("in");}); }
 })();
