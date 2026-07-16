@@ -618,6 +618,36 @@
   </div>
 </section>
 
+<section id="nosend">
+  <div class="wrap narrow">
+    <div class="sec-head reveal"><span class="eyebrow">The other case</span><h2>A domain that sends no email.</h2>
+      <p class="sub">Not every domain sends mail — many only host a website or hold a brand. An unused domain is still spoofable, so its goal is the opposite of a sending domain's: publish records that authorise <strong>nothing</strong> and declare that this domain never emails. This is the strongest possible anti-spoofing posture.</p></div>
+    <article class="fix reveal" id="fix-nosend">
+      <div class="fix-head">
+        <div class="fix-h-l"><span class="idchip">WEB-ONLY</span><h3>Publish a &ldquo;sends nothing&rdquo; lockdown</h3></div>
+        <span class="fix-weight mono">anti-spoof</span>
+      </div>
+      <p class="fix-why">With no SPF or DMARC, anyone can send mail as your domain and nothing contradicts them — even if you never send a message. These four records shut that down completely.</p>
+      <div class="fix-steps">
+        <div class="fix-label">Records to publish</div>
+        <ol>
+          <li><b>SPF that authorises no sender</b> — one TXT at the root: <code>v=spf1 -all</code></li>
+          <li><b>DMARC at reject</b> — TXT at <code>_dmarc</code>: <code>v=DMARC1; p=reject; rua=mailto:you@yourdomain</code></li>
+          <li><b>Null MX</b> (RFC 7505) — declare the domain receives no mail: <code>@ MX 0 .</code></li>
+          <li><b>Revoke DKIM</b> — a wildcard empty key at <code>*._domainkey</code>: <code>v=DKIM1; p=</code></li>
+        </ol>
+      </div>
+      <div class="fix-closes">
+        <span class="fix-closes-l">Closes</span>
+        <a class="fix-chip" href="/intelligence/spoofing/#SPO-AU-01" title="Missing-SPF exploitation">SPO-AU-01</a>
+        <a class="fix-chip" href="/intelligence/spoofing/#SPO-AU-03" title="DMARC-none exploitation">SPO-AU-03</a>
+        <a class="fix-chip" href="/intelligence/spoofing/#SPO-HD-01" title="Header-from spoofing">SPO-HD-01</a>
+      </div>
+    </article>
+    <p class="fix-why reveal" style="margin-top:1.6rem">One honest caveat: because this correct configuration has <b>no MX</b> — the domain receives nothing — it will not score full marks on the <a class="ilink" href="/standard/">Standard</a>, which rewards a working mail path. The grade measures capability and posture together; a locked-down non-sending domain is maximally spoof-resistant regardless. The <a class="ilink" href="/methodology/">Methodology</a> records this case.</p>
+  </div>
+</section>
+
 <footer>
   <div class="wrap foot-row">
     <span><span class="sig">SPAMCRACKERS</span>.COM — the Remediation Playbook · Standard v1.0</span>

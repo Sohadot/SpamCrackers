@@ -435,6 +435,7 @@
         <div class="mth-item"><dt>DMARC enforcement in practice</dt><dd>The declared policy is read. Whether a given receiver honours it — and any <code>pct</code>, <code>sp</code>, or alignment-mode nuance — is out of scope.</dd></div>
         <div class="mth-item"><dt>Adjacent standards</dt><dd>BIMI, MTA-STS, TLS-RPT, ARC and DNSSEC are not part of the grade. They are complementary, not authentication of the From address.</dd></div>
         <div class="mth-item"><dt>Subdomains &amp; sending sources</dt><dd>The grade describes the queried apex (or the exact host given). It does not enumerate subdomains, nor inspect actual outbound mail, content, or deliverability.</dd></div>
+        <div class="mth-item"><dt>Non-sending domains</dt><dd>The MX control rewards a working mail path, so a domain that correctly sends and receives nothing — hardened with <code>v=spf1 -all</code>, DMARC <code>p=reject</code> and a null MX — scores no MX points and cannot reach the top grade, even though it is maximally spoof-resistant. The grade measures mail capability and posture together, not spoof-resistance alone; the <a class="ilink" href="/playbook/#nosend">web-only lockdown</a> is the correct configuration for such a domain.</dd></div>
     </dl>
   </div>
 </section>
