@@ -1,0 +1,39 @@
+# SpamCrackers
+
+> The reference layer for Email Abuse Intelligence and a transparent standard for email authentication (SPF, DKIM, DMARC, MX). Defensive and analytical — classification and defence, never operational attack content. Every element is machine-readable, cross-checked by one deterministic gate, permanently archived with a DOI, and licensed CC BY 4.0.
+
+Key facts for machine consumers:
+- Namespace `EAI`; identifiers are permanent (e.g. `SPO-AU-03`, `EAP-01`, `EAI-EV-AUTH`).
+- Reference Model v1.0.0: 6 pillars, 163 techniques, a 24-axis / 128-class taxonomy, 8 documented campaign patterns, and a 5-class / 4-tier evidence & confidence model.
+- The SpamCrackers Standard grades a domain A+ to F from public DNS (SPF/DKIM/DMARC/MX). DKIM is probed against common selectors; the Observatory index omits DKIM and rescales — see the Methodology for the exact reconciliation and threats to validity.
+- License: CC BY 4.0. DOI (concept, always-latest): 10.5281/zenodo.21395837. Attribution: SpamCrackers, https://spamcrackers.com/.
+
+## Machine-readable datasets
+- [Reference Model — model.json](https://spamcrackers.com/intelligence/model.json): all 163 techniques (id, pillar, phase, name, description, signals, defense, url) across 6 pillars.
+- [Model JSON Schema](https://spamcrackers.com/intelligence/model.schema.json): validates model.json (JSON Schema 2020-12).
+- [Campaign Taxonomy — taxonomy.json](https://spamcrackers.com/intelligence/taxonomy.json): 24 axes and 128 classes with codes and definitions.
+- [Patterns Library — patterns.json](https://spamcrackers.com/intelligence/patterns.json): 8 campaign archetypes composed from the techniques, each with its earliest point of defence.
+- [Evidence & Confidence — evidence.json](https://spamcrackers.com/intelligence/evidence.json): 5 evidence classes and 4 confidence tiers with combination rules.
+- [Observatory record — latest.json](https://spamcrackers.com/observatory/latest.json): a dated, weekly-measured record of how 24 well-known domains score against the Standard.
+- [Dataset catalog — catalog.json](https://spamcrackers.com/catalog.json): a machine-readable index of every dataset and document, with versions, formats and licenses.
+
+## Core documents
+- [The Reference Model](https://spamcrackers.com/intelligence/): the umbrella — six pillars, taxonomy, tactics/techniques matrix, evidence model.
+- [The SpamCrackers Standard](https://spamcrackers.com/standard/): the A+ to F rubric for email authentication.
+- [Methodology & Limitations](https://spamcrackers.com/methodology/): exactly how every grade is produced, what is out of scope, and the threats to validity.
+- [Evidence & Confidence Model](https://spamcrackers.com/intelligence/evidence/): how a classification is substantiated.
+- [Patterns Library](https://spamcrackers.com/intelligence/patterns/): documented campaign archetypes.
+- [Governance](https://spamcrackers.com/intelligence/governance/): identifier scheme, versioning, changelog, citation, licensing.
+- [Technique index](https://spamcrackers.com/intelligence/techniques/): searchable list of all 163 techniques.
+
+## Citation
+- [How to cite & reproduce](https://spamcrackers.com/cite/): ready citations and reproduction steps.
+- [CITATION.cff](https://spamcrackers.com/CITATION.cff): machine-readable citation metadata (includes the DOI).
+- Cite as: SpamCrackers. *Email Abuse Intelligence — Reference Model & Standard* (v1.0.0). Zenodo. https://doi.org/10.5281/zenodo.21395837
+
+## Optional
+- [The Map](https://spamcrackers.com/map/): how the operational loop and governance spine fit together.
+- [Remediation Playbook](https://spamcrackers.com/playbook/): step-by-step fixes for SPF, DKIM, DMARC, MX, and the web-only lockdown.
+- [Observatory](https://spamcrackers.com/observatory/): the live/dated posture index.
+- [Glossary](https://spamcrackers.com/glossary/): 40 cross-linked terms.
+- [Architecture Decisions](https://spamcrackers.com/decisions/): the reasoning behind key choices.
