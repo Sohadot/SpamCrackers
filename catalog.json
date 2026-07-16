@@ -28,6 +28,10 @@
         {
           "format": "application/json",
           "url": "https://spamcrackers.com/intelligence/evidence.json"
+        },
+        {
+          "format": "application/json",
+          "url": "https://spamcrackers.com/intelligence/taxonomy.json"
         }
       ]
     },

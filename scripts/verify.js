@@ -371,6 +371,40 @@ try {
   notes.push(`map: ${checked} generated counts match their sources`);
 } catch (e) { fail("map invalid: " + e.message); }
 
+/* ---------------- taxonomy.json (derived from pillar pages) ---------------- */
+try {
+  const tax = JSON.parse(fs.readFileSync(path.join(ROOT, "intelligence/taxonomy.json"), "utf8"));
+  const PFILE = {
+    SPM: "intelligence/index.html", PHI: "intelligence/phishing/index.html",
+    BEC: "intelligence/bec/index.html", MAL: "intelligence/mal/index.html",
+    SCM: "intelligence/scam/index.html", SPO: "intelligence/spoofing/index.html",
+  };
+  const axRe = /^[A-Z]{3}-TAX-[A-Z]$/, clRe = /^[A-Z]{2}\d$/;
+  const pageCache = {};
+  const pageOf = (p) => (pageCache[p] = pageCache[p] || fs.readFileSync(path.join(ROOT, PFILE[p]), "utf8"));
+  if (!/^\d+\.\d+\.\d+$/.test(tax.version)) fail("taxonomy.json: bad version");
+  if (tax.counts.axes !== tax.axes.length) fail("taxonomy.json: axis count mismatch");
+  let classSum = 0;
+  const axSeen = new Set();
+  for (const ax of tax.axes) {
+    if (!axRe.test(ax.id)) fail(`taxonomy.json: bad axis id ${ax.id}`);
+    if (axSeen.has(ax.id)) fail(`taxonomy.json: duplicate axis ${ax.id}`);
+    axSeen.add(ax.id);
+    if (!PFILE[ax.pillar] || ax.id.slice(0, 3) !== ax.pillar) fail(`taxonomy.json: ${ax.id} pillar mismatch`);
+    if (!ax.name || !ax.classes || !ax.classes.length) fail(`taxonomy.json: ${ax.id} missing name/classes`);
+    const page = pageOf(ax.pillar);
+    if (!page.includes(ax.id)) fail(`taxonomy.json: axis ${ax.id} not on ${PFILE[ax.pillar]}`);
+    for (const c of ax.classes) {
+      classSum++;
+      if (!clRe.test(c.code)) fail(`taxonomy.json: ${ax.id} bad class code ${c.code}`);
+      if (!c.name || !c.definition) fail(`taxonomy.json: ${ax.id}/${c.code} missing name/definition`);
+      if (!page.includes(`>${c.code}</td>`)) fail(`taxonomy.json: class ${c.code} not on ${PFILE[ax.pillar]}`);
+    }
+  }
+  if (tax.counts.classes !== classSum) fail(`taxonomy.json: class total ${tax.counts.classes} != ${classSum}`);
+  notes.push(`taxonomy.json: ${tax.axes.length} axes, ${classSum} classes, ids valid + present on pillar pages`);
+} catch (e) { fail("taxonomy data invalid: " + e.message); }
+
 /* ---------------- report ---------------- */
 console.log("SpamCrackers — verify");
 console.log(`pages: ${files.length}`);
