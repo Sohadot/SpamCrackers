@@ -405,6 +405,41 @@ try {
   notes.push(`taxonomy.json: ${tax.axes.length} axes, ${classSum} classes, ids valid + present on pillar pages`);
 } catch (e) { fail("taxonomy data invalid: " + e.message); }
 
+/* --------- model.json must stay faithfully derived from the pages --------- */
+/* Re-extract techniques from the pillar pages with the generator's exact
+ * logic and require model.json to match field-for-field, so a page edit
+ * without regenerating the JSON is caught (CONTRIBUTING: it is generated). */
+try {
+  const model4 = JSON.parse(fs.readFileSync(path.join(ROOT, "intelligence/model.json"), "utf8"));
+  const byId = Object.fromEntries(model4.techniques.map((t) => [t.id, t]));
+  const PFILE = [
+    ["SPM", "/intelligence/", "intelligence/index.html"], ["PHI", "/intelligence/phishing/", "intelligence/phishing/index.html"],
+    ["BEC", "/intelligence/bec/", "intelligence/bec/index.html"], ["MAL", "/intelligence/mal/", "intelligence/mal/index.html"],
+    ["SCM", "/intelligence/scam/", "intelligence/scam/index.html"], ["SPO", "/intelligence/spoofing/", "intelligence/spoofing/index.html"],
+  ];
+  const decode = (s) => s.replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#39;/g, "'").trim();
+  const rx = /<article class="tcard" id="([A-Z]+-[A-Z]+-\d+)">[\s\S]*?<h4>([\s\S]*?)<\/h4>[\s\S]*?<dt>What it is<\/dt><dd>([\s\S]*?)<\/dd>[\s\S]*?<dt>Observable signals<\/dt><dd>([\s\S]*?)<\/dd>[\s\S]*?<dt class="def">Defensive response<\/dt><dd class="def">([\s\S]*?)<\/dd>/g;
+  let extracted = 0;
+  const seenIds = new Set();
+  for (const [code, url, file] of PFILE) {
+    const s = fs.readFileSync(path.join(ROOT, file), "utf8");
+    let m; rx.lastIndex = 0;
+    while ((m = rx.exec(s))) {
+      if (m[1].split("-")[0] !== code) continue;
+      extracted++; seenIds.add(m[1]);
+      const t = byId[m[1]];
+      if (!t) { fail(`model.json: ${m[1]} on ${file} but missing from model.json`); continue; }
+      const want = { name: decode(m[2]), description: decode(m[3]), signals: decode(m[4]), defense: decode(m[5]),
+        url: "https://spamcrackers.com" + url + "#" + m[1] };
+      for (const k of Object.keys(want)) if (t[k] !== want[k])
+        fail(`model.json: ${m[1]} ${k} out of sync with page (regenerate model.json)`);
+    }
+  }
+  for (const t of model4.techniques) if (!seenIds.has(t.id)) fail(`model.json: ${t.id} not found on any pillar page`);
+  if (extracted !== model4.techniques.length) fail(`model.json: extracted ${extracted} from pages, json has ${model4.techniques.length}`);
+  notes.push(`model.json: ${extracted} techniques verified field-for-field against the pillar pages`);
+} catch (e) { fail("model/page sync check failed: " + e.message); }
+
 /* ---------------- report ---------------- */
 console.log("SpamCrackers — verify");
 console.log(`pages: ${files.length}`);

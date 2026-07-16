@@ -23,7 +23,7 @@ CI runs the same gate on every push and pull request (`.github/workflows/verify.
 
 Record every release in the [governance changelog](https://spamcrackers.com/intelligence/governance/).
 
-**3. `model.json` is generated, not hand-edited.** It is derived deterministically from the built pillar pages, so the data can never drift from the pages. If you change a technique's text on a pillar page, regenerate the JSON and confirm `verify.js` still passes.
+**3. `model.json` is generated, not hand-edited.** It is derived deterministically from the built pillar pages. If you change a technique's text on a pillar page, regenerate the JSON — `verify.js` re-extracts every technique from the pages and fails if `model.json` is out of sync field-for-field, so drift cannot merge.
 
 **4. Defensive scope is absolute.** No version, patch or contribution may add operational attack content — no payloads, kits, step-by-step methods for conducting abuse, or directories of targets. Every entry stays at the level of *classification and defence*: what it is, how it is observed, how it is countered.
 
