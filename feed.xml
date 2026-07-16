@@ -5,10 +5,18 @@
   <link href="https://spamcrackers.com/feed.xml" rel="self" type="application/atom+xml"/>
   <link href="https://spamcrackers.com/" rel="alternate" type="text/html"/>
   <id>https://spamcrackers.com/</id>
-  <updated>2026-07-16T20:00:00Z</updated>
+  <updated>2026-07-16T22:00:00Z</updated>
   <author><name>SpamCrackers</name><uri>https://spamcrackers.com/</uri></author>
   <icon>https://spamcrackers.com/logo.png</icon>
   <rights>CC BY 4.0</rights>
+
+  <entry>
+    <title>The Map — how the whole asset fits together</title>
+    <id>https://spamcrackers.com/map/</id>
+    <link href="https://spamcrackers.com/map/" rel="alternate" type="text/html"/>
+    <updated>2026-07-16T22:00:00Z</updated>
+    <summary>A single orientation page: the operational loop (tool → diagnosis → reference → remediation → recheck) and the governance spine of content, method and access beneath it, all guarded by one deterministic gate. Its counts are generated from the source artifacts and checked by that gate, with start-here paths for domain owners, defenders and researchers.</summary>
+  </entry>
 
   <entry>
     <title>Evidence &amp; Confidence Model, formalised</title>

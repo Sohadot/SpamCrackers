@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; img-src 'self' data:; font-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self' https://dns.google https://formspree.io; form-action 'self' https://formspree.io; upgrade-insecure-requests" />
+<meta name="referrer" content="strict-origin-when-cross-origin" />
+<link rel="alternate" type="application/atom+xml" title="SpamCrackers updates" href="/feed.xml" />
+<title>The Map — How SpamCrackers Fits Together | SpamCrackers</title>
+<meta name="description" content="An orientation map of SpamCrackers: the operational loop — tool, diagnosis, reference, remediation, recheck — and the governance spine of content, method and access that keeps it honest, all guarded by one deterministic gate. Start-here paths for domain owners, defenders and researchers." />
+<link rel="canonical" href="https://spamcrackers.com/map/" />
+<meta name="robots" content="index, follow, max-image-preview:large" />
+<meta name="theme-color" content="#08090D" media="(prefers-color-scheme: dark)" />
+<meta name="theme-color" content="#ECEDE8" media="(prefers-color-scheme: light)" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2308090D'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%232FE39B'/%3E%3C/svg%3E" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="SpamCrackers" />
+<meta property="og:url" content="https://spamcrackers.com/map/" />
+<meta property="og:title" content="The Map — How SpamCrackers Fits Together" />
+<meta property="og:description" content="The operational loop and the governance spine — one system, mapped end to end." />
+<meta property="og:image" content="https://spamcrackers.com/intelligence/og/map.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="The Map — How SpamCrackers Fits Together" />
+<meta name="twitter:description" content="The operational loop and the governance spine — one system, mapped." />
+<meta name="twitter:image" content="https://spamcrackers.com/intelligence/og/map.png" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://spamcrackers.com/#organization",
+      "name": "SpamCrackers",
+      "url": "https://spamcrackers.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://spamcrackers.com/logo.png",
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://spamcrackers.com/map/#page",
+      "name": "How SpamCrackers fits together",
+      "url": "https://spamcrackers.com/map/",
+      "isPartOf": {
+        "@id": "https://spamcrackers.com/#organization"
+      },
+      "publisher": {
+        "@id": "https://spamcrackers.com/#organization"
+      },
+      "description": "An orientation map of SpamCrackers: the operational loop (tool, diagnosis, reference, remediation, recheck) and the governance spine (content, method, access) that keeps it honest."
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "SpamCrackers",
+          "item": "https://spamcrackers.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "The Map",
+          "item": "https://spamcrackers.com/map/"
+        }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+  :root{
+    --ground:#08090D; --ground-2:#0D0F15; --panel:#11141C;
+    --ink:#D9DEE6; --ink-dim:#9AA3B0; --mute:#737D8B;
+    --line:rgba(217,222,230,.10); --line-strong:rgba(217,222,230,.20);
+    --signal:#2FE39B; --noise:#FF3B6B; --amber:#F6C560; --focus:#7FE3FF;
+    --maxw:1180px; --narrow:760px;
+    --step--1:clamp(.78rem,.72rem + .3vw,.9rem);
+    --step-0:clamp(.98rem,.92rem + .3vw,1.06rem);
+    --step-1:clamp(1.2rem,1.05rem + .7vw,1.5rem);
+    --step-2:clamp(1.6rem,1.2rem + 1.8vw,2.4rem);
+    --step-3:clamp(2.2rem,1.5rem + 3.2vw,3.6rem);
+    --step-4:clamp(2.8rem,1.8rem + 5vw,5.2rem);
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,Roboto,Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,"SF Mono","SFMono-Regular",Menlo,Consolas,"Liberation Mono",monospace;
+  }
+  :root[data-theme="light"]{
+    --ground:#ECEDE8; --ground-2:#F4F5F1; --panel:#FFFFFF;
+    --ink:#0F1218; --ink-dim:#454E5B; --mute:#5E6773;
+    --line:rgba(15,18,24,.12); --line-strong:rgba(15,18,24,.22);
+    --signal:#0F9E6A; --noise:#E01E52; --amber:#B77A11;
+  }
+  @media (prefers-color-scheme: light){
+    :root:not([data-theme="dark"]){
+      --ground:#ECEDE8; --ground-2:#F4F5F1; --panel:#FFFFFF;
+      --ink:#0F1218; --ink-dim:#454E5B; --mute:#5E6773;
+      --line:rgba(15,18,24,.12); --line-strong:rgba(15,18,24,.22);
+      --signal:#0F9E6A; --noise:#E01E52; --amber:#B77A11;
+    }
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;scroll-padding-top:70px}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:var(--step-0);line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  ::selection{background:var(--signal);color:var(--ground)}
+  a{color:inherit;text-decoration:none}
+  :focus-visible{outline:2px solid var(--focus);outline-offset:3px;border-radius:2px}
+  .wrap{max-width:var(--maxw);margin-inline:auto;padding-inline:clamp(1.1rem,4vw,3rem)}
+  .wrap.narrow{max-width:calc(var(--narrow) + 6rem)}
+  .mono{font-family:var(--mono)}
+  code{font-family:var(--mono);font-size:.88em;color:var(--signal);background:color-mix(in srgb,var(--signal) 12%,transparent);padding:.1em .42em;border-radius:3px;word-break:break-word}
+  .ilink{color:var(--signal);border-bottom:1px solid color-mix(in srgb,var(--signal) 45%,transparent);transition:border-color .2s}
+  .ilink:hover{border-color:var(--signal)}
+  .eyebrow{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.26em;text-transform:uppercase;color:var(--signal);display:inline-flex;align-items:center;gap:.6em}
+  .eyebrow::before{content:"";width:24px;height:1px;background:var(--signal);opacity:.7}
+
+  /* id chips */
+  .idchip{font-family:var(--mono);font-size:.7rem;letter-spacing:.06em;color:var(--signal);border:1px solid color-mix(in srgb,var(--signal) 45%,var(--line));border-radius:4px;padding:.2em .5em;white-space:nowrap;background:color-mix(in srgb,var(--signal) 8%,transparent)}
+  .idchip-link{transition:background .2s}
+  .idchip-link:hover{background:color-mix(in srgb,var(--signal) 20%,transparent)}
+
+  /* top bar */
+  header.bar{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:.8rem clamp(1.1rem,4vw,3rem);font-family:var(--mono);font-size:var(--step--1);letter-spacing:.05em;backdrop-filter:blur(9px);background:color-mix(in srgb,var(--ground) 75%,transparent);border-bottom:1px solid var(--line)}
+  .brand-min{display:flex;align-items:center;gap:.55rem;font-weight:700}
+  .brand-min .dot{width:9px;height:9px;background:var(--signal);border-radius:50%;box-shadow:0 0 12px var(--signal)}
+  .brand-min .tld{color:var(--mute)}
+  .bar nav{display:flex;align-items:center;gap:clamp(.7rem,1.8vw,1.5rem);color:var(--ink-dim)}
+  .bar nav a{transition:color .2s}.bar nav a:hover{color:var(--signal)}
+  .bar .navlink{display:none}
+  @media(min-width:900px){.bar .navlink{display:inline}}
+  .themebtn{font-family:var(--mono);font-size:var(--step--1);background:transparent;border:1px solid var(--line-strong);color:var(--ink-dim);padding:.35em .7em;border-radius:2px;cursor:pointer;letter-spacing:.1em;transition:.2s}
+  .themebtn:hover{border-color:var(--signal);color:var(--signal)}
+
+  /* sections */
+  section{position:relative;padding:clamp(3.6rem,7vw,6rem) 0;border-top:1px solid var(--line)}
+  .hero{border-top:none;padding-top:clamp(7rem,13vw,10rem)}
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion: reduce){.reveal{opacity:1;transform:none;transition:none}}
+  .sec-head{max-width:64ch;margin-bottom:2.4rem}
+  .sec-head h2{font-weight:800;font-size:var(--step-2);line-height:1.05;letter-spacing:-.025em;margin-top:1rem;text-wrap:balance}
+  .sec-head .sub{margin-top:1rem;color:var(--ink-dim);max-width:60ch}
+
+  /* hero */
+  .hero h1{font-weight:800;font-size:var(--step-4);line-height:.98;letter-spacing:-.035em;margin-top:1.4rem;text-wrap:balance}
+  .hero .hl{color:var(--signal)}
+  .hero .lede{margin-top:1.8rem;font-size:var(--step-1);line-height:1.45;color:var(--ink);max-width:54ch;text-wrap:pretty}
+  .hero .lede strong{color:var(--signal);font-weight:700}
+  .meta-chips{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:2.2rem}
+  .meta-chips .chip{font-family:var(--mono);font-size:var(--step--1);border:1px solid var(--line);border-radius:99px;padding:.45em .95em;color:var(--ink-dim)}
+  .meta-chips .chip b{color:var(--mute);font-weight:400;letter-spacing:.08em;text-transform:uppercase;font-size:.82em;margin-right:.5em}
+  .meta-chips .chip.stance{border-color:color-mix(in srgb,var(--signal) 45%,var(--line));color:var(--signal)}
+  .meta-chips .chip.stance b{color:color-mix(in srgb,var(--signal) 70%,var(--ink-dim))}
+
+  /* prose */
+  .prose p{max-width:68ch;margin-bottom:1.2rem;color:var(--ink-dim)}
+  .prose p:last-child{margin-bottom:0}
+  .prose strong{color:var(--ink)}
+  .prose em{color:var(--signal);font-style:normal}
+
+  /* boundaries */
+  .bound-grid{display:grid;gap:1px;grid-template-columns:1fr;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  @media(min-width:720px){.bound-grid{grid-template-columns:1fr 1fr}}
+  .bound{background:var(--ground-2);padding:clamp(1.4rem,3vw,2.2rem)}
+  .bound-label{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.14em;text-transform:uppercase;margin-bottom:1.1rem;display:flex;align-items:center;gap:.6em}
+  .bound-label::before{content:"";width:10px;height:10px;border-radius:50%}
+  .bound-label.ok{color:var(--signal)}.bound-label.ok::before{background:var(--signal)}
+  .bound-label.no{color:var(--noise)}.bound-label.no::before{background:var(--noise)}
+  .bound ul{list-style:none;display:flex;flex-direction:column;gap:.75rem}
+  .bound li{position:relative;padding-left:1.5rem;color:var(--ink-dim);line-height:1.5}
+  .bound li b{color:var(--ink)}
+  .bound.is li::before{content:"✓";position:absolute;left:0;color:var(--signal);font-family:var(--mono)}
+  .bound.not li::before{content:"✕";position:absolute;left:0;color:var(--noise);font-family:var(--mono)}
+  .bound-note{margin-top:1.6rem;font-family:var(--mono);font-size:var(--step--1);color:var(--ink-dim);line-height:1.7;border-left:2px solid var(--signal);padding-left:1.2rem;max-width:74ch}
+  .bound-note b{color:var(--signal)}
+
+  /* pillars */
+  .pillar-grid{display:grid;gap:1px;grid-template-columns:1fr;background:var(--line);border:1px solid var(--line)}
+  @media(min-width:620px){.pillar-grid{grid-template-columns:repeat(2,1fr)}}
+  @media(min-width:960px){.pillar-grid{grid-template-columns:repeat(3,1fr)}}
+  .pillar{background:var(--ground);padding:clamp(1.4rem,2.6vw,2rem);display:flex;flex-direction:column;gap:.6rem;transition:background .3s}
+  .pillar:hover{background:var(--ground-2)}
+  .pillar-top{display:flex;align-items:center;justify-content:space-between;gap:.6rem}
+  .pill-status{font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+  .pillar.active{background:color-mix(in srgb,var(--signal) 6%,var(--ground))}
+  .pillar.active .pill-status{color:var(--signal)}
+  .pillar h3{font-size:var(--step-1);font-weight:800;letter-spacing:-.02em}
+  .pillar p{color:var(--ink-dim);font-size:var(--step--1);line-height:1.55}
+  .pillar.planned{opacity:.82}
+
+  /* cite */
+  .cite{border:1px solid var(--line);border-radius:8px;padding:clamp(1.2rem,3vw,1.8rem);background:var(--ground-2)}
+  .cite-label{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.14em;text-transform:uppercase;color:var(--signal);margin-bottom:.8rem}
+  .cite p{color:var(--ink-dim);max-width:70ch}
+
+  /* tables */
+  .ref-table{width:100%;border-collapse:collapse;font-size:var(--step--1)}
+  .ref-table th{text-align:left;font-family:var(--mono);color:var(--mute);font-weight:400;letter-spacing:.08em;text-transform:uppercase;font-size:.7rem;padding:0 1rem .7rem 0;border-bottom:1px solid var(--line-strong)}
+  .ref-table td{padding:.8rem 1rem .8rem 0;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink-dim);line-height:1.5}
+  .ref-table tr:last-child td{border-bottom:none}
+  .ref-table td.code{color:var(--signal);white-space:nowrap}
+  .ref-table td.pk{color:var(--ink);font-weight:600}
+
+  /* taxonomy */
+  .tax-grid{display:grid;gap:1.5rem;grid-template-columns:1fr}
+  @media(min-width:820px){.tax-grid{grid-template-columns:1fr 1fr}}
+  .tax-block{border:1px solid var(--line);border-radius:8px;padding:clamp(1.2rem,2.6vw,1.8rem);background:var(--ground-2)}
+  .tax-head{display:flex;align-items:center;gap:.8rem;margin-bottom:1.2rem}
+  .tax-head h3{font-size:var(--step-1);font-weight:800;letter-spacing:-.02em}
+
+  /* matrix */
+  .matrix-scroll{overflow-x:auto;padding-bottom:.6rem;-webkit-overflow-scrolling:touch}
+  .matrix{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(190px,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;min-width:960px}
+  .matrix-col{background:var(--ground);display:flex;flex-direction:column;gap:1px}
+  .matrix-head{background:var(--ground-2);padding:.9rem .8rem;display:flex;flex-direction:column;gap:.45rem;min-height:72px}
+  .matrix-head .mh-name{font-weight:700;font-size:.86rem;line-height:1.2;letter-spacing:-.01em}
+  .matrix-cell{background:var(--ground);padding:.7rem .8rem;font-size:.8rem;color:var(--ink-dim);display:flex;flex-direction:column;gap:.25rem;transition:background .2s,color .2s;border-top:1px solid var(--line)}
+  .matrix-cell:hover{background:color-mix(in srgb,var(--signal) 10%,var(--ground));color:var(--ink)}
+  .matrix-cell .cell-id{font-size:.66rem;color:var(--mute)}
+  .matrix-cell:hover .cell-id{color:var(--signal)}
+
+  /* technique detail */
+  .phase{margin-top:3rem;scroll-margin-top:76px}
+  .phase-head{display:flex;align-items:center;gap:.8rem}
+  .phase-head h3{font-size:var(--step-1);font-weight:800;letter-spacing:-.02em}
+  .phase-blurb{color:var(--ink-dim);margin:.7rem 0 1.4rem;max-width:64ch}
+  .tcards{display:grid;gap:1rem;grid-template-columns:1fr}
+  @media(min-width:720px){.tcards{grid-template-columns:1fr 1fr}}
+  .tcard{border:1px solid var(--line);border-radius:8px;padding:1.2rem 1.3rem;background:var(--ground-2);scroll-margin-top:80px;transition:border-color .3s,box-shadow .3s}
+  .tcard.flash{border-color:var(--signal);box-shadow:0 0 0 1px var(--signal),0 14px 40px -20px var(--signal)}
+  .tcard-top{display:flex;align-items:center;gap:.7rem;margin-bottom:1rem}
+  .tcard-top h4{font-size:var(--step-0);font-weight:700;letter-spacing:-.01em}
+  .tcard-body{display:grid;grid-template-columns:1fr;gap:.35rem}
+  .tcard-body dt{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin-top:.7rem}
+  .tcard-body dt:first-child{margin-top:0}
+  .tcard-body dt.def{color:var(--signal)}
+  .tcard-body dd{color:var(--ink-dim);font-size:var(--step--1);line-height:1.55}
+  .tcard-body dd.def{color:var(--ink)}
+
+  /* evidence + confidence */
+  .conf{margin-top:2.2rem;border:1px solid var(--line);border-radius:8px;padding:clamp(1.2rem,3vw,1.8rem);background:var(--ground-2)}
+  .conf-label{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.14em;text-transform:uppercase;color:var(--signal);margin-bottom:1.2rem}
+  .conf-row{display:flex;gap:1rem;align-items:baseline;padding:.6rem 0;border-bottom:1px solid var(--line)}
+  .conf-row:last-child{border-bottom:none}
+  .conf-tier{font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;padding:.25em .7em;border-radius:99px;border:1px solid currentColor;white-space:nowrap;flex-shrink:0;min-width:9ch;text-align:center}
+  .conf-tier.t0{color:var(--mute)}.conf-tier.t1{color:var(--amber)}.conf-tier.t2{color:var(--signal)}.conf-tier.t3{color:var(--signal)}
+  .conf-desc{color:var(--ink-dim);font-size:var(--step--1)}
+
+  /* library */
+  .lib-grid{display:grid;gap:1px;grid-template-columns:repeat(2,1fr);background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden;margin-bottom:2rem}
+  @media(min-width:720px){.lib-grid{grid-template-columns:repeat(4,1fr)}}
+  .lib-card{background:var(--ground-2);padding:1.6rem 1.3rem;display:flex;flex-direction:column;gap:.4rem}
+  .lib-n{font-size:var(--step-3);font-weight:800;color:var(--signal);line-height:1;font-variant-numeric:tabular-nums}
+  .lib-l{font-family:var(--mono);font-size:var(--step--1);color:var(--ink-dim);letter-spacing:.04em}
+  .lib-cta{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:2rem}
+  .btn{font-family:var(--mono);font-size:var(--step--1);letter-spacing:.05em;padding:.9em 1.4em;border-radius:2px;cursor:pointer;border:1px solid transparent;display:inline-flex;align-items:center;gap:.6em;transition:transform .15s,box-shadow .2s,border-color .2s,color .2s;text-transform:uppercase}
+  .btn-primary{background:var(--signal);color:#04120C;font-weight:700}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 30px -10px var(--signal)}
+  .btn-ghost{background:transparent;color:var(--ink);border-color:var(--line-strong)}
+  .btn-ghost:hover{border-color:var(--signal);color:var(--signal)}
+
+  /* footer */
+  footer{border-top:1px solid var(--line);padding:2.6rem 0;font-family:var(--mono);font-size:var(--step--1);color:var(--mute)}
+  .foot-row{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;align-items:center}
+  .foot-row .sig{color:var(--signal)}
+  .foot-links{display:flex;gap:1.3rem;flex-wrap:wrap}
+  .foot-links a:hover{color:var(--signal)}
+
+  /* breadcrumbs */
+  .crumbs{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;font-family:var(--mono);font-size:var(--step--1);color:var(--mute);margin-bottom:1.4rem}
+  .crumbs a{color:var(--ink-dim);transition:color .2s}
+  .crumbs a:hover{color:var(--signal)}
+  .crumbs .sep{color:var(--mute);opacity:.6}
+  .crumbs .here{color:var(--signal)}
+  /* related pillars footer strip */
+  .related{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:2rem}
+  .related a{font-family:var(--mono);font-size:var(--step--1);border:1px solid var(--line);border-radius:99px;padding:.4em .95em;color:var(--ink-dim);transition:.2s}
+  .related a:hover{border-color:var(--signal);color:var(--signal)}
+  .related span{color:var(--mute);align-self:center}
+
+  .mapnum{color:var(--signal);font-weight:700;font-variant-numeric:tabular-nums}
+  .loop{display:flex;align-items:stretch;gap:.5rem;flex-wrap:wrap;margin-top:1.6rem}
+  .loop-node{flex:1 1 150px;min-width:140px;border:1px solid var(--line);border-radius:10px;background:var(--ground-2);padding:1rem 1.1rem;display:flex;flex-direction:column;gap:.35rem;transition:border-color .2s,transform .2s}
+  .loop-node:hover{border-color:var(--signal);transform:translateY(-2px)}
+  .loop-n{font-size:.68rem;color:var(--signal);letter-spacing:.1em}
+  .loop-t{font-weight:800;letter-spacing:-.01em;font-size:var(--step-0)}
+  .loop-d{color:var(--ink-dim);font-size:var(--step--1);line-height:1.45}
+  .loop-arrow{display:flex;align-items:center;color:var(--mute);font-size:1.2rem;flex:0 0 auto}
+  .loop-return{color:var(--signal)}
+  @media(max-width:720px){.loop{flex-direction:column}.loop-arrow{transform:rotate(90deg);justify-content:center;padding:.1rem 0}}
+  .spine{margin-top:1.6rem;display:flex;flex-direction:column;gap:1rem}
+  .spine-band{border:1px solid var(--line);border-left:3px solid var(--signal);border-radius:0 10px 10px 0;background:var(--ground-2);padding:1.2rem 1.3rem}
+  .spine-k{display:flex;align-items:baseline;gap:.8rem;flex-wrap:wrap;margin-bottom:1rem}
+  .spine-kk{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--signal)}
+  .spine-kt{color:var(--ink-dim);font-size:var(--step--1)}
+  .spine-items{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.7rem}
+  .spine-item{border:1px solid var(--line);border-radius:8px;background:var(--ground);padding:.8rem .9rem;display:flex;flex-direction:column;gap:.25rem;transition:border-color .2s}
+  .spine-item:hover{border-color:var(--signal)}
+  .spine-it{font-weight:700;letter-spacing:-.01em}
+  .spine-id{color:var(--ink-dim);font-size:var(--step--1)}
+  .spine-gate{margin-top:1rem;border:1px dashed color-mix(in srgb,var(--signal) 45%,var(--line));border-radius:10px;background:color-mix(in srgb,var(--signal) 5%,transparent);padding:1rem 1.2rem;color:var(--ink);font-size:var(--step--1);line-height:1.6}
+  .spine-gate b{color:var(--signal)}
+  .paths{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.1rem;margin-top:1.6rem}
+  .path{border:1px solid var(--line);border-radius:10px;background:var(--ground-2);padding:1.2rem 1.3rem}
+  .path-head{display:flex;flex-direction:column;gap:.2rem;margin-bottom:.9rem;padding-bottom:.9rem;border-bottom:1px solid var(--line)}
+  .path-who{font-weight:800;letter-spacing:-.01em}
+  .path-goal{color:var(--ink-dim);font-size:var(--step--1)}
+  .path-goal::before{content:"wants to "}
+  .path-steps{list-style:none;counter-reset:ps;display:flex;flex-direction:column;gap:.5rem}
+  .path-steps li{counter-increment:ps;position:relative;padding-left:1.7rem;font-size:var(--step--1)}
+  .path-steps li::before{content:counter(ps);position:absolute;left:0;top:0;width:1.2rem;height:1.2rem;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:.66rem;color:var(--signal);border:1px solid color-mix(in srgb,var(--signal) 40%,var(--line));border-radius:4px}
+
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <a class="brand-min" href="/"><span class="dot" aria-hidden="true"></span>SPAMCRACKERS<span class="tld">.com</span></a>
+  <nav>
+    <a class="navlink" href="/standard/">The Standard</a>
+    <a class="navlink" href="/intelligence/">Intelligence</a>
+    <a class="navlink" href="/cite/">Cite</a>
+    <a class="navlink" href="/#lab">Check a domain</a>
+    <button class="themebtn" id="themebtn" type="button" aria-label="Toggle theme">◐ THEME</button>
+  </nav>
+</header>
+
+<section class="hero" style="padding-bottom:0">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span class="sep">/</span><span class="here">The Map</span></nav>
+    <div class="eyebrow">Orientation · how it fits together</div>
+    <h1>One system,<br>two loops.</h1>
+    <p class="lede">SpamCrackers is a <strong>tool</strong> you use and a <strong>reference</strong> you cite, joined into one closed loop — and held together underneath by a governance spine that keeps every layer honest and machine-readable. This page maps both, and shows where to start.</p>
+    <div class="meta-chips">
+      <span class="chip"><b>Reference</b> <span class="mapnum" data-src="techniques">163</span> techniques · <span class="mapnum" data-src="patterns">8</span> patterns</span>
+      <span class="chip"><b>Substantiation</b> <span class="mapnum" data-src="evClasses">5</span> + <span class="mapnum" data-src="tiers">4</span> evidence &amp; confidence</span>
+      <span class="chip stance"><b>Guarded by</b> one deterministic gate</span>
+    </div>
+  </div>
+</section>
+
+<section style="border-top:none;padding-top:2.6rem">
+  <div class="wrap narrow">
+    <div class="sec-head reveal"><span class="eyebrow">01 · The operational loop</span><h2>Grade. Understand. Fix. Recheck.</h2>
+      <p class="sub">The tool and the reference are not two products — they are one loop. A grade raises a question; the reference answers it; the playbook closes it; the observatory confirms it. Each step leads to the next.</p></div>
+    <div class="loop reveal">
+        <a class="loop-node" href="/#lab">
+          <span class="loop-n mono">01</span>
+          <span class="loop-t">Tool</span>
+          <span class="loop-d">Grade a domain live against the Standard.</span>
+        </a><span class="loop-arrow" aria-hidden="true">→</span>
+        <a class="loop-node" href="/standard/">
+          <span class="loop-n mono">02</span>
+          <span class="loop-t">Diagnosis</span>
+          <span class="loop-d">Read the grade and the gaps.</span>
+        </a><span class="loop-arrow" aria-hidden="true">→</span>
+        <a class="loop-node" href="/intelligence/">
+          <span class="loop-n mono">03</span>
+          <span class="loop-t">Reference</span>
+          <span class="loop-d">Understand the abuse each gap enables.</span>
+        </a><span class="loop-arrow" aria-hidden="true">→</span>
+        <a class="loop-node" href="/playbook/">
+          <span class="loop-n mono">04</span>
+          <span class="loop-t">Remediation</span>
+          <span class="loop-d">Close every gap, step by step.</span>
+        </a><span class="loop-arrow" aria-hidden="true">→</span>
+        <a class="loop-node" href="/observatory/">
+          <span class="loop-n mono">05</span>
+          <span class="loop-t">Recheck</span>
+          <span class="loop-d">Confirm the fix; watch posture over time.</span>
+        </a><span class="loop-arrow loop-return" aria-hidden="true">↻</span>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap narrow">
+    <div class="sec-head reveal"><span class="eyebrow">02 · The governance spine</span><h2>What holds it together.</h2>
+      <p class="sub">Beneath the loop, the reference is organised in three bands — what it knows, how it is governed, and how it is consumed — and every artifact in every band is published as open, machine-readable JSON.</p></div>
+    <div class="spine">
+      <div class="spine-band reveal">
+        <div class="spine-k"><span class="spine-kk mono">Content</span><span class="spine-kt">What the reference knows</span></div>
+        <div class="spine-items">
+          <a class="spine-item" href="/intelligence/"><span class="spine-it">Techniques</span><span class="spine-id"><span class="mapnum" data-src="techniques">163</span> across <span class="mapnum" data-src="pillars">6</span> pillars</span></a>
+          <a class="spine-item" href="/intelligence/patterns/"><span class="spine-it">Patterns</span><span class="spine-id"><span class="mapnum" data-src="patterns">8</span> campaign archetypes</span></a>
+          <a class="spine-item" href="/intelligence/evidence/"><span class="spine-it">Evidence & Confidence</span><span class="spine-id"><span class="mapnum" data-src="evClasses">5</span> classes · <span class="mapnum" data-src="tiers">4</span> tiers</span></a>
+        </div>
+      </div>
+      <div class="spine-band reveal">
+        <div class="spine-k"><span class="spine-kk mono">Method</span><span class="spine-kt">How it is produced &amp; governed</span></div>
+        <div class="spine-items">
+          <a class="spine-item" href="/methodology/"><span class="spine-it">Methodology</span><span class="spine-id">data, scoring, scope, validity</span></a>
+          <a class="spine-item" href="/intelligence/governance/"><span class="spine-it">Governance</span><span class="spine-id">identifiers, versioning, changelog</span></a>
+          <a class="spine-item" href="/decisions/"><span class="spine-it">Decisions</span><span class="spine-id"><span class="mapnum" data-src="decisions">10</span> recorded, with trade-offs</span></a>
+        </div>
+      </div>
+      <div class="spine-band reveal">
+        <div class="spine-k"><span class="spine-kk mono">Access</span><span class="spine-kt">How it is consumed &amp; cited</span></div>
+        <div class="spine-items">
+          <a class="spine-item" href="/cite/"><span class="spine-it">Machine-readable JSON</span><span class="spine-id">every layer, openly licensed</span></a>
+          <a class="spine-item" href="/catalog.json"><span class="spine-it">Catalog</span><span class="spine-id">one request, whole reference</span></a>
+          <a class="spine-item" href="/cite/"><span class="spine-it">Cite & reproduce</span><span class="spine-id">citations + reproduction steps</span></a>
+        </div>
+      </div>
+    </div>
+    <div class="spine-gate reveal"><b>One gate underneath all of it.</b> A single deterministic check (<span class="mono">scripts/verify.js</span>) runs in CI on every change and blocks merge unless every invariant holds: no broken link, every identifier valid, every dataset conformant, and every count, anchor and version <b>in sync across pages and JSON</b>. The numbers on this page are generated from those same artifacts and checked by that gate — so this map cannot quietly misdescribe what it maps.</div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap narrow">
+    <div class="sec-head reveal"><span class="eyebrow">03 · Start here</span><h2>Three ways in.</h2>
+      <p class="sub">Depending on why you came, a short path through the asset.</p></div>
+    <div class="paths">
+        <div class="path reveal">
+          <div class="path-head"><span class="path-who">A domain owner</span><span class="path-goal">make my mail trustworthy</span></div>
+          <ol class="path-steps">
+            <li><a class="ilink" href="/#lab">Check your domain</a></li>
+            <li><a class="ilink" href="/standard/">Read the grade</a></li>
+            <li><a class="ilink" href="/playbook/">Fix the gaps</a></li>
+            <li><a class="ilink" href="/observatory/">Recheck</a></li>
+          </ol>
+        </div>
+        <div class="path reveal">
+          <div class="path-head"><span class="path-who">A defender or analyst</span><span class="path-goal">understand the adversary</span></div>
+          <ol class="path-steps">
+            <li><a class="ilink" href="/intelligence/">The reference model</a></li>
+            <li><a class="ilink" href="/intelligence/patterns/">Campaign patterns</a></li>
+            <li><a class="ilink" href="/intelligence/evidence/">Evidence &amp; confidence</a></li>
+            <li><a class="ilink" href="/intelligence/techniques/">All techniques</a></li>
+          </ol>
+        </div>
+        <div class="path reveal">
+          <div class="path-head"><span class="path-who">A researcher or integrator</span><span class="path-goal">cite and build on it</span></div>
+          <ol class="path-steps">
+            <li><a class="ilink" href="/methodology/">Methodology</a></li>
+            <li><a class="ilink" href="/cite/">Cite &amp; reproduce</a></li>
+            <li><a class="ilink" href="/catalog.json">catalog.json</a></li>
+            <li><a class="ilink" href="/intelligence/governance/">Governance</a></li>
+          </ol>
+        </div>
+    </div>
+    <div class="lib-cta reveal" style="display:flex;flex-wrap:wrap;gap:.8rem;margin-top:2rem">
+      <a href="/#lab" style="font-family:var(--mono);font-size:var(--step--1);letter-spacing:.05em;padding:.9em 1.4em;border-radius:2px;background:var(--signal);color:#04120C;font-weight:700;text-transform:uppercase">Grade your domain →</a>
+      <a href="/cite/" style="font-family:var(--mono);font-size:var(--step--1);letter-spacing:.05em;padding:.9em 1.4em;border-radius:2px;border:1px solid var(--line-strong);color:var(--ink);text-transform:uppercase">Cite &amp; reproduce →</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-row">
+    <span><span class="sig">SPAMCRACKERS</span>.COM — the map · one system, two loops</span>
+    <div class="foot-links">
+      <a href="/">Home</a>
+      <a href="/intelligence/">Reference Model</a>
+      <a href="/methodology/">Methodology</a>
+      <a href="/cite/">Cite &amp; reproduce</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var root=document.documentElement, tbtn=document.getElementById("themebtn");
+  tbtn.addEventListener("click", function(){
+    var isDark = root.getAttribute("data-theme")==="dark" || (!root.getAttribute("data-theme") && window.matchMedia("(prefers-color-scheme: dark)").matches);
+    root.setAttribute("data-theme", isDark ? "light" : "dark");
+  });
+  if(!reduce){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target);}});},{threshold:.08});
+    document.querySelectorAll(".reveal").forEach(function(el){io.observe(el);});
+  } else { document.querySelectorAll(".reveal").forEach(function(el){el.classList.add("in");}); }
+})();
+</script>
+</body>
+</html>

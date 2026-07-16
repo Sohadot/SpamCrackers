@@ -18,6 +18,7 @@ The loop is the point: **Tool → Diagnosis → Reference → Remediation → Re
 | Path | What it is |
 | --- | --- |
 | `/` | The domain-check tool, the Standard section, the live registry, FAQ, waitlist |
+| `/map/` | Orientation — the operational loop and the governance spine, with start-here paths |
 | `/standard/` | The SpamCrackers Standard for Email Authentication (canonical, citable) |
 | `/methodology/` | Methodology & Limitations — data acquisition, scoring, scope, threats to validity (citable) |
 | `/observatory/` | Dated, weekly-measured record of how well-known domains score against the Standard (+ `latest.json`, `history/`) |
