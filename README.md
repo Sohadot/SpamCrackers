@@ -32,6 +32,7 @@ The loop is the point: **Tool → Diagnosis → Reference → Remediation → Re
 | `/intelligence/governance/` | Identifier scheme, versioning, changelog, citation, licensing |
 | `/decisions/` | Architecture Decision Record — the reasoning behind key choices (+ `decisions.json`) |
 | `/intelligence/model.json` | The complete model as machine-readable JSON (+ `model.schema.json`) |
+| `/intelligence/taxonomy.json` | The campaign taxonomy (24 axes, 128 classes) as machine-readable JSON |
 | `/cite/` | Cite & Reproduce hub — citations, reproduction steps, and `catalog.json` (machine-readable dataset catalog) |
 
 ## The reference model

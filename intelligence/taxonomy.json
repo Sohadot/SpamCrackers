@@ -1,0 +1,850 @@
+{
+  "name": "Email Abuse Intelligence — Campaign Taxonomy",
+  "model": "Email Abuse Intelligence Reference Model v1.0",
+  "namespace": "EAI",
+  "version": "1.0.0",
+  "license": "CC-BY-4.0",
+  "attribution": "SpamCrackers — https://spamcrackers.com/intelligence/",
+  "url": "https://spamcrackers.com/intelligence/",
+  "governance": "https://spamcrackers.com/intelligence/governance/",
+  "generated": "2026-07-16",
+  "counts": {
+    "pillars": 6,
+    "axes": 24,
+    "classes": 128
+  },
+  "axes": [
+    {
+      "id": "SPM-TAX-A",
+      "pillar": "SPM",
+      "name": "By intent",
+      "url": "https://spamcrackers.com/intelligence/",
+      "classes": [
+        {
+          "code": "AA1",
+          "name": "Bulk advertising",
+          "definition": "Unsolicited promotion of products or services at scale."
+        },
+        {
+          "code": "AA2",
+          "name": "Affiliate / lead generation",
+          "definition": "Traffic and leads resold to third parties for commission."
+        },
+        {
+          "code": "AA3",
+          "name": "Scam & fraud",
+          "definition": "Deception aimed at direct financial loss."
+        },
+        {
+          "code": "AA4",
+          "name": "Malware delivery",
+          "definition": "Mail used as a carrier for a malicious payload."
+        },
+        {
+          "code": "AA5",
+          "name": "Credential phishing",
+          "definition": "Harvesting logins via deceptive destinations."
+        },
+        {
+          "code": "AA6",
+          "name": "List building / reputation",
+          "definition": "Probing and warming to enable later campaigns."
+        }
+      ]
+    },
+    {
+      "id": "SPM-TAX-B",
+      "pillar": "SPM",
+      "name": "By sending model",
+      "url": "https://spamcrackers.com/intelligence/",
+      "classes": [
+        {
+          "code": "BB1",
+          "name": "Snowshoe",
+          "definition": "Volume spread thin across many IPs and domains to stay under thresholds."
+        },
+        {
+          "code": "BB2",
+          "name": "Botnet-origin",
+          "definition": "Sent from large numbers of compromised hosts."
+        },
+        {
+          "code": "BB3",
+          "name": "Compromised account",
+          "definition": "Abuse of a legitimate, hijacked mailbox or tenant."
+        },
+        {
+          "code": "BB4",
+          "name": "ESP / bulk-provider abuse",
+          "definition": "Legitimate sending platforms used for abusive lists."
+        },
+        {
+          "code": "BB5",
+          "name": "Hijacked infrastructure",
+          "definition": "Dormant subdomains, dangling DNS or routing abused to send."
+        },
+        {
+          "code": "BB6",
+          "name": "Direct-MTA",
+          "definition": "Self-hosted mail servers sending directly to recipients."
+        }
+      ]
+    },
+    {
+      "id": "SPM-TAX-C",
+      "pillar": "SPM",
+      "name": "By identity strategy",
+      "url": "https://spamcrackers.com/intelligence/",
+      "classes": [
+        {
+          "code": "CC1",
+          "name": "Exact-domain spoofing",
+          "definition": "Forging a real domain that lacks enforced authentication."
+        },
+        {
+          "code": "CC2",
+          "name": "Lookalike / cousin domain",
+          "definition": "Homoglyph or typo variants of a trusted domain."
+        },
+        {
+          "code": "CC3",
+          "name": "Newly-registered domain",
+          "definition": "Freshly registered domains with no reputation history."
+        },
+        {
+          "code": "CC4",
+          "name": "Compromised legitimate domain",
+          "definition": "Real, reputable domains taken over to send."
+        },
+        {
+          "code": "CC5",
+          "name": "Unauthenticated sender",
+          "definition": "No SPF/DKIM/DMARC alignment asserted at all."
+        }
+      ]
+    },
+    {
+      "id": "SPM-TAX-D",
+      "pillar": "SPM",
+      "name": "By evasion posture",
+      "url": "https://spamcrackers.com/intelligence/",
+      "classes": [
+        {
+          "code": "DD1",
+          "name": "Content obfuscation",
+          "definition": "Hiding intent from filters via encoding or imagery."
+        },
+        {
+          "code": "DD2",
+          "name": "Redirect / cloaking chains",
+          "definition": "Multi-hop and conditional redirection to a payload."
+        },
+        {
+          "code": "DD3",
+          "name": "Content polymorphism",
+          "definition": "Per-recipient variation to defeat signatures."
+        },
+        {
+          "code": "DD4",
+          "name": "Send-and-burn",
+          "definition": "Short-lived infrastructure abandoned after a burst."
+        },
+        {
+          "code": "DD5",
+          "name": "Reputation warming",
+          "definition": "Gradual ramp-up to build sender trust before abuse."
+        }
+      ]
+    },
+    {
+      "id": "PHI-TAX-A",
+      "pillar": "PHI",
+      "name": "By target",
+      "url": "https://spamcrackers.com/intelligence/phishing/",
+      "classes": [
+        {
+          "code": "AA1",
+          "name": "Mass / consumer",
+          "definition": "Untargeted, high-volume lures cast at the general public."
+        },
+        {
+          "code": "AA2",
+          "name": "Spear phishing",
+          "definition": "Tailored to a specific individual using researched detail."
+        },
+        {
+          "code": "AA3",
+          "name": "Whaling",
+          "definition": "Aimed at executives and other high-value decision-makers."
+        },
+        {
+          "code": "AA4",
+          "name": "Clone phishing",
+          "definition": "A copy of a genuine prior message with the link or attachment swapped."
+        },
+        {
+          "code": "AA5",
+          "name": "Vendor / supply-chain",
+          "definition": "Impersonating a trusted supplier or partner relationship."
+        }
+      ]
+    },
+    {
+      "id": "PHI-TAX-B",
+      "pillar": "PHI",
+      "name": "By pretext",
+      "url": "https://spamcrackers.com/intelligence/phishing/",
+      "classes": [
+        {
+          "code": "BB1",
+          "name": "Account security",
+          "definition": "“Verify” or “secure” an account said to be at risk."
+        },
+        {
+          "code": "BB2",
+          "name": "Payment / invoice",
+          "definition": "Fake bills, receipts or payment-change requests."
+        },
+        {
+          "code": "BB3",
+          "name": "Delivery / shipping",
+          "definition": "Parcel, customs or delivery-failure notices."
+        },
+        {
+          "code": "BB4",
+          "name": "HR / payroll",
+          "definition": "Benefits, payslip or policy pretexts aimed at staff."
+        },
+        {
+          "code": "BB5",
+          "name": "IT / helpdesk",
+          "definition": "Password resets, mailbox quota or support pretexts."
+        },
+        {
+          "code": "BB6",
+          "name": "Document share",
+          "definition": "A shared file or signature request on a cloud service."
+        }
+      ]
+    },
+    {
+      "id": "PHI-TAX-C",
+      "pillar": "PHI",
+      "name": "By delivery vector",
+      "url": "https://spamcrackers.com/intelligence/phishing/",
+      "classes": [
+        {
+          "code": "CC1",
+          "name": "Embedded link",
+          "definition": "A URL leading to an attacker-controlled destination."
+        },
+        {
+          "code": "CC2",
+          "name": "Attachment",
+          "definition": "A file that carries or assembles the lure or payload."
+        },
+        {
+          "code": "CC3",
+          "name": "QR code (quishing)",
+          "definition": "A link delivered as an image to pivot to a personal device."
+        },
+        {
+          "code": "CC4",
+          "name": "Reply-chain hijack",
+          "definition": "Insertion into a real, existing conversation thread."
+        },
+        {
+          "code": "CC5",
+          "name": "Malvertising / redirect",
+          "definition": "Arriving via advertising or a redirect network."
+        }
+      ]
+    },
+    {
+      "id": "PHI-TAX-D",
+      "pillar": "PHI",
+      "name": "By capture method",
+      "url": "https://spamcrackers.com/intelligence/phishing/",
+      "classes": [
+        {
+          "code": "DD1",
+          "name": "Cloned login page",
+          "definition": "A fake sign-in page that records entered credentials."
+        },
+        {
+          "code": "DD2",
+          "name": "Adversary-in-the-middle",
+          "definition": "A live proxy that relays to the real site to steal the session."
+        },
+        {
+          "code": "DD3",
+          "name": "OAuth consent",
+          "definition": "Tricking a user into granting application permissions."
+        },
+        {
+          "code": "DD4",
+          "name": "OTP interception",
+          "definition": "Prompting the victim to hand over a one-time code in real time."
+        },
+        {
+          "code": "DD5",
+          "name": "Data-entry form",
+          "definition": "A multi-field form harvesting credentials and personal data."
+        }
+      ]
+    },
+    {
+      "id": "BEC-TAX-A",
+      "pillar": "BEC",
+      "name": "By impersonated party",
+      "url": "https://spamcrackers.com/intelligence/bec/",
+      "classes": [
+        {
+          "code": "AA1",
+          "name": "Executive (CEO fraud)",
+          "definition": "Posing as a senior leader to pressure a payment."
+        },
+        {
+          "code": "AA2",
+          "name": "Vendor / supplier (VEC)",
+          "definition": "Posing as a trusted supplier, often from a compromised supplier mailbox."
+        },
+        {
+          "code": "AA3",
+          "name": "Internal finance",
+          "definition": "Posing as a colleague in finance, payroll or accounts payable."
+        },
+        {
+          "code": "AA4",
+          "name": "Legal / authority",
+          "definition": "Posing as counsel, an auditor or a regulator to compel action."
+        },
+        {
+          "code": "AA5",
+          "name": "Trusted customer / partner",
+          "definition": "Posing as a known counterparty in an ongoing relationship."
+        }
+      ]
+    },
+    {
+      "id": "BEC-TAX-B",
+      "pillar": "BEC",
+      "name": "By objective",
+      "url": "https://spamcrackers.com/intelligence/bec/",
+      "classes": [
+        {
+          "code": "BB1",
+          "name": "Wire transfer",
+          "definition": "A direct instruction to send funds."
+        },
+        {
+          "code": "BB2",
+          "name": "Invoice redirection",
+          "definition": "Altering the payee or account on a real payment."
+        },
+        {
+          "code": "BB3",
+          "name": "Payroll diversion",
+          "definition": "Redirecting an employee's salary deposit."
+        },
+        {
+          "code": "BB4",
+          "name": "Gift-card scam",
+          "definition": "Requesting prepaid cards as an untraceable payout."
+        },
+        {
+          "code": "BB5",
+          "name": "Data / payroll-record theft",
+          "definition": "Extracting tax or payroll data for later fraud."
+        }
+      ]
+    },
+    {
+      "id": "BEC-TAX-C",
+      "pillar": "BEC",
+      "name": "By access method",
+      "url": "https://spamcrackers.com/intelligence/bec/",
+      "classes": [
+        {
+          "code": "CC1",
+          "name": "Lookalike domain",
+          "definition": "A cousin domain of the company or vendor."
+        },
+        {
+          "code": "CC2",
+          "name": "Compromised internal account",
+          "definition": "A genuine internal mailbox taken over via phishing."
+        },
+        {
+          "code": "CC3",
+          "name": "Compromised vendor account",
+          "definition": "A supplier's real mailbox used against its customers."
+        },
+        {
+          "code": "CC4",
+          "name": "Display-name only",
+          "definition": "No infrastructure — just a forged friendly name."
+        },
+        {
+          "code": "CC5",
+          "name": "Reply-chain hijack",
+          "definition": "Insertion into a real, ongoing payment conversation."
+        }
+      ]
+    },
+    {
+      "id": "BEC-TAX-D",
+      "pillar": "BEC",
+      "name": "By manipulation lever",
+      "url": "https://spamcrackers.com/intelligence/bec/",
+      "classes": [
+        {
+          "code": "DD1",
+          "name": "Authority",
+          "definition": "Weight of a senior or official identity."
+        },
+        {
+          "code": "DD2",
+          "name": "Urgency",
+          "definition": "A deadline that discourages verification."
+        },
+        {
+          "code": "DD3",
+          "name": "Confidentiality",
+          "definition": "“Keep this quiet” to block a second opinion."
+        },
+        {
+          "code": "DD4",
+          "name": "Routine mimicry",
+          "definition": "Blending into normal, expected process."
+        },
+        {
+          "code": "DD5",
+          "name": "Established trust",
+          "definition": "Exploiting a real, existing relationship."
+        }
+      ]
+    },
+    {
+      "id": "MAL-TAX-A",
+      "pillar": "MAL",
+      "name": "By payload class",
+      "url": "https://spamcrackers.com/intelligence/mal/",
+      "classes": [
+        {
+          "code": "AA1",
+          "name": "Loader / downloader",
+          "definition": "A small first-stage that fetches and runs further malware."
+        },
+        {
+          "code": "AA2",
+          "name": "Info-stealer",
+          "definition": "Harvests credentials, cookies, wallets and files."
+        },
+        {
+          "code": "AA3",
+          "name": "Ransomware",
+          "definition": "Encrypts or exfiltrates data for extortion."
+        },
+        {
+          "code": "AA4",
+          "name": "Remote-access trojan",
+          "definition": "Grants an operator interactive control of the host."
+        },
+        {
+          "code": "AA5",
+          "name": "Banking trojan",
+          "definition": "Targets financial credentials and sessions."
+        },
+        {
+          "code": "AA6",
+          "name": "Botnet / worm",
+          "definition": "Enlists the host into a network for reuse or spread."
+        }
+      ]
+    },
+    {
+      "id": "MAL-TAX-B",
+      "pillar": "MAL",
+      "name": "By delivery mechanism",
+      "url": "https://spamcrackers.com/intelligence/mal/",
+      "classes": [
+        {
+          "code": "BB1",
+          "name": "Malicious attachment",
+          "definition": "An executable or script carried directly in the message."
+        },
+        {
+          "code": "BB2",
+          "name": "Macro document",
+          "definition": "An office document whose macros fetch or run a payload."
+        },
+        {
+          "code": "BB3",
+          "name": "Link to payload",
+          "definition": "A URL leading to a hosted download."
+        },
+        {
+          "code": "BB4",
+          "name": "HTML smuggling",
+          "definition": "A payload assembled in the browser from an HTML file."
+        },
+        {
+          "code": "BB5",
+          "name": "Archive container",
+          "definition": "A password-protected or nested archive hiding the payload."
+        },
+        {
+          "code": "BB6",
+          "name": "Cloud-hosted payload",
+          "definition": "The file staged on a reputable cloud or file service."
+        }
+      ]
+    },
+    {
+      "id": "MAL-TAX-C",
+      "pillar": "MAL",
+      "name": "By execution trigger",
+      "url": "https://spamcrackers.com/intelligence/mal/",
+      "classes": [
+        {
+          "code": "CC1",
+          "name": "Macro enable",
+          "definition": "The user is coaxed into enabling document macros."
+        },
+        {
+          "code": "CC2",
+          "name": "Script host",
+          "definition": "A shortcut or script (LNK, JS, HTA, VBS) invokes an interpreter."
+        },
+        {
+          "code": "CC3",
+          "name": "Document exploit",
+          "definition": "A vulnerability in the viewer runs code automatically."
+        },
+        {
+          "code": "CC4",
+          "name": "User run",
+          "definition": "The user is persuaded to double-click and run the file."
+        },
+        {
+          "code": "CC5",
+          "name": "Living-off-the-land",
+          "definition": "Trusted system binaries are abused to execute the payload."
+        }
+      ]
+    },
+    {
+      "id": "MAL-TAX-D",
+      "pillar": "MAL",
+      "name": "By evasion posture",
+      "url": "https://spamcrackers.com/intelligence/mal/",
+      "classes": [
+        {
+          "code": "DD1",
+          "name": "Password-gated archive",
+          "definition": "A password in the email keeps scanners out of the archive."
+        },
+        {
+          "code": "DD2",
+          "name": "Sandbox evasion",
+          "definition": "Execution is withheld from automated analysis environments."
+        },
+        {
+          "code": "DD3",
+          "name": "Packing / obfuscation",
+          "definition": "Code is compressed or scrambled to defeat signatures."
+        },
+        {
+          "code": "DD4",
+          "name": "Multi-stage",
+          "definition": "Capability is split across stages fetched only when needed."
+        },
+        {
+          "code": "DD5",
+          "name": "Abused trust / signing",
+          "definition": "Reputable services or code signatures lend false legitimacy."
+        }
+      ]
+    },
+    {
+      "id": "SCM-TAX-A",
+      "pillar": "SCM",
+      "name": "By scam type",
+      "url": "https://spamcrackers.com/intelligence/scam/",
+      "classes": [
+        {
+          "code": "AA1",
+          "name": "Advance-fee",
+          "definition": "A promised windfall unlocked only after upfront payments."
+        },
+        {
+          "code": "AA2",
+          "name": "Romance",
+          "definition": "A fabricated relationship leveraged for money over time."
+        },
+        {
+          "code": "AA3",
+          "name": "Investment / crypto",
+          "definition": "Fake high-return schemes and fraudulent trading platforms."
+        },
+        {
+          "code": "AA4",
+          "name": "Lottery / prize",
+          "definition": "A win or inheritance the recipient never entered."
+        },
+        {
+          "code": "AA5",
+          "name": "Employment",
+          "definition": "Fake job or task offers used to extract money or launder funds."
+        },
+        {
+          "code": "AA6",
+          "name": "Marketplace / goods",
+          "definition": "Fraud around fake purchases, rentals or sales."
+        }
+      ]
+    },
+    {
+      "id": "SCM-TAX-B",
+      "pillar": "SCM",
+      "name": "By emotional hook",
+      "url": "https://spamcrackers.com/intelligence/scam/",
+      "classes": [
+        {
+          "code": "BB1",
+          "name": "Windfall",
+          "definition": "The promise of unexpected money or reward."
+        },
+        {
+          "code": "BB2",
+          "name": "Affection",
+          "definition": "Emotional attachment and companionship."
+        },
+        {
+          "code": "BB3",
+          "name": "Greed",
+          "definition": "The lure of outsized, easy returns."
+        },
+        {
+          "code": "BB4",
+          "name": "Fear",
+          "definition": "Threats, blackmail or claimed legal jeopardy."
+        },
+        {
+          "code": "BB5",
+          "name": "Opportunity",
+          "definition": "A too-good job, deal or investment window."
+        },
+        {
+          "code": "BB6",
+          "name": "Authority",
+          "definition": "The weight of a claimed official or institution."
+        }
+      ]
+    },
+    {
+      "id": "SCM-TAX-C",
+      "pillar": "SCM",
+      "name": "By monetisation",
+      "url": "https://spamcrackers.com/intelligence/scam/",
+      "classes": [
+        {
+          "code": "CC1",
+          "name": "Upfront fee",
+          "definition": "Fees, taxes or charges demanded before the promised payout."
+        },
+        {
+          "code": "CC2",
+          "name": "Bank / card details",
+          "definition": "Direct capture of payment credentials."
+        },
+        {
+          "code": "CC3",
+          "name": "Cryptocurrency",
+          "definition": "Irreversible transfers to attacker wallets."
+        },
+        {
+          "code": "CC4",
+          "name": "Gift cards",
+          "definition": "Prepaid card codes as an untraceable payout."
+        },
+        {
+          "code": "CC5",
+          "name": "Money-mule recruitment",
+          "definition": "The victim is turned into a launderer of others' funds."
+        },
+        {
+          "code": "CC6",
+          "name": "Personal-data harvest",
+          "definition": "Identity data collected for later fraud."
+        }
+      ]
+    },
+    {
+      "id": "SCM-TAX-D",
+      "pillar": "SCM",
+      "name": "By persistence",
+      "url": "https://spamcrackers.com/intelligence/scam/",
+      "classes": [
+        {
+          "code": "DD1",
+          "name": "One-shot blast",
+          "definition": "A single mass attempt with no follow-up."
+        },
+        {
+          "code": "DD2",
+          "name": "Long con",
+          "definition": "Patient grooming over days, weeks or months."
+        },
+        {
+          "code": "DD3",
+          "name": "Reload",
+          "definition": "Re-targeting a prior victim for a second loss."
+        },
+        {
+          "code": "DD4",
+          "name": "Escalation",
+          "definition": "Rising fees justified by ever-new obstacles."
+        }
+      ]
+    },
+    {
+      "id": "SPO-TAX-A",
+      "pillar": "SPO",
+      "name": "By forged element",
+      "url": "https://spamcrackers.com/intelligence/spoofing/",
+      "classes": [
+        {
+          "code": "AA1",
+          "name": "Exact domain",
+          "definition": "The real domain is forged in the visible From."
+        },
+        {
+          "code": "AA2",
+          "name": "Lookalike / cousin",
+          "definition": "A homoglyph or typo variant of the real domain."
+        },
+        {
+          "code": "AA3",
+          "name": "Display name",
+          "definition": "Only the friendly name is forged; the address is not."
+        },
+        {
+          "code": "AA4",
+          "name": "Subdomain / dangling",
+          "definition": "A dormant subdomain or dangling record is abused."
+        },
+        {
+          "code": "AA5",
+          "name": "Reply-to mismatch",
+          "definition": "A different reply-to quietly redirects the conversation."
+        },
+        {
+          "code": "AA6",
+          "name": "Homoglyph / IDN",
+          "definition": "Internationalised characters imitate familiar letters."
+        }
+      ]
+    },
+    {
+      "id": "SPO-TAX-B",
+      "pillar": "SPO",
+      "name": "By authentication gap",
+      "url": "https://spamcrackers.com/intelligence/spoofing/",
+      "classes": [
+        {
+          "code": "BB1",
+          "name": "No SPF",
+          "definition": "No sender-policy record to check against."
+        },
+        {
+          "code": "BB2",
+          "name": "Weak / no DKIM",
+          "definition": "No verifiable signature on the message."
+        },
+        {
+          "code": "BB3",
+          "name": "DMARC none",
+          "definition": "A policy that reports but never blocks."
+        },
+        {
+          "code": "BB4",
+          "name": "Misaligned auth",
+          "definition": "SPF or DKIM passes for a different domain than the From."
+        },
+        {
+          "code": "BB5",
+          "name": "Forwarder gaps",
+          "definition": "Legitimate forwarding breaks authentication and is exploited."
+        }
+      ]
+    },
+    {
+      "id": "SPO-TAX-C",
+      "pillar": "SPO",
+      "name": "By forgery channel",
+      "url": "https://spamcrackers.com/intelligence/spoofing/",
+      "classes": [
+        {
+          "code": "CC1",
+          "name": "Header-from",
+          "definition": "The visible From header is spoofed."
+        },
+        {
+          "code": "CC2",
+          "name": "Envelope-from",
+          "definition": "The hidden return-path is spoofed."
+        },
+        {
+          "code": "CC3",
+          "name": "Brand mimicry",
+          "definition": "Logos, layout and tone impersonate a brand."
+        },
+        {
+          "code": "CC4",
+          "name": "Trust-domain abuse",
+          "definition": "A genuinely trusted service or domain is misused."
+        },
+        {
+          "code": "CC5",
+          "name": "New-domain impersonation",
+          "definition": "A fresh domain poses as an established identity."
+        }
+      ]
+    },
+    {
+      "id": "SPO-TAX-D",
+      "pillar": "SPO",
+      "name": "By impersonated target",
+      "url": "https://spamcrackers.com/intelligence/spoofing/",
+      "classes": [
+        {
+          "code": "DD1",
+          "name": "Brand",
+          "definition": "A company or product identity."
+        },
+        {
+          "code": "DD2",
+          "name": "Executive / person",
+          "definition": "A named individual."
+        },
+        {
+          "code": "DD3",
+          "name": "Vendor / partner",
+          "definition": "A supplier or business relationship."
+        },
+        {
+          "code": "DD4",
+          "name": "Government / authority",
+          "definition": "A public body or regulator."
+        },
+        {
+          "code": "DD5",
+          "name": "Internal colleague",
+          "definition": "A coworker within the same organisation."
+        }
+      ]
+    }
+  ]
+}
