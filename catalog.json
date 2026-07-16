@@ -81,6 +81,13 @@
       "version": "1.0.0",
       "url": "https://spamcrackers.com/intelligence/governance/",
       "license": "CC-BY-4.0"
+    },
+    {
+      "id": "decisions",
+      "title": "Architecture Decision Record",
+      "version": "1.0.0",
+      "url": "https://spamcrackers.com/decisions/",
+      "license": "CC-BY-4.0"
     }
   ]
 }
