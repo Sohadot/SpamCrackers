@@ -337,7 +337,7 @@
     <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span class="sep">/</span><span class="here">The Observatory</span></nav>
     <div class="eyebrow">Email security posture · at scale</div>
     <h1>The Observatory.</h1>
-    <p class="lede">How does the web's email actually hold up? This is a live index of how well-known domains score against the <a class="ilink" href="/standard/">SpamCrackers Standard</a> — <strong>graded in your browser, against public DNS</strong>. Nothing is stored; every grade is computed the moment you arrive.</p>
+    <p class="lede">How does the web's email actually hold up? This is an <strong>open, dated record</strong> of how well-known domains score against the <a class="ilink" href="/standard/">SpamCrackers Standard</a> — measured weekly against public DNS and kept in the open, so posture can be tracked over time. Check any domain live below.</p>
   </div>
 </section>
 
@@ -349,6 +349,7 @@
       <div class="obs-stat"><div class="n" id="st-reject" >—</div><div class="l">DMARC enforced</div></div>
       <div class="obs-stat"><div class="n" id="st-exposed">—</div><div class="l">exposed (D/F)</div></div>
     </div>
+    <p class="obs-measured mono reveal" id="obs-measured" style="color:var(--mute);font-size:var(--step--1);margin-top:1rem"></p>
 
     <div class="obs-check">
       <input id="obs-q" type="text" spellcheck="false" autocapitalize="off" autocomplete="off" placeholder="Check any domain — e.g. yourcompany.com" aria-label="Check any domain" />
@@ -357,7 +358,7 @@
     <div id="obs-adhoc"></div>
     <div class="obs-banner" id="obs-banner" hidden></div>
 
-    <p class="obs-note reveal"><b>Method:</b> the Observatory grades each domain on its public policy records — <b>SPF · DMARC · MX</b> — the same fast pass used across the site. A full grade including DKIM is available for any single domain in the <a class="ilink" href="/#lab">domain check</a>. Grades reflect public DNS at the moment of loading and are never stored.</p>
+    <p class="obs-note reveal"><b>Method:</b> the Observatory grades each domain on its public policy records — <b>SPF · DMARC · MX</b> — the same fast pass used across the site, measured weekly and published as an open record. A full grade including DKIM is available for any single domain in the <a class="ilink" href="/#lab">domain check</a>. The complete dataset is machine-readable: <a class="ilink" href="/observatory/latest.json">latest.json</a> (CC BY 4.0), with an immutable weekly archive. The <b>Check any domain</b> box above runs live in your browser.</p>
 
 
       <div class="obs-cat reveal">
@@ -533,6 +534,7 @@
     if(score>=30) return {g:"D", c:"var(--noise)"};
     return {g:"F", c:"var(--noise)"};
   }
+  function colorFor(g){ return (g==="C")?"var(--amber)":((g==="D"||g==="F")?"var(--noise)":"var(--signal)"); }
   function dohQuery(name,type){
     return fetch("https://dns.google/resolve?name="+encodeURIComponent(name)+"&type="+type,{headers:{accept:"application/dns-json"}})
       .then(function(r){ if(!r.ok) throw new Error("dns "+r.status); return r.json(); });
@@ -566,33 +568,54 @@
 
   var cards = [].slice.call(document.querySelectorAll(".obs-card[data-domain]"));
   var results = {}, ran=false, previewBlocked=false;
-  function paint(d,res){
+  function setSummary(counts){
+    document.getElementById("st-total").textContent=counts.domains;
+    document.getElementById("st-armored").textContent=counts.armored;
+    document.getElementById("st-reject").textContent=counts.dmarcReject;
+    document.getElementById("st-exposed").textContent=counts.exposed;
+  }
+  function paintCard(d,rec){
     var c=document.getElementById("obs-"+d.replace(/[^a-z0-9]/g,"")); if(!c) return;
     var ge=c.querySelector(".obs-grade"), de=c.querySelector(".obs-dmarc");
-    if(!res){ ge.textContent=previewBlocked?"live":"—"; de.textContent=previewBlocked?"runs on spamcrackers.com":"no signal"; return; }
-    var m=grade(res.score); ge.textContent=m.g; ge.style.color=m.c; de.textContent="DMARC "+res.dmarc; results[d]=res;
+    if(!rec){ ge.textContent=previewBlocked?"live":"—"; de.textContent=previewBlocked?"runs on spamcrackers.com":"no signal"; return; }
+    ge.textContent=rec.grade; ge.style.color=colorFor(rec.grade);
+    var dm="DMARC "+rec.dmarc;
+    if(typeof rec.delta==="number" && rec.delta!==0){ var up=rec.delta>0;
+      dm+=' <span title="change since previous measurement" style="color:'+(up?"var(--signal)":"var(--noise)")+'">'+(up?"▲":"▼")+Math.abs(rec.delta)+'</span>'; }
+    de.innerHTML=dm; results[d]={score:rec.score,dmarc:rec.dmarc};
+    c.style.borderColor="color-mix(in srgb,"+colorFor(rec.grade)+" 30%,var(--line))";
   }
-  function updateSummary(){
+  // primary: render the published record (dated, and works even where live DNS is blocked)
+  function fromRecord(){
+    return fetch("/observatory/latest.json",{cache:"no-cache"}).then(function(r){ if(!r.ok) throw new Error("no record"); return r.json(); }).then(function(rec){
+      var byDom={}; rec.domains.forEach(function(x){ byDom[x.domain]=x; });
+      cards.forEach(function(card){ var d=card.getAttribute("data-domain"); paintCard(d, byDom[d]||null); });
+      setSummary(rec.counts);
+      var el=document.getElementById("obs-measured");
+      if(el){ el.textContent="Measured "+rec.measuredDate+" · SPF · DMARC · MX over public DNS"+(rec.previous?(" · previous "+rec.previous):""); }
+      return true;
+    });
+  }
+  // fallback: live in-browser grading if the record cannot be fetched
+  function updateSummaryLive(){
     var vals=Object.keys(results).map(function(k){return results[k];});
-    var armored=vals.filter(function(r){return r.score>=85;}).length;
-    var reject=vals.filter(function(r){return r.dmarc==="reject";}).length;
-    var exposed=vals.filter(function(r){return r.score<50;}).length;
-    document.getElementById("st-armored").textContent=armored;
-    document.getElementById("st-reject").textContent=reject;
-    document.getElementById("st-exposed").textContent=exposed;
+    setSummary({domains:cards.length,
+      armored:vals.filter(function(r){return r.score>=85;}).length,
+      dmarcReject:vals.filter(function(r){return r.dmarc==="reject";}).length,
+      exposed:vals.filter(function(r){return r.score<50;}).length});
   }
-  function runAll(){
-    if(ran) return; ran=true;
+  function fromLive(){
     var first=true;
-    pool(cards, function(card){
+    return pool(cards, function(card){
       var d=card.getAttribute("data-domain");
-      return lite(d).then(function(res){ paint(d,res); first=false; updateSummary(); })
+      return lite(d).then(function(res){ paintCard(d,{grade:grade(res.score).g,dmarc:res.dmarc,score:res.score}); first=false; updateSummaryLive(); })
         .catch(function(){
-          if(first){ previewBlocked=true; var b=document.getElementById("obs-banner"); b.hidden=false; b.innerHTML='<b>Preview sandbox:</b> live DNS is blocked here, so grades show as “live”. On spamcrackers.com the Observatory grades every domain in real time.'; }
-          paint(d,null);
+          if(first){ previewBlocked=true; var b=document.getElementById("obs-banner"); b.hidden=false; b.innerHTML='<b>Preview sandbox:</b> live DNS is blocked here. On spamcrackers.com the Observatory serves a dated record and re-checks live.'; }
+          paintCard(d,null);
         });
-    }, 6).then(updateSummary);
+    }, 6).then(updateSummaryLive);
   }
+  function runAll(){ if(ran) return; ran=true; fromRecord().catch(function(){ return fromLive(); }); }
   var trigger=document.querySelector(".obs-summary");
   if(trigger){ var ob=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){runAll();ob.disconnect();}});},{threshold:.05}); ob.observe(trigger); }
   else runAll();

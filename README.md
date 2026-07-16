@@ -19,7 +19,7 @@ The loop is the point: **Tool → Diagnosis → Reference → Remediation → Re
 | --- | --- |
 | `/` | The domain-check tool, the Standard section, the live registry, FAQ, waitlist |
 | `/standard/` | The SpamCrackers Standard for Email Authentication (canonical, citable) |
-| `/observatory/` | Live index of how well-known domains score against the Standard |
+| `/observatory/` | Dated, weekly-measured record of how well-known domains score against the Standard (+ `latest.json`, `history/`) |
 | `/playbook/` | Step-by-step remediation for SPF, DKIM, DMARC and MX (HowTo) |
 | `/glossary/` | 40 cross-linked email-abuse and authentication terms |
 | `/intelligence/` | The umbrella: six pillars of the reference model |
@@ -53,7 +53,11 @@ All checks are consolidated into one deterministic script:
 node scripts/verify.js
 ```
 
-It verifies, per page and site-wide: document metadata, a single `h1`, a Content-Security-Policy meta, no duplicate ids, balanced markup, inline-JS syntax, JSON-LD (required fields, a consistent Organization entity, resolvable breadcrumb and DefinedTerm URLs), the internal-link graph (zero broken), sitemap and feed integrity, and `model.json` conformance to its schema. It exits non-zero on any failure and runs in CI on every push and pull request (`.github/workflows/verify.yml`).
+It verifies, per page and site-wide: document metadata, a single `h1`, a Content-Security-Policy meta, no duplicate ids, balanced markup, inline-JS syntax, JSON-LD (required fields, a consistent Organization entity, resolvable breadcrumb and DefinedTerm URLs), the internal-link graph (zero broken), sitemap and feed integrity, `model.json` conformance, the pattern↔technique backlink invariant, and Observatory-record consistency (page ↔ `domains.json` ↔ `latest.json`). It exits non-zero on any failure and runs in CI on every push and pull request (`.github/workflows/verify.yml`).
+
+## Data pipeline
+
+The Observatory is a **dated record**, not just a live view. `scripts/observe.js` measures the canonical domain set (`observatory/domains.json`) against the Standard over public DNS (SPF, DMARC, MX — DKIM excluded, per the honest caveat) and writes `observatory/latest.json` plus an immutable weekly archive under `observatory/history/`. A scheduled workflow (`.github/workflows/observe.yml`, Mondays) re-measures, re-runs the gate, and commits the refreshed record — so history accrues in git itself. The page renders from `latest.json` (with per-domain trend deltas) and re-checks any single domain live in the browser.
 
 ## Principles
 

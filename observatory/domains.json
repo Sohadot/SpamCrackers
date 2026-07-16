@@ -1,0 +1,13 @@
+{
+  "name": "SpamCrackers Observatory — domain set",
+  "description": "The canonical list of well-known domains graded by the Observatory against the SpamCrackers Standard (SPF, DMARC, MX). Single source of truth for both the page and the scheduled measurement.",
+  "version": "1.0.0",
+  "categories": [
+    { "name": "Email & productivity", "domains": ["google.com", "microsoft.com", "apple.com", "proton.me", "zoho.com"] },
+    { "name": "Banking & finance", "domains": ["paypal.com", "stripe.com", "chase.com", "wise.com", "revolut.com"] },
+    { "name": "Government", "domains": ["irs.gov", "gov.uk", "canada.ca"] },
+    { "name": "Cloud & security", "domains": ["cloudflare.com", "github.com", "okta.com", "digitalocean.com"] },
+    { "name": "Commerce", "domains": ["amazon.com", "shopify.com", "ebay.com", "booking.com"] },
+    { "name": "Social & comms", "domains": ["linkedin.com", "slack.com", "x.com"] }
+  ]
+}

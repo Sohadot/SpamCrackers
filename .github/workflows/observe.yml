@@ -1,0 +1,48 @@
+name: observatory
+
+# Weekly server-side measurement of the Observatory domain set.
+# Produces a dated, machine-readable record (observatory/latest.json) and an
+# immutable daily archive (observatory/history/<date>.json), committed to the
+# default branch so GitHub Pages serves the fresh record.
+
+on:
+  schedule:
+    - cron: "17 6 * * 1" # every Monday 06:17 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: observatory
+  cancel-in-progress: false
+
+jobs:
+  measure:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Measure the domain set over public DNS
+        run: node scripts/observe.js
+
+      - name: Verify the record is well-formed
+        run: node scripts/verify.js
+
+      - name: Commit the refreshed record
+        run: |
+          if git diff --quiet -- observatory/latest.json observatory/history; then
+            echo "No change in measurements — nothing to commit."
+            exit 0
+          fi
+          git config user.name "spamcrackers-observatory[bot]"
+          git config user.email "observatory@spamcrackers.com"
+          git add observatory/latest.json observatory/history
+          git commit -m "Observatory: weekly measurement $(date -u +%Y-%m-%d)"
+          for i in 1 2 3 4; do
+            git push && break
+            echo "push failed, retry $i"; git pull --rebase --autostash; sleep $((2 ** i))
+          done
