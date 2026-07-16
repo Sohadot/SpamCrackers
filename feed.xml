@@ -5,10 +5,18 @@
   <link href="https://spamcrackers.com/feed.xml" rel="self" type="application/atom+xml"/>
   <link href="https://spamcrackers.com/" rel="alternate" type="text/html"/>
   <id>https://spamcrackers.com/</id>
-  <updated>2026-07-16T18:00:00Z</updated>
+  <updated>2026-07-16T20:00:00Z</updated>
   <author><name>SpamCrackers</name><uri>https://spamcrackers.com/</uri></author>
   <icon>https://spamcrackers.com/logo.png</icon>
   <rights>CC BY 4.0</rights>
+
+  <entry>
+    <title>Evidence &amp; Confidence Model, formalised</title>
+    <id>https://spamcrackers.com/intelligence/evidence/</id>
+    <link href="https://spamcrackers.com/intelligence/evidence/" rel="alternate" type="text/html"/>
+    <updated>2026-07-16T20:00:00Z</updated>
+    <summary>The reference model's substantiation layer now has a dedicated, citable page: five classes of observable evidence and four confidence tiers, each with a stable identifier and a precise combination rule — plus an honest note that the site itself directly observes only the Authentication class. Published as evidence.json (CC BY 4.0).</summary>
+  </entry>
 
   <entry>
     <title>Architecture Decision Record published</title>

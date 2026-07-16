@@ -1,0 +1,83 @@
+{
+  "name": "Email Abuse Intelligence — Evidence & Confidence Model",
+  "description": "The substantiation layer of the reference model: five classes of observable evidence and four tiers of confidence, each with a stable identifier and a precise rule. No classification is asserted without an observable.",
+  "version": "1.0.0",
+  "model": "Email Abuse Intelligence Reference Model v1.0.0",
+  "license": "CC-BY-4.0",
+  "url": "https://spamcrackers.com/intelligence/evidence/",
+  "counts": {
+    "evidenceClasses": 5,
+    "confidenceTiers": 4
+  },
+  "evidenceClasses": [
+    {
+      "id": "EAI-EV-NET",
+      "name": "Network",
+      "captures": "Sending IP, ASN, reverse DNS, netblock and geolocation, HELO/EHLO identity.",
+      "directlyObserved": "From the receiving MTA and message headers — not from DNS alone.",
+      "url": "https://spamcrackers.com/intelligence/evidence/#ev-net"
+    },
+    {
+      "id": "EAI-EV-AUTH",
+      "name": "Authentication",
+      "captures": "SPF result, DKIM result and selector, DMARC policy and alignment, ARC chain.",
+      "directlyObserved": "The one class SpamCrackers reads directly: SPF, DMARC and MX exactly, and DKIM heuristically, over public DNS. A pass/fail result and ARC require the received message.",
+      "url": "https://spamcrackers.com/intelligence/evidence/#ev-auth"
+    },
+    {
+      "id": "EAI-EV-CONT",
+      "name": "Content",
+      "captures": "URL and domain patterns, file and body hashes, template and layout fingerprints, header anomalies.",
+      "directlyObserved": "From the message body and its attachments.",
+      "url": "https://spamcrackers.com/intelligence/evidence/#ev-cont"
+    },
+    {
+      "id": "EAI-EV-BEHAV",
+      "name": "Behavioural",
+      "captures": "Volume and velocity, send timing, list-bombing bursts, engagement tracking.",
+      "directlyObserved": "From aggregate mail-flow telemetry over time.",
+      "url": "https://spamcrackers.com/intelligence/evidence/#ev-behav"
+    },
+    {
+      "id": "EAI-EV-INFRA",
+      "name": "Infrastructure",
+      "captures": "Domain age and registrar, nameservers, hosting, redirect chains, certificate history.",
+      "directlyObserved": "From DNS, WHOIS and certificate-transparency enrichment.",
+      "url": "https://spamcrackers.com/intelligence/evidence/#ev-infra"
+    }
+  ],
+  "confidenceTiers": [
+    {
+      "id": "EAI-CONF-1",
+      "level": 1,
+      "name": "Low",
+      "rule": "A single weak or ambiguous indicator from one evidence class.",
+      "use": "Suitable for enrichment and triage — not for enforcement.",
+      "url": "https://spamcrackers.com/intelligence/evidence/#conf-1"
+    },
+    {
+      "id": "EAI-CONF-2",
+      "level": 2,
+      "name": "Moderate",
+      "rule": "Multiple independent indicators from two or more different evidence classes point to the same classification.",
+      "use": "Supports prioritisation and soft action such as flagging.",
+      "url": "https://spamcrackers.com/intelligence/evidence/#conf-2"
+    },
+    {
+      "id": "EAI-CONF-3",
+      "level": 3,
+      "name": "High",
+      "rule": "Corroborated indicators across classes, including at least one strong class — Authentication or Infrastructure.",
+      "use": "Supports enforcement decisions.",
+      "url": "https://spamcrackers.com/intelligence/evidence/#conf-3"
+    },
+    {
+      "id": "EAI-CONF-4",
+      "level": 4,
+      "name": "Confirmed",
+      "rule": "Direct, reproducible evidence — a detonated payload, an observed campaign artefact, or a reproduced authentication failure.",
+      "use": "Definitive; supports attribution-grade conclusions and blocking.",
+      "url": "https://spamcrackers.com/intelligence/evidence/#conf-4"
+    }
+  ]
+}

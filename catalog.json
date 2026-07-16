@@ -24,6 +24,10 @@
         {
           "format": "application/schema+json",
           "url": "https://spamcrackers.com/intelligence/model.schema.json"
+        },
+        {
+          "format": "application/json",
+          "url": "https://spamcrackers.com/intelligence/evidence.json"
         }
       ]
     },

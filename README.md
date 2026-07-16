@@ -26,6 +26,7 @@ The loop is the point: **Tool → Diagnosis → Reference → Remediation → Re
 | `/intelligence/` | The umbrella: six pillars of the reference model |
 | `/intelligence/{phishing,bec,mal,scam,spoofing}/` | The individual pillars |
 | `/intelligence/techniques/` | Searchable index of all 163 techniques |
+| `/intelligence/evidence/` | Evidence & Confidence Model — 5 evidence classes, 4 confidence tiers (+ `evidence.json`) |
 | `/intelligence/patterns/` | Patterns Library — campaign archetypes composed from the techniques (+ `patterns.json`) |
 | `/intelligence/governance/` | Identifier scheme, versioning, changelog, citation, licensing |
 | `/decisions/` | Architecture Decision Record — the reasoning behind key choices (+ `decisions.json`) |
