@@ -3,6 +3,7 @@
   Purpose: The reference layer for Email Abuse Intelligence, and a
            transparent standard for email authentication — SPF, DKIM,
            DMARC and MX.
+  Contact: info@spamcrackers.com
 
 /* REFERENCE */
   Model: Email Abuse Intelligence Reference Model v1.0
@@ -16,4 +17,4 @@
   Domain checks run in your browser over DNS-over-HTTPS.
   Standards: HTML5, JSON-LD, Atom, Content-Security-Policy, WCAG AA.
 
-  Last updated: 2026-07-15
+  Last updated: 2026-07-16
