@@ -1095,7 +1095,9 @@
       else { score+=10; checks.push(ck("DMARC","warn",10,dmarc,"Monitoring only (p=none): you get reports but nothing is blocked.","Once SPF & DKIM align, raise the policy to quarantine, then reject.")); }
     } else { checks.push(ck("DMARC","fail",0,null,"No DMARC record. Nothing tells receivers what to do with spoofed mail.","Add a TXT at _dmarc: v=DMARC1; p=none; rua=mailto:you@domain — then tighten.")); }
 
-    if(mx.length){ score+=25; var hosts=mx.map(function(a){return String(a.data).replace(/^\d+\s+/,"").replace(/\.$/,"");}).slice(0,3).join(", "); checks.push(ck("MX","pass",25,hosts,"Mail servers are configured to receive.",null)); }
+    var realMx=mx.map(function(a){return String(a.data).replace(/^\d+\s+/,"").replace(/\.$/,"");}).filter(function(h){return h!=="";});
+    if(realMx.length){ score+=25; checks.push(ck("MX","pass",25,realMx.slice(0,3).join(", "),"Mail servers are configured to receive.",null)); }
+    else if(mx.length){ checks.push(ck("MX","warn",0,"null MX (0 .)","This domain declares it accepts no mail (null MX, RFC 7505). Correct for a non-sending domain — but it earns no MX points.","If this domain should receive email, publish real MX records.")); }
     else { checks.push(ck("MX","warn",0,null,"No MX records — this domain can't receive mail.","Add MX records if this domain is meant to handle email.")); }
 
     return {score:Math.min(100,score), checks:checks};
@@ -1232,7 +1234,7 @@
     var dkimQueries = DKIM_SELECTORS.map(function(sel){
       return dohQuery(sel+"._domainkey."+d, "TXT").then(function(j){
         var recs=txtRecords(j);
-        var hit=recs.find(function(r){return /v=DKIM1/i.test(r);}) || recs.find(function(r){return /(^|;)\s*p=[A-Za-z0-9+/]{20,}/.test(r);});
+        var hit=recs.find(function(r){return /v=DKIM1/i.test(r) && /(^|;)\s*p=\s*[A-Za-z0-9+/]/.test(r);}) || recs.find(function(r){return /(^|;)\s*p=[A-Za-z0-9+/]{20,}/.test(r);});
         return hit ? {sel:sel, rec:hit} : null;
       }).catch(function(){ return null; });
     });
