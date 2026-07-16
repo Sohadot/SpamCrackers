@@ -345,6 +345,32 @@ try {
   notes.push(`evidence.json: ${ev.evidenceClasses.length} classes + ${ev.confidenceTiers.length} tiers, ids valid, anchors + umbrella codes in sync`);
 } catch (e) { fail("evidence data invalid: " + e.message); }
 
+/* ---------------- map: generated counts must match sources ---------------- */
+try {
+  const mp = fs.readFileSync(path.join(ROOT, "map/index.html"), "utf8");
+  const model3 = JSON.parse(fs.readFileSync(path.join(ROOT, "intelligence/model.json"), "utf8"));
+  const pat3 = JSON.parse(fs.readFileSync(path.join(ROOT, "intelligence/patterns.json"), "utf8"));
+  const ev3 = JSON.parse(fs.readFileSync(path.join(ROOT, "intelligence/evidence.json"), "utf8"));
+  const dec3 = JSON.parse(fs.readFileSync(path.join(ROOT, "decisions.json"), "utf8"));
+  const src = {
+    techniques: model3.counts.techniques,
+    pillars: new Set(model3.techniques.map((t) => t.pillar)).size,
+    patterns: pat3.counts.patterns,
+    evClasses: ev3.counts.evidenceClasses,
+    tiers: ev3.counts.confidenceTiers,
+    decisions: dec3.counts.decisions,
+  };
+  let checked = 0;
+  for (const m of mp.matchAll(/data-src="([^"]+)">(\d+)<\/span>/g)) {
+    const [, key, val] = m;
+    if (!(key in src)) { fail(`map: unknown count source ${key}`); continue; }
+    checked++;
+    if (Number(val) !== src[key]) fail(`map: ${key} shows ${val} but source is ${src[key]}`);
+  }
+  if (!checked) fail("map: no generated counts found (build may be stale)");
+  notes.push(`map: ${checked} generated counts match their sources`);
+} catch (e) { fail("map invalid: " + e.message); }
+
 /* ---------------- report ---------------- */
 console.log("SpamCrackers — verify");
 console.log(`pages: ${files.length}`);
