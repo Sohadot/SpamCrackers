@@ -3,9 +3,9 @@
   "method": "SPF + DMARC + MX over public DNS (DNS-over-HTTPS). DKIM is not included in the index grade.",
   "license": "CC-BY-4.0",
   "url": "https://spamcrackers.com/observatory/",
-  "generated": "2026-07-16T06:14:44.599Z",
+  "generated": "2026-07-16T06:32:10.594Z",
   "measuredDate": "2026-07-16",
-  "previous": null,
+  "previous": "2026-07-16",
   "counts": {
     "domains": 24,
     "armored": 18,
@@ -21,8 +21,8 @@
       "dmarc": "reject",
       "spf": "~all",
       "mx": true,
-      "prevScore": null,
-      "delta": null
+      "prevScore": 91,
+      "delta": 0
     },
     {
       "domain": "microsoft.com",
@@ -32,8 +32,8 @@
       "dmarc": "reject",
       "spf": "-all",
       "mx": true,
-      "prevScore": null,
-      "delta": null
+      "prevScore": 100,
+      "delta": 0
     },
     {
       "domain": "apple.com",
@@ -43,8 +43,8 @@
       "dmarc": "quarantine",
       "spf": "~all",
       "mx": true,
-      "prevScore": null,
-      "delta": null
+      "prevScore": 84,
+      "delta": 0
     },
     {
       "domain": "proton.me",
@@ -54,8 +54,8 @@
       "dmarc": "quarantine",
       "spf": "~all",
       "mx": true,
-      "prevScore": null,
-      "delta": null
+      "prevScore": 84,
+      "delta": 0
     },
     {
       "domain": "zoho.com",
@@ -65,8 +65,8 @@
       "dmarc": "reject",
       "spf": "-all",
       "mx": true,
-      "prevScore": null,
-      "delta": null
+      "prevScore": 100,
+      "delta": 0
     },
     {
       "domain": "paypal.com",
@@ -76,8 +76,8 @@
       "dmarc": "reject",
       "spf": "~all",
       "mx": true,
-      "prevScore": null,
-      "delta": null
+      "prevScore": 91,
+      "delta": 0
     },
     {
       "domain": "stripe.com",
@@ -87,8 +87,8 @@
       "dmarc": "reject",
       "spf": "~all",
       "mx": true,
-      "prevScore": null,
-      "delta": null
+      "prevScore": 91,
+      "delta": 0
     },
     {
       "domain": "chase.com",
@@ -98,8 +98,8 @@
       "dmarc": "reject",
       "spf": "-all",
       "mx": true,
-      "prevScore": null,
-      "delta": null
+      "prevScore": 100,
+      "delta": 0
     },
     {
       "domain": "wise.com",
@@ -109,8 +109,8 @@
       "dmarc": "reject",
       "spf": "~all",
       "mx": true,
-      "prevScore": null,
-      "delta": null
+      "prevScore": 91,
+      "delta": 0
     },
     {
       "domain": "revolut.com",
@@ -120,8 +120,8 @@
       "dmarc": "quarantine",
       "spf": "~all",
       "mx": true,
-      "prevScore": null,
-      "delta": null
+      "prevScore": 84,
+      "delta": 0
     },
     {
       "domain": "irs.gov",
@@ -131,8 +131,8 @@
       "dmarc": "reject",
       "spf": "-all",
       "mx": true,
-      "prevScore": null,
-      "delta": null
+      "prevScore": 100,
+      "delta": 0
     },
     {
       "domain": "gov.uk",
@@ -142,8 +142,8 @@
       "dmarc": "reject",
       "spf": "-all",
       "mx": false,
-      "prevScore": null,
-      "delta": null
+      "prevScore": 67,
+      "delta": 0
     },
     {
       "domain": "canada.ca",
@@ -153,8 +153,8 @@
       "dmarc": "none",
       "spf": "-all",
       "mx": true,
-      "prevScore": null,
-      "delta": null
+      "prevScore": 80,
+      "delta": 0
     },
     {
       "domain": "cloudflare.com",
@@ -164,8 +164,8 @@
       "dmarc": "reject",
       "spf": "-all",
       "mx": true,
-      "prevScore": null,
-      "delta": null
+      "prevScore": 100,
+      "delta": 0
     },
     {
       "domain": "github.com",
@@ -175,8 +175,8 @@
       "dmarc": "quarantine",
       "spf": "~all",
       "mx": true,
-      "prevScore": null,
-      "delta": null
+      "prevScore": 84,
+      "delta": 0
     },
     {
       "domain": "okta.com",
@@ -186,8 +186,8 @@
       "dmarc": "reject",
       "spf": "~all",
       "mx": true,
-      "prevScore": null,
-      "delta": null
+      "prevScore": 91,
+      "delta": 0
     },
     {
       "domain": "digitalocean.com",
@@ -197,8 +197,8 @@
       "dmarc": "reject",
       "spf": "-all",
       "mx": true,
-      "prevScore": null,
-      "delta": null
+      "prevScore": 100,
+      "delta": 0
     },
     {
       "domain": "amazon.com",
@@ -208,8 +208,8 @@
       "dmarc": "quarantine",
       "spf": "-all",
       "mx": true,
-      "prevScore": null,
-      "delta": null
+      "prevScore": 93,
+      "delta": 0
     },
     {
       "domain": "shopify.com",
@@ -219,8 +219,8 @@
       "dmarc": "reject",
       "spf": "~all",
       "mx": true,
-      "prevScore": null,
-      "delta": null
+      "prevScore": 91,
+      "delta": 0
     },
     {
       "domain": "ebay.com",
@@ -230,8 +230,8 @@
       "dmarc": "reject",
       "spf": "~all",
       "mx": true,
-      "prevScore": null,
-      "delta": null
+      "prevScore": 91,
+      "delta": 0
     },
     {
       "domain": "booking.com",
@@ -241,8 +241,8 @@
       "dmarc": "reject",
       "spf": "-all",
       "mx": true,
-      "prevScore": null,
-      "delta": null
+      "prevScore": 100,
+      "delta": 0
     },
     {
       "domain": "linkedin.com",
@@ -252,8 +252,8 @@
       "dmarc": "reject",
       "spf": "~all",
       "mx": true,
-      "prevScore": null,
-      "delta": null
+      "prevScore": 91,
+      "delta": 0
     },
     {
       "domain": "slack.com",
@@ -263,8 +263,8 @@
       "dmarc": "reject",
       "spf": "-all",
       "mx": true,
-      "prevScore": null,
-      "delta": null
+      "prevScore": 100,
+      "delta": 0
     },
     {
       "domain": "x.com",
@@ -274,8 +274,8 @@
       "dmarc": "reject",
       "spf": "-all",
       "mx": true,
-      "prevScore": null,
-      "delta": null
+      "prevScore": 100,
+      "delta": 0
     }
   ]
 }
