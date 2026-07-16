@@ -5,10 +5,18 @@
   <link href="https://spamcrackers.com/feed.xml" rel="self" type="application/atom+xml"/>
   <link href="https://spamcrackers.com/" rel="alternate" type="text/html"/>
   <id>https://spamcrackers.com/</id>
-  <updated>2026-07-16T07:00:00Z</updated>
+  <updated>2026-07-16T12:00:00Z</updated>
   <author><name>SpamCrackers</name><uri>https://spamcrackers.com/</uri></author>
   <icon>https://spamcrackers.com/logo.png</icon>
   <rights>CC BY 4.0</rights>
+
+  <entry>
+    <title>Methodology &amp; Limitations, published in full</title>
+    <id>https://spamcrackers.com/methodology/</id>
+    <link href="https://spamcrackers.com/methodology/" rel="alternate" type="text/html"/>
+    <updated>2026-07-16T12:00:00Z</updated>
+    <summary>A single, citable specification of exactly how every grade is produced — data acquisition over DNS-over-HTTPS, the SPF/DKIM/DMARC/MX scoring rubric, the A+ to F scale, the reconciliation between the full check and the Observatory index, what is deliberately out of scope, and the threats to validity that bound every grade. Deterministic and versioned.</summary>
+  </entry>
 
   <entry>
     <title>The Observatory becomes a dated, open record</title>

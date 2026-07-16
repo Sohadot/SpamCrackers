@@ -19,6 +19,7 @@ The loop is the point: **Tool → Diagnosis → Reference → Remediation → Re
 | --- | --- |
 | `/` | The domain-check tool, the Standard section, the live registry, FAQ, waitlist |
 | `/standard/` | The SpamCrackers Standard for Email Authentication (canonical, citable) |
+| `/methodology/` | Methodology & Limitations — data acquisition, scoring, scope, threats to validity (citable) |
 | `/observatory/` | Dated, weekly-measured record of how well-known domains score against the Standard (+ `latest.json`, `history/`) |
 | `/playbook/` | Step-by-step remediation for SPF, DKIM, DMARC and MX (HowTo) |
 | `/glossary/` | 40 cross-linked email-abuse and authentication terms |
