@@ -1,0 +1,29 @@
+{
+  "title": "SpamCrackers — Email Abuse Intelligence Reference Model & Standard",
+  "description": "A defensive, analytical reference for email abuse: the Email Abuse Intelligence Reference Model (six pillars, 163 classification-and-defence techniques with stable identifiers, a 24-axis / 128-class campaign taxonomy, a documented patterns library, and an evidence & confidence model) and the SpamCrackers Standard for email authentication (SPF, DKIM, DMARC, MX). Deterministic, machine-readable, and gate-verified. Content licensed CC BY 4.0.",
+  "upload_type": "dataset",
+  "access_right": "open",
+  "license": "cc-by-4.0",
+  "version": "1.0.0",
+  "creators": [
+    { "name": "SpamCrackers" }
+  ],
+  "keywords": [
+    "email authentication",
+    "email abuse intelligence",
+    "threat intelligence",
+    "reference model",
+    "taxonomy",
+    "SPF",
+    "DKIM",
+    "DMARC",
+    "email spoofing",
+    "phishing",
+    "business email compromise"
+  ],
+  "related_identifiers": [
+    { "relation": "isDocumentedBy", "identifier": "https://spamcrackers.com/intelligence/", "scheme": "url" },
+    { "relation": "isSupplementedBy", "identifier": "https://spamcrackers.com/intelligence/model.json", "scheme": "url" },
+    { "relation": "isDerivedFrom", "identifier": "https://spamcrackers.com/", "scheme": "url" }
+  ]
+}
