@@ -1,0 +1,281 @@
+{
+  "standard": "SpamCrackers Standard v1.0",
+  "method": "SPF + DMARC + MX over public DNS (DNS-over-HTTPS). DKIM is not included in the index grade.",
+  "license": "CC-BY-4.0",
+  "url": "https://spamcrackers.com/observatory/",
+  "generated": "2026-07-16T06:14:44.599Z",
+  "measuredDate": "2026-07-16",
+  "previous": null,
+  "counts": {
+    "domains": 24,
+    "armored": 18,
+    "dmarcReject": 18,
+    "exposed": 0
+  },
+  "domains": [
+    {
+      "domain": "google.com",
+      "category": "Email & productivity",
+      "score": 91,
+      "grade": "A",
+      "dmarc": "reject",
+      "spf": "~all",
+      "mx": true,
+      "prevScore": null,
+      "delta": null
+    },
+    {
+      "domain": "microsoft.com",
+      "category": "Email & productivity",
+      "score": 100,
+      "grade": "A+",
+      "dmarc": "reject",
+      "spf": "-all",
+      "mx": true,
+      "prevScore": null,
+      "delta": null
+    },
+    {
+      "domain": "apple.com",
+      "category": "Email & productivity",
+      "score": 84,
+      "grade": "B",
+      "dmarc": "quarantine",
+      "spf": "~all",
+      "mx": true,
+      "prevScore": null,
+      "delta": null
+    },
+    {
+      "domain": "proton.me",
+      "category": "Email & productivity",
+      "score": 84,
+      "grade": "B",
+      "dmarc": "quarantine",
+      "spf": "~all",
+      "mx": true,
+      "prevScore": null,
+      "delta": null
+    },
+    {
+      "domain": "zoho.com",
+      "category": "Email & productivity",
+      "score": 100,
+      "grade": "A+",
+      "dmarc": "reject",
+      "spf": "-all",
+      "mx": true,
+      "prevScore": null,
+      "delta": null
+    },
+    {
+      "domain": "paypal.com",
+      "category": "Banking & finance",
+      "score": 91,
+      "grade": "A",
+      "dmarc": "reject",
+      "spf": "~all",
+      "mx": true,
+      "prevScore": null,
+      "delta": null
+    },
+    {
+      "domain": "stripe.com",
+      "category": "Banking & finance",
+      "score": 91,
+      "grade": "A",
+      "dmarc": "reject",
+      "spf": "~all",
+      "mx": true,
+      "prevScore": null,
+      "delta": null
+    },
+    {
+      "domain": "chase.com",
+      "category": "Banking & finance",
+      "score": 100,
+      "grade": "A+",
+      "dmarc": "reject",
+      "spf": "-all",
+      "mx": true,
+      "prevScore": null,
+      "delta": null
+    },
+    {
+      "domain": "wise.com",
+      "category": "Banking & finance",
+      "score": 91,
+      "grade": "A",
+      "dmarc": "reject",
+      "spf": "~all",
+      "mx": true,
+      "prevScore": null,
+      "delta": null
+    },
+    {
+      "domain": "revolut.com",
+      "category": "Banking & finance",
+      "score": 84,
+      "grade": "B",
+      "dmarc": "quarantine",
+      "spf": "~all",
+      "mx": true,
+      "prevScore": null,
+      "delta": null
+    },
+    {
+      "domain": "irs.gov",
+      "category": "Government",
+      "score": 100,
+      "grade": "A+",
+      "dmarc": "reject",
+      "spf": "-all",
+      "mx": true,
+      "prevScore": null,
+      "delta": null
+    },
+    {
+      "domain": "gov.uk",
+      "category": "Government",
+      "score": 67,
+      "grade": "C",
+      "dmarc": "reject",
+      "spf": "-all",
+      "mx": false,
+      "prevScore": null,
+      "delta": null
+    },
+    {
+      "domain": "canada.ca",
+      "category": "Government",
+      "score": 80,
+      "grade": "B",
+      "dmarc": "none",
+      "spf": "-all",
+      "mx": true,
+      "prevScore": null,
+      "delta": null
+    },
+    {
+      "domain": "cloudflare.com",
+      "category": "Cloud & security",
+      "score": 100,
+      "grade": "A+",
+      "dmarc": "reject",
+      "spf": "-all",
+      "mx": true,
+      "prevScore": null,
+      "delta": null
+    },
+    {
+      "domain": "github.com",
+      "category": "Cloud & security",
+      "score": 84,
+      "grade": "B",
+      "dmarc": "quarantine",
+      "spf": "~all",
+      "mx": true,
+      "prevScore": null,
+      "delta": null
+    },
+    {
+      "domain": "okta.com",
+      "category": "Cloud & security",
+      "score": 91,
+      "grade": "A",
+      "dmarc": "reject",
+      "spf": "~all",
+      "mx": true,
+      "prevScore": null,
+      "delta": null
+    },
+    {
+      "domain": "digitalocean.com",
+      "category": "Cloud & security",
+      "score": 100,
+      "grade": "A+",
+      "dmarc": "reject",
+      "spf": "-all",
+      "mx": true,
+      "prevScore": null,
+      "delta": null
+    },
+    {
+      "domain": "amazon.com",
+      "category": "Commerce",
+      "score": 93,
+      "grade": "A",
+      "dmarc": "quarantine",
+      "spf": "-all",
+      "mx": true,
+      "prevScore": null,
+      "delta": null
+    },
+    {
+      "domain": "shopify.com",
+      "category": "Commerce",
+      "score": 91,
+      "grade": "A",
+      "dmarc": "reject",
+      "spf": "~all",
+      "mx": true,
+      "prevScore": null,
+      "delta": null
+    },
+    {
+      "domain": "ebay.com",
+      "category": "Commerce",
+      "score": 91,
+      "grade": "A",
+      "dmarc": "reject",
+      "spf": "~all",
+      "mx": true,
+      "prevScore": null,
+      "delta": null
+    },
+    {
+      "domain": "booking.com",
+      "category": "Commerce",
+      "score": 100,
+      "grade": "A+",
+      "dmarc": "reject",
+      "spf": "-all",
+      "mx": true,
+      "prevScore": null,
+      "delta": null
+    },
+    {
+      "domain": "linkedin.com",
+      "category": "Social & comms",
+      "score": 91,
+      "grade": "A",
+      "dmarc": "reject",
+      "spf": "~all",
+      "mx": true,
+      "prevScore": null,
+      "delta": null
+    },
+    {
+      "domain": "slack.com",
+      "category": "Social & comms",
+      "score": 100,
+      "grade": "A+",
+      "dmarc": "reject",
+      "spf": "-all",
+      "mx": true,
+      "prevScore": null,
+      "delta": null
+    },
+    {
+      "domain": "x.com",
+      "category": "Social & comms",
+      "score": 100,
+      "grade": "A+",
+      "dmarc": "reject",
+      "spf": "-all",
+      "mx": true,
+      "prevScore": null,
+      "delta": null
+    }
+  ]
+}

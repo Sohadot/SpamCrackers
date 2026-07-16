@@ -5,10 +5,18 @@
   <link href="https://spamcrackers.com/feed.xml" rel="self" type="application/atom+xml"/>
   <link href="https://spamcrackers.com/" rel="alternate" type="text/html"/>
   <id>https://spamcrackers.com/</id>
-  <updated>2026-07-15T23:00:00Z</updated>
+  <updated>2026-07-16T07:00:00Z</updated>
   <author><name>SpamCrackers</name><uri>https://spamcrackers.com/</uri></author>
   <icon>https://spamcrackers.com/logo.png</icon>
   <rights>CC BY 4.0</rights>
+
+  <entry>
+    <title>The Observatory becomes a dated, open record</title>
+    <id>https://spamcrackers.com/observatory/latest.json</id>
+    <link href="https://spamcrackers.com/observatory/" rel="alternate" type="text/html"/>
+    <updated>2026-07-16T07:00:00Z</updated>
+    <summary>The Observatory now publishes a weekly, server-measured record of how well-known domains score against the Standard — machine-readable as latest.json (CC BY 4.0) with an immutable weekly archive, and per-domain trend deltas — so email posture can be tracked over time rather than only sampled per visit.</summary>
+  </entry>
 
   <entry>
     <title>The Patterns Library — documented campaign archetypes</title>

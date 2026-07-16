@@ -241,6 +241,38 @@ try {
   } catch (e) { fail("patterns.json invalid: " + e.message); }
 } catch (e) { fail("model.json invalid: " + e.message); }
 
+/* ---------------- observatory data ---------------- */
+try {
+  const cfg = JSON.parse(fs.readFileSync(path.join(ROOT, "observatory/domains.json"), "utf8"));
+  const canon = new Set();
+  for (const cat of cfg.categories) for (const d of cat.domains) {
+    if (canon.has(d)) fail(`domains.json: duplicate ${d}`);
+    canon.add(d);
+  }
+  // page must watch exactly the canonical set
+  const page = fs.readFileSync(path.join(ROOT, "observatory/index.html"), "utf8");
+  const onPage = new Set([...page.matchAll(/data-domain="([^"]+)"/g)].map((m) => m[1]));
+  for (const d of canon) if (!onPage.has(d)) fail(`observatory: ${d} in domains.json but not on the page`);
+  for (const d of onPage) if (!canon.has(d)) fail(`observatory: ${d} on the page but not in domains.json`);
+
+  // latest.json record conformance
+  const rec = JSON.parse(fs.readFileSync(path.join(ROOT, "observatory/latest.json"), "utf8"));
+  const grades = new Set(["A+", "A", "B", "C", "D", "F"]);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(rec.measuredDate)) fail("latest.json: bad measuredDate");
+  if (isNaN(Date.parse(rec.generated))) fail("latest.json: bad generated timestamp");
+  if (!rec.counts || rec.counts.domains !== rec.domains.length) fail("latest.json: counts.domains mismatch");
+  const recSet = new Set();
+  for (const d of rec.domains) {
+    recSet.add(d.domain);
+    if (!canon.has(d.domain)) fail(`latest.json: ${d.domain} not in canonical set`);
+    if (typeof d.score !== "number" || d.score < 0 || d.score > 100) fail(`latest.json: ${d.domain} bad score`);
+    if (!grades.has(d.grade)) fail(`latest.json: ${d.domain} bad grade ${d.grade}`);
+    if (!d.dmarc || !d.category) fail(`latest.json: ${d.domain} missing dmarc/category`);
+  }
+  for (const d of canon) if (!recSet.has(d)) fail(`latest.json: missing measurement for ${d}`);
+  notes.push(`observatory: ${canon.size} domains, page + latest.json + domains.json in sync`);
+} catch (e) { fail("observatory data invalid: " + e.message); }
+
 /* ---------------- report ---------------- */
 console.log("SpamCrackers — verify");
 console.log(`pages: ${files.length}`);

@@ -1,0 +1,132 @@
+{
+  "measuredDate": "2026-07-16",
+  "generated": "2026-07-16T06:14:44.599Z",
+  "counts": {
+    "domains": 24,
+    "armored": 18,
+    "dmarcReject": 18,
+    "exposed": 0
+  },
+  "scores": {
+    "google.com": {
+      "score": 91,
+      "grade": "A",
+      "dmarc": "reject"
+    },
+    "microsoft.com": {
+      "score": 100,
+      "grade": "A+",
+      "dmarc": "reject"
+    },
+    "apple.com": {
+      "score": 84,
+      "grade": "B",
+      "dmarc": "quarantine"
+    },
+    "proton.me": {
+      "score": 84,
+      "grade": "B",
+      "dmarc": "quarantine"
+    },
+    "zoho.com": {
+      "score": 100,
+      "grade": "A+",
+      "dmarc": "reject"
+    },
+    "paypal.com": {
+      "score": 91,
+      "grade": "A",
+      "dmarc": "reject"
+    },
+    "stripe.com": {
+      "score": 91,
+      "grade": "A",
+      "dmarc": "reject"
+    },
+    "chase.com": {
+      "score": 100,
+      "grade": "A+",
+      "dmarc": "reject"
+    },
+    "wise.com": {
+      "score": 91,
+      "grade": "A",
+      "dmarc": "reject"
+    },
+    "revolut.com": {
+      "score": 84,
+      "grade": "B",
+      "dmarc": "quarantine"
+    },
+    "irs.gov": {
+      "score": 100,
+      "grade": "A+",
+      "dmarc": "reject"
+    },
+    "gov.uk": {
+      "score": 67,
+      "grade": "C",
+      "dmarc": "reject"
+    },
+    "canada.ca": {
+      "score": 80,
+      "grade": "B",
+      "dmarc": "none"
+    },
+    "cloudflare.com": {
+      "score": 100,
+      "grade": "A+",
+      "dmarc": "reject"
+    },
+    "github.com": {
+      "score": 84,
+      "grade": "B",
+      "dmarc": "quarantine"
+    },
+    "okta.com": {
+      "score": 91,
+      "grade": "A",
+      "dmarc": "reject"
+    },
+    "digitalocean.com": {
+      "score": 100,
+      "grade": "A+",
+      "dmarc": "reject"
+    },
+    "amazon.com": {
+      "score": 93,
+      "grade": "A",
+      "dmarc": "quarantine"
+    },
+    "shopify.com": {
+      "score": 91,
+      "grade": "A",
+      "dmarc": "reject"
+    },
+    "ebay.com": {
+      "score": 91,
+      "grade": "A",
+      "dmarc": "reject"
+    },
+    "booking.com": {
+      "score": 100,
+      "grade": "A+",
+      "dmarc": "reject"
+    },
+    "linkedin.com": {
+      "score": 91,
+      "grade": "A",
+      "dmarc": "reject"
+    },
+    "slack.com": {
+      "score": 100,
+      "grade": "A+",
+      "dmarc": "reject"
+    },
+    "x.com": {
+      "score": 100,
+      "grade": "A+",
+      "dmarc": "reject"
+    }
+  }
+}
