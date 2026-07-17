@@ -118,6 +118,9 @@ for (const file of files) {
           if (!li.position || !li.name || !li.item) fail(`${r}: breadcrumb item incomplete`);
           else { const x = resolveAbs(li.item); if (!x.external && !x.file) fail(`${r}: breadcrumb URL unresolved ${li.item}`); }
         });
+        if (t === "DataCatalog") (n.dataset || []).forEach((ds, i) => {
+          if (!ds.name || !ds.description) fail(`${r}: DataCatalog dataset ${i} missing name/description (Google Dataset requires description)`);
+        });
         if (t === "DefinedTermSet") (n.hasDefinedTerm || []).forEach((dt) => {
           if (dt["@id"]) { const x = resolveAbs(dt["@id"]);
             if (!x.external) { if (!x.file) fail(`${r}: DefinedTerm URL unresolved ${dt["@id"]}`);
