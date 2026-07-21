@@ -131,6 +131,18 @@ async function main() {
     scores: Object.fromEntries(domains.map((d) => [d.domain, { score: d.score, grade: d.grade, dmarc: d.dmarc }])) };
   fs.writeFileSync(path.join(HIST, measuredDate + ".json"), JSON.stringify(snap, null, 2) + "\n");
 
+  // keep the citable catalog in sync: its observatory version tracks the
+  // measuredDate, which verify.js enforces field-for-field.
+  const catPath = path.join(ROOT, "catalog.json");
+  const cat = JSON.parse(fs.readFileSync(catPath, "utf8"));
+  const obs = cat.datasets.find((d) => d.id === "observatory");
+  if (obs && (obs.version !== measuredDate || cat.generated !== measuredDate)) {
+    obs.version = measuredDate;
+    cat.generated = measuredDate;
+    fs.writeFileSync(catPath, JSON.stringify(cat, null, 2) + "\n");
+    console.log(`synced catalog.json observatory version -> ${measuredDate}`);
+  }
+
   console.log(`\nmeasured ${ok} domains — armored ${counts.armored}, DMARC reject ${counts.dmarcReject}, exposed ${counts.exposed}`);
   console.log(`wrote observatory/latest.json + observatory/history/${measuredDate}.json`);
 }
