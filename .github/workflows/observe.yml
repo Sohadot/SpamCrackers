@@ -34,13 +34,13 @@ jobs:
 
       - name: Commit the refreshed record
         run: |
-          if git diff --quiet -- observatory/latest.json observatory/history; then
+          if git diff --quiet -- observatory/latest.json observatory/history catalog.json; then
             echo "No change in measurements — nothing to commit."
             exit 0
           fi
           git config user.name "spamcrackers-observatory[bot]"
           git config user.email "observatory@spamcrackers.com"
-          git add observatory/latest.json observatory/history
+          git add observatory/latest.json observatory/history catalog.json
           git commit -m "Observatory: weekly measurement $(date -u +%Y-%m-%d)"
           for i in 1 2 3 4; do
             git push && break
