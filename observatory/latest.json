@@ -3,8 +3,8 @@
   "method": "SPF + DMARC + MX over public DNS (DNS-over-HTTPS). DKIM is not included in the index grade.",
   "license": "CC-BY-4.0",
   "url": "https://spamcrackers.com/observatory/",
-  "generated": "2026-07-16T06:32:10.594Z",
-  "measuredDate": "2026-07-16",
+  "generated": "2026-07-27T10:09:35.044Z",
+  "measuredDate": "2026-07-27",
   "previous": "2026-07-16",
   "counts": {
     "domains": 24,
