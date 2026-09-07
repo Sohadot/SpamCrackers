@@ -9,7 +9,7 @@
   "license": "CC-BY-4.0",
   "doi": "10.5281/zenodo.21395837",
   "doiVersion": "10.5281/zenodo.21395838",
-  "generated": "2026-08-31",
+  "generated": "2026-09-07",
   "datasets": [
     {
       "id": "reference-model",
@@ -54,7 +54,7 @@
     {
       "id": "observatory",
       "title": "Observatory — email-authentication measurement record",
-      "version": "2026-08-31",
+      "version": "2026-09-07",
       "description": "A weekly, server-measured record of how 24 well-known domains score against the Standard (SPF, DMARC, MX), with an immutable archive.",
       "landingPage": "https://spamcrackers.com/observatory/",
       "license": "CC-BY-4.0",
