@@ -3,9 +3,9 @@
   "method": "SPF + DMARC + MX over public DNS (DNS-over-HTTPS). DKIM is not included in the index grade.",
   "license": "CC-BY-4.0",
   "url": "https://spamcrackers.com/observatory/",
-  "generated": "2026-09-14T12:47:10.833Z",
-  "measuredDate": "2026-09-14",
-  "previous": "2026-09-07",
+  "generated": "2026-09-21T12:48:23.700Z",
+  "measuredDate": "2026-09-21",
+  "previous": "2026-09-14",
   "counts": {
     "domains": 24,
     "armored": 18,
@@ -186,8 +186,8 @@
       "dmarc": "reject",
       "spf": "-all",
       "mx": true,
-      "prevScore": 91,
-      "delta": 9
+      "prevScore": 100,
+      "delta": 0
     },
     {
       "domain": "digitalocean.com",
