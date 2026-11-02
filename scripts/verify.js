@@ -275,6 +275,20 @@ try {
   for (const d of canon) if (!recSet.has(d)) fail(`latest.json: missing measurement for ${d}`);
   notes.push(`observatory: ${canon.size} domains, page + latest.json + domains.json in sync`);
 
+  /* measurement integrity: every score must be recomputable from the evidence
+   * published with it, and no unanswered DNS query may stand behind a score.
+   * Records written before evidence existed are accepted as legacy only. */
+  const core = require("./observatory-core");
+  const audit = core.auditRecord(rec, [...canon]);
+  for (const m of audit) fail(`latest.json: ${m}`);
+  const tree = core.auditObservatoryTree(ROOT, rec);
+  for (const m of tree.fails) fail(`observatory: ${m}`);
+  notes.push(`observatory: latest.json matches history/${rec.measuredDate}.json, no newer snapshot, no staging files`);
+  notes.push(`observatory archive: ${tree.sidecars} evidence sidecars for ${tree.evidenceEra} evidence-era snapshots, digests + scores match`);
+  const evN = rec.domains.filter((d) => d.evidence !== undefined).length;
+  notes.push(evN ? `observatory evidence: ${evN} domains, every score recomputed from its published DNS evidence`
+    : `observatory evidence: legacy record (measured ${rec.measuredDate} <= ${core.EVIDENCE_REQUIRED_AFTER}) — evidence mandatory for later records`);
+
   /* catalog.json must stay in sync with the artifacts it describes */
   const cat = JSON.parse(fs.readFileSync(path.join(ROOT, "catalog.json"), "utf8"));
   const model2 = JSON.parse(fs.readFileSync(path.join(ROOT, "intelligence/model.json"), "utf8"));

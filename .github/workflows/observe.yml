@@ -4,6 +4,31 @@ name: observatory
 # Produces a dated, machine-readable record (observatory/latest.json) and an
 # immutable daily archive (observatory/history/<date>.json), committed to the
 # default branch so GitHub Pages serves the fresh record.
+#
+# Publication integrity: the job fails (nonzero) unless the measurement commit
+# was actually pushed. scripts/test/observatory.test.js executes the commit
+# step below verbatim against a stub git to prove it.
+#
+# Required status checks vs. this direct push (documentation only; no settings
+# are changed by this file):
+#  - This job pushes straight to main with GITHUB_TOKEN. Commits pushed with
+#    GITHUB_TOKEN do not trigger other workflows, so verify.yml never runs on
+#    them; the equivalent gate is the in-job sequence above the commit step
+#    (offline tests -> observe.js -> verify.js), which must all pass first.
+#  - If main later requires the "verify" status check (branch protection or a
+#    ruleset), that rule would reject this push, because no check can exist on
+#    a commit before it is pushed. Two compatible ways to adopt it:
+#    (a) Ruleset with a narrow bypass: require "verify" for everyone else, and
+#        let only this job's identity bypass it. Use a dedicated identity, a
+#        GitHub App installation token or deploy key on the ruleset's bypass
+#        list, rather than GITHUB_TOKEN, so the bypass covers this job alone;
+#        the in-job gate stays mandatory for that identity.
+#    (b) No bypass: push the measurement to a dated branch and open a PR that
+#        auto-merges once "verify" passes. That PR must be created with an App
+#        token (not GITHUB_TOKEN), otherwise verify.yml is never triggered and
+#        the PR can never merge. Publication is then delayed by the CI run.
+#  - Either way, keep verify.yml's job name "verify" stable: required checks
+#    match by check name.
 
 on:
   schedule:
@@ -26,6 +51,9 @@ jobs:
         with:
           node-version: "20"
 
+      - name: Run the offline Observatory measurement tests
+        run: node --test scripts/test/observatory.test.js
+
       - name: Measure the domain set over public DNS
         run: node scripts/observe.js
 
@@ -34,15 +62,24 @@ jobs:
 
       - name: Commit the refreshed record
         run: |
-          if git diff --quiet -- observatory/latest.json observatory/history catalog.json; then
+          if git diff --quiet -- observatory/latest.json observatory/history observatory/evidence catalog.json && [ -z "$(git ls-files --others --exclude-standard -- observatory/evidence)" ]; then
             echo "No change in measurements — nothing to commit."
             exit 0
           fi
           git config user.name "spamcrackers-observatory[bot]"
           git config user.email "observatory@spamcrackers.com"
-          git add observatory/latest.json observatory/history catalog.json
+          git add observatory/latest.json observatory/history observatory/evidence catalog.json
           git commit -m "Observatory: weekly measurement $(date -u +%Y-%m-%d)"
+          pushed=0
           for i in 1 2 3 4; do
-            git push && break
-            echo "push failed, retry $i"; git pull --rebase --autostash; sleep $((2 ** i))
+            if git push; then pushed=1; break; fi
+            echo "push failed (attempt $i of 4)"
+            [ "$i" -lt 4 ] || break
+            git pull --rebase --autostash
+            sleep $((2 ** i))
           done
+          if [ "$pushed" -ne 1 ]; then
+            echo "::error::Measurement commit was NOT pushed after 4 attempts; the record is not published."
+            exit 1
+          fi
+          echo "Published measurement commit $(git rev-parse --short HEAD) to $(git rev-parse --abbrev-ref HEAD)."
