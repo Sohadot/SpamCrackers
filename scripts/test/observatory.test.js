@@ -246,7 +246,7 @@ test("success run: writes latest+history+catalog, history format unchanged, prio
   const before = snapshot(dir);
   const r = await run(runOpts(dir, zoneTransport({ "_dmarc.x.com TXT": [3, null] }, healthy)));
   assert.equal(r.ok, true);
-  assert.deepEqual(r.wrote.sort(), ["catalog.json", "observatory/history/2026-11-09.json", "observatory/latest.json"]);
+  assert.deepEqual(r.wrote.sort(), ["catalog.json", "observatory/evidence/2026-11-09.json", "observatory/history/2026-11-09.json", "observatory/latest.json"]);
   const after = snapshot(dir);
   for (const k of Object.keys(before))
     if (k.startsWith("observatory/history/")) assert.equal(after[k], before[k], `${k} must be unchanged`);
@@ -330,21 +330,15 @@ test("transition: an evidence-bearing record dated after the cutoff is accepted"
 // =========================================================================
 function publicationFails(dir) {
   const rec = JSON.parse(fs.readFileSync(path.join(dir, "observatory/latest.json"), "utf8"));
-  const hd = path.join(dir, "observatory/history");
-  const dates = fs.readdirSync(hd).map((n) => n.slice(0, 10));
-  let snap = null; try { snap = JSON.parse(fs.readFileSync(path.join(hd, rec.measuredDate + ".json"), "utf8")); } catch {}
-  const cat = JSON.parse(fs.readFileSync(path.join(dir, "catalog.json"), "utf8"));
-  const f = core.auditPublication(rec, snap, dates);
-  if (cat.datasets.find((d) => d.id === "observatory").version !== rec.measuredDate) f.push("catalog version != latest");
-  return f;
+  return core.auditObservatoryTree(dir, rec).fails; // the exact code verify.js runs
 }
 
 test("publication: the committed latest.json matches its history snapshot", () => {
   assert.deepEqual(publicationFails(ROOT), []);
 });
 
-for (const k of [0, 1, 2]) {
-  test(`publication: crash after ${k} of 3 renames -> ${k ? "rejected by the gate" : "previous record intact"}, no temp files`, async () => {
+for (const k of [0, 1, 2, 3]) {
+  test(`publication: crash after ${k} of 4 renames -> ${k ? "rejected by the gate" : "previous record intact"}, no temp files`, async () => {
     const dir = sandbox();
     const real = fs.renameSync; let n = 0;
     fs.renameSync = (a, b) => { if (++n > k) throw new Error("simulated crash"); return real(a, b); };
@@ -362,5 +356,96 @@ test("publication: a completed run passes the publication gate", async () => {
   const dir = sandbox();
   await run(runOpts(dir, zoneTransport({}, healthy)));
   assert.deepEqual(publicationFails(dir), []);
+  fs.rmSync(dir, { recursive: true });
+});
+
+// =========================================================================
+// 10. dated evidence sidecars: permanent per-week evidence archive
+// =========================================================================
+const W1 = "2026-11-09T06:17:00.000Z", W2 = "2026-11-16T06:17:00.000Z";
+const weekOpts = (dir, transport, iso) => ({ root: dir, transport, retryDelayMs: 0, log: () => {}, clock: () => new Date(iso) });
+const readJ = (dir, rel) => JSON.parse(fs.readFileSync(path.join(dir, rel), "utf8"));
+
+async function twoWeeks() {
+  const dir = sandbox();
+  const r1 = await run(weekOpts(dir, zoneTransport({}, healthy), W1));
+  assert.equal(r1.ok, true);
+  const afterW1 = snapshot(dir);
+  // week 2: x.com loses its DMARC record (legitimately), so scores change
+  const r2 = await run(weekOpts(dir, zoneTransport({ "_dmarc.x.com TXT": [3, null] }, healthy), W2));
+  assert.equal(r2.ok, true);
+  return { dir, afterW1 };
+}
+
+test("archive: two consecutive weekly runs keep week 1 evidence byte-identical and fully auditable", async () => {
+  const { dir, afterW1 } = await twoWeeks();
+  const after = snapshot(dir);
+  for (const f of ["observatory/history/2026-11-09.json", "observatory/evidence/2026-11-09.json"])
+    assert.equal(after[f], afterW1[f], `${f} must survive week 2 unchanged`);
+  for (const k of Object.keys(afterW1)) if (k.startsWith("observatory/history/")) assert.equal(after[k], afterW1[k]);
+
+  const sc1 = readJ(dir, "observatory/evidence/2026-11-09.json"), snap1 = readJ(dir, "observatory/history/2026-11-09.json");
+  assert.equal(sc1.snapshot, "history/2026-11-09.json");
+  assert.equal(sc1.snapshotDigest, core.snapshotDigest(snap1));
+  assert.equal(sc1.generated, snap1.generated);
+  assert.equal(sc1.domains.length, 24);
+  assert.ok(sc1.domains.every((d) => d.evidence.measuredAt === W1));
+  assert.equal(sc1.domains.find((d) => d.domain === "x.com").evidence.queries.dmarc.rcode, "NOERROR");
+  // week 1 scores are still recomputable from week 1 evidence, independent of latest.json
+  for (const d of sc1.domains) assert.equal(core.derive(d.evidence).score, snap1.scores[d.domain].score);
+
+  const latest = readJ(dir, "observatory/latest.json");
+  assert.equal(latest.measuredDate, "2026-11-16"); assert.equal(latest.previous, "2026-11-09");
+  assert.equal(latest.domains.find((d) => d.domain === "x.com").evidence.queries.dmarc.rcode, "NXDOMAIN");
+  assert.deepEqual(core.auditObservatoryTree(dir, latest).fails, []);
+  // legacy history keeps its original format and has no sidecar
+  assert.ok(!fs.existsSync(path.join(dir, "observatory/evidence/2026-11-02.json")));
+  assert.deepEqual(Object.keys(readJ(dir, "observatory/history/2026-11-16.json")), ["measuredDate", "generated", "counts", "scores"]);
+  fs.rmSync(dir, { recursive: true });
+});
+
+const archiveTamper = [
+  ["missing sidecar for an evidence-era snapshot", (dir) => fs.unlinkSync(path.join(dir, "observatory/evidence/2026-11-09.json")), /has no evidence sidecar/],
+  ["snapshot edited after the fact (digest mismatch)", (dir) => { const p = "observatory/history/2026-11-09.json", j = readJ(dir, p);
+    j.scores["google.com"].score = 1; fs.writeFileSync(path.join(dir, p), JSON.stringify(j, null, 2)); }, /snapshotDigest does not match/],
+  ["sidecar bound to another run (generated)", (dir) => { const p = "observatory/evidence/2026-11-09.json", j = readJ(dir, p);
+    j.generated = W2; fs.writeFileSync(path.join(dir, p), JSON.stringify(j)); }, /generated does not match/],
+  ["sidecar pointing at another snapshot", (dir) => { const p = "observatory/evidence/2026-11-09.json", j = readJ(dir, p);
+    j.snapshot = "history/2026-11-16.json"; fs.writeFileSync(path.join(dir, p), JSON.stringify(j)); }, /snapshot reference/],
+  ["incomplete sidecar (domain dropped)", (dir) => { const p = "observatory/evidence/2026-11-09.json", j = readJ(dir, p);
+    j.domains.pop(); fs.writeFileSync(path.join(dir, p), JSON.stringify(j)); }, /domain set differs/],
+  ["sidecar with one domain's evidence removed", (dir) => { const p = "observatory/evidence/2026-11-09.json", j = readJ(dir, p);
+    delete j.domains[3].evidence; fs.writeFileSync(path.join(dir, p), JSON.stringify(j)); }, /partial evidence/],
+  ["sidecar evidence that no longer yields the snapshot score", (dir) => { const p = "observatory/evidence/2026-11-09.json", j = readJ(dir, p);
+    j.domains[0].evidence.queries.mx.records = []; fs.writeFileSync(path.join(dir, p), JSON.stringify(j)); }, /evidence yields/],
+  ["sidecar evidence from an unanswered query", (dir) => { const p = "observatory/evidence/2026-11-09.json", j = readJ(dir, p);
+    j.domains[0].evidence.queries.spf.rcode = "SERVFAIL"; fs.writeFileSync(path.join(dir, p), JSON.stringify(j)); }, /not answered \(SERVFAIL\)/],
+  ["orphan sidecar without a snapshot", (dir) => fs.copyFileSync(path.join(dir, "observatory/evidence/2026-11-09.json"),
+    path.join(dir, "observatory/evidence/2026-11-12.json")), /has no matching history snapshot/],
+  ["sidecar for a legacy-era date", (dir) => fs.copyFileSync(path.join(dir, "observatory/evidence/2026-11-09.json"),
+    path.join(dir, "observatory/evidence/2026-11-02.json")), /legacy era/],
+  ["latest.json evidence diverging from its sidecar", (dir) => { const p = "observatory/latest.json", j = readJ(dir, p);
+    j.domains[0].evidence.measuredAt = W1; fs.writeFileSync(path.join(dir, p), JSON.stringify(j)); }, /differs from evidence\/2026-11-16/],
+  ["unexpected file in evidence/", (dir) => fs.writeFileSync(path.join(dir, "observatory/evidence/notes.txt"), "x"), /unexpected file notes.txt/],
+  ["staging file left by a force-killed run", (dir) => fs.writeFileSync(path.join(dir, "observatory/latest.json.tmp-4242"), "{"), /stray staging file observatory\/latest.json.tmp-4242/],
+];
+for (const [label, mut, re] of archiveTamper) {
+  test(`archive gate: detects ${label}`, async () => {
+    const { dir } = await twoWeeks();
+    mut(dir);
+    const f = core.auditObservatoryTree(dir, readJ(dir, "observatory/latest.json")).fails;
+    assert.ok(f.some((m) => re.test(m)), JSON.stringify(f));
+    fs.rmSync(dir, { recursive: true });
+  });
+}
+
+test("archive: a failed week-2 run leaves week 1 history, evidence and latest untouched", async () => {
+  const dir = sandbox();
+  await run(weekOpts(dir, zoneTransport({}, healthy), W1));
+  const before = snapshot(dir);
+  const r = await run(weekOpts(dir, zoneTransport({ "_dmarc.x.com TXT": [2, null] }, healthy), W2));
+  assert.equal(r.ok, false);
+  assert.deepEqual(snapshot(dir), before);
+  assert.deepEqual(core.auditObservatoryTree(dir, readJ(dir, "observatory/latest.json")).fails, []);
   fs.rmSync(dir, { recursive: true });
 });

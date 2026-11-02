@@ -20,6 +20,29 @@
  *  - Nothing is written unless every domain was measured and the complete
  *    record passes auditRecord(); outputs are staged to temp files and only
  *    renamed into place once all of them were staged successfully.
+ *  - Each measurement's evidence is archived permanently in a dated sidecar,
+ *    observatory/evidence/<date>.json, bound to history/<date>.json by
+ *    measuredDate, generated and the snapshot's SHA-256 (core.snapshotDigest).
+ *    history/ keeps its original, backward-compatible format.
+ *
+ * Forced termination (SIGKILL, runner cancellation, OOM kill, power loss):
+ * no JavaScript cleanup runs, so these limits apply —
+ *  - `<file>.tmp-<pid>` staging files may be left next to any destination
+ *    (observatory/, history/, evidence/, repo root). verify.js fails on any
+ *    such file, so they cannot pass the gate unnoticed.
+ *  - Each rename(2) is atomic on POSIX (same filesystem): every destination
+ *    file is either its complete old or complete new content, never torn.
+ *  - The set of renames is NOT atomic: a kill between renames leaves some
+ *    destinations new and others old. Renames run history -> evidence ->
+ *    catalog -> latest.json, and verify.js rejects every such mixed state
+ *    (newer snapshot than latest, snapshot without sidecar, catalog/latest
+ *    mismatch).
+ *  - Nothing is fsync'd: after power loss the filesystem may hold either
+ *    version of a renamed file.
+ *  - SIGINT/SIGTERM behave like SIGKILL here (no handlers are installed).
+ * In the scheduled workflow a killed or failed observe step stops the job
+ * before the commit step and the runner is discarded, so none of this can
+ * reach a Git commit from CI. A manual local run could; the gate catches it.
  *
  * Usage:  node scripts/observe.js
  */
@@ -124,9 +147,16 @@ async function run(opts = {}) {
   const snap = { measuredDate, generated: now.toISOString(), counts,
     scores: Object.fromEntries(domains.map((d) => [d.domain, { score: d.score, grade: d.grade, dmarc: d.dmarc }])) };
 
-  // rename order matters: history, then catalog, then latest.json last, so
-  // latest.json is the commit point (see core.auditPublication)
-  const files = [[path.join(HIST, measuredDate + ".json"), JSON.stringify(snap, null, 2) + "\n"]];
+  // permanent per-measurement evidence, bound to the snapshot above
+  const sidecar = core.buildSidecar(snap, domains);
+
+  // rename order matters: history, evidence, catalog, then latest.json last,
+  // so latest.json is the commit point (see core.auditPublication)
+  const EVD = path.join(OBS, "evidence");
+  const files = [
+    [path.join(HIST, measuredDate + ".json"), JSON.stringify(snap, null, 2) + "\n"],
+    [path.join(EVD, measuredDate + ".json"), JSON.stringify(sidecar, null, 2) + "\n"],
+  ];
   // keep the citable catalog in sync: its observatory version tracks the
   // measuredDate, which verify.js enforces field-for-field.
   const obs = cat.datasets.find((d) => d.id === "observatory");
@@ -138,10 +168,11 @@ async function run(opts = {}) {
   files.push([path.join(OBS, "latest.json"), JSON.stringify(latest, null, 2) + "\n"]);
 
   fs.mkdirSync(HIST, { recursive: true });
+  fs.mkdirSync(EVD, { recursive: true });
   stageAndCommit(files);
   if (files.some(([p]) => p === catPath)) out(`synced catalog.json observatory version -> ${measuredDate}\n`);
   out(`\nmeasured ${domains.length} domains — armored ${counts.armored}, DMARC reject ${counts.dmarcReject}, exposed ${counts.exposed}\n`);
-  out(`wrote observatory/latest.json + observatory/history/${measuredDate}.json\n`);
+  out(`wrote observatory/latest.json + observatory/history/${measuredDate}.json + observatory/evidence/${measuredDate}.json\n`);
   return { ok: true, failed: [], wrote: files.map(([p]) => path.relative(ROOT, p)) };
 }
 

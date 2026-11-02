@@ -20,6 +20,9 @@
  */
 "use strict";
 const https = require("https");
+const crypto = require("crypto");
+const fs = require("fs");
+const path = require("path");
 
 const RESOLVER = "https://dns.google/resolve";
 const TYPE = { TXT: 16, MX: 15 };
@@ -225,7 +228,99 @@ function auditPublication(rec, snap, historyDates) {
   return f;
 }
 
+/* ---------------- dated evidence sidecars (observatory/evidence/<date>.json) ---------------- */
+// The history snapshot format is frozen for backward compatibility, so each
+// evidence-era measurement's evidence lives in a sidecar bound to exactly one
+// snapshot by date, generated timestamp and the snapshot's digest.
+// Digest = SHA-256 of JSON.stringify(parsed snapshot): independent of
+// whitespace and line endings, sensitive to every key and value.
+const snapshotDigest = (snap) => "sha256:" + crypto.createHash("sha256").update(JSON.stringify(snap)).digest("hex");
+const SIDECAR_FIELDS = ["domain", "category", "score", "grade", "dmarc", "spf", "mx", "evidence"];
+
+function buildSidecar(snap, domains) {
+  return {
+    measuredDate: snap.measuredDate,
+    generated: snap.generated,
+    snapshot: "history/" + snap.measuredDate + ".json",
+    snapshotDigest: snapshotDigest(snap),
+    counts: snap.counts,
+    domains: domains.map((d) => Object.fromEntries(SIDECAR_FIELDS.map((k) => [k, d[k]]))),
+  };
+}
+
+// snapshots / sidecars: { "<date>": parsedJson }. latest: parsed latest.json.
+function auditArchive(snapshots, sidecars, latest) {
+  const f = [];
+  for (const date of Object.keys(sidecars).sort()) {
+    if (!snapshots[date]) f.push(`evidence/${date}.json has no matching history snapshot`);
+    if (date <= EVIDENCE_REQUIRED_AFTER) f.push(`evidence/${date}.json is dated in the legacy era (<= ${EVIDENCE_REQUIRED_AFTER})`);
+  }
+  for (const date of Object.keys(snapshots).sort()) {
+    if (date <= EVIDENCE_REQUIRED_AFTER) continue;
+    const snap = snapshots[date], sc = sidecars[date], p = `evidence/${date}.json:`;
+    if (!sc) { f.push(`history/${date}.json has no evidence sidecar (mandatory after ${EVIDENCE_REQUIRED_AFTER})`); continue; }
+    if (sc.measuredDate !== date || snap.measuredDate !== date) f.push(`${p} measuredDate does not match ${date}`);
+    if (sc.generated !== snap.generated) f.push(`${p} generated does not match its snapshot`);
+    if (sc.snapshot !== `history/${date}.json`) f.push(`${p} snapshot reference is ${sc.snapshot}`);
+    if (sc.snapshotDigest !== snapshotDigest(snap)) f.push(`${p} snapshotDigest does not match history/${date}.json`);
+    if (JSON.stringify(sc.counts) !== JSON.stringify(snap.counts)) f.push(`${p} counts differ from snapshot`);
+    const doms = Array.isArray(sc.domains) ? sc.domains : [];
+    const scores = snap.scores || {};
+    const keys = Object.keys(scores);
+    if (doms.length !== keys.length || keys.some((k) => !doms.find((d) => d.domain === k)))
+      f.push(`${p} domain set differs from snapshot (incomplete or extra evidence)`);
+    for (const d of doms) {
+      const s = scores[d.domain];
+      if (s && (s.score !== d.score || s.grade !== d.grade || s.dmarc !== d.dmarc)) f.push(`${p} ${d.domain} differs from snapshot`);
+    }
+    for (const m of auditRecord(sc, keys)) f.push(`${p} ${m}`);
+  }
+  if (latest && latest.measuredDate > EVIDENCE_REQUIRED_AFTER) {
+    const sc = sidecars[latest.measuredDate];
+    if (sc) {
+      const pick = (d) => JSON.stringify(SIDECAR_FIELDS.map((k) => d[k]));
+      const byDom = Object.fromEntries((sc.domains || []).map((d) => [d.domain, pick(d)]));
+      for (const d of latest.domains) if (byDom[d.domain] !== pick(d)) f.push(`latest.json ${d.domain} differs from evidence/${latest.measuredDate}.json`);
+      if (sc.generated !== latest.generated) f.push(`latest.json generated differs from evidence/${latest.measuredDate}.json`);
+    }
+  }
+  return f;
+}
+
+/* ---------------- on-disk gate (verify.js and tests use this same code) ---------------- */
+const DATED = /^\d{4}-\d{2}-\d{2}\.json$/;
+function auditObservatoryTree(root, rec) {
+  const fails = [];
+  const histDir = path.join(root, "observatory/history"), evDir = path.join(root, "observatory/evidence");
+  const snapshots = {}, sidecars = {};
+  for (const n of fs.readdirSync(histDir)) {
+    if (!DATED.test(n)) { if (!/\.tmp-\d+$/.test(n)) fails.push(`observatory/history: unexpected file ${n}`); continue; }
+    try { snapshots[n.slice(0, 10)] = JSON.parse(fs.readFileSync(path.join(histDir, n), "utf8")); }
+    catch { fails.push(`observatory/history/${n}: invalid JSON`); }
+  }
+  if (fs.existsSync(evDir)) for (const n of fs.readdirSync(evDir)) {
+    if (!DATED.test(n)) { if (!/\.tmp-\d+$/.test(n)) fails.push(`observatory/evidence: unexpected file ${n}`); continue; }
+    try { sidecars[n.slice(0, 10)] = JSON.parse(fs.readFileSync(path.join(evDir, n), "utf8")); }
+    catch { fails.push(`observatory/evidence/${n}: invalid JSON`); }
+  }
+  // staging files left by an interrupted (e.g. force-killed) observe.js run
+  for (const dir of [root, path.join(root, "observatory"), histDir, evDir])
+    if (fs.existsSync(dir)) for (const n of fs.readdirSync(dir))
+      if (/\.tmp-\d+$/.test(n)) fails.push(`stray staging file ${path.relative(root, path.join(dir, n))} (interrupted observe.js run)`);
+  fails.push(...auditPublication(rec, snapshots[rec.measuredDate] || null, Object.keys(snapshots)));
+  try {
+    const cat = JSON.parse(fs.readFileSync(path.join(root, "catalog.json"), "utf8"));
+    const o = (cat.datasets || []).find((d) => d.id === "observatory");
+    if (!o || String(o.version) !== String(rec.measuredDate)) fails.push("catalog.json observatory version != latest.json measuredDate");
+  } catch { fails.push("catalog.json unreadable"); }
+  fails.push(...auditArchive(snapshots, sidecars, rec));
+  return { fails, sidecars: Object.keys(sidecars).length,
+    evidenceEra: Object.keys(snapshots).filter((d) => d > EVIDENCE_REQUIRED_AFTER).length };
+}
+
 module.exports = {
+  auditObservatoryTree,
+  snapshotDigest, buildSidecar, auditArchive,
   EVIDENCE_REQUIRED_AFTER, auditPublication,
   RESOLVER, RCODE, ANSWERED, MeasurementError,
   httpsTransport, classify, query, measure, derive, grade, auditRecord,

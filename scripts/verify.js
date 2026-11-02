@@ -281,16 +281,13 @@ try {
   const core = require("./observatory-core");
   const audit = core.auditRecord(rec, [...canon]);
   for (const m of audit) fail(`latest.json: ${m}`);
-  const histDir = path.join(ROOT, "observatory/history");
-  for (const n of fs.readdirSync(histDir)) if (!/^\d{4}-\d{2}-\d{2}\.json$/.test(n)) fail(`observatory/history: unexpected file ${n}`);
-  const histDates = fs.readdirSync(histDir).filter((n) => /^\d{4}-\d{2}-\d{2}\.json$/.test(n)).map((n) => n.slice(0, 10));
-  let snap = null;
-  try { snap = JSON.parse(fs.readFileSync(path.join(histDir, rec.measuredDate + ".json"), "utf8")); } catch { /* reported below */ }
-  for (const m of core.auditPublication(rec, snap, histDates)) fail(`observatory: ${m}`);
+  const tree = core.auditObservatoryTree(ROOT, rec);
+  for (const m of tree.fails) fail(`observatory: ${m}`);
+  notes.push(`observatory: latest.json matches history/${rec.measuredDate}.json, no newer snapshot, no staging files`);
+  notes.push(`observatory archive: ${tree.sidecars} evidence sidecars for ${tree.evidenceEra} evidence-era snapshots, digests + scores match`);
   const evN = rec.domains.filter((d) => d.evidence !== undefined).length;
   notes.push(evN ? `observatory evidence: ${evN} domains, every score recomputed from its published DNS evidence`
     : `observatory evidence: legacy record (measured ${rec.measuredDate} <= ${core.EVIDENCE_REQUIRED_AFTER}) — evidence mandatory for later records`);
-  notes.push(`observatory: latest.json matches history/${rec.measuredDate}.json, no newer snapshot`);
 
   /* catalog.json must stay in sync with the artifacts it describes */
   const cat = JSON.parse(fs.readFileSync(path.join(ROOT, "catalog.json"), "utf8"));
