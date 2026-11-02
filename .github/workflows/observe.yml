@@ -26,6 +26,9 @@ jobs:
         with:
           node-version: "20"
 
+      - name: Run the offline Observatory measurement tests
+        run: node --test scripts/test/observatory.test.js
+
       - name: Measure the domain set over public DNS
         run: node scripts/observe.js
 

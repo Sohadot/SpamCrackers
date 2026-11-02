@@ -9,74 +9,61 @@
  * DMARC (25 reject / 20 quarantine / 10 record-only) + MX (25), normalised
  * to 100 over a 75-point max. DKIM is intentionally excluded (selector
  * discovery is not reliable from DNS alone) — the same honest caveat the
- * Standard states.
+ * Standard states. Rubric and DNS classification live in observatory-core.js.
  *
- * Deterministic and side-effect-free apart from the two output files.
+ * Integrity rules:
+ *  - A query that is not answered (HTTP error, timeout, SERVFAIL/REFUSED,
+ *    truncated or malformed response) fails that domain; it is never scored
+ *    as an absent record. Any failed domain aborts the whole run.
+ *  - Each domain entry carries the evidence its score was computed from
+ *    (measurement time, resolver, query name/type, RCODE, relevant records).
+ *  - Nothing is written unless every domain was measured and the complete
+ *    record passes auditRecord(); outputs are staged to temp files and only
+ *    renamed into place once all of them were staged successfully.
+ *
  * Usage:  node scripts/observe.js
  */
 "use strict";
 const fs = require("fs");
 const path = require("path");
-const https = require("https");
+const core = require("./observatory-core");
 
-const ROOT = path.resolve(__dirname, "..");
-const OBS = path.join(ROOT, "observatory");
-const HIST = path.join(OBS, "history");
+const DEFAULT_ROOT = path.resolve(__dirname, "..");
 
-function doh(name, type, tries = 3) {
-  return new Promise((resolve, reject) => {
-    const attempt = (n) => {
-      const req = https.get(
-        "https://dns.google/resolve?name=" + encodeURIComponent(name) + "&type=" + type,
-        { headers: { accept: "application/dns-json" }, timeout: 8000 },
-        (r) => {
-          let d = "";
-          r.on("data", (c) => (d += c));
-          r.on("end", () => { try { resolve(JSON.parse(d)); } catch (e) { n > 1 ? attempt(n - 1) : reject(e); } });
-        }
-      );
-      req.on("timeout", () => { req.destroy(); n > 1 ? attempt(n - 1) : reject(new Error("timeout")); });
-      req.on("error", (e) => { n > 1 ? attempt(n - 1) : reject(e); });
-    };
-    attempt(tries);
-  });
-}
-const txt = (j) =>
-  !j || !j.Answer ? [] : j.Answer.filter((a) => a.type === 16).map((a) => String(a.data).replace(/^"|"$/g, "").replace(/" +"/g, ""));
-
-function grade(score) {
-  if (score >= 95) return "A+";
-  if (score >= 85) return "A";
-  if (score >= 70) return "B";
-  if (score >= 50) return "C";
-  if (score >= 30) return "D";
-  return "F";
+function stageAndCommit(files) {
+  const staged = [];
+  try {
+    for (const [dest, body] of files) {
+      const tmp = dest + ".tmp-" + process.pid;
+      fs.writeFileSync(tmp, body);
+      staged.push([tmp, dest]);
+    }
+  } catch (e) {
+    for (const [tmp] of staged) { try { fs.unlinkSync(tmp); } catch { /* ignore */ } }
+    throw e;
+  }
+  let i = 0;
+  try { for (; i < staged.length; i++) fs.renameSync(staged[i][0], staged[i][1]); }
+  catch (e) {
+    for (const [tmp] of staged.slice(i)) { try { fs.unlinkSync(tmp); } catch { /* ignore */ } }
+    throw e;
+  }
 }
 
-async function measure(domain) {
-  const [a, b, c] = await Promise.all([
-    doh(domain, "TXT"),
-    doh("_dmarc." + domain, "TXT").catch(() => ({})),
-    doh(domain, "MX").catch(() => ({})),
-  ]);
-  const spf = txt(a).find((t) => /^v=spf1/i.test(t));
-  const dmarcRec = txt(b).find((t) => /v=DMARC1/i.test(t));
-  // exclude a null MX (RFC 7505: "0 .") — it declares the domain receives no mail
-  const mxCount = c && c.Answer ? c.Answer.filter((x) => x.type === 15 && String(x.data).replace(/^\d+\s+/, "").replace(/\.$/, "") !== "").length : 0;
+async function run(opts = {}) {
+  const ROOT = opts.root || DEFAULT_ROOT;
+  const OBS = path.join(ROOT, "observatory");
+  const HIST = path.join(OBS, "history");
+  const out = opts.log || ((s) => process.stdout.write(s));
+  const clock = opts.clock || (() => new Date());
 
-  let s = 0, spfQual = "none", dmarc = "none";
-  if (spf) { spfQual = spf.indexOf("-all") > -1 ? "-all" : (spf.indexOf("~all") > -1 ? "~all" : "soft"); s += spfQual === "-all" ? 25 : (spfQual === "~all" ? 18 : 10); }
-  if (dmarcRec) { dmarc = ((dmarcRec.match(/p=([a-z]+)/i) || [])[1] || "none").toLowerCase(); s += dmarc === "reject" ? 25 : (dmarc === "quarantine" ? 20 : 10); }
-  if (mxCount) s += 25;
-
-  const score = Math.round((s / 75) * 100);
-  return { score, grade: grade(score), dmarc, spf: spf ? spfQual : "none", mx: mxCount > 0 };
-}
-
-async function main() {
   const cfg = JSON.parse(fs.readFileSync(path.join(OBS, "domains.json"), "utf8"));
   const list = [];
   for (const cat of cfg.categories) for (const d of cat.domains) list.push({ domain: d, category: cat.name });
+  // read (and fail on) the catalog before measuring, so a bad catalog cannot
+  // surface only after latest.json/history were already replaced
+  const catPath = path.join(ROOT, "catalog.json");
+  const cat = JSON.parse(fs.readFileSync(catPath, "utf8"));
 
   // previous snapshot for deltas
   let prev = null;
@@ -84,26 +71,29 @@ async function main() {
   const prevScore = {};
   if (prev && Array.isArray(prev.domains)) for (const p of prev.domains) prevScore[p.domain] = p.score;
 
-  const now = new Date();
+  const now = clock();
   const measuredDate = now.toISOString().slice(0, 10);
 
   const domains = [];
-  let ok = 0, failed = 0;
+  const failed = [];
   for (const item of list) {
     try {
-      const m = await measure(item.domain);
+      const m = await core.measure(item.domain, { transport: opts.transport, retryDelayMs: opts.retryDelayMs, clock });
       const ps = item.domain in prevScore ? prevScore[item.domain] : null;
       domains.push({ domain: item.domain, category: item.category, score: m.score, grade: m.grade,
-        dmarc: m.dmarc, spf: m.spf, mx: m.mx, prevScore: ps, delta: ps == null ? null : m.score - ps });
-      ok++;
-      process.stdout.write(`  ${item.domain.padEnd(18)} ${m.grade.padEnd(2)} ${String(m.score).padStart(3)}  DMARC ${m.dmarc}\n`);
+        dmarc: m.dmarc, spf: m.spf, mx: m.mx, prevScore: ps, delta: ps == null ? null : m.score - ps,
+        evidence: m.evidence });
+      out(`  ${item.domain.padEnd(18)} ${m.grade.padEnd(2)} ${String(m.score).padStart(3)}  DMARC ${m.dmarc}\n`);
     } catch (e) {
-      failed++;
-      process.stdout.write(`  ${item.domain.padEnd(18)} ERROR ${e.message}\n`);
+      failed.push({ domain: item.domain, kind: e.kind || "error", message: e.message });
+      out(`  ${item.domain.padEnd(18)} ERROR [${e.kind || "error"}] ${e.message}\n`);
     }
   }
 
-  if (failed) { console.error(`\nAborting: ${failed} domain(s) failed to measure — not writing a partial record.`); process.exit(1); }
+  if (failed.length) {
+    out(`\nAborting: ${failed.length} domain(s) failed to measure — not writing a partial record. Existing files left unchanged.\n`);
+    return { ok: false, failed, wrote: [] };
+  }
 
   const counts = {
     domains: domains.length,
@@ -124,26 +114,39 @@ async function main() {
     domains,
   };
 
-  fs.mkdirSync(HIST, { recursive: true });
-  fs.writeFileSync(path.join(OBS, "latest.json"), JSON.stringify(latest, null, 2) + "\n");
-  // compact daily archive (idempotent per day)
+  const audit = core.auditRecord(latest, list.map((x) => x.domain));
+  if (audit.length) {
+    out(`\nAborting: assembled record failed its audit — nothing written.\n` + audit.map((m) => "  ✗ " + m + "\n").join(""));
+    return { ok: false, failed: audit.map((m) => ({ domain: null, kind: "audit", message: m })), wrote: [] };
+  }
+
+  // compact daily archive (format unchanged; idempotent per day)
   const snap = { measuredDate, generated: now.toISOString(), counts,
     scores: Object.fromEntries(domains.map((d) => [d.domain, { score: d.score, grade: d.grade, dmarc: d.dmarc }])) };
-  fs.writeFileSync(path.join(HIST, measuredDate + ".json"), JSON.stringify(snap, null, 2) + "\n");
 
+  // rename order matters: history, then catalog, then latest.json last, so
+  // latest.json is the commit point (see core.auditPublication)
+  const files = [[path.join(HIST, measuredDate + ".json"), JSON.stringify(snap, null, 2) + "\n"]];
   // keep the citable catalog in sync: its observatory version tracks the
   // measuredDate, which verify.js enforces field-for-field.
-  const catPath = path.join(ROOT, "catalog.json");
-  const cat = JSON.parse(fs.readFileSync(catPath, "utf8"));
   const obs = cat.datasets.find((d) => d.id === "observatory");
   if (obs && (obs.version !== measuredDate || cat.generated !== measuredDate)) {
     obs.version = measuredDate;
     cat.generated = measuredDate;
-    fs.writeFileSync(catPath, JSON.stringify(cat, null, 2) + "\n");
-    console.log(`synced catalog.json observatory version -> ${measuredDate}`);
+    files.push([catPath, JSON.stringify(cat, null, 2) + "\n"]);
   }
+  files.push([path.join(OBS, "latest.json"), JSON.stringify(latest, null, 2) + "\n"]);
 
-  console.log(`\nmeasured ${ok} domains — armored ${counts.armored}, DMARC reject ${counts.dmarcReject}, exposed ${counts.exposed}`);
-  console.log(`wrote observatory/latest.json + observatory/history/${measuredDate}.json`);
+  fs.mkdirSync(HIST, { recursive: true });
+  stageAndCommit(files);
+  if (files.some(([p]) => p === catPath)) out(`synced catalog.json observatory version -> ${measuredDate}\n`);
+  out(`\nmeasured ${domains.length} domains — armored ${counts.armored}, DMARC reject ${counts.dmarcReject}, exposed ${counts.exposed}\n`);
+  out(`wrote observatory/latest.json + observatory/history/${measuredDate}.json\n`);
+  return { ok: true, failed: [], wrote: files.map(([p]) => path.relative(ROOT, p)) };
 }
-main().catch((e) => { console.error("observe failed:", e); process.exit(1); });
+
+module.exports = { run };
+
+if (require.main === module) {
+  run().then((r) => process.exit(r.ok ? 0 : 1), (e) => { console.error("observe failed:", e); process.exit(1); });
+}

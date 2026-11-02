@@ -15,3 +15,5 @@ jobs:
           node-version: "20"
       - name: Run the deterministic quality gate
         run: node scripts/verify.js
+      - name: Run the offline Observatory measurement tests
+        run: node --test scripts/test/observatory.test.js
