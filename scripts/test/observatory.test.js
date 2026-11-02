@@ -449,3 +449,81 @@ test("archive: a failed week-2 run leaves week 1 history, evidence and latest un
   assert.deepEqual(core.auditObservatoryTree(dir, readJ(dir, "observatory/latest.json")).fails, []);
   fs.rmSync(dir, { recursive: true });
 });
+
+// =========================================================================
+// 11. publication step: exhausted push retries must fail the workflow
+// The commit step is extracted verbatim from observe.yml and executed with
+// `bash -e` (GitHub's default run shell) against a stub git; no real git or
+// network is involved.
+// =========================================================================
+const { spawnSync } = require("child_process");
+function commitStep() {
+  const lines = fs.readFileSync(path.join(ROOT, ".github/workflows/observe.yml"), "utf8").split("\n");
+  const at = lines.findIndex((l) => /- name: Commit the refreshed record/.test(l));
+  assert.ok(at > 0, "commit step not found in observe.yml");
+  const run = lines.findIndex((l, i) => i > at && /^\s+run: \|\s*$/.test(l));
+  const indent = lines[run + 1].match(/^\s*/)[0];
+  const body = [];
+  for (let i = run + 1; i < lines.length && (lines[i].startsWith(indent) || lines[i].trim() === ""); i++) body.push(lines[i].slice(indent.length));
+  return body.join("\n");
+}
+function runCommitStep(env) {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "obs-push-"));
+  fs.mkdirSync(path.join(dir, "bin"));
+  fs.writeFileSync(path.join(dir, "bin/git"), `#!/bin/bash
+echo "$*" >> "$STUB_DIR/calls"
+case "$1" in
+  diff) [ -n "$NO_CHANGE" ] && exit 0 || exit 1 ;;
+  push) n=$(( $(cat "$STUB_DIR/pushes" 2>/dev/null || echo 0) + 1 )); echo $n > "$STUB_DIR/pushes"
+        if [ "$PUSH_FAILS" = always ] || [ "$n" -le "\${PUSH_FAILS:-0}" ]; then echo "! [rejected] stub" >&2; exit 1; fi; exit 0 ;;
+  pull) [ -n "$PULL_FAIL" ] && { echo "CONFLICT stub" >&2; exit 1; }; exit 0 ;;
+  rev-parse) echo stub ;;
+esac
+exit 0
+`);
+  fs.writeFileSync(path.join(dir, "bin/sleep"), "#!/bin/sh\nexit 0\n");
+  fs.chmodSync(path.join(dir, "bin/git"), 0o755); fs.chmodSync(path.join(dir, "bin/sleep"), 0o755);
+  fs.writeFileSync(path.join(dir, "step.sh"), commitStep());
+  const r = spawnSync("bash", ["-e", path.join(dir, "step.sh")], { cwd: dir, encoding: "utf8",
+    env: { ...process.env, ...env, STUB_DIR: dir, PATH: path.join(dir, "bin") + path.delimiter + process.env.PATH } });
+  const calls = fs.existsSync(path.join(dir, "calls")) ? fs.readFileSync(path.join(dir, "calls"), "utf8").trim().split("\n") : [];
+  fs.rmSync(dir, { recursive: true });
+  return { status: r.status, out: r.stdout + r.stderr, pushes: calls.filter((c) => c.startsWith("push")).length,
+    pulls: calls.filter((c) => c.startsWith("pull")).length, calls };
+}
+
+test("publish: every push attempt rejected -> step exits nonzero with an error", () => {
+  const r = runCommitStep({ PUSH_FAILS: "always" });
+  assert.notEqual(r.status, 0, r.out);
+  assert.equal(r.pushes, 4);
+  assert.equal(r.pulls, 3, "no pointless rebase after the final attempt");
+  assert.match(r.out, /::error::Measurement commit was NOT pushed after 4 attempts/);
+  assert.doesNotMatch(r.out, /Published measurement commit/);
+});
+
+test("publish: rejected twice, then accepted -> step succeeds and reports publication", () => {
+  const r = runCommitStep({ PUSH_FAILS: "2" });
+  assert.equal(r.status, 0, r.out);
+  assert.equal(r.pushes, 3); assert.equal(r.pulls, 2);
+  assert.match(r.out, /Published measurement commit/);
+});
+
+test("publish: first push accepted -> step succeeds without rebasing", () => {
+  const r = runCommitStep({});
+  assert.equal(r.status, 0, r.out);
+  assert.equal(r.pushes, 1); assert.equal(r.pulls, 0);
+});
+
+test("publish: rebase conflict while retrying -> step exits nonzero, nothing reported as published", () => {
+  const r = runCommitStep({ PUSH_FAILS: "always", PULL_FAIL: "1" });
+  assert.notEqual(r.status, 0, r.out);
+  assert.equal(r.pushes, 1);
+  assert.doesNotMatch(r.out, /Published measurement commit/);
+});
+
+test("publish: no change in measurements -> exits 0 without committing or pushing", () => {
+  const r = runCommitStep({ NO_CHANGE: "1" });
+  assert.equal(r.status, 0, r.out);
+  assert.match(r.out, /nothing to commit/);
+  assert.ok(!r.calls.some((c) => /^(commit|push)/.test(c)), r.calls.join(","));
+});
