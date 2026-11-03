@@ -1,44 +1,51 @@
 name: observatory
 
 # Weekly server-side measurement of the Observatory domain set.
-# Produces a dated, machine-readable record (observatory/latest.json) and an
-# immutable daily archive (observatory/history/<date>.json), committed to the
-# default branch so GitHub Pages serves the fresh record.
+# Produces a dated, machine-readable record (observatory/latest.json), an
+# immutable snapshot (observatory/history/<date>.json) and its evidence sidecar
+# (observatory/evidence/<date>.json), published to the default branch, which
+# GitHub Pages serves.
 #
-# Publication integrity: the job fails (nonzero) unless the measurement commit
-# was actually pushed, and a commit rebased during a push retry is pushed only
-# after verify.js and the offline tests pass again on the rebased tree.
-# scripts/test/observatory.test.js executes the commit step below verbatim
-# against a stub git and node to prove both.
+# Publication architecture (Issue #44): this job never pushes to the base
+# branch. scripts/publish-measurement.js commits the measurement to
+# observatory/<date>-<run id>, opens a PR with a GitHub App installation token,
+# waits for "verify" (verify.yml) and the trusted "publication-policy" status
+# (publication-policy.yml, evaluated from the default branch) on the exact head
+# SHA, merges pinned to that SHA, then requires the deployed latest.json to be
+# byte-identical to the merged one. The base-branch ruleset enforces the same
+# checks with no bypass actors. Any failure exits nonzero; nothing is reported
+# as published unless it is live.
 #
-# Required status checks vs. this direct push (documentation only; no settings
-# are changed by this file):
-#  - This job pushes straight to main with GITHUB_TOKEN. Commits pushed with
-#    GITHUB_TOKEN do not trigger other workflows, so verify.yml never runs on
-#    them; the equivalent gate is the in-job sequence above the commit step
-#    (offline tests -> observe.js -> verify.js), which must all pass first.
-#  - If main later requires the "verify" status check (branch protection or a
-#    ruleset), that rule would reject this push, because no check can exist on
-#    a commit before it is pushed. Two compatible ways to adopt it:
-#    (a) Ruleset with a narrow bypass: require "verify" for everyone else, and
-#        let only this job's identity bypass it. Use a dedicated identity, a
-#        GitHub App installation token or deploy key on the ruleset's bypass
-#        list, rather than GITHUB_TOKEN, so the bypass covers this job alone;
-#        the in-job gate stays mandatory for that identity.
-#    (b) No bypass: push the measurement to a dated branch and open a PR that
-#        auto-merges once "verify" passes. That PR must be created with an App
-#        token (not GITHUB_TOKEN), otherwise verify.yml is never triggered and
-#        the PR can never merge. Publication is then delayed by the CI run.
-#  - Either way, keep verify.yml's job name "verify" stable: required checks
-#    match by check name.
+# Why an App token: commits/PRs made with GITHUB_TOKEN do not trigger other
+# workflows, so verify.yml and publication-policy.yml would never run, and
+# GitHub's Pages docs state GITHUB_TOKEN pushes do not trigger a Pages build.
+# GITHUB_TOKEN here is read-only.
+#
+# Review boundary: the ruleset requires 0 approvals so automated publication
+# can merge. That means NO independent human review is enforced for any PR,
+# human or automated. Automated PRs are constrained by publication-policy
+# instead; human PRs rely on the author's own review plus "verify".
+#
+# Platform prerequisite (not a ruleset): publication-policy.yml uses
+# pull_request_target, which GitHub blocks by default in public repositories
+# from 2026-12-02 (brownouts 2026-11-09 and 2026-11-16, 16:00-18:00 UTC) unless
+# a repository Actions event policy allows it for that workflow file. Without
+# it, the policy status never appears and publication fails closed.
 
 on:
   schedule:
-    - cron: "17 6 * * 1" # every Monday 06:17 UTC
+    - cron: "17 6 * * 1" # every Monday 06:17 UTC (GitHub may start it hours later)
   workflow_dispatch:
+    inputs:
+      base:
+        description: "Publish into: main (production) or observatory-canary (canary test; no Pages check)"
+        required: true
+        default: main
+        type: choice
+        options: [main, observatory-canary]
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: observatory
@@ -48,13 +55,41 @@ jobs:
   measure:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Require the publication App credentials
+        env:
+          CLIENT_ID: ${{ vars.OBSERVATORY_APP_CLIENT_ID }}
+          HAS_KEY: ${{ secrets.OBSERVATORY_APP_PRIVATE_KEY != '' }}
+        run: |
+          if [ -z "$CLIENT_ID" ] || [ "$HAS_KEY" != "true" ]; then
+            echo "::error::OBSERVATORY_APP_CLIENT_ID / OBSERVATORY_APP_PRIVATE_KEY are not configured; refusing to measure without a way to publish."
+            exit 1
+          fi
+
+      - name: Mint a short-lived App installation token for this repository only
+        id: app
+        # v3.3.0, an immutable release; SHA verified against the release page
+        uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510
+        with:
+          client-id: ${{ vars.OBSERVATORY_APP_CLIENT_ID }}
+          private-key: ${{ secrets.OBSERVATORY_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: ${{ github.event.repository.name }}
+          # down-scope the token to exactly what publish-measurement.js uses
+          permission-contents: write
+          permission-pull-requests: write
+          permission-checks: read
+          permission-statuses: read
+          permission-pages: read
+
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4, as resolved in this repo's runs
+        with:
+          token: ${{ steps.app.outputs.token }}
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4, as resolved in this repo's runs
         with:
           node-version: "20"
 
-      - name: Run the offline Observatory measurement tests
-        run: node --test scripts/test/observatory.test.js
+      - name: Run the offline Observatory tests
+        run: node --test scripts/test/observatory.test.js scripts/test/publication.test.js
 
       - name: Measure the domain set over public DNS
         run: node scripts/observe.js
@@ -62,33 +97,11 @@ jobs:
       - name: Verify the record is well-formed
         run: node scripts/verify.js
 
-      - name: Commit the refreshed record
-        run: |
-          if git diff --quiet -- observatory/latest.json observatory/history observatory/evidence catalog.json && [ -z "$(git ls-files --others --exclude-standard -- observatory/evidence)" ]; then
-            echo "No change in measurements — nothing to commit."
-            exit 0
-          fi
-          git config user.name "spamcrackers-observatory[bot]"
-          git config user.email "observatory@spamcrackers.com"
-          git add observatory/latest.json observatory/history observatory/evidence catalog.json
-          git commit -m "Observatory: weekly measurement $(date -u +%Y-%m-%d)"
-          pushed=0
-          for i in 1 2 3 4; do
-            if git push; then pushed=1; break; fi
-            echo "push failed (attempt $i of 4)"
-            [ "$i" -lt 4 ] || break
-            sleep $((2 ** i))
-            git pull --rebase --autostash
-            # the rebased commit is a new, unverified tree: gate it again,
-            # immediately before the next push attempt
-            echo "Rebased onto origin; re-verifying $(git rev-parse --short HEAD) before pushing."
-            if ! node scripts/verify.js || ! node --test scripts/test/observatory.test.js; then
-              echo "::error::Rebased measurement commit failed re-verification; it was NOT pushed."
-              exit 1
-            fi
-          done
-          if [ "$pushed" -ne 1 ]; then
-            echo "::error::Measurement commit was NOT pushed after 4 attempts; the record is not published."
-            exit 1
-          fi
-          echo "Published measurement commit $(git rev-parse --short HEAD) to $(git rev-parse --abbrev-ref HEAD)."
+      - name: Publish through a verified pull request
+        env:
+          GH_TOKEN: ${{ steps.app.outputs.token }}
+          PUBLISH_BASE: ${{ inputs.base || 'main' }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          BOT_NAME: ${{ steps.app.outputs.app-slug }}[bot]
+        run: node scripts/publish-measurement.js
