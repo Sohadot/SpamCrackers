@@ -199,10 +199,30 @@ test("rubric: every published score in latest.json + all history is reachable by
 // 6. end-to-end run(): aborts leave every file byte-identical
 // =========================================================================
 const sha = (p) => crypto.createHash("sha256").update(fs.readFileSync(p)).digest("hex");
+// Frozen legacy baseline, independent of whatever the live record currently is
+// (tests also run after real measurements: before measuring, and again after a
+// publication retry rebase). Built from the immutable legacy snapshot
+// history/<EVIDENCE_REQUIRED_AFTER>.json; later live files are never copied in.
+function legacyBaseline() {
+  const cut = core.EVIDENCE_REQUIRED_AFTER;
+  const snap = JSON.parse(fs.readFileSync(path.join(ROOT, "observatory/history", cut + ".json"), "utf8"));
+  const cfg = JSON.parse(fs.readFileSync(path.join(ROOT, "observatory/domains.json"), "utf8"));
+  const domains = cfg.categories.flatMap((c) => c.domains.map((d) => ({ domain: d, category: c.name,
+    score: snap.scores[d].score, grade: snap.scores[d].grade, dmarc: snap.scores[d].dmarc, prevScore: null, delta: null })));
+  return { standard: "SpamCrackers Standard v1.0", generated: snap.generated, measuredDate: cut, previous: null, counts: snap.counts, domains };
+}
 function sandbox() {
+  const cut = core.EVIDENCE_REQUIRED_AFTER;
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), "obs-test-"));
-  fs.cpSync(path.join(ROOT, "observatory"), path.join(dir, "observatory"), { recursive: true });
-  fs.copyFileSync(path.join(ROOT, "catalog.json"), path.join(dir, "catalog.json"));
+  fs.mkdirSync(path.join(dir, "observatory/history"), { recursive: true });
+  fs.copyFileSync(path.join(ROOT, "observatory/domains.json"), path.join(dir, "observatory/domains.json"));
+  for (const n of fs.readdirSync(path.join(ROOT, "observatory/history")))
+    if (/^\d{4}-\d{2}-\d{2}\.json$/.test(n) && n.slice(0, 10) <= cut)
+      fs.copyFileSync(path.join(ROOT, "observatory/history", n), path.join(dir, "observatory/history", n));
+  fs.writeFileSync(path.join(dir, "observatory/latest.json"), JSON.stringify(legacyBaseline(), null, 2) + "\n");
+  const cat = JSON.parse(fs.readFileSync(path.join(ROOT, "catalog.json"), "utf8"));
+  cat.datasets.find((d) => d.id === "observatory").version = cut; cat.generated = cut;
+  fs.writeFileSync(path.join(dir, "catalog.json"), JSON.stringify(cat, null, 2) + "\n");
   return dir;
 }
 function snapshot(dir) {
@@ -302,7 +322,7 @@ for (const [label, mut, re] of tamper) {
   });
 }
 
-test("audit: the committed legacy latest.json (no evidence) is accepted as legacy", () => {
+test("audit: the committed latest.json passes the record audit (legacy or evidence era)", () => {
   const rec = JSON.parse(fs.readFileSync(path.join(ROOT, "observatory/latest.json"), "utf8"));
   const canon = JSON.parse(fs.readFileSync(path.join(ROOT, "observatory/domains.json"), "utf8")).categories.flatMap((c) => c.domains);
   assert.deepEqual(core.auditRecord(rec, canon), []);
@@ -312,8 +332,8 @@ test("audit: the committed legacy latest.json (no evidence) is accepted as legac
 // 8. legacy -> mandatory-evidence transition
 // =========================================================================
 test("transition: a legacy (evidence-less) record dated after the cutoff is rejected", () => {
-  const rec = JSON.parse(fs.readFileSync(path.join(ROOT, "observatory/latest.json"), "utf8"));
-  assert.ok(rec.measuredDate <= core.EVIDENCE_REQUIRED_AFTER, "committed record is within the legacy window");
+  const rec = legacyBaseline();
+  assert.deepEqual(core.auditRecord(rec, null), [], "the frozen legacy record is valid inside the legacy window");
   rec.measuredDate = "2026-11-09";
   const f = core.auditRecord(rec, null);
   assert.ok(f.some((m) => /evidence is mandatory/.test(m)), JSON.stringify(f));
@@ -481,15 +501,43 @@ case "$1" in
 esac
 exit 0
 `);
+  // stub node: stands in for the post-rebase gate (verify.js, offline tests)
+  fs.writeFileSync(path.join(dir, "bin/node"), `#!/bin/bash
+echo "node $*" >> "$STUB_DIR/calls"
+if [ "$1" = scripts/verify.js ]; then
+  v=$(( $(cat "$STUB_DIR/verifies" 2>/dev/null || echo 0) + 1 )); echo $v > "$STUB_DIR/verifies"
+  { [ -n "$VERIFY_FAIL" ] || [ "$v" = "\${VERIFY_FAIL_ON:-0}" ]; } && { echo "FAIL stub verify" >&2; exit 1; }
+fi
+[ "$1" = --test ] && [ -n "$TESTS_FAIL" ] && { echo "not ok stub test" >&2; exit 1; }
+exit 0
+`);
   fs.writeFileSync(path.join(dir, "bin/sleep"), "#!/bin/sh\nexit 0\n");
-  fs.chmodSync(path.join(dir, "bin/git"), 0o755); fs.chmodSync(path.join(dir, "bin/sleep"), 0o755);
+  for (const b of ["git", "node", "sleep"]) fs.chmodSync(path.join(dir, "bin", b), 0o755);
   fs.writeFileSync(path.join(dir, "step.sh"), commitStep());
   const r = spawnSync("bash", ["-e", path.join(dir, "step.sh")], { cwd: dir, encoding: "utf8",
     env: { ...process.env, ...env, STUB_DIR: dir, PATH: path.join(dir, "bin") + path.delimiter + process.env.PATH } });
   const calls = fs.existsSync(path.join(dir, "calls")) ? fs.readFileSync(path.join(dir, "calls"), "utf8").trim().split("\n") : [];
   fs.rmSync(dir, { recursive: true });
+  const ops = calls.filter((c) => /^(push|pull|commit|node )/.test(c)); // ordered publication-relevant calls
   return { status: r.status, out: r.stdout + r.stderr, pushes: calls.filter((c) => c.startsWith("push")).length,
-    pulls: calls.filter((c) => c.startsWith("pull")).length, calls };
+    pulls: calls.filter((c) => c.startsWith("pull")).length,
+    verifies: calls.filter((c) => c === "node scripts/verify.js").length,
+    testRuns: calls.filter((c) => c === "node --test scripts/test/observatory.test.js").length, calls, ops };
+}
+// Invariant: every push after the first is preceded, since the last rebase, by
+// a passing verify.js AND offline-test run (the stub only reaches the next
+// call if the previous one passed, because the step stops on failure).
+function assertEveryRetryReverified(ops) {
+  let sinceRebase = null;
+  for (const op of ops) {
+    if (op.startsWith("pull")) sinceRebase = [];
+    else if (op.startsWith("node ")) { if (sinceRebase) sinceRebase.push(op); }
+    else if (op === "push" && sinceRebase) {
+      assert.deepEqual(sinceRebase, ["node scripts/verify.js", "node --test scripts/test/observatory.test.js"],
+        "push after a rebase without re-verification: " + ops.join(" | "));
+      sinceRebase = null;
+    }
+  }
 }
 
 test("publish: every push attempt rejected -> step exits nonzero with an error", () => {
@@ -497,6 +545,8 @@ test("publish: every push attempt rejected -> step exits nonzero with an error",
   assert.notEqual(r.status, 0, r.out);
   assert.equal(r.pushes, 4);
   assert.equal(r.pulls, 3, "no pointless rebase after the final attempt");
+  assert.equal(r.verifies, 3); assert.equal(r.testRuns, 3);
+  assertEveryRetryReverified(r.ops);
   assert.match(r.out, /::error::Measurement commit was NOT pushed after 4 attempts/);
   assert.doesNotMatch(r.out, /Published measurement commit/);
 });
@@ -505,6 +555,8 @@ test("publish: rejected twice, then accepted -> step succeeds and reports public
   const r = runCommitStep({ PUSH_FAILS: "2" });
   assert.equal(r.status, 0, r.out);
   assert.equal(r.pushes, 3); assert.equal(r.pulls, 2);
+  assert.equal(r.verifies, 2); assert.equal(r.testRuns, 2);
+  assertEveryRetryReverified(r.ops);
   assert.match(r.out, /Published measurement commit/);
 });
 
@@ -512,6 +564,7 @@ test("publish: first push accepted -> step succeeds without rebasing", () => {
   const r = runCommitStep({});
   assert.equal(r.status, 0, r.out);
   assert.equal(r.pushes, 1); assert.equal(r.pulls, 0);
+  assert.equal(r.verifies, 0, "no rebase -> commit was already gated before the step"); assert.equal(r.testRuns, 0);
 });
 
 test("publish: rebase conflict while retrying -> step exits nonzero, nothing reported as published", () => {
@@ -526,4 +579,45 @@ test("publish: no change in measurements -> exits 0 without committing or pushin
   assert.equal(r.status, 0, r.out);
   assert.match(r.out, /nothing to commit/);
   assert.ok(!r.calls.some((c) => /^(commit|push)/.test(c)), r.calls.join(","));
+});
+
+// ---- Issue #43: a rebased commit must be re-verified before it is pushed ----
+test("publish: successful rebase -> verify.js and offline tests run on the rebased tree, then push", () => {
+  const r = runCommitStep({ PUSH_FAILS: "1" });
+  assert.equal(r.status, 0, r.out);
+  assert.match(r.ops[0], /^commit -m Observatory: weekly measurement \d{4}-\d{2}-\d{2}$/);
+  assert.deepEqual(r.ops.slice(1),
+    ["push", "pull --rebase --autostash", "node scripts/verify.js", "node --test scripts/test/observatory.test.js", "push"]);
+  assert.match(r.out, /re-verifying stub before pushing/);
+  assert.match(r.out, /Published measurement commit/);
+});
+
+test("publish: post-rebase verify.js fails -> nonzero exit, rebased commit never pushed", () => {
+  const r = runCommitStep({ PUSH_FAILS: "1", VERIFY_FAIL: "1" });
+  assert.notEqual(r.status, 0, r.out);
+  assert.equal(r.pushes, 1, "only the original, pre-rebase push attempt may happen");
+  assert.equal(r.ops[r.ops.length - 1], "node scripts/verify.js", "nothing runs after the failed verification");
+  assert.equal(r.testRuns, 0);
+  assert.match(r.out, /::error::Rebased measurement commit failed re-verification; it was NOT pushed\./);
+  assert.doesNotMatch(r.out, /Published measurement commit/);
+});
+
+test("publish: post-rebase offline tests fail -> nonzero exit, rebased commit never pushed", () => {
+  const r = runCommitStep({ PUSH_FAILS: "1", TESTS_FAIL: "1" });
+  assert.notEqual(r.status, 0, r.out);
+  assert.equal(r.pushes, 1);
+  assert.deepEqual(r.ops.slice(-3), ["pull --rebase --autostash", "node scripts/verify.js", "node --test scripts/test/observatory.test.js"]);
+  assert.match(r.out, /::error::Rebased measurement commit failed re-verification/);
+  assert.doesNotMatch(r.out, /Published measurement commit/);
+});
+
+test("publish: verification fails on a later retry -> stops there, no further push", () => {
+  // first rebase verifies cleanly, push is rejected again, second rebase fails
+  // verification: exactly 2 pushes, and the failing tree is never pushed
+  const r = runCommitStep({ PUSH_FAILS: "always", VERIFY_FAIL_ON: "2" });
+  assert.notEqual(r.status, 0, r.out);
+  assert.equal(r.pushes, 2);
+  assert.equal(r.verifies, 2); assert.equal(r.testRuns, 1);
+  assert.equal(r.ops[r.ops.length - 1], "node scripts/verify.js");
+  assert.doesNotMatch(r.out, /Published measurement commit/);
 });
