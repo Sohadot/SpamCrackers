@@ -1,0 +1,53 @@
+name: publication-policy
+
+# Trusted publication-policy check (Issue #44).
+#
+# Posts the commit status "publication-policy" on the exact PR head SHA it
+# evaluated. Automated Observatory publication PRs pass only if they change
+# nothing but the approved measurement artifacts (scripts/publication-policy.js);
+# human PRs pass and go through normal review plus the "verify" check.
+#
+# Security model (GitHub Actions hardening guidance for pull_request_target):
+#  - pull_request_target runs THIS file and the checked-out code from the
+#    default branch, so a PR cannot modify the workflow or policy evaluating it.
+#  - The PR head is NEVER checked out, built or executed. Its file list and
+#    file contents are read through the REST API as data (JSON.parse only).
+#  - No PR-controlled string is interpolated into a shell command; values are
+#    passed through env and handled by Node.
+#  - Minimal token: read-only except statuses: write (to post the result).
+#    persist-credentials: false keeps the token out of .git/config.
+#  - No caches, no artifacts, no secrets.
+
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened, edited, ready_for_review]
+
+permissions:
+  contents: read
+  pull-requests: read
+  actions: read
+  statuses: write
+
+concurrency:
+  group: publication-policy-${{ github.event.pull_request.number }}
+  cancel-in-progress: false
+
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the default branch only (never the PR head)
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4, as resolved in this repo's runs
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4, as resolved in this repo's runs
+        with:
+          node-version: "20"
+      - name: Evaluate the pull request as data and post the status
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          BOT_LOGIN: ${{ vars.OBSERVATORY_APP_BOT_LOGIN }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: node scripts/publication-policy.js
