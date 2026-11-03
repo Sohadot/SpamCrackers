@@ -54,7 +54,7 @@ function scenario(over = {}) {
     authorLogin: "spamcrackers-observatory[bot]", authorType: "Bot", ...(over.pr || {}) };
   const run = over.run === null ? null : { path: ".github/workflows/observe.yml", event: "schedule", status: "in_progress", head_branch: "main", ...(over.run || {}) };
   return evaluate(pr, files, { base: (p) => base[p] ?? null, head: (p) => head[p] ?? null }, run,
-    { botLogin: "spamcrackers-observatory[bot]", defaultBranch: "main" });
+    { botLogin: "spamcrackers-observatory[bot]", defaultBranch: "main", ...(over.enumeration ? { enumeration: over.enumeration } : {}) });
 }
 const plus = (...extra) => [
   { filename: "observatory/latest.json", status: "modified" },
@@ -201,7 +201,7 @@ test("trust: required check names stay stable (ruleset matches by name)", () => 
 const LATEST = Buffer.from(JSON.stringify({ measuredDate: D, generated: "2026-11-09T12:00:00.000Z" }, null, 2) + "\n");
 function fakeWorld(o = {}) {
   const w = {
-    calls: [], gitCalls: [], heads: ["h1"], merged: null, t: 0, closed: false, comments: [],
+    calls: [], gitCalls: [], heads: ["h1"], merged: null, t: 0, closed: false, comments: [], checkReads: {}, compares: [],
     checks: o.checks || (() => ({ verify: [["completed", "success"], ["completed", "success"]], policy: "success" })),
     mergeable: o.mergeable || (() => "clean"),
     mergeImpl: o.merge || ((sha) => ({ merged: true, sha: "m1", _sha: sha })),
@@ -220,12 +220,27 @@ function fakeWorld(o = {}) {
     if (method === "POST" && /\/pulls$/.test(p)) { w.pr = f; return JSON.stringify({ number: 7 }); }
     let m;
     if ((m = p.match(/commits\/([^/]+)\/check-runs/))) {
-      const c = w.checks(m[1], w.t); return JSON.stringify({ check_runs: c.verify.map(([status, conclusion]) => ({ name: "verify", status, conclusion })).concat([{ name: "evaluate", status: "completed", conclusion: "failure" }]) });
+      w.checkReads[m[1]] = (w.checkReads[m[1]] || 0) + 1;
+      const c = w.checks(m[1], w.t, w.checkReads[m[1]]);
+      return JSON.stringify({ check_runs: c.verify.map(([status, conclusion, app, sha]) => ({ name: "verify", status, conclusion,
+        app: { slug: app || "github-actions" }, head_sha: sha || m[1] })).concat([{ name: "evaluate", status: "completed", conclusion: "success", app: { slug: "github-actions" }, head_sha: m[1] }]) });
     }
-    if ((m = p.match(/commits\/([^/]+)\/status$/))) {
-      const c = w.checks(m[1], w.t); return JSON.stringify({ statuses: c.policy ? [{ context: "publication-policy", state: c.policy, description: "x" }] : [] });
+    if ((m = p.match(/commits\/([^/]+)\/statuses/))) {
+      const c = w.checks(m[1], w.t, w.checkReads[m[1]] || 0);
+      const list = c.statuses || (c.policy ? [{ context: "publication-policy", state: c.policy, description: "x", creator: { login: c.policyCreator || "github-actions[bot]" } }] : []);
+      return JSON.stringify(list);
     }
-    if (method === "GET" && /\/pulls\/7$/.test(p)) return JSON.stringify({ head: { sha: head() }, mergeable_state: w.mergeable(head(), w.t) });
+    if (method === "GET" && /\/pulls\/7$/.test(p)) {
+      const r = w.mergeable(head(), w.t);
+      const st = typeof r === "string" ? r : r.state;
+      const mergeable = typeof r === "object" && "mergeable" in r ? r.mergeable : st === "unknown" ? null : ["clean", "has_hooks", "unstable"].includes(st);
+      return JSON.stringify({ state: (typeof r === "object" && r.prState) || "open", draft: typeof r === "object" && !!r.draft,
+        head: { sha: head() }, mergeable_state: st, mergeable });
+    }
+    if ((m = p.match(/compare\/([^.]+)\.\.\.(.+)$/))) {
+      w.compares.push(p);
+      return JSON.stringify({ status: "ahead", behind_by: 0, ...(o.compare ? o.compare(m[2], w.t) : {}) });
+    }
     if (method === "PUT" && /update-branch$/.test(p)) { w.heads.push(`h${w.heads.length + 1}`); return "{}"; }
     if (method === "PUT" && /\/merge$/.test(p)) { const r = w.mergeImpl(f.sha); w.merged = { ...f }; if (r instanceof Error) throw r; return JSON.stringify(r); }
     if (method === "POST" && /comments$/.test(p)) { if (o.commentFails) throw new Error("HTTP 403"); w.comments.push(f.body); return "{}"; }
@@ -251,7 +266,7 @@ function fakeWorld(o = {}) {
   return w;
 }
 const ENV = { GITHUB_REPOSITORY: REPO, GITHUB_RUN_ID: "4242", DEFAULT_BRANCH: "main", RUN_URL: "https://example.invalid/run" };
-const LIM = { interval: 1000, checksTimeout: 60000, pagesTimeout: 30000, liveTimeout: 30000 };
+const LIM = { interval: 1000, checksTimeout: 60000, readyTimeout: 20000, pagesTimeout: 30000, liveTimeout: 30000 };
 
 test("publish: happy path -> PR, both checks, merge pinned to the verified head, deployed bytes match", async () => {
   const w = fakeWorld();
@@ -260,7 +275,7 @@ test("publish: happy path -> PR, both checks, merge pinned to the verified head,
   assert.equal(r.sha256, crypto.createHash("sha256").update(LATEST).digest("hex"));
   assert.deepEqual(w.merged, { sha: "h1", merge_method: "squash", commit_title: `Observatory: weekly measurement ${D} (#7)` });
   assert.deepEqual({ head: w.pr.head, base: w.pr.base }, { head: `observatory/${D}-4242`, base: "main" });
-  assert.ok(w.calls.indexOf("PUT pulls/7/merge") > w.calls.indexOf("GET commits/h1/status"), "merge only after checks");
+  assert.ok(w.calls.indexOf("PUT pulls/7/merge") > w.calls.indexOf("GET commits/h1/statuses?per_page=100"), "merge only after checks");
   assert.equal(w.closed, false);
 });
 
@@ -314,8 +329,8 @@ test("publish: behind -> update branch -> re-verify the NEW head -> merge pinned
   const r = await publish(ENV, w.deps, LIM);
   assert.equal(r.published, true); assert.equal(r.head, "h2");
   assert.equal(w.merged.sha, "h2");
-  assert.ok(w.calls.includes("GET commits/h2/check-runs?per_page=100") && w.calls.includes("GET commits/h2/status"));
-  assert.ok(w.calls.indexOf("GET commits/h2/status") < w.calls.indexOf("PUT pulls/7/merge"));
+  assert.ok(w.calls.includes("GET commits/h2/check-runs?per_page=100") && w.calls.includes("GET commits/h2/statuses?per_page=100"));
+  assert.ok(w.calls.indexOf("GET commits/h2/statuses?per_page=100") < w.calls.indexOf("PUT pulls/7/merge"));
 });
 
 test("publish: updated head that fails policy is never merged", async () => {
@@ -405,7 +420,7 @@ else { process.stderr.write("forbidden call " + p); process.exit(2); }
 }
 const genuineFixture = (files, extraHead = {}) => ({
   pull: { head: { sha: "hs", ref: `observatory/${D}-4242`, repo: { full_name: REPO } }, base: { sha: "bs", repo: { full_name: REPO, default_branch: "main" } },
-    user: { login: "spamcrackers-observatory[bot]", type: "Bot" } },
+    user: { login: "spamcrackers-observatory[bot]", type: "Bot" }, changed_files: files.length },
   files,
   contents: {
     mb: { "observatory/latest.json": JSON.stringify({ measuredDate: BASE_D }), "catalog.json": JSON.stringify(baseCatalog) },
@@ -452,4 +467,161 @@ test("policy CLI: only read endpoints plus one status POST are used", () => {
   assert.deepEqual(writes[0].slice(0, 4), ["api", "-X", "POST", `repos/${REPO}/statuses/hs`]);
   for (const c of r.calls.filter((c) => !c.includes("-X")))
     assert.match(c.find((a) => a.startsWith("repos/")), /\/(pulls\/7|compare\/bs\.\.\.hs\?|contents\/observatory\/|contents\/catalog\.json|actions\/runs\/4242)/);
+});
+
+
+// =========================================================================
+// 6. merge readiness: transient/blocked states, up-to-date proof, check provenance
+// =========================================================================
+const noMerge = (w) => { assert.equal(w.merged, null, "must not attempt the merge"); assert.equal(w.closed, true); };
+
+test("ready: 'unknown' while GitHub computes mergeability, then clean -> merges", async () => {
+  const w = fakeWorld({ mergeable: (h, t) => (t < 3000 ? "unknown" : "clean") });
+  const r = await publish(ENV, w.deps, LIM);
+  assert.equal(r.published, true); assert.equal(w.merged.sha, "h1");
+});
+
+test("ready: 'unknown' forever -> bounded, NOT published", async () => {
+  const w = fakeWorld({ mergeable: () => "unknown" });
+  await assert.rejects(publish(ENV, w.deps, LIM), /NOT published: PR stayed "unknown" for 20s/);
+  noMerge(w);
+});
+
+test("ready: 'blocked' briefly after checks pass (ruleset catching up), then clean -> merges", async () => {
+  const w = fakeWorld({ mergeable: (h, t) => (t < 2000 ? "blocked" : "clean") });
+  assert.equal((await publish(ENV, w.deps, LIM)).published, true);
+});
+
+test("ready: 'blocked' persistently despite green checks -> NOT published", async () => {
+  const w = fakeWorld({ mergeable: () => "blocked" });
+  await assert.rejects(publish(ENV, w.deps, LIM), /PR stayed "blocked"/);
+  noMerge(w);
+});
+
+test("ready: 'clean' but mergeable still null -> waits, then merges when computed", async () => {
+  const w = fakeWorld({ mergeable: (h, t) => ({ state: "clean", mergeable: t < 2000 ? null : true }) });
+  assert.equal((await publish(ENV, w.deps, LIM)).published, true);
+});
+
+for (const [label, state, re] of [
+  ["unstable (a non-required check failing)", "unstable", /mergeable_state unstable/],
+  ["an unrecognised state", "weird", /unexpected mergeable_state "weird"/],
+  ["'clean' with mergeable=false", { state: "clean", mergeable: false }, /unexpected mergeable_state "clean" \(mergeable=false\)/],
+  ["a draft PR", { state: "clean", draft: true }, /PR is a draft/],
+  ["a PR closed by someone else", { state: "clean", prState: "closed" }, /PR is closed, not open/],
+]) {
+  test(`ready: ${label} -> fail closed, NOT published`, async () => {
+    const w = fakeWorld({ mergeable: () => state });
+    await assert.rejects(publish(ENV, w.deps, LIM), re);
+    noMerge(w);
+  });
+}
+
+test("ready: mergeable_state says clean but compare shows the base moved -> update, re-verify, merge NEW head", async () => {
+  const w = fakeWorld({ compare: (sha) => ({ behind_by: sha === "h1" ? 1 : 0 }) });
+  const r = await publish(ENV, w.deps, LIM);
+  assert.equal(r.head, "h2"); assert.equal(w.merged.sha, "h2");
+  assert.ok(w.calls.includes("PUT pulls/7/update-branch"));
+  assert.ok(w.calls.lastIndexOf("GET commits/h2/statuses?per_page=100") < w.calls.indexOf("PUT pulls/7/merge"));
+});
+
+test("ready: the merge is only attempted after a compare proves behind_by == 0 for the exact head", async () => {
+  const w = fakeWorld();
+  await publish(ENV, w.deps, LIM);
+  assert.deepEqual(w.compares, [`repos/${REPO}/compare/main...h1`]);
+  assert.ok(w.calls.indexOf("GET compare/main...h1") < w.calls.indexOf("PUT pulls/7/merge"));
+});
+
+test("ready: compare reports a diverged/identical branch -> NOT published", async () => {
+  const w = fakeWorld({ compare: () => ({ status: "diverged", behind_by: 0 }) });
+  await assert.rejects(publish(ENV, w.deps, LIM), /unexpected comparison with main: diverged/);
+  noMerge(w);
+});
+
+test("checks: a 'verify' check from another app counts as tampering -> NOT published", async () => {
+  const w = fakeWorld({ checks: () => ({ verify: [["completed", "success", "evil-ci"]], policy: "success" }) });
+  await assert.rejects(publish(ENV, w.deps, LIM), /not produced by GitHub Actions for that SHA/);
+  noMerge(w);
+});
+
+test("checks: a stale 'verify' result for a different SHA -> NOT published", async () => {
+  const w = fakeWorld({ checks: () => ({ verify: [["completed", "success", "github-actions", "old-head"]], policy: "success" }) });
+  await assert.rejects(publish(ENV, w.deps, LIM), /not produced by GitHub Actions for that SHA/);
+  noMerge(w);
+});
+
+test("checks: publication-policy status posted by a non-Actions identity -> NOT published", async () => {
+  const w = fakeWorld({ checks: () => ({ verify: [["completed", "success"]], policy: "success", policyCreator: "spamcrackers-observatory[bot]" }) });
+  await assert.rejects(publish(ENV, w.deps, LIM), /publication-policy status .* not posted by GitHub Actions/);
+  noMerge(w);
+});
+
+test("checks: only the NEWEST publication-policy status counts (older success, newer failure)", async () => {
+  const w = fakeWorld({ checks: () => ({ verify: [["completed", "success"]], statuses: [
+    { context: "publication-policy", state: "failure", description: "rejected", creator: { login: "github-actions[bot]" } },
+    { context: "publication-policy", state: "success", description: "old", creator: { login: "github-actions[bot]" } }] }) });
+  await assert.rejects(publish(ENV, w.deps, LIM), /publication-policy is failure/);
+  noMerge(w);
+});
+
+test("checks: a re-run that fails after readiness is caught by the re-confirmation right before merging", async () => {
+  // read #1 (wait for checks) succeeds; read #2 is the pre-merge re-confirmation and sees a failed re-run
+  const w = fakeWorld({ checks: (sha, t, n) => ({ verify: [["completed", n >= 2 ? "failure" : "success"]], policy: "success" }) });
+  await assert.rejects(publish(ENV, w.deps, LIM), /NOT published: verify check concluded "failure"/);
+  noMerge(w);
+});
+
+// =========================================================================
+// 7. policy: file enumeration must be provably complete (fail closed)
+// =========================================================================
+test("policy: automated PR with a truncated file enumeration -> rejected", () => {
+  const r = scenario({ enumeration: { complete: false, expected: 4 } });
+  assert.equal(r.ok, false); assert.ok(r.violations.some((m) => /enumeration truncated/.test(m)));
+});
+
+test("policy: automated PR whose enumerated count differs from the PR's changed_files -> rejected", () => {
+  const r = scenario({ enumeration: { complete: true, expected: 5 } });
+  assert.equal(r.ok, false); assert.ok(r.violations.some((m) => /4 enumerated, PR reports 5/.test(m)));
+});
+
+test("policy: complete enumeration with a matching count is accepted", () => {
+  assert.equal(scenario({ enumeration: { complete: true, expected: 4 } }).ok, true);
+});
+
+test("policy CLI: compare response without a file list -> failure status (fail closed)", () => {
+  const fx = genuineFixture(plus({ filename: "catalog.json", status: "modified" }));
+  fx.files = null; fx.pull.changed_files = 4;
+  const r = runPolicyCli(fx);
+  assert.equal(r.status, 1);
+  assert.equal(field(statusPost(r.calls), "state"), "failure");
+  assert.match(field(statusPost(r.calls), "description"), /incomplete/);
+});
+
+test("policy CLI: PR reports more changed files than the compare enumerated -> failure status", () => {
+  const fx = genuineFixture(plus({ filename: "catalog.json", status: "modified" }));
+  fx.pull.changed_files = 9;
+  const r = runPolicyCli(fx);
+  assert.equal(r.status, 1);
+  assert.equal(field(statusPost(r.calls), "state"), "failure");
+});
+
+// =========================================================================
+// 8. platform prerequisites captured in the repository
+// =========================================================================
+test("platform: publication-policy.yml is the ONLY workflow using pull_request_target", () => {
+  const users = fs.readdirSync(path.join(ROOT, ".github/workflows")).filter((n) => /pull_request_target/.test(code(wf(n))));
+  assert.deepEqual(users, ["publication-policy.yml"]);
+});
+
+test("platform: every action in the publication workflows is pinned to a full commit SHA; App token = verified v3.3.0", () => {
+  for (const n of ["observe.yml", "publication-policy.yml"])
+    for (const m of code(wf(n)).matchAll(/^\s*(?:- )?uses: (\S+)/gm)) assert.match(m[1], /@[0-9a-f]{40}$/, `${n}: ${m[1]}`);
+  assert.match(wf("observe.yml"), /uses: actions\/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510/);
+});
+
+test("platform: the App token is down-scoped to exactly the permissions the publisher uses", () => {
+  const y = code(wf("observe.yml"));
+  const perms = [...y.matchAll(/^\s+permission-([a-z-]+): (\w+)$/gm)].map((m) => `${m[1]}:${m[2]}`).sort();
+  assert.deepEqual(perms, ["checks:read", "contents:write", "pages:read", "pull-requests:write", "statuses:read"]);
+  assert.match(y, /client-id: \$\{\{ vars\.OBSERVATORY_APP_CLIENT_ID \}\}/);
 });

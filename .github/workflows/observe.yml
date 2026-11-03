@@ -20,6 +20,17 @@ name: observatory
 # workflows, so verify.yml and publication-policy.yml would never run, and
 # GitHub's Pages docs state GITHUB_TOKEN pushes do not trigger a Pages build.
 # GITHUB_TOKEN here is read-only.
+#
+# Review boundary: the ruleset requires 0 approvals so automated publication
+# can merge. That means NO independent human review is enforced for any PR,
+# human or automated. Automated PRs are constrained by publication-policy
+# instead; human PRs rely on the author's own review plus "verify".
+#
+# Platform prerequisite (not a ruleset): publication-policy.yml uses
+# pull_request_target, which GitHub blocks by default in public repositories
+# from 2026-12-02 (brownouts 2026-11-09 and 2026-11-16, 16:00-18:00 UTC) unless
+# a repository Actions event policy allows it for that workflow file. Without
+# it, the policy status never appears and publication fails closed.
 
 on:
   schedule:
@@ -46,22 +57,29 @@ jobs:
     steps:
       - name: Require the publication App credentials
         env:
-          APP_ID: ${{ vars.OBSERVATORY_APP_ID }}
+          CLIENT_ID: ${{ vars.OBSERVATORY_APP_CLIENT_ID }}
           HAS_KEY: ${{ secrets.OBSERVATORY_APP_PRIVATE_KEY != '' }}
         run: |
-          if [ -z "$APP_ID" ] || [ "$HAS_KEY" != "true" ]; then
-            echo "::error::OBSERVATORY_APP_ID / OBSERVATORY_APP_PRIVATE_KEY are not configured; refusing to measure without a way to publish."
+          if [ -z "$CLIENT_ID" ] || [ "$HAS_KEY" != "true" ]; then
+            echo "::error::OBSERVATORY_APP_CLIENT_ID / OBSERVATORY_APP_PRIVATE_KEY are not configured; refusing to measure without a way to publish."
             exit 1
           fi
 
       - name: Mint a short-lived App installation token for this repository only
         id: app
-        uses: actions/create-github-app-token@v2 # owner: pin to a reviewed commit SHA before enabling
+        # v3.3.0, an immutable release; SHA verified against the release page
+        uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510
         with:
-          app-id: ${{ vars.OBSERVATORY_APP_ID }}
+          client-id: ${{ vars.OBSERVATORY_APP_CLIENT_ID }}
           private-key: ${{ secrets.OBSERVATORY_APP_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
           repositories: ${{ github.event.repository.name }}
+          # down-scope the token to exactly what publish-measurement.js uses
+          permission-contents: write
+          permission-pull-requests: write
+          permission-checks: read
+          permission-statuses: read
+          permission-pages: read
 
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4, as resolved in this repo's runs
         with:

@@ -33,7 +33,7 @@ const sha256 = (buf) => crypto.createHash("sha256").update(buf).digest("hex");
 class PublishError extends Error {}
 
 async function publish(env, deps, limits = {}) {
-  const L = { interval: 15000, checksTimeout: 20 * 60000, pagesTimeout: 10 * 60000, liveTimeout: 10 * 60000, maxUpdates: 3, ...limits };
+  const L = { interval: 15000, checksTimeout: 20 * 60000, readyTimeout: 5 * 60000, pagesTimeout: 10 * 60000, liveTimeout: 10 * 60000, maxUpdates: 3, ...limits };
   const { gh, git, fetchBytes, sleep, log, readFile, now } = deps;
   const R = env.GITHUB_REPOSITORY;
   const base = env.PUBLISH_BASE || "main";
@@ -58,16 +58,57 @@ async function publish(env, deps, limits = {}) {
     "-f", `body=Automated Observatory publication from ${env.RUN_URL || "the observatory workflow"}.\n\nMerged only after \`verify\` and \`publication-policy\` pass on the exact head SHA.`]).number;
   log(`Opened PR #${pr} (${branch} -> ${base}) at ${head}`);
 
+  // A result only counts if GitHub Actions produced it for this exact SHA. A
+  // "verify" check from any other app, or a publication-policy status posted
+  // by anyone but GitHub Actions, is treated as tampering: fail closed.
+  const checksFor = (sha) => {
+    const runs = json([`repos/${R}/commits/${sha}/check-runs?per_page=100`]).check_runs.filter((c) => c.name === "verify");
+    const alien = runs.find((c) => !c.app || c.app.slug !== "github-actions" || c.head_sha !== sha);
+    if (alien) throw new PublishError(`a "verify" check on ${sha} was not produced by GitHub Actions for that SHA`);
+    const pol = json([`repos/${R}/commits/${sha}/statuses?per_page=100`]).filter((x) => x.context === "publication-policy")[0] || null; // newest first
+    if (pol && (!pol.creator || pol.creator.login !== "github-actions[bot]"))
+      throw new PublishError(`the latest publication-policy status on ${sha} was not posted by GitHub Actions`);
+    const bad = runs.find((c) => c.status === "completed" && c.conclusion !== "success");
+    if (bad) throw new PublishError(`verify check concluded "${bad.conclusion}" on ${sha}`);
+    if (pol && (pol.state === "failure" || pol.state === "error")) throw new PublishError(`publication-policy is ${pol.state} on ${sha}: ${pol.description || ""}`);
+    return runs.length > 0 && runs.every((c) => c.status === "completed") && !!pol && pol.state === "success";
+  };
   const waitForChecks = async (sha) => {
     const deadline = now() + L.checksTimeout;
-    for (;;) {
-      const runs = json([`repos/${R}/commits/${sha}/check-runs?per_page=100`]).check_runs.filter((c) => c.name === "verify");
-      const pol = (json([`repos/${R}/commits/${sha}/status`]).statuses || []).find((s) => s.context === "publication-policy");
-      const bad = runs.find((c) => c.status === "completed" && c.conclusion !== "success");
-      if (bad) throw new PublishError(`verify check concluded "${bad.conclusion}" on ${sha}`);
-      if (pol && (pol.state === "failure" || pol.state === "error")) throw new PublishError(`publication-policy is ${pol.state} on ${sha}: ${pol.description || ""}`);
-      if (runs.length && runs.every((c) => c.status === "completed") && pol && pol.state === "success") return;
+    while (!checksFor(sha)) {
       if (now() >= deadline) throw new PublishError(`timed out waiting for verify + publication-policy on ${sha}`);
+      await sleep(L.interval);
+    }
+  };
+
+  // Merge readiness. GitHub computes mergeability asynchronously, so "unknown"
+  // and a briefly "blocked" PR are polled for a bounded time; every other
+  // non-ready state fails closed. "ready" additionally requires the branch to
+  // contain the base tip (behind_by 0): then the squash result is exactly the
+  // head tree, so the head-SHA checks ARE the checks of what gets merged (not
+  // a stale test-merge commit against an older base).
+  const READY = new Set(["clean", "has_hooks"]);
+  const TRANSIENT = new Set(["unknown", "blocked"]);
+  const waitForMergeable = async (sha) => {
+    const deadline = now() + L.readyTimeout;
+    for (;;) {
+      const pull = json([`repos/${R}/pulls/${pr}`]);
+      const st = pull.mergeable_state;
+      if (pull.state !== "open") throw new PublishError(`PR is ${pull.state}, not open`);
+      if (pull.head.sha !== sha) throw new PublishError(`PR head moved from ${sha} to ${pull.head.sha} outside this job`);
+      if (pull.draft) throw new PublishError("PR is a draft");
+      if (st === "dirty") throw new PublishError("PR conflicts with the base branch");
+      if (st === "behind") return "behind";
+      if (st === "unstable") throw new PublishError("a non-required check is failing on the PR (mergeable_state unstable)");
+      if (READY.has(st) && pull.mergeable === true) {
+        const cmp = json([`repos/${R}/compare/${base}...${sha}`]);
+        if (cmp.behind_by !== 0) return "behind";
+        if (cmp.status !== "ahead") throw new PublishError(`unexpected comparison with ${base}: ${cmp.status}`);
+        return "ready";
+      }
+      if (!TRANSIENT.has(st) && !(READY.has(st) && pull.mergeable === null))
+        throw new PublishError(`unexpected mergeable_state "${st}" (mergeable=${pull.mergeable})`);
+      if (now() >= deadline) throw new PublishError(`PR stayed "${st}" for ${L.readyTimeout / 1000}s after its checks passed`);
       await sleep(L.interval);
     }
   };
@@ -76,10 +117,10 @@ async function publish(env, deps, limits = {}) {
   try {
     for (let updates = 0; ; ) {
       await waitForChecks(head);
-      const pull = json([`repos/${R}/pulls/${pr}`]);
-      if (pull.head.sha !== head) throw new PublishError(`PR head moved from ${head} to ${pull.head.sha} outside this job`);
-      if (pull.mergeable_state === "dirty") throw new PublishError("PR conflicts with the base branch");
-      if (pull.mergeable_state !== "behind") break;
+      if ((await waitForMergeable(head)) === "ready") {
+        if (!checksFor(head)) throw new PublishError(`checks on ${head} are no longer all successful`); // re-confirm right before merging
+        break;
+      }
       if (++updates > L.maxUpdates) throw new PublishError(`base branch kept moving; gave up after ${L.maxUpdates} updates`);
       log(`PR #${pr} is behind ${base}; updating the branch (attempt ${updates}) and re-verifying.`);
       gh(["-X", "PUT", `repos/${R}/pulls/${pr}/update-branch`, "-f", `expected_head_sha=${head}`]);

@@ -45,6 +45,10 @@ function evaluate(pr, files, read, run, opts = {}) {
     pr.authorType === "Bot" || (!!opts.botLogin && pr.authorLogin === opts.botLogin);
   if (!automated) return { automated: false, ok: true, violations: [], date: null };
 
+  // fail closed unless the changed-file list is provably complete
+  if (opts.enumeration && (!opts.enumeration.complete || files.length !== opts.enumeration.expected))
+    v.push(`changed-file list is incomplete (${files.length} enumerated, PR reports ${opts.enumeration.expected}${opts.enumeration.complete ? "" : ", enumeration truncated"})`);
+
   if (pr.headRepo !== pr.baseRepo) v.push(`automated publication must come from ${pr.baseRepo}, not ${pr.headRepo}`);
   const m = BRANCH_RE.exec(pr.headRef || "");
   if (!m) v.push(`branch "${pr.headRef}" is not observatory/<YYYY-MM-DD>-<run id>`);
@@ -119,15 +123,20 @@ function cli() {
     { encoding: "utf8", maxBuffer: 64 * 1024 * 1024, stdio: ["ignore", "pipe", "pipe"] });
   const pull = JSON.parse(gh([`repos/${repo}/pulls/${number}`]));
   const headSha = pull.head.sha;
-  // files changed between the merge base and this exact head SHA
-  let mergeBase = null;
-  const files = [];
-  for (let page = 1; ; page++) {
+  // files changed between the merge base and this exact head SHA; any sign of
+  // truncation marks the enumeration incomplete (evaluate() then fails closed
+  // for automated PRs), and the count must equal the PR's changed_files
+  let mergeBase = null, complete = false;
+  const byName = new Map();
+  for (let page = 1; page <= 10; page++) {
     const p = JSON.parse(gh([`repos/${repo}/compare/${pull.base.sha}...${headSha}?per_page=100&page=${page}`]));
-    mergeBase = mergeBase || p.merge_base_commit.sha;
-    for (const f of p.files || []) files.push({ filename: f.filename, status: f.status, previous_filename: f.previous_filename });
-    if (!p.files || p.files.length < 100) break;
+    mergeBase = mergeBase || (p.merge_base_commit && p.merge_base_commit.sha);
+    if (!Array.isArray(p.files)) break; // files omitted: incomplete
+    const before = byName.size;
+    for (const f of p.files) byName.set(f.filename, { filename: f.filename, status: f.status, previous_filename: f.previous_filename });
+    if (p.files.length < 100 || byName.size === before) { complete = true; break; }
   }
+  const files = [...byName.values()];
   const at = (ref) => (p) => { try { return gh([`repos/${repo}/contents/${p}?ref=${ref}`], true); } catch { return null; } };
   const m = BRANCH_RE.exec(pull.head.ref);
   let run = null;
@@ -136,7 +145,8 @@ function cli() {
     { headRef: pull.head.ref, headRepo: pull.head.repo ? pull.head.repo.full_name : null, baseRepo: pull.base.repo.full_name,
       authorLogin: pull.user.login, authorType: pull.user.type },
     files, { base: at(mergeBase), head: at(headSha) }, run,
-    { botLogin: env.BOT_LOGIN || "", defaultBranch: pull.base.repo.default_branch });
+    { botLogin: env.BOT_LOGIN || "", defaultBranch: pull.base.repo.default_branch,
+      enumeration: { complete: complete && !!mergeBase, expected: pull.changed_files } });
 
   const state = res.ok ? "success" : "failure";
   const desc = !res.automated ? "Not an automated publication: normal review applies."
