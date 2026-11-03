@@ -6,8 +6,10 @@ name: observatory
 # default branch so GitHub Pages serves the fresh record.
 #
 # Publication integrity: the job fails (nonzero) unless the measurement commit
-# was actually pushed. scripts/test/observatory.test.js executes the commit
-# step below verbatim against a stub git to prove it.
+# was actually pushed, and a commit rebased during a push retry is pushed only
+# after verify.js and the offline tests pass again on the rebased tree.
+# scripts/test/observatory.test.js executes the commit step below verbatim
+# against a stub git and node to prove both.
 #
 # Required status checks vs. this direct push (documentation only; no settings
 # are changed by this file):
@@ -75,8 +77,15 @@ jobs:
             if git push; then pushed=1; break; fi
             echo "push failed (attempt $i of 4)"
             [ "$i" -lt 4 ] || break
-            git pull --rebase --autostash
             sleep $((2 ** i))
+            git pull --rebase --autostash
+            # the rebased commit is a new, unverified tree: gate it again,
+            # immediately before the next push attempt
+            echo "Rebased onto origin; re-verifying $(git rev-parse --short HEAD) before pushing."
+            if ! node scripts/verify.js || ! node --test scripts/test/observatory.test.js; then
+              echo "::error::Rebased measurement commit failed re-verification; it was NOT pushed."
+              exit 1
+            fi
           done
           if [ "$pushed" -ne 1 ]; then
             echo "::error::Measurement commit was NOT pushed after 4 attempts; the record is not published."
