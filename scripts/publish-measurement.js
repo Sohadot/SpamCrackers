@@ -96,10 +96,11 @@ async function publish(env, deps, limits = {}) {
     if (!m.merged || !m.sha) throw new PublishError(`merge refused: ${m.message || "unknown"}`);
     mergeSha = m.sha;
   } catch (e) {
-    try {
-      gh(["-X", "POST", `repos/${R}/issues/${pr}/comments`, "-f", `body=Publication aborted, nothing was merged: ${e.message}`]);
-      gh(["-X", "PATCH", `repos/${R}/pulls/${pr}`, "-f", "state=closed"]);
-    } catch (closeErr) { log(`warning: could not close PR #${pr}: ${closeErr.message}`); }
+    // close first; the explanatory comment is best-effort and independent
+    try { gh(["-X", "PATCH", `repos/${R}/pulls/${pr}`, "-f", "state=closed"]); }
+    catch (closeErr) { log(`warning: could not close PR #${pr}: ${closeErr.message}`); }
+    try { gh(["-X", "POST", `repos/${R}/issues/${pr}/comments`, "-f", `body=Publication aborted, nothing was merged: ${e.message}`]); }
+    catch (commentErr) { log(`warning: could not comment on PR #${pr}: ${commentErr.message}`); }
     throw new PublishError(`NOT published: ${e.message}`);
   }
   log(`Merged PR #${pr} at verified head ${head} -> ${mergeSha}`);

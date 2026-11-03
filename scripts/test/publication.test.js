@@ -228,7 +228,7 @@ function fakeWorld(o = {}) {
     if (method === "GET" && /\/pulls\/7$/.test(p)) return JSON.stringify({ head: { sha: head() }, mergeable_state: w.mergeable(head(), w.t) });
     if (method === "PUT" && /update-branch$/.test(p)) { w.heads.push(`h${w.heads.length + 1}`); return "{}"; }
     if (method === "PUT" && /\/merge$/.test(p)) { const r = w.mergeImpl(f.sha); w.merged = { ...f }; if (r instanceof Error) throw r; return JSON.stringify(r); }
-    if (method === "POST" && /comments$/.test(p)) { w.comments.push(f.body); return "{}"; }
+    if (method === "POST" && /comments$/.test(p)) { if (o.commentFails) throw new Error("HTTP 403"); w.comments.push(f.body); return "{}"; }
     if (method === "PATCH" && /\/pulls\/7$/.test(p)) { w.closed = f.state === "closed"; return "{}"; }
     if (/contents\/observatory\/latest\.json\?ref=/.test(p)) { assert.equal(opt && opt.raw, true); return w.expected; }
     if (/pages\/builds\/latest$/.test(p)) return JSON.stringify(w.pages(pagesN++));
@@ -299,6 +299,12 @@ for (const [label, o, re] of preMergeFailures) {
     assert.ok(!w.calls.some((c) => /pages/.test(c)));
   });
 }
+
+test("publish: aborted PR is closed even if the explanatory comment cannot be posted", async () => {
+  const w = fakeWorld({ commentFails: true, checks: () => ({ verify: [["completed", "failure"]], policy: "success" }) });
+  await assert.rejects(publish(ENV, w.deps, LIM), /NOT published: verify check concluded "failure"/);
+  assert.equal(w.closed, true); assert.equal(w.merged, null);
+});
 
 test("publish: behind -> update branch -> re-verify the NEW head -> merge pinned to the new head", async () => {
   const w = fakeWorld({
