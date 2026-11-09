@@ -1,0 +1,1070 @@
+{
+  "measuredDate": "2026-11-09",
+  "generated": "2026-11-09T16:18:38.785Z",
+  "snapshot": "history/2026-11-09.json",
+  "snapshotDigest": "sha256:4ad811b4f81a0341372e4b3d97f9422b7eb0f39cbf3eeac5aff7a1cadf53709c",
+  "counts": {
+    "domains": 24,
+    "armored": 18,
+    "dmarcReject": 18,
+    "exposed": 0
+  },
+  "domains": [
+    {
+      "domain": "google.com",
+      "category": "Email & productivity",
+      "score": 91,
+      "grade": "A",
+      "dmarc": "reject",
+      "spf": "~all",
+      "mx": true,
+      "evidence": {
+        "measuredAt": "2026-11-09T16:18:38.785Z",
+        "resolver": "https://dns.google/resolve",
+        "queries": {
+          "spf": {
+            "name": "google.com",
+            "type": "TXT",
+            "rcode": "NOERROR",
+            "answers": 17,
+            "records": [
+              "v=spf1 include:_spf.google.com ~all"
+            ]
+          },
+          "dmarc": {
+            "name": "_dmarc.google.com",
+            "type": "TXT",
+            "rcode": "NOERROR",
+            "answers": 1,
+            "records": [
+              "v=DMARC1; p=reject; rua=mailto:mailauth-reports@google.com"
+            ]
+          },
+          "mx": {
+            "name": "google.com",
+            "type": "MX",
+            "rcode": "NOERROR",
+            "answers": 1,
+            "records": [
+              "10 smtp.google.com."
+            ]
+          }
+        }
+      }
+    },
+    {
+      "domain": "microsoft.com",
+      "category": "Email & productivity",
+      "score": 100,
+      "grade": "A+",
+      "dmarc": "reject",
+      "spf": "-all",
+      "mx": true,
+      "evidence": {
+        "measuredAt": "2026-11-09T16:18:38.871Z",
+        "resolver": "https://dns.google/resolve",
+        "queries": {
+          "spf": {
+            "name": "microsoft.com",
+            "type": "TXT",
+            "rcode": "NOERROR",
+            "answers": 61,
+            "records": [
+              "v=spf1 include:_spf-a.microsoft.com include:_spf-b.microsoft.com include:_spf-ssg-a.msft.net include:_spf1-meo.microsoft.com -all"
+            ]
+          },
+          "dmarc": {
+            "name": "_dmarc.microsoft.com",
+            "type": "TXT",
+            "rcode": "NOERROR",
+            "answers": 1,
+            "records": [
+              "v=DMARC1; p=reject; pct=100; rua=mailto:itex-rua@microsoft.com; ruf=mailto:itex-ruf@microsoft.com; fo=1"
+            ]
+          },
+          "mx": {
+            "name": "microsoft.com",
+            "type": "MX",
+            "rcode": "NOERROR",
+            "answers": 1,
+            "records": [
+              "10 microsoft-com.mail.protection.outlook.com."
+            ]
+          }
+        }
+      }
+    },
+    {
+      "domain": "apple.com",
+      "category": "Email & productivity",
+      "score": 84,
+      "grade": "B",
+      "dmarc": "quarantine",
+      "spf": "~all",
+      "mx": true,
+      "evidence": {
+        "measuredAt": "2026-11-09T16:18:38.887Z",
+        "resolver": "https://dns.google/resolve",
+        "queries": {
+          "spf": {
+            "name": "apple.com",
+            "type": "TXT",
+            "rcode": "NOERROR",
+            "answers": 23,
+            "records": [
+              "v=spf1 include:_spf.apple.com include:_spf-txn.apple.com ~all"
+            ]
+          },
+          "dmarc": {
+            "name": "_dmarc.apple.com",
+            "type": "TXT",
+            "rcode": "NOERROR",
+            "answers": 1,
+            "records": [
+              "v=DMARC1; p=quarantine; sp=reject; rua=mailto:d@rua.agari.com; ruf=mailto:d@ruf.agari.com;"
+            ]
+          },
+          "mx": {
+            "name": "apple.com",
+            "type": "MX",
+            "rcode": "NOERROR",
+            "answers": 6,
+            "records": [
+              "10 mx-in.g.apple.com.",
+              "20 mx-in-ma.apple.com.",
+              "20 mx-in-sg.apple.com.",
+              "20 mx-in-vib.apple.com.",
+              "20 mx-in-hfd.apple.com.",
+              "20 mx-in-rn.apple.com."
+            ]
+          }
+        }
+      }
+    },
+    {
+      "domain": "proton.me",
+      "category": "Email & productivity",
+      "score": 84,
+      "grade": "B",
+      "dmarc": "quarantine",
+      "spf": "~all",
+      "mx": true,
+      "evidence": {
+        "measuredAt": "2026-11-09T16:18:38.926Z",
+        "resolver": "https://dns.google/resolve",
+        "queries": {
+          "spf": {
+            "name": "proton.me",
+            "type": "TXT",
+            "rcode": "NOERROR",
+            "answers": 10,
+            "records": [
+              "v=spf1 include:_spf.protonmail.ch ~all"
+            ]
+          },
+          "dmarc": {
+            "name": "_dmarc.proton.me",
+            "type": "TXT",
+            "rcode": "NOERROR",
+            "answers": 1,
+            "records": [
+              "v=DMARC1; p=quarantine; fo=1; aspf=s; adkim=s;"
+            ]
+          },
+          "mx": {
+            "name": "proton.me",
+            "type": "MX",
+            "rcode": "NOERROR",
+            "answers": 2,
+            "records": [
+              "10 mail.protonmail.ch.",
+              "20 mailsec.protonmail.ch."
+            ]
+          }
+        }
+      }
+    },
+    {
+      "domain": "zoho.com",
+      "category": "Email & productivity",
+      "score": 100,
+      "grade": "A+",
+      "dmarc": "reject",
+      "spf": "-all",
+      "mx": true,
+      "evidence": {
+        "measuredAt": "2026-11-09T16:18:38.942Z",
+        "resolver": "https://dns.google/resolve",
+        "queries": {
+          "spf": {
+            "name": "zoho.com",
+            "type": "TXT",
+            "rcode": "NOERROR",
+            "answers": 27,
+            "records": [
+              "v=spf1 include:spf.zoho.com include:zcsend.net include:spf.zohomail.com include:popspf.zohomail.com -all"
+            ]
+          },
+          "dmarc": {
+            "name": "_dmarc.zoho.com",
+            "type": "TXT",
+            "rcode": "NOERROR",
+            "answers": 1,
+            "records": [
+              "v=DMARC1; p=reject; sp=reject; fo=0; rua=mailto:dmarcaggregation@zoho.com; ruf=mailto:dmarcaggregation@zoho.com"
+            ]
+          },
+          "mx": {
+            "name": "zoho.com",
+            "type": "MX",
+            "rcode": "NOERROR",
+            "answers": 3,
+            "records": [
+              "20 smtpin2.zoho.com.",
+              "10 smtpin.zoho.com.",
+              "50 smtpin3.zoho.com."
+            ]
+          }
+        }
+      }
+    },
+    {
+      "domain": "paypal.com",
+      "category": "Banking & finance",
+      "score": 91,
+      "grade": "A",
+      "dmarc": "reject",
+      "spf": "~all",
+      "mx": true,
+      "evidence": {
+        "measuredAt": "2026-11-09T16:18:38.958Z",
+        "resolver": "https://dns.google/resolve",
+        "queries": {
+          "spf": {
+            "name": "paypal.com",
+            "type": "TXT",
+            "rcode": "NOERROR",
+            "answers": 12,
+            "records": [
+              "v=spf1 include:pp._spf.paypal.com include:3ph1._spf.paypal.com include:3ph2._spf.paypal.com include:3ph3._spf.paypal.com include:3ph4._spf.paypal.com include:sendgrid.net include:aspmx.pardot.com ~all"
+            ]
+          },
+          "dmarc": {
+            "name": "_dmarc.paypal.com",
+            "type": "TXT",
+            "rcode": "NOERROR",
+            "answers": 1,
+            "records": [
+              "v=DMARC1; p=reject; rua=mailto:d@rua.agari.com,mailto:dmarc_agg@vali.email; ruf=mailto:d@ruf.agari.com,mailto:MTc4Mzcw@ruf.vali.email"
+            ]
+          },
+          "mx": {
+            "name": "paypal.com",
+            "type": "MX",
+            "rcode": "NOERROR",
+            "answers": 2,
+            "records": [
+              "10 mx1.paypalcorp.com.",
+              "10 mx2.paypalcorp.com."
+            ]
+          }
+        }
+      }
+    },
+    {
+      "domain": "stripe.com",
+      "category": "Banking & finance",
+      "score": 91,
+      "grade": "A",
+      "dmarc": "reject",
+      "spf": "~all",
+      "mx": true,
+      "evidence": {
+        "measuredAt": "2026-11-09T16:18:38.973Z",
+        "resolver": "https://dns.google/resolve",
+        "queries": {
+          "spf": {
+            "name": "stripe.com",
+            "type": "TXT",
+            "rcode": "NOERROR",
+            "answers": 39,
+            "records": [
+              "v=spf1 ip4:198.2.180.60/32 ip4:13.111.2.227/32 include:spf1.stripe.com include:greenhouse-outbound-mail.stripe.com include:_spf.qualtrics.com ~all"
+            ]
+          },
+          "dmarc": {
+            "name": "_dmarc.stripe.com",
+            "type": "TXT",
+            "rcode": "NOERROR",
+            "answers": 1,
+            "records": [
+              "v=DMARC1; p=reject; pct=100; fo=1; rua=mailto:dmarc-reports@stripe.com; ruf=mailto:dmarc-forensics@stripe.com;"
+            ]
+          },
+          "mx": {
+            "name": "stripe.com",
+            "type": "MX",
+            "rcode": "NOERROR",
+            "answers": 5,
+            "records": [
+              "20 alt2.aspmx.l.google.com.",
+              "20 alt1.aspmx.l.google.com.",
+              "30 aspmx2.googlemail.com.",
+              "30 aspmx3.googlemail.com.",
+              "10 aspmx.l.google.com."
+            ]
+          }
+        }
+      }
+    },
+    {
+      "domain": "chase.com",
+      "category": "Banking & finance",
+      "score": 100,
+      "grade": "A+",
+      "dmarc": "reject",
+      "spf": "-all",
+      "mx": true,
+      "evidence": {
+        "measuredAt": "2026-11-09T16:18:38.989Z",
+        "resolver": "https://dns.google/resolve",
+        "queries": {
+          "spf": {
+            "name": "chase.com",
+            "type": "TXT",
+            "rcode": "NOERROR",
+            "answers": 22,
+            "records": [
+              "v=spf1 include:tpo.chase.com exists:%{i}.spf.chase.com exists:%{i}.spf.hc4673-96.iphmx.com exists:%{i}.spf.hc4698-8.iphmx.com -all"
+            ]
+          },
+          "dmarc": {
+            "name": "_dmarc.chase.com",
+            "type": "TXT",
+            "rcode": "NOERROR",
+            "answers": 1,
+            "records": [
+              "v=DMARC1; p=reject; pct=100; rua=mailto:d@rua.agari.com; ruf=mailto:d@ruf.agari.com;"
+            ]
+          },
+          "mx": {
+            "name": "chase.com",
+            "type": "MX",
+            "rcode": "NOERROR",
+            "answers": 4,
+            "records": [
+              "20 cluster14.us.messagelabs.com.",
+              "40 cluster14a.us.messagelabs.com.",
+              "10 cluster14.us.messagelabs.com.",
+              "30 cluster14.us.messagelabs.com."
+            ]
+          }
+        }
+      }
+    },
+    {
+      "domain": "wise.com",
+      "category": "Banking & finance",
+      "score": 91,
+      "grade": "A",
+      "dmarc": "reject",
+      "spf": "~all",
+      "mx": true,
+      "evidence": {
+        "measuredAt": "2026-11-09T16:18:39.006Z",
+        "resolver": "https://dns.google/resolve",
+        "queries": {
+          "spf": {
+            "name": "wise.com",
+            "type": "TXT",
+            "rcode": "NOERROR",
+            "answers": 45,
+            "records": [
+              "v=spf1 include:_u.wise.com._spf.smart.ondmarc.com ~all"
+            ]
+          },
+          "dmarc": {
+            "name": "_dmarc.wise.com",
+            "type": "TXT",
+            "rcode": "NOERROR",
+            "answers": 1,
+            "records": [
+              "v=DMARC1; p=reject; adkim=r; pct=100; fo=1; ri=3600; rua=mailto:bb3c5ff6@inbox.ondmarc.com; ruf=mailto:bb3c5ff6@inbox.ondmarc.com;"
+            ]
+          },
+          "mx": {
+            "name": "wise.com",
+            "type": "MX",
+            "rcode": "NOERROR",
+            "answers": 5,
+            "records": [
+              "10 aspmx3.googlemail.com.",
+              "5 alt2.aspmx.l.google.com.",
+              "5 alt1.aspmx.l.google.com.",
+              "1 aspmx.l.google.com.",
+              "10 aspmx2.googlemail.com."
+            ]
+          }
+        }
+      }
+    },
+    {
+      "domain": "revolut.com",
+      "category": "Banking & finance",
+      "score": 84,
+      "grade": "B",
+      "dmarc": "quarantine",
+      "spf": "~all",
+      "mx": true,
+      "evidence": {
+        "measuredAt": "2026-11-09T16:18:39.048Z",
+        "resolver": "https://dns.google/resolve",
+        "queries": {
+          "spf": {
+            "name": "revolut.com",
+            "type": "TXT",
+            "rcode": "NOERROR",
+            "answers": 54,
+            "records": [
+              "v=spf1 include:_spf.google.com include:mail.zendesk.com include:_spf.atlassian.net include:_spf.salesforce.com include:_spf.sparkpostmail.com ~all"
+            ]
+          },
+          "dmarc": {
+            "name": "_dmarc.revolut.com",
+            "type": "TXT",
+            "rcode": "NOERROR",
+            "answers": 1,
+            "records": [
+              "v=DMARC1; p=quarantine; pct=100; sp=quarantine; rua=mailto:revolut@rua.netcraft.com,mailto:dmarc@revolut.com; ruf=mailto:revolut@ruf.netcraft.com,mailto:dmarc@revolut.com;"
+            ]
+          },
+          "mx": {
+            "name": "revolut.com",
+            "type": "MX",
+            "rcode": "NOERROR",
+            "answers": 5,
+            "records": [
+              "5 alt1.aspmx.l.google.com.",
+              "5 alt2.aspmx.l.google.com.",
+              "1 aspmx.l.google.com.",
+              "10 alt4.aspmx.l.google.com.",
+              "10 alt3.aspmx.l.google.com."
+            ]
+          }
+        }
+      }
+    },
+    {
+      "domain": "irs.gov",
+      "category": "Government",
+      "score": 100,
+      "grade": "A+",
+      "dmarc": "reject",
+      "spf": "-all",
+      "mx": true,
+      "evidence": {
+        "measuredAt": "2026-11-09T16:18:39.168Z",
+        "resolver": "https://dns.google/resolve",
+        "queries": {
+          "spf": {
+            "name": "irs.gov",
+            "type": "TXT",
+            "rcode": "NOERROR",
+            "answers": 6,
+            "records": [
+              "v=spf1 ip4:152.216.0.0/20 ip6:2610:30::/32 -all"
+            ]
+          },
+          "dmarc": {
+            "name": "_dmarc.irs.gov",
+            "type": "TXT",
+            "rcode": "NOERROR",
+            "answers": 1,
+            "records": [
+              "v=DMARC1; p=reject; rua=mailto:dmarc-agg-feed@ofdp.irs.gov,mailto:reports@dmarc.cyber.dhs.gov; ruf=mailto:dmarc-for-feed@ofdp.irs.gov; fo=1"
+            ]
+          },
+          "mx": {
+            "name": "irs.gov",
+            "type": "MX",
+            "rcode": "NOERROR",
+            "answers": 3,
+            "records": [
+              "20 emgw.irs.gov.",
+              "10 emgc.irs.gov.",
+              "10 emge.irs.gov."
+            ]
+          }
+        }
+      }
+    },
+    {
+      "domain": "gov.uk",
+      "category": "Government",
+      "score": 67,
+      "grade": "C",
+      "dmarc": "reject",
+      "spf": "-all",
+      "mx": false,
+      "evidence": {
+        "measuredAt": "2026-11-09T16:18:39.190Z",
+        "resolver": "https://dns.google/resolve",
+        "queries": {
+          "spf": {
+            "name": "gov.uk",
+            "type": "TXT",
+            "rcode": "NOERROR",
+            "answers": 5,
+            "records": [
+              "v=spf1 -all"
+            ]
+          },
+          "dmarc": {
+            "name": "_dmarc.gov.uk",
+            "type": "TXT",
+            "rcode": "NOERROR",
+            "answers": 1,
+            "records": [
+              "v=DMARC1;p=reject;sp=none;np=reject;adkim=s;aspf=s;fo=1;rua=mailto:dmarc-rua@dmarc.service.gov.uk"
+            ]
+          },
+          "mx": {
+            "name": "gov.uk",
+            "type": "MX",
+            "rcode": "NOERROR",
+            "answers": 0,
+            "records": []
+          }
+        }
+      }
+    },
+    {
+      "domain": "canada.ca",
+      "category": "Government",
+      "score": 80,
+      "grade": "B",
+      "dmarc": "none",
+      "spf": "-all",
+      "mx": true,
+      "evidence": {
+        "measuredAt": "2026-11-09T16:18:39.260Z",
+        "resolver": "https://dns.google/resolve",
+        "queries": {
+          "spf": {
+            "name": "canada.ca",
+            "type": "TXT",
+            "rcode": "NOERROR",
+            "answers": 12,
+            "records": [
+              "v=spf1 include:emrs._spf.ssc-spc.gc.ca include:spf.protection.outlook.com include:slms._spf.ssc-spc.gc.ca -all"
+            ]
+          },
+          "dmarc": {
+            "name": "_dmarc.canada.ca",
+            "type": "TXT",
+            "rcode": "NOERROR",
+            "answers": 1,
+            "records": [
+              "v=DMARC1; p=none; rua=mailto:ssc.dmarc.spc@canada.ca,mailto:dmarc@cyber.gc.ca; adkim=s; aspf=s"
+            ]
+          },
+          "mx": {
+            "name": "canada.ca",
+            "type": "MX",
+            "rcode": "NOERROR",
+            "answers": 1,
+            "records": [
+              "0 canada-ca.mail.protection.outlook.com."
+            ]
+          }
+        }
+      }
+    },
+    {
+      "domain": "cloudflare.com",
+      "category": "Cloud & security",
+      "score": 100,
+      "grade": "A+",
+      "dmarc": "reject",
+      "spf": "-all",
+      "mx": true,
+      "evidence": {
+        "measuredAt": "2026-11-09T16:18:39.327Z",
+        "resolver": "https://dns.google/resolve",
+        "queries": {
+          "spf": {
+            "name": "cloudflare.com",
+            "type": "TXT",
+            "rcode": "NOERROR",
+            "answers": 29,
+            "records": [
+              "v=spf1 ip4:199.15.212.0/22 ip4:173.245.48.0/20 include:_spf.google.com include:spf1.mcsv.net include:spf.mandrillapp.com include:mail.zendesk.com include:stspg-customer.com include:_spf.salesforce.com -all"
+            ]
+          },
+          "dmarc": {
+            "name": "_dmarc.cloudflare.com",
+            "type": "TXT",
+            "rcode": "NOERROR",
+            "answers": 1,
+            "records": [
+              "v=DMARC1; p=reject; sp=reject; adkim=r; aspf=r; pct=100; rua=mailto:a1c47f179bc04efd8ee4dcd4d85dfc65@dmarc-reports.cloudflare.net,mailto:rua@cloudflare.com"
+            ]
+          },
+          "mx": {
+            "name": "cloudflare.com",
+            "type": "MX",
+            "rcode": "NOERROR",
+            "answers": 4,
+            "records": [
+              "10 mxa.global.inbound.cf-emailsecurity.net.",
+              "10 mxb.global.inbound.cf-emailsecurity.net.",
+              "5 mxb-canary.global.inbound.cf-emailsecurity.net.",
+              "5 mxa-canary.global.inbound.cf-emailsecurity.net."
+            ]
+          }
+        }
+      }
+    },
+    {
+      "domain": "github.com",
+      "category": "Cloud & security",
+      "score": 84,
+      "grade": "B",
+      "dmarc": "quarantine",
+      "spf": "~all",
+      "mx": true,
+      "evidence": {
+        "measuredAt": "2026-11-09T16:18:39.367Z",
+        "resolver": "https://dns.google/resolve",
+        "queries": {
+          "spf": {
+            "name": "github.com",
+            "type": "TXT",
+            "rcode": "NOERROR",
+            "answers": 24,
+            "records": [
+              "v=spf1 ip4:192.30.252.0/22 include:spf.protection.outlook.com include:_netblocks.google.com include:_netblocks2.google.com include:mail.zendesk.com include:_spf.salesforce.com include:servers.mcsv.net include:mktomail.com include:sendgrid.net ip4:62.253.227.114 ip4:166.78.69.169 ip4:166.78.69.170 ip4:166.78.71.131 ~all"
+            ]
+          },
+          "dmarc": {
+            "name": "_dmarc.github.com",
+            "type": "TXT",
+            "rcode": "NOERROR",
+            "answers": 1,
+            "records": [
+              "v=DMARC1; p=quarantine; sp=reject; pct=100; rua=mailto:dmarc@github.com; ruf=mailto:dmarc@github.com; fo=1"
+            ]
+          },
+          "mx": {
+            "name": "github.com",
+            "type": "MX",
+            "rcode": "NOERROR",
+            "answers": 1,
+            "records": [
+              "0 github-com.mail.protection.outlook.com."
+            ]
+          }
+        }
+      }
+    },
+    {
+      "domain": "okta.com",
+      "category": "Cloud & security",
+      "score": 100,
+      "grade": "A+",
+      "dmarc": "reject",
+      "spf": "-all",
+      "mx": true,
+      "evidence": {
+        "measuredAt": "2026-11-09T16:18:39.381Z",
+        "resolver": "https://dns.google/resolve",
+        "queries": {
+          "spf": {
+            "name": "okta.com",
+            "type": "TXT",
+            "rcode": "NOERROR",
+            "answers": 67,
+            "records": [
+              "v=spf1 include:%{ir}.%{v}.%{d}.spf.has.pphosted.com -all"
+            ]
+          },
+          "dmarc": {
+            "name": "_dmarc.okta.com",
+            "type": "TXT",
+            "rcode": "NOERROR",
+            "answers": 1,
+            "records": [
+              "v=DMARC1; p=reject; rua=mailto:dmarc_rua@emaildefense.proofpoint.com,mailto:bt_dmarc_monitor@okta.com; ruf=mailto:dmarc_ruf@emaildefense.proofpoint.com,mailto:bt_dmarc_monitor@okta.com;"
+            ]
+          },
+          "mx": {
+            "name": "okta.com",
+            "type": "MX",
+            "rcode": "NOERROR",
+            "answers": 2,
+            "records": [
+              "10 mxb-00553301.gslb.pphosted.com.",
+              "10 mxa-00553301.gslb.pphosted.com."
+            ]
+          }
+        }
+      }
+    },
+    {
+      "domain": "digitalocean.com",
+      "category": "Cloud & security",
+      "score": 100,
+      "grade": "A+",
+      "dmarc": "reject",
+      "spf": "-all",
+      "mx": true,
+      "evidence": {
+        "measuredAt": "2026-11-09T16:18:39.579Z",
+        "resolver": "https://dns.google/resolve",
+        "queries": {
+          "spf": {
+            "name": "digitalocean.com",
+            "type": "TXT",
+            "rcode": "NOERROR",
+            "answers": 36,
+            "records": [
+              "v=spf1 include:spf.digitalocean.com include:_spf.google.com include:_spf.salesforce.com include:mg-spf.greenhouse.io include:helpscoutemail.com -all"
+            ]
+          },
+          "dmarc": {
+            "name": "_dmarc.digitalocean.com",
+            "type": "TXT",
+            "rcode": "NOERROR",
+            "answers": 1,
+            "records": [
+              "v=DMARC1; p=reject; rua=mailto:fdpfb1lo@ag.dmarcian.com; ruf=mailto:fdpfb1lo@fr.dmarcian.com;"
+            ]
+          },
+          "mx": {
+            "name": "digitalocean.com",
+            "type": "MX",
+            "rcode": "NOERROR",
+            "answers": 5,
+            "records": [
+              "10 aspmx2.googlemail.com.",
+              "10 aspmx3.googlemail.com.",
+              "5 alt2.aspmx.l.google.com.",
+              "5 alt1.aspmx.l.google.com.",
+              "1 aspmx.l.google.com."
+            ]
+          }
+        }
+      }
+    },
+    {
+      "domain": "amazon.com",
+      "category": "Commerce",
+      "score": 93,
+      "grade": "A",
+      "dmarc": "quarantine",
+      "spf": "-all",
+      "mx": true,
+      "evidence": {
+        "measuredAt": "2026-11-09T16:18:39.618Z",
+        "resolver": "https://dns.google/resolve",
+        "queries": {
+          "spf": {
+            "name": "amazon.com",
+            "type": "TXT",
+            "rcode": "NOERROR",
+            "answers": 66,
+            "records": [
+              "v=spf1 include:spf1.amazon.com include:spf2.amazon.com include:amazonses.com -all"
+            ]
+          },
+          "dmarc": {
+            "name": "_dmarc.amazon.com",
+            "type": "TXT",
+            "rcode": "NOERROR",
+            "answers": 1,
+            "records": [
+              "v=DMARC1;p=quarantine;pct=100;rua=mailto:report@dmarc.amazon.com;ruf=mailto:report@dmarc.amazon.com"
+            ]
+          },
+          "mx": {
+            "name": "amazon.com",
+            "type": "MX",
+            "rcode": "NOERROR",
+            "answers": 1,
+            "records": [
+              "5 amazon-smtp.amazon.com."
+            ]
+          }
+        }
+      }
+    },
+    {
+      "domain": "shopify.com",
+      "category": "Commerce",
+      "score": 91,
+      "grade": "A",
+      "dmarc": "reject",
+      "spf": "~all",
+      "mx": true,
+      "evidence": {
+        "measuredAt": "2026-11-09T16:18:39.633Z",
+        "resolver": "https://dns.google/resolve",
+        "queries": {
+          "spf": {
+            "name": "shopify.com",
+            "type": "TXT",
+            "rcode": "NOERROR",
+            "answers": 53,
+            "records": [
+              "v=spf1 include:_spf.google.com include:mail.zendesk.com include:sendgrid.net ~all"
+            ]
+          },
+          "dmarc": {
+            "name": "_dmarc.shopify.com",
+            "type": "TXT",
+            "rcode": "NOERROR",
+            "answers": 1,
+            "records": [
+              "v=DMARC1; p=reject; pct=100; fo=1; rua=mailto:dmarc-aggregate@shopify.com;ruf=mailto:dmarc-reports@shopify.com"
+            ]
+          },
+          "mx": {
+            "name": "shopify.com",
+            "type": "MX",
+            "rcode": "NOERROR",
+            "answers": 5,
+            "records": [
+              "1 aspmx.l.google.com.",
+              "5 alt2.aspmx.l.google.com.",
+              "5 alt1.aspmx.l.google.com.",
+              "10 alt3.aspmx.l.google.com.",
+              "10 alt4.aspmx.l.google.com."
+            ]
+          }
+        }
+      }
+    },
+    {
+      "domain": "ebay.com",
+      "category": "Commerce",
+      "score": 91,
+      "grade": "A",
+      "dmarc": "reject",
+      "spf": "~all",
+      "mx": true,
+      "evidence": {
+        "measuredAt": "2026-11-09T16:18:39.690Z",
+        "resolver": "https://dns.google/resolve",
+        "queries": {
+          "spf": {
+            "name": "ebay.com",
+            "type": "TXT",
+            "rcode": "NOERROR",
+            "answers": 42,
+            "records": [
+              "v=spf1 include:c._spf.ebay.com include:p._spf.ebay.com include:p2._spf.ebay.com ~all"
+            ]
+          },
+          "dmarc": {
+            "name": "_dmarc.ebay.com",
+            "type": "TXT",
+            "rcode": "NOERROR",
+            "answers": 1,
+            "records": [
+              "v=DMARC1; p=reject; rua=mailto:ebay@rua.agari.com; ruf=mailto:ebay@ruf.agari.com; fo=1; rf=afrf; pct=100"
+            ]
+          },
+          "mx": {
+            "name": "ebay.com",
+            "type": "MX",
+            "rcode": "NOERROR",
+            "answers": 2,
+            "records": [
+              "10 mx1.hc2186-24.iphmx.com.",
+              "10 mx2.hc2186-24.iphmx.com."
+            ]
+          }
+        }
+      }
+    },
+    {
+      "domain": "booking.com",
+      "category": "Commerce",
+      "score": 100,
+      "grade": "A+",
+      "dmarc": "reject",
+      "spf": "-all",
+      "mx": true,
+      "evidence": {
+        "measuredAt": "2026-11-09T16:18:39.705Z",
+        "resolver": "https://dns.google/resolve",
+        "queries": {
+          "spf": {
+            "name": "booking.com",
+            "type": "TXT",
+            "rcode": "NOERROR",
+            "answers": 53,
+            "records": [
+              "v=spf1 include:%{ir}.%{v}.%{d}.spf.has.pphosted.com -all"
+            ]
+          },
+          "dmarc": {
+            "name": "_dmarc.booking.com",
+            "type": "TXT",
+            "rcode": "NOERROR",
+            "answers": 1,
+            "records": [
+              "v=DMARC1; p=reject; rua=mailto:dmarc_rua@emaildefense.proofpoint.com,mailto:booking@dmarc.postmastery.eu; ruf=mailto:dmarc_ruf@emaildefense.proofpoint.com"
+            ]
+          },
+          "mx": {
+            "name": "booking.com",
+            "type": "MX",
+            "rcode": "NOERROR",
+            "answers": 2,
+            "records": [
+              "10 mxb-0032a201.gslb.pphosted.com.",
+              "10 mxa-0032a201.gslb.pphosted.com."
+            ]
+          }
+        }
+      }
+    },
+    {
+      "domain": "linkedin.com",
+      "category": "Social & comms",
+      "score": 91,
+      "grade": "A",
+      "dmarc": "reject",
+      "spf": "~all",
+      "mx": true,
+      "evidence": {
+        "measuredAt": "2026-11-09T16:18:39.719Z",
+        "resolver": "https://dns.google/resolve",
+        "queries": {
+          "spf": {
+            "name": "linkedin.com",
+            "type": "TXT",
+            "rcode": "NOERROR",
+            "answers": 24,
+            "records": [
+              "v=spf1 ip4:199.101.162.0/25 ip4:108.174.3.0/24 ip4:108.174.6.0/24 ip4:108.174.0.0/24 ip6:2620:109:c00d:104::/64 ip6:2620:109:c006:104::/64 ip6:2620:109:c003:104::/64 ip6:2620:119:50c0:207::/64 ip4:199.101.161.130 mx mx:docusign.net ~all"
+            ]
+          },
+          "dmarc": {
+            "name": "_dmarc.linkedin.com",
+            "type": "TXT",
+            "rcode": "NOERROR",
+            "answers": 1,
+            "records": [
+              "v=DMARC1; p=reject; rua=mailto:d@rua.agari.com,mailto:yfy3q-9359@rua.dmarc.emailanalyst.com; ruf=mailto:d@ruf.agari.com"
+            ]
+          },
+          "mx": {
+            "name": "linkedin.com",
+            "type": "MX",
+            "rcode": "NOERROR",
+            "answers": 3,
+            "records": [
+              "10 mail-3.linkedin.com.",
+              "10 mail-2.linkedin.com.",
+              "10 mail-1.linkedin.com."
+            ]
+          }
+        }
+      }
+    },
+    {
+      "domain": "slack.com",
+      "category": "Social & comms",
+      "score": 100,
+      "grade": "A+",
+      "dmarc": "reject",
+      "spf": "-all",
+      "mx": true,
+      "evidence": {
+        "measuredAt": "2026-11-09T16:18:39.734Z",
+        "resolver": "https://dns.google/resolve",
+        "queries": {
+          "spf": {
+            "name": "slack.com",
+            "type": "TXT",
+            "rcode": "NOERROR",
+            "answers": 12,
+            "records": [
+              "v=spf1 include:_spf.qualtrics.com include:mail.zendesk.com include:_spfextra.slack.com -all"
+            ]
+          },
+          "dmarc": {
+            "name": "_dmarc.slack.com",
+            "type": "TXT",
+            "rcode": "NOERROR",
+            "answers": 1,
+            "records": [
+              "v=DMARC1;p=reject;fo=1:d:s;pct=100;rua=mailto:dmarc_agg@vali.email,mailto:0e5a5c34@inbox.ondmarc.com;ruf=mailto:0e5a5c34@inbox.ondmarc.com"
+            ]
+          },
+          "mx": {
+            "name": "slack.com",
+            "type": "MX",
+            "rcode": "NOERROR",
+            "answers": 5,
+            "records": [
+              "10 aspmx3.googlemail.com.",
+              "5 alt1.aspmx.l.google.com.",
+              "1 aspmx.l.google.com.",
+              "5 alt2.aspmx.l.google.com.",
+              "10 aspmx2.googlemail.com."
+            ]
+          }
+        }
+      }
+    },
+    {
+      "domain": "x.com",
+      "category": "Social & comms",
+      "score": 100,
+      "grade": "A+",
+      "dmarc": "reject",
+      "spf": "-all",
+      "mx": true,
+      "evidence": {
+        "measuredAt": "2026-11-09T16:18:39.755Z",
+        "resolver": "https://dns.google/resolve",
+        "queries": {
+          "spf": {
+            "name": "x.com",
+            "type": "TXT",
+            "rcode": "NOERROR",
+            "answers": 24,
+            "records": [
+              "v=spf1 ip4:199.16.156.0/22 ip4:199.59.148.0/22 include:_spf.google.com include:_spf.salesforce.com include:_oerp.x.com include:phx1.rp.oracleemaildelivery.com include:iad1.rp.oracleemaildelivery.com -all"
+            ]
+          },
+          "dmarc": {
+            "name": "_dmarc.x.com",
+            "type": "TXT",
+            "rcode": "NOERROR",
+            "answers": 1,
+            "records": [
+              "v=DMARC1; p=reject; rua=mailto:caf935f12c8645b2921b0749d1fcd49e@dmarc-reports.cloudflare.net"
+            ]
+          },
+          "mx": {
+            "name": "x.com",
+            "type": "MX",
+            "rcode": "NOERROR",
+            "answers": 5,
+            "records": [
+              "10 alt3.aspmx.l.google.com.",
+              "5 alt2.aspmx.l.google.com.",
+              "5 alt1.aspmx.l.google.com.",
+              "1 aspmx.l.google.com.",
+              "10 alt4.aspmx.l.google.com."
+            ]
+          }
+        }
+      }
+    }
+  ]
+}
