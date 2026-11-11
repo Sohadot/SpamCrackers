@@ -6,7 +6,15 @@ name: observatory
 # (observatory/evidence/<date>.json), published to the default branch, which
 # GitHub Pages serves.
 #
-# Publication architecture (Issue #44): this job never pushes to the base
+# Two publishers, one switch (Issue #44 migration):
+#  - LEGACY (default): the original direct GITHUB_TOKEN push to main, kept
+#    byte-for-byte as it was on main (step "Commit the refreshed record").
+#  - PR mode: used when the repository variable OBSERVATORY_PUBLISHER is "pr",
+#    and always for a canary dispatch (base=observatory-canary). Until the owner
+#    sets that variable, production publication is unchanged; the canary can be
+#    run from the default branch without touching main or Pages.
+#
+# PR mode: this job never pushes to the base
 # branch. scripts/publish-measurement.js commits the measurement to
 # observatory/<date>-<run id>, opens a PR with a GitHub App installation token,
 # waits for "verify" (verify.yml) and the trusted "publication-policy" status
@@ -19,7 +27,8 @@ name: observatory
 # Why an App token: commits/PRs made with GITHUB_TOKEN do not trigger other
 # workflows, so verify.yml and publication-policy.yml would never run, and
 # GitHub's Pages docs state GITHUB_TOKEN pushes do not trigger a Pages build.
-# GITHUB_TOKEN here is read-only.
+# GITHUB_TOKEN keeps contents: write ONLY for the legacy publisher; it drops to
+# contents: read when the legacy step is removed after the cutover.
 #
 # Review boundary: the ruleset requires 0 approvals so automated publication
 # can merge. That means NO independent human review is enforced for any PR,
@@ -45,7 +54,7 @@ on:
         options: [main, observatory-canary]
 
 permissions:
-  contents: read
+  contents: write # legacy publisher only (see header); PR mode uses the App token
 
 concurrency:
   group: observatory
@@ -54,8 +63,11 @@ concurrency:
 jobs:
   measure:
     runs-on: ubuntu-latest
+    env:
+      PR_MODE: ${{ inputs.base == 'observatory-canary' || vars.OBSERVATORY_PUBLISHER == 'pr' }}
     steps:
       - name: Require the publication App credentials
+        if: env.PR_MODE == 'true'
         env:
           CLIENT_ID: ${{ vars.OBSERVATORY_APP_CLIENT_ID }}
           HAS_KEY: ${{ secrets.OBSERVATORY_APP_PRIVATE_KEY != '' }}
@@ -66,6 +78,7 @@ jobs:
           fi
 
       - name: Mint a short-lived App installation token for this repository only
+        if: env.PR_MODE == 'true'
         id: app
         # v3.3.0, an immutable release; SHA verified against the release page
         uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510
@@ -83,7 +96,7 @@ jobs:
 
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4, as resolved in this repo's runs
         with:
-          token: ${{ steps.app.outputs.token }}
+          token: ${{ steps.app.outputs.token || github.token }}
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4, as resolved in this repo's runs
         with:
           node-version: "20"
@@ -97,7 +110,40 @@ jobs:
       - name: Verify the record is well-formed
         run: node scripts/verify.js
 
+      - name: Commit the refreshed record
+        if: env.PR_MODE != 'true'
+        run: |
+          if git diff --quiet -- observatory/latest.json observatory/history observatory/evidence catalog.json && [ -z "$(git ls-files --others --exclude-standard -- observatory/evidence)" ]; then
+            echo "No change in measurements — nothing to commit."
+            exit 0
+          fi
+          git config user.name "spamcrackers-observatory[bot]"
+          git config user.email "observatory@spamcrackers.com"
+          git add observatory/latest.json observatory/history observatory/evidence catalog.json
+          git commit -m "Observatory: weekly measurement $(date -u +%Y-%m-%d)"
+          pushed=0
+          for i in 1 2 3 4; do
+            if git push; then pushed=1; break; fi
+            echo "push failed (attempt $i of 4)"
+            [ "$i" -lt 4 ] || break
+            sleep $((2 ** i))
+            git pull --rebase --autostash
+            # the rebased commit is a new, unverified tree: gate it again,
+            # immediately before the next push attempt
+            echo "Rebased onto origin; re-verifying $(git rev-parse --short HEAD) before pushing."
+            if ! node scripts/verify.js || ! node --test scripts/test/observatory.test.js; then
+              echo "::error::Rebased measurement commit failed re-verification; it was NOT pushed."
+              exit 1
+            fi
+          done
+          if [ "$pushed" -ne 1 ]; then
+            echo "::error::Measurement commit was NOT pushed after 4 attempts; the record is not published."
+            exit 1
+          fi
+          echo "Published measurement commit $(git rev-parse --short HEAD) to $(git rev-parse --abbrev-ref HEAD)."
+
       - name: Publish through a verified pull request
+        if: env.PR_MODE == 'true'
         env:
           GH_TOKEN: ${{ steps.app.outputs.token }}
           PUBLISH_BASE: ${{ inputs.base || 'main' }}

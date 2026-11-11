@@ -180,14 +180,47 @@ test("trust: workflows that execute PR-head code hold a read-only token (cannot 
   }
 });
 
-test("trust: the measurement job never pushes to the base branch and its GITHUB_TOKEN is read-only", () => {
+// ---- dormant migration: production publication is unchanged until the owner opts in ----
+const LEGACY_STEP_SHA256 = "483b08cef4da1eb276df614e40266266d05767dd0e92c0e6047e1712aa1806eb"; // main 605bdd0, run block
+const stepBlock = (y, name) => {
+  const lines = y.split("\n"), at = lines.findIndex((l) => l === `      - name: ${name}`);
+  assert.ok(at >= 0, `step "${name}" not found`);
+  const out = [];
+  for (let i = at + 1; i < lines.length && !/^      - /.test(lines[i]); i++) out.push(lines[i]);
+  return out;
+};
+
+test("migration: PR mode is selected only by a canary dispatch or OBSERVATORY_PUBLISHER=pr", () => {
+  assert.match(wf("observe.yml"), /^    env:\n      PR_MODE: \$\{\{ inputs\.base == 'observatory-canary' \|\| vars\.OBSERVATORY_PUBLISHER == 'pr' \}\}$/m);
+});
+
+test("migration: the legacy publisher is the original step, byte for byte, and runs only outside PR mode", () => {
+  const b = stepBlock(wf("observe.yml"), "Commit the refreshed record");
+  assert.equal(b[0], "        if: env.PR_MODE != 'true'");
+  const body = b.slice(1).filter((l) => l !== "").join("\n") + "\n";
+  assert.equal(crypto.createHash("sha256").update(body).digest("hex"), LEGACY_STEP_SHA256,
+    "the legacy production publisher must stay identical to main's until the cutover");
+});
+
+test("migration: every App/PR-mode step runs only in PR mode; checkout falls back to GITHUB_TOKEN", () => {
   const y = wf("observe.yml");
-  assert.deepEqual(topPermissions(y), ["contents: read"]);
-  assert.doesNotMatch(y, /git push|git commit/);
-  assert.match(y, /run: node scripts\/publish-measurement\.js/);
-  assert.match(y, /GH_TOKEN: \$\{\{ steps\.app\.outputs\.token \}\}/);
+  for (const n of ["Require the publication App credentials", "Mint a short-lived App installation token for this repository only", "Publish through a verified pull request"])
+    assert.equal(stepBlock(y, n)[0], "        if: env.PR_MODE == 'true'", n);
+  assert.match(y, /token: \$\{\{ steps\.app\.outputs\.token \|\| github\.token \}\}/);
+});
+
+test("migration: the PR-mode publisher never pushes to the base branch and uses only the App token", () => {
+  const b = stepBlock(wf("observe.yml"), "Publish through a verified pull request").join("\n");
+  assert.doesNotMatch(b, /git push|git commit/);
+  assert.match(b, /run: node scripts\/publish-measurement\.js/);
+  assert.match(b, /GH_TOKEN: \$\{\{ steps\.app\.outputs\.token \}\}/);
+  const y = wf("observe.yml");
   assert.match(y, /options: \[main, observatory-canary\]/);
   assert.match(y, /repositories: \$\{\{ github\.event\.repository\.name \}\}/, "App token must be scoped to this repository");
+});
+
+test("migration: GITHUB_TOKEN keeps contents: write only because the legacy publisher needs it", () => {
+  assert.deepEqual(topPermissions(wf("observe.yml")), ["contents: write # legacy publisher only (see header); PR mode uses the App token"]);
 });
 
 test("trust: required check names stay stable (ruleset matches by name)", () => {

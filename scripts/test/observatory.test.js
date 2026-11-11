@@ -469,3 +469,155 @@ test("archive: a failed week-2 run leaves week 1 history, evidence and latest un
   assert.deepEqual(core.auditObservatoryTree(dir, readJ(dir, "observatory/latest.json")).fails, []);
   fs.rmSync(dir, { recursive: true });
 });
+
+// =========================================================================
+// 11. publication step: exhausted push retries must fail the workflow
+// The commit step is extracted verbatim from observe.yml and executed with
+// `bash -e` (GitHub's default run shell) against a stub git; no real git or
+// network is involved.
+// =========================================================================
+const { spawnSync } = require("child_process");
+function commitStep() {
+  const lines = fs.readFileSync(path.join(ROOT, ".github/workflows/observe.yml"), "utf8").split("\n");
+  const at = lines.findIndex((l) => /- name: Commit the refreshed record/.test(l));
+  assert.ok(at > 0, "commit step not found in observe.yml");
+  const run = lines.findIndex((l, i) => i > at && /^\s+run: \|\s*$/.test(l));
+  const indent = lines[run + 1].match(/^\s*/)[0];
+  const body = [];
+  for (let i = run + 1; i < lines.length && (lines[i].startsWith(indent) || lines[i].trim() === ""); i++) body.push(lines[i].slice(indent.length));
+  return body.join("\n");
+}
+function runCommitStep(env) {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "obs-push-"));
+  fs.mkdirSync(path.join(dir, "bin"));
+  fs.writeFileSync(path.join(dir, "bin/git"), `#!/bin/bash
+echo "$*" >> "$STUB_DIR/calls"
+case "$1" in
+  diff) [ -n "$NO_CHANGE" ] && exit 0 || exit 1 ;;
+  push) n=$(( $(cat "$STUB_DIR/pushes" 2>/dev/null || echo 0) + 1 )); echo $n > "$STUB_DIR/pushes"
+        if [ "$PUSH_FAILS" = always ] || [ "$n" -le "\${PUSH_FAILS:-0}" ]; then echo "! [rejected] stub" >&2; exit 1; fi; exit 0 ;;
+  pull) [ -n "$PULL_FAIL" ] && { echo "CONFLICT stub" >&2; exit 1; }; exit 0 ;;
+  rev-parse) echo stub ;;
+esac
+exit 0
+`);
+  // stub node: stands in for the post-rebase gate (verify.js, offline tests)
+  fs.writeFileSync(path.join(dir, "bin/node"), `#!/bin/bash
+echo "node $*" >> "$STUB_DIR/calls"
+if [ "$1" = scripts/verify.js ]; then
+  v=$(( $(cat "$STUB_DIR/verifies" 2>/dev/null || echo 0) + 1 )); echo $v > "$STUB_DIR/verifies"
+  { [ -n "$VERIFY_FAIL" ] || [ "$v" = "\${VERIFY_FAIL_ON:-0}" ]; } && { echo "FAIL stub verify" >&2; exit 1; }
+fi
+[ "$1" = --test ] && [ -n "$TESTS_FAIL" ] && { echo "not ok stub test" >&2; exit 1; }
+exit 0
+`);
+  fs.writeFileSync(path.join(dir, "bin/sleep"), "#!/bin/sh\nexit 0\n");
+  for (const b of ["git", "node", "sleep"]) fs.chmodSync(path.join(dir, "bin", b), 0o755);
+  fs.writeFileSync(path.join(dir, "step.sh"), commitStep());
+  const r = spawnSync("bash", ["-e", path.join(dir, "step.sh")], { cwd: dir, encoding: "utf8",
+    env: { ...process.env, ...env, STUB_DIR: dir, PATH: path.join(dir, "bin") + path.delimiter + process.env.PATH } });
+  const calls = fs.existsSync(path.join(dir, "calls")) ? fs.readFileSync(path.join(dir, "calls"), "utf8").trim().split("\n") : [];
+  fs.rmSync(dir, { recursive: true });
+  const ops = calls.filter((c) => /^(push|pull|commit|node )/.test(c)); // ordered publication-relevant calls
+  return { status: r.status, out: r.stdout + r.stderr, pushes: calls.filter((c) => c.startsWith("push")).length,
+    pulls: calls.filter((c) => c.startsWith("pull")).length,
+    verifies: calls.filter((c) => c === "node scripts/verify.js").length,
+    testRuns: calls.filter((c) => c === "node --test scripts/test/observatory.test.js").length, calls, ops };
+}
+// Invariant: every push after the first is preceded, since the last rebase, by
+// a passing verify.js AND offline-test run (the stub only reaches the next
+// call if the previous one passed, because the step stops on failure).
+function assertEveryRetryReverified(ops) {
+  let sinceRebase = null;
+  for (const op of ops) {
+    if (op.startsWith("pull")) sinceRebase = [];
+    else if (op.startsWith("node ")) { if (sinceRebase) sinceRebase.push(op); }
+    else if (op === "push" && sinceRebase) {
+      assert.deepEqual(sinceRebase, ["node scripts/verify.js", "node --test scripts/test/observatory.test.js"],
+        "push after a rebase without re-verification: " + ops.join(" | "));
+      sinceRebase = null;
+    }
+  }
+}
+
+test("publish: every push attempt rejected -> step exits nonzero with an error", () => {
+  const r = runCommitStep({ PUSH_FAILS: "always" });
+  assert.notEqual(r.status, 0, r.out);
+  assert.equal(r.pushes, 4);
+  assert.equal(r.pulls, 3, "no pointless rebase after the final attempt");
+  assert.equal(r.verifies, 3); assert.equal(r.testRuns, 3);
+  assertEveryRetryReverified(r.ops);
+  assert.match(r.out, /::error::Measurement commit was NOT pushed after 4 attempts/);
+  assert.doesNotMatch(r.out, /Published measurement commit/);
+});
+
+test("publish: rejected twice, then accepted -> step succeeds and reports publication", () => {
+  const r = runCommitStep({ PUSH_FAILS: "2" });
+  assert.equal(r.status, 0, r.out);
+  assert.equal(r.pushes, 3); assert.equal(r.pulls, 2);
+  assert.equal(r.verifies, 2); assert.equal(r.testRuns, 2);
+  assertEveryRetryReverified(r.ops);
+  assert.match(r.out, /Published measurement commit/);
+});
+
+test("publish: first push accepted -> step succeeds without rebasing", () => {
+  const r = runCommitStep({});
+  assert.equal(r.status, 0, r.out);
+  assert.equal(r.pushes, 1); assert.equal(r.pulls, 0);
+  assert.equal(r.verifies, 0, "no rebase -> commit was already gated before the step"); assert.equal(r.testRuns, 0);
+});
+
+test("publish: rebase conflict while retrying -> step exits nonzero, nothing reported as published", () => {
+  const r = runCommitStep({ PUSH_FAILS: "always", PULL_FAIL: "1" });
+  assert.notEqual(r.status, 0, r.out);
+  assert.equal(r.pushes, 1);
+  assert.doesNotMatch(r.out, /Published measurement commit/);
+});
+
+test("publish: no change in measurements -> exits 0 without committing or pushing", () => {
+  const r = runCommitStep({ NO_CHANGE: "1" });
+  assert.equal(r.status, 0, r.out);
+  assert.match(r.out, /nothing to commit/);
+  assert.ok(!r.calls.some((c) => /^(commit|push)/.test(c)), r.calls.join(","));
+});
+
+// ---- Issue #43: a rebased commit must be re-verified before it is pushed ----
+test("publish: successful rebase -> verify.js and offline tests run on the rebased tree, then push", () => {
+  const r = runCommitStep({ PUSH_FAILS: "1" });
+  assert.equal(r.status, 0, r.out);
+  assert.match(r.ops[0], /^commit -m Observatory: weekly measurement \d{4}-\d{2}-\d{2}$/);
+  assert.deepEqual(r.ops.slice(1),
+    ["push", "pull --rebase --autostash", "node scripts/verify.js", "node --test scripts/test/observatory.test.js", "push"]);
+  assert.match(r.out, /re-verifying stub before pushing/);
+  assert.match(r.out, /Published measurement commit/);
+});
+
+test("publish: post-rebase verify.js fails -> nonzero exit, rebased commit never pushed", () => {
+  const r = runCommitStep({ PUSH_FAILS: "1", VERIFY_FAIL: "1" });
+  assert.notEqual(r.status, 0, r.out);
+  assert.equal(r.pushes, 1, "only the original, pre-rebase push attempt may happen");
+  assert.equal(r.ops[r.ops.length - 1], "node scripts/verify.js", "nothing runs after the failed verification");
+  assert.equal(r.testRuns, 0);
+  assert.match(r.out, /::error::Rebased measurement commit failed re-verification; it was NOT pushed\./);
+  assert.doesNotMatch(r.out, /Published measurement commit/);
+});
+
+test("publish: post-rebase offline tests fail -> nonzero exit, rebased commit never pushed", () => {
+  const r = runCommitStep({ PUSH_FAILS: "1", TESTS_FAIL: "1" });
+  assert.notEqual(r.status, 0, r.out);
+  assert.equal(r.pushes, 1);
+  assert.deepEqual(r.ops.slice(-3), ["pull --rebase --autostash", "node scripts/verify.js", "node --test scripts/test/observatory.test.js"]);
+  assert.match(r.out, /::error::Rebased measurement commit failed re-verification/);
+  assert.doesNotMatch(r.out, /Published measurement commit/);
+});
+
+test("publish: verification fails on a later retry -> stops there, no further push", () => {
+  // first rebase verifies cleanly, push is rejected again, second rebase fails
+  // verification: exactly 2 pushes, and the failing tree is never pushed
+  const r = runCommitStep({ PUSH_FAILS: "always", VERIFY_FAIL_ON: "2" });
+  assert.notEqual(r.status, 0, r.out);
+  assert.equal(r.pushes, 2);
+  assert.equal(r.verifies, 2); assert.equal(r.testRuns, 1);
+  assert.equal(r.ops[r.ops.length - 1], "node scripts/verify.js");
+  assert.doesNotMatch(r.out, /Published measurement commit/);
+});
