@@ -3,9 +3,9 @@
   "method": "SPF + DMARC + MX over public DNS (DNS-over-HTTPS). DKIM is not included in the index grade.",
   "license": "CC-BY-4.0",
   "url": "https://spamcrackers.com/observatory/",
-  "generated": "2026-11-16T15:46:25.630Z",
-  "measuredDate": "2026-11-16",
-  "previous": "2026-11-09",
+  "generated": "2026-11-23T18:08:03.204Z",
+  "measuredDate": "2026-11-23",
+  "previous": "2026-11-16",
   "counts": {
     "domains": 24,
     "armored": 18,
@@ -24,7 +24,7 @@
       "prevScore": 91,
       "delta": 0,
       "evidence": {
-        "measuredAt": "2026-11-16T15:46:25.630Z",
+        "measuredAt": "2026-11-23T18:08:03.204Z",
         "resolver": "https://dns.google/resolve",
         "queries": {
           "spf": {
@@ -68,7 +68,7 @@
       "prevScore": 100,
       "delta": 0,
       "evidence": {
-        "measuredAt": "2026-11-16T15:46:25.771Z",
+        "measuredAt": "2026-11-23T18:08:03.276Z",
         "resolver": "https://dns.google/resolve",
         "queries": {
           "spf": {
@@ -112,7 +112,7 @@
       "prevScore": 84,
       "delta": 0,
       "evidence": {
-        "measuredAt": "2026-11-16T15:46:25.780Z",
+        "measuredAt": "2026-11-23T18:08:03.288Z",
         "resolver": "https://dns.google/resolve",
         "queries": {
           "spf": {
@@ -139,10 +139,10 @@
             "rcode": "NOERROR",
             "answers": 6,
             "records": [
-              "20 mx-in-vib.apple.com.",
               "20 mx-in-hfd.apple.com.",
-              "10 mx-in.g.apple.com.",
+              "20 mx-in-vib.apple.com.",
               "20 mx-in-rn.apple.com.",
+              "10 mx-in.g.apple.com.",
               "20 mx-in-ma.apple.com.",
               "20 mx-in-sg.apple.com."
             ]
@@ -161,7 +161,7 @@
       "prevScore": 84,
       "delta": 0,
       "evidence": {
-        "measuredAt": "2026-11-16T15:46:25.789Z",
+        "measuredAt": "2026-11-23T18:08:03.297Z",
         "resolver": "https://dns.google/resolve",
         "queries": {
           "spf": {
@@ -206,7 +206,7 @@
       "prevScore": 100,
       "delta": 0,
       "evidence": {
-        "measuredAt": "2026-11-16T15:46:25.828Z",
+        "measuredAt": "2026-11-23T18:08:03.307Z",
         "resolver": "https://dns.google/resolve",
         "queries": {
           "spf": {
@@ -233,9 +233,9 @@
             "rcode": "NOERROR",
             "answers": 3,
             "records": [
-              "10 smtpin.zoho.com.",
+              "50 smtpin3.zoho.com.",
               "20 smtpin2.zoho.com.",
-              "50 smtpin3.zoho.com."
+              "10 smtpin.zoho.com."
             ]
           }
         }
@@ -252,7 +252,7 @@
       "prevScore": 91,
       "delta": 0,
       "evidence": {
-        "measuredAt": "2026-11-16T15:46:25.848Z",
+        "measuredAt": "2026-11-23T18:08:03.352Z",
         "resolver": "https://dns.google/resolve",
         "queries": {
           "spf": {
@@ -279,8 +279,8 @@
             "rcode": "NOERROR",
             "answers": 2,
             "records": [
-              "10 mx1.paypalcorp.com.",
-              "10 mx2.paypalcorp.com."
+              "10 mx2.paypalcorp.com.",
+              "10 mx1.paypalcorp.com."
             ]
           }
         }
@@ -297,7 +297,7 @@
       "prevScore": 91,
       "delta": 0,
       "evidence": {
-        "measuredAt": "2026-11-16T15:46:25.857Z",
+        "measuredAt": "2026-11-23T18:08:03.368Z",
         "resolver": "https://dns.google/resolve",
         "queries": {
           "spf": {
@@ -326,9 +326,9 @@
             "records": [
               "10 aspmx.l.google.com.",
               "30 aspmx3.googlemail.com.",
-              "30 aspmx2.googlemail.com.",
+              "20 alt2.aspmx.l.google.com.",
               "20 alt1.aspmx.l.google.com.",
-              "20 alt2.aspmx.l.google.com."
+              "30 aspmx2.googlemail.com."
             ]
           }
         }
@@ -345,7 +345,7 @@
       "prevScore": 100,
       "delta": 0,
       "evidence": {
-        "measuredAt": "2026-11-16T15:46:25.888Z",
+        "measuredAt": "2026-11-23T18:08:03.388Z",
         "resolver": "https://dns.google/resolve",
         "queries": {
           "spf": {
@@ -372,10 +372,10 @@
             "rcode": "NOERROR",
             "answers": 4,
             "records": [
-              "40 cluster14a.us.messagelabs.com.",
-              "10 cluster14.us.messagelabs.com.",
               "30 cluster14.us.messagelabs.com.",
-              "20 cluster14.us.messagelabs.com."
+              "40 cluster14a.us.messagelabs.com.",
+              "20 cluster14.us.messagelabs.com.",
+              "10 cluster14.us.messagelabs.com."
             ]
           }
         }
@@ -392,7 +392,7 @@
       "prevScore": 91,
       "delta": 0,
       "evidence": {
-        "measuredAt": "2026-11-16T15:46:25.931Z",
+        "measuredAt": "2026-11-23T18:08:03.402Z",
         "resolver": "https://dns.google/resolve",
         "queries": {
           "spf": {
@@ -419,11 +419,11 @@
             "rcode": "NOERROR",
             "answers": 5,
             "records": [
-              "5 alt2.aspmx.l.google.com.",
               "10 aspmx3.googlemail.com.",
               "5 alt1.aspmx.l.google.com.",
+              "10 aspmx2.googlemail.com.",
               "1 aspmx.l.google.com.",
-              "10 aspmx2.googlemail.com."
+              "5 alt2.aspmx.l.google.com."
             ]
           }
         }
@@ -440,7 +440,7 @@
       "prevScore": 84,
       "delta": 0,
       "evidence": {
-        "measuredAt": "2026-11-16T15:46:25.989Z",
+        "measuredAt": "2026-11-23T18:08:03.430Z",
         "resolver": "https://dns.google/resolve",
         "queries": {
           "spf": {
@@ -468,10 +468,10 @@
             "answers": 5,
             "records": [
               "5 alt1.aspmx.l.google.com.",
-              "10 alt4.aspmx.l.google.com.",
               "10 alt3.aspmx.l.google.com.",
+              "5 alt2.aspmx.l.google.com.",
               "1 aspmx.l.google.com.",
-              "5 alt2.aspmx.l.google.com."
+              "10 alt4.aspmx.l.google.com."
             ]
           }
         }
@@ -488,14 +488,14 @@
       "prevScore": 100,
       "delta": 0,
       "evidence": {
-        "measuredAt": "2026-11-16T15:46:26.048Z",
+        "measuredAt": "2026-11-23T18:08:03.469Z",
         "resolver": "https://dns.google/resolve",
         "queries": {
           "spf": {
             "name": "irs.gov",
             "type": "TXT",
             "rcode": "NOERROR",
-            "answers": 6,
+            "answers": 7,
             "records": [
               "v=spf1 ip4:152.216.0.0/20 ip6:2610:30::/32 -all"
             ]
@@ -515,9 +515,9 @@
             "rcode": "NOERROR",
             "answers": 3,
             "records": [
-              "20 emgw.irs.gov.",
               "10 emge.irs.gov.",
-              "10 emgc.irs.gov."
+              "10 emgc.irs.gov.",
+              "20 emgw.irs.gov."
             ]
           }
         }
@@ -534,7 +534,7 @@
       "prevScore": 67,
       "delta": 0,
       "evidence": {
-        "measuredAt": "2026-11-16T15:46:26.066Z",
+        "measuredAt": "2026-11-23T18:08:03.484Z",
         "resolver": "https://dns.google/resolve",
         "queries": {
           "spf": {
@@ -576,7 +576,7 @@
       "prevScore": 80,
       "delta": 0,
       "evidence": {
-        "measuredAt": "2026-11-16T15:46:26.100Z",
+        "measuredAt": "2026-11-23T18:08:03.503Z",
         "resolver": "https://dns.google/resolve",
         "queries": {
           "spf": {
@@ -620,7 +620,7 @@
       "prevScore": 100,
       "delta": 0,
       "evidence": {
-        "measuredAt": "2026-11-16T15:46:26.109Z",
+        "measuredAt": "2026-11-23T18:08:03.519Z",
         "resolver": "https://dns.google/resolve",
         "queries": {
           "spf": {
@@ -647,10 +647,10 @@
             "rcode": "NOERROR",
             "answers": 4,
             "records": [
-              "5 mxa-canary.global.inbound.cf-emailsecurity.net.",
+              "10 mxb.global.inbound.cf-emailsecurity.net.",
               "5 mxb-canary.global.inbound.cf-emailsecurity.net.",
-              "10 mxa.global.inbound.cf-emailsecurity.net.",
-              "10 mxb.global.inbound.cf-emailsecurity.net."
+              "5 mxa-canary.global.inbound.cf-emailsecurity.net.",
+              "10 mxa.global.inbound.cf-emailsecurity.net."
             ]
           }
         }
@@ -667,7 +667,7 @@
       "prevScore": 84,
       "delta": 0,
       "evidence": {
-        "measuredAt": "2026-11-16T15:46:26.151Z",
+        "measuredAt": "2026-11-23T18:08:03.540Z",
         "resolver": "https://dns.google/resolve",
         "queries": {
           "spf": {
@@ -711,7 +711,7 @@
       "prevScore": 100,
       "delta": 0,
       "evidence": {
-        "measuredAt": "2026-11-16T15:46:26.161Z",
+        "measuredAt": "2026-11-23T18:08:03.548Z",
         "resolver": "https://dns.google/resolve",
         "queries": {
           "spf": {
@@ -756,7 +756,7 @@
       "prevScore": 100,
       "delta": 0,
       "evidence": {
-        "measuredAt": "2026-11-16T15:46:26.199Z",
+        "measuredAt": "2026-11-23T18:08:03.564Z",
         "resolver": "https://dns.google/resolve",
         "queries": {
           "spf": {
@@ -783,11 +783,11 @@
             "rcode": "NOERROR",
             "answers": 5,
             "records": [
-              "5 alt1.aspmx.l.google.com.",
-              "10 aspmx3.googlemail.com.",
-              "10 aspmx2.googlemail.com.",
               "5 alt2.aspmx.l.google.com.",
-              "1 aspmx.l.google.com."
+              "10 aspmx3.googlemail.com.",
+              "1 aspmx.l.google.com.",
+              "5 alt1.aspmx.l.google.com.",
+              "10 aspmx2.googlemail.com."
             ]
           }
         }
@@ -804,7 +804,7 @@
       "prevScore": 93,
       "delta": 0,
       "evidence": {
-        "measuredAt": "2026-11-16T15:46:26.238Z",
+        "measuredAt": "2026-11-23T18:08:03.608Z",
         "resolver": "https://dns.google/resolve",
         "queries": {
           "spf": {
@@ -848,7 +848,7 @@
       "prevScore": 91,
       "delta": 0,
       "evidence": {
-        "measuredAt": "2026-11-16T15:46:26.248Z",
+        "measuredAt": "2026-11-23T18:08:03.617Z",
         "resolver": "https://dns.google/resolve",
         "queries": {
           "spf": {
@@ -875,10 +875,10 @@
             "rcode": "NOERROR",
             "answers": 5,
             "records": [
-              "5 alt2.aspmx.l.google.com.",
               "10 alt3.aspmx.l.google.com.",
-              "1 aspmx.l.google.com.",
               "10 alt4.aspmx.l.google.com.",
+              "5 alt2.aspmx.l.google.com.",
+              "1 aspmx.l.google.com.",
               "5 alt1.aspmx.l.google.com."
             ]
           }
@@ -896,7 +896,7 @@
       "prevScore": 91,
       "delta": 0,
       "evidence": {
-        "measuredAt": "2026-11-16T15:46:26.288Z",
+        "measuredAt": "2026-11-23T18:08:03.636Z",
         "resolver": "https://dns.google/resolve",
         "queries": {
           "spf": {
@@ -941,7 +941,7 @@
       "prevScore": 100,
       "delta": 0,
       "evidence": {
-        "measuredAt": "2026-11-16T15:46:26.296Z",
+        "measuredAt": "2026-11-23T18:08:03.645Z",
         "resolver": "https://dns.google/resolve",
         "queries": {
           "spf": {
@@ -986,7 +986,7 @@
       "prevScore": 91,
       "delta": 0,
       "evidence": {
-        "measuredAt": "2026-11-16T15:46:26.305Z",
+        "measuredAt": "2026-11-23T18:08:03.657Z",
         "resolver": "https://dns.google/resolve",
         "queries": {
           "spf": {
@@ -1013,9 +1013,9 @@
             "rcode": "NOERROR",
             "answers": 3,
             "records": [
+              "10 mail-1.linkedin.com.",
               "10 mail-2.linkedin.com.",
-              "10 mail-3.linkedin.com.",
-              "10 mail-1.linkedin.com."
+              "10 mail-3.linkedin.com."
             ]
           }
         }
@@ -1032,7 +1032,7 @@
       "prevScore": 100,
       "delta": 0,
       "evidence": {
-        "measuredAt": "2026-11-16T15:46:26.313Z",
+        "measuredAt": "2026-11-23T18:08:03.666Z",
         "resolver": "https://dns.google/resolve",
         "queries": {
           "spf": {
@@ -1059,11 +1059,11 @@
             "rcode": "NOERROR",
             "answers": 5,
             "records": [
-              "10 aspmx3.googlemail.com.",
               "1 aspmx.l.google.com.",
+              "5 alt1.aspmx.l.google.com.",
               "10 aspmx2.googlemail.com.",
               "5 alt2.aspmx.l.google.com.",
-              "5 alt1.aspmx.l.google.com."
+              "10 aspmx3.googlemail.com."
             ]
           }
         }
@@ -1080,7 +1080,7 @@
       "prevScore": 100,
       "delta": 0,
       "evidence": {
-        "measuredAt": "2026-11-16T15:46:26.331Z",
+        "measuredAt": "2026-11-23T18:08:03.679Z",
         "resolver": "https://dns.google/resolve",
         "queries": {
           "spf": {
@@ -1108,10 +1108,10 @@
             "answers": 5,
             "records": [
               "10 alt3.aspmx.l.google.com.",
-              "5 alt1.aspmx.l.google.com.",
               "5 alt2.aspmx.l.google.com.",
-              "1 aspmx.l.google.com.",
-              "10 alt4.aspmx.l.google.com."
+              "10 alt4.aspmx.l.google.com.",
+              "5 alt1.aspmx.l.google.com.",
+              "1 aspmx.l.google.com."
             ]
           }
         }
